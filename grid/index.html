@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LoL Pro Grid</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+
+<canvas id="bgCanvas"></canvas>
+<canvas id="confettiCanvas"></canvas>
+
+<main class="page">
+  <header class="header">
+    <div class="header-title-row">
+      <div class="header-line"></div>
+      <h1>LoL Pro Grid</h1>
+      <div class="header-line"></div>
+    </div>
+    <p class="header-sub">Completa las 9 casillas · Pro Players</p>
+  </header>
+
+  <div class="lives-row" id="livesRow">
+    <span class="lives-label">Vidas</span>
+  </div>
+
+  <div class="grid-outer">
+    <div class="grid-wrap" id="grid"></div>
+  </div>
+
+  <div class="progress-row" id="progressRow">
+    <span class="progress-label">Celdas</span>
+  </div>
+</main>
+
+<!-- Modal -->
+<div class="overlay" id="modalOverlay" style="display:none">
+  <div class="modal-card">
+    <div class="modal-body">
+      <div class="cell-context">
+        <span class="cell-context-icons" id="modalIcons">🎯×🇰🇷</span>
+        <span class="cell-context-text" id="modalDesc"></span>
+      </div>
+      <div class="input-wrap">
+        <input class="modal-input" id="playerInput" type="text"
+               placeholder="Nombre del pro player…" autocomplete="off" spellcheck="false">
+        <div class="ac-list" id="acList"></div>
+      </div>
+      <p class="error-msg" id="errorMsg"></p>
+      <div class="btn-row">
+        <button class="btn btn-confirm" id="btnConfirm">Confirmar</button>
+        <button class="btn btn-cancel"  id="btnCancel">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Victory -->
+<div class="end-overlay" id="victoryOverlay" style="display:none">
+  <div class="end-card">
+    <div class="end-body">
+      <span class="end-icon victory-icon">🏆</span>
+      <p class="end-title">¡Victoria!</p>
+      <p class="end-sub teal">Todas las casillas completadas</p>
+      <button class="btn-replay" id="btnVictoryReplay">Jugar de nuevo</button>
+    </div>
+  </div>
+</div>
+
+<!-- Game Over -->
+<div class="end-overlay" id="gameoverOverlay" style="display:none">
+  <div class="end-card">
+    <div class="end-body">
+      <span class="end-icon gameover-icon">💀</span>
+      <p class="end-title">Game Over</p>
+      <p class="end-sub red">Se acabaron las vidas</p>
+      <button class="btn-replay" id="btnGameoverReplay">Intentar de nuevo</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="./js/main.js"></script>
+</body>
+</html>

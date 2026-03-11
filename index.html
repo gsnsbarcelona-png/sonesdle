@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DLE Games — Juegos de League of Legends</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold:        #c89b3c;
+      --gold-light:  #f0e6d3;
+      --gold-dark:   #785a28;
+      --bg:          #010a13;
+      --surface:     #0a1428;
+      --surface2:    #0f1e36;
+      --border:      #1e3a5f;
+      --dim:         #4a6080;
+      --text:        #c8d4e8;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Canvas partículas ─────────────────────────────────── */
+    #bg-canvas {
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── Contenido sobre canvas ────────────────────────────── */
+    .page { position: relative; z-index: 1; }
+
+    /* ── HERO ──────────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 60px 24px;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(200,155,60,0.07) 0%, transparent 70%);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-size: 0.6rem; font-weight: 700; letter-spacing: 4px;
+      text-transform: uppercase; color: var(--gold-dark);
+      border: 1px solid var(--gold-dark); border-radius: 2px;
+      padding: 5px 14px; margin-bottom: 28px;
+    }
+
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(3rem, 10vw, 6rem);
+      font-weight: 700; line-height: 1;
+      color: var(--gold);
+      text-shadow: 0 0 60px rgba(200,155,60,0.3), 0 4px 12px rgba(0,0,0,0.8);
+      letter-spacing: 0.15em;
+    }
+
+    .hero-divider {
+      display: flex; align-items: center; gap: 16px;
+      width: 100%; max-width: 420px; margin: 20px auto;
+    }
+    .hero-divider span { color: var(--gold-dark); font-size: 0.55rem; letter-spacing: 3px; }
+    .hero-divider::before,
+    .hero-divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--gold-dark); opacity: 0.5;
+    }
+
+    .hero-sub {
+      font-size: clamp(0.75rem, 2.5vw, 1rem);
+      font-weight: 600; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--dim);
+      margin-bottom: 48px;
+    }
+
+    .hero-scroll {
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      color: var(--gold-dark); font-size: 0.6rem; letter-spacing: 3px;
+      text-transform: uppercase;
+      animation: bounce 2.4s ease infinite;
+    }
+    .hero-scroll svg { width: 18px; opacity: 0.7; }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(6px); }
+    }
+
+    /* ── SECCIÓN JUEGOS ────────────────────────────────────── */
+    .games-section {
+      padding: 80px 24px 100px;
+      max-width: 1100px; margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center; margin-bottom: 56px;
+    }
+    .section-label {
+      font-size: 0.6rem; font-weight: 700; letter-spacing: 4px;
+      text-transform: uppercase; color: var(--gold-dark);
+      display: block; margin-bottom: 10px;
+    }
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.4rem, 4vw, 2rem);
+      color: var(--gold); letter-spacing: 4px;
+    }
+
+    /* ── Cards ─────────────────────────────────────────────── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2px;
+    }
+
+    .game-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 36px 28px;
+      position: relative; overflow: hidden;
+      transition: border-color 0.25s, transform 0.25s;
+      text-decoration: none; color: inherit;
+      display: flex; flex-direction: column;
+    }
+    .game-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      opacity: 0; transition: opacity 0.25s;
+    }
+    .game-card:hover {
+      border-color: var(--gold-dark);
+      transform: translateY(-4px);
+    }
+    .game-card:hover::before { opacity: 1; }
+
+    .card-number {
+      font-family: 'Cinzel', serif;
+      font-size: 3.5rem; font-weight: 700; line-height: 1;
+      color: var(--surface2); letter-spacing: -2px;
+      position: absolute; top: 20px; right: 24px;
+      user-select: none;
+    }
+
+    .card-icon {
+      font-size: 2.2rem; margin-bottom: 20px; display: block;
+      filter: drop-shadow(0 0 10px rgba(200,155,60,0.3));
+    }
+
+    .card-tag {
+      font-size: 0.58rem; font-weight: 700; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--gold-dark);
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.3rem; font-weight: 700;
+      color: var(--gold); letter-spacing: 2px;
+      margin-bottom: 14px;
+    }
+
+    .card-desc {
+      font-size: 0.82rem; color: var(--dim);
+      line-height: 1.65; flex: 1; margin-bottom: 28px;
+    }
+
+    .card-features {
+      list-style: none; margin-bottom: 28px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .card-features li {
+      font-size: 0.72rem; color: var(--text);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .card-features li::before {
+      content: '◆'; font-size: 0.4rem; color: var(--gold-dark); flex-shrink: 0;
+    }
+
+    .card-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 2.5px;
+      text-transform: uppercase; color: var(--gold);
+      border: 1px solid var(--gold-dark); padding: 10px 20px;
+      transition: all 0.2s; align-self: flex-start;
+    }
+    .game-card:hover .card-cta {
+      background: var(--gold); color: var(--bg);
+      border-color: var(--gold);
+    }
+    .card-cta svg { width: 12px; transition: transform 0.2s; }
+    .game-card:hover .card-cta svg { transform: translateX(3px); }
+
+    /* ── FEATURES STRIP ────────────────────────────────────── */
+    .features-strip {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      padding: 40px 24px;
+    }
+    .features-inner {
+      max-width: 900px; margin: 0 auto;
+      display: flex; flex-wrap: wrap;
+      justify-content: center; gap: 40px;
+    }
+    .feature-item {
+      display: flex; align-items: flex-start; gap: 14px;
+      max-width: 220px;
+    }
+    .feature-icon {
+      font-size: 1.4rem; flex-shrink: 0;
+      filter: drop-shadow(0 0 8px rgba(200,155,60,0.25));
+    }
+    .feature-title {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 4px;
+    }
+    .feature-desc { font-size: 0.72rem; color: var(--dim); line-height: 1.5; }
+
+    /* ── FOOTER ────────────────────────────────────────────── */
+    footer {
+      text-align: center; padding: 40px 24px;
+      border-top: 1px solid var(--border);
+    }
+    .footer-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 1.2rem; font-weight: 700;
+      color: var(--gold-dark); letter-spacing: 4px;
+      margin-bottom: 8px;
+    }
+    .footer-copy {
+      font-size: 0.65rem; color: var(--dim);
+      letter-spacing: 2px; text-transform: uppercase;
+    }
+
+    /* ── Responsive ────────────────────────────────────────── */
+    @media (max-width: 540px) {
+      .cards-grid { grid-template-columns: 1fr; }
+      .game-card  { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<div class="page">
+
+  <!-- ══ HERO ════════════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-badge">lolprogames.com</div>
+    <h1 class="hero-title">DLE GAMES</h1>
+    <div class="hero-divider"><span>◆ ◆ ◆</span></div>
+    <p class="hero-sub">Juegos de conocimiento sobre pro players de League of Legends</p>
+    <div class="hero-scroll">
+      <span>Descubre los juegos</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ══ JUEGOS ═══════════════════════════════════════════════ -->
+  <section class="games-section">
+    <div class="section-header">
+      <span class="section-label">Modos de juego</span>
+      <h2 class="section-title">Elige tu desafío</h2>
+    </div>
+
+    <div class="cards-grid">
+
+      <!-- Adivina el Pro Player -->
+      <a href="./dle/index.html" class="game-card">
+        <span class="card-number">01</span>
+        <span class="card-icon">🎯</span>
+        <div class="card-tag">Wordle · Diario</div>
+        <h3 class="card-title">Adivina el Pro Player</h3>
+        <p class="card-desc">
+          Un jugador misterioso se esconde cada día. Adivínalo usando las pistas
+          que te da cada intento: país, posición, equipo, edad, liga y más.
+        </p>
+        <ul class="card-features">
+          <li>Celda verde = coincide exactamente</li>
+          <li>Naranja = parcialmente correcto</li>
+          <li>Rojo = no coincide</li>
+          <li>Flechas indican si el valor es mayor o menor</li>
+        </ul>
+        <span class="card-cta">
+          Jugar
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </span>
+      </a>
+
+      <!-- Pro Grid -->
+      <a href="./grid/index.html" class="game-card">
+        <span class="card-number">02</span>
+        <span class="card-icon">🔲</span>
+        <div class="card-tag">Grid · Conexiones</div>
+        <h3 class="card-title">LoL Pro Grid</h3>
+        <p class="card-desc">
+          Una cuadrícula 3×3 con criterios en filas y columnas. Encuentra el pro player
+          que cumple ambas condiciones de cada casilla. Tienes vidas limitadas.
+        </p>
+        <ul class="card-features">
+          <li>9 casillas para rellenar</li>
+          <li>Combina equipo, posición, liga, país…</li>
+          <li>Vidas limitadas por partida</li>
+          <li>Sin repetir jugadores</li>
+        </ul>
+        <span class="card-cta">
+          Jugar
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </span>
+      </a>
+
+      <!-- Carrera -->
+      <a href="./carrera/index.html" class="game-card">
+        <span class="card-number">03</span>
+        <span class="card-icon">📋</span>
+        <div class="card-tag">Timeline · Carrera</div>
+        <h3 class="card-title">LoL Career Guess</h3>
+        <p class="card-desc">
+          Se muestra la carrera de un pro player con equipos y años. Adivina
+          quién es a partir de su historial profesional paso a paso.
+        </p>
+        <ul class="card-features">
+          <li>Historial de equipos revelado progresivamente</li>
+          <li>Cuantos menos pasos, mejor puntuación</li>
+          <li>Datos de toda la carrera del jugador</li>
+          <li>Jugadores de todas las ligas principales</li>
+        </ul>
+        <span class="card-cta">
+          Jugar
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ══ FEATURES ══════════════════════════════════════════════ -->
+  <div class="features-strip">
+    <div class="features-inner">
+      <div class="feature-item">
+        <span class="feature-icon">🌍</span>
+        <div>
+          <div class="feature-title">Bilingüe</div>
+          <div class="feature-desc">Disponible en español e inglés. Cambia de idioma en cualquier momento.</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">⚡</span>
+        <div>
+          <div class="feature-title">Sin registro</div>
+          <div class="feature-desc">Juega directamente desde el navegador, sin crear cuenta.</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">📱</span>
+        <div>
+          <div class="feature-title">Responsive</div>
+          <div class="feature-desc">Diseñado para funcionar en móvil, tablet y escritorio.</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🏆</span>
+        <div>
+          <div class="feature-title">Datos reales</div>
+          <div class="feature-desc">Pro players de LCK, LEC, LCS, LPL y otras ligas principales.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ FOOTER ════════════════════════════════════════════════ -->
+  <footer>
+    <div class="footer-logo">DLE GAMES</div>
+    <div class="footer-copy">lolprogames.com · Un homenaje a los pro players de League of Legends</div>
+  </footer>
+
+</div>
+
+<script>
+  // Partículas flotantes (mismo estilo que los juegos)
+  const canvas = document.getElementById('bg-canvas');
+  const ctx    = canvas.getContext('2d');
+  const GOLD   = ['#c89b3c22','#785a2818','#0bc4c412','#1e3a5f30'];
+  let W, H, pts = [];
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function spawn() {
+    return {
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 1.5 + 0.4,
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: -Math.random() * 0.3 - 0.1,
+      c: GOLD[Math.floor(Math.random() * GOLD.length)],
+    };
+  }
+
+  function init() { pts = Array.from({ length: 55 }, spawn); }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    pts.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.c;
+      ctx.fill();
+      p.x += p.vx; p.y += p.vy;
+      if (p.y < -5) { p.y = H + 5; p.x = Math.random() * W; }
+    });
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize);
+  resize(); init(); draw();
+</script>
+</body>
+</html>

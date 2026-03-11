@@ -1,0 +1,361 @@
+{
+  "players": [
+    {"name": "BrokenBlade", "real": "Sergen Çelik",             "country": "Germany",        "flag": "🇩🇪", "league": "LEC", "position": ["Top"],    "titles": true,  "worlds": false, "age": 26, "team": "G2 Esports"},
+    {"name": "SkewMond",    "real": "Rudy Semaan",              "country": "France",         "flag": "🇫🇷", "league": "LEC", "position": ["Jungle"], "titles": true,  "worlds": false, "age": 22, "team": "G2 Esports"},
+    {"name": "Caps",        "real": "Rasmus Borregaard Winther","country": "Denmark",        "flag": "🇩🇰", "league": "LEC", "position": ["Mid"],    "titles": true,  "worlds": false, "age": 26, "team": "G2 Esports"},
+    {"name": "Hans Sama",   "real": "Steven Liv",               "country": "France",         "flag": "🇫🇷", "league": "LEC", "position": ["ADC"],    "titles": true,  "worlds": false, "age": 26, "team": "G2 Esports"},
+    {"name": "Labrov",      "real": "Labros Papoutsakis",       "country": "Greece",         "flag": "🇬🇷", "league": "LEC", "position": ["Support"],"titles": false, "worlds": false, "age": 24, "team": "G2 Esports"},
+
+    {"name": "Canna",       "real": "Kim Chang-dong",           "country": "South Korea",    "flag": "🇰🇷", "league": "LEC", "position": ["Top"],    "titles": false, "worlds": false, "age": 25, "team": "Karmine Corp"},
+    {"name": "Yike",        "real": "Martin Sundelin",          "country": "Sweden",         "flag": "🇸🇪", "league": "LEC", "position": ["Jungle"], "titles": true,  "worlds": false, "age": 25, "team": "Karmine Corp"},
+    {"name": "Kyeahoo",     "real": "Kang Ye-hoo",              "country": "South Korea",    "flag": "🇰🇷", "league": "LEC", "position": ["Mid"],    "titles": false, "worlds": false, "age": 20, "team": "Karmine Corp"},
+    {"name": "Caliste",     "real": "Caliste Henry-Hennebert",  "country": "France",         "flag": "🇫🇷", "league": "LEC", "position": ["ADC"],    "titles": false, "worlds": false, "age": 19, "team": "Karmine Corp"},
+    {"name": "Busio",       "real": "Alan Cwalina",             "country": "United States",  "flag": "🇺🇸", "league": "LEC", "position": ["Support"],"titles": false, "worlds": false, "age": 22, "team": "Karmine Corp"},
+
+    {"name": "Lot",         "real": "Krzysztof Szewczyk",       "country": "Poland",         "flag": "🇵🇱", "league": "LEC", "position": ["Top"],    "titles": false, "worlds": false, "age": 21, "team": "GIANTX"},
+    {"name": "ISMA",        "real": "Ismaïl Boualem",           "country": "France",         "flag": "🇫🇷", "league": "LEC", "position": ["Jungle"], "titles": false, "worlds": false, "age": 24, "team": "GIANTX"},
+    {"name": "Jackies",     "real": "Adam Jeřábek",             "country": "Czech Republic", "flag": "🇨🇿", "league": "LEC", "position": ["Mid"],    "titles": false, "worlds": false, "age": 20, "team": "GIANTX"},
+    {"name": "Noah",        "real": "Oh Hyeon-taek",            "country": "South Korea",    "flag": "🇰🇷", "league": "LEC", "position": ["ADC"],    "titles": false, "worlds": false, "age": 24, "team": "GIANTX"},
+    {"name": "Jun",         "real": "Yoon Se-jun",              "country": "South Korea",    "flag": "🇰🇷", "league": "LEC", "position": ["Support"],"titles": false, "worlds": false, "age": 25, "team": "GIANTX"},
+
+    {"name": "Empyros",     "real": "Panagiotis Tantis",        "country": "Greece",         "flag": "🇬🇷", "league": "LEC", "position": ["Top"],    "titles": false, "worlds": false, "age": 21, "team": "Fnatic"},
+    {"name": "Razork",      "real": "Iván Martín Díaz",         "country": "Spain",          "flag": "🇪🇸", "league": "LEC", "position": ["Jungle"], "titles": true,  "worlds": false, "age": 25, "team": "Fnatic"},
+    {"name": "Vladi",       "real": "Vladimiros Kourtidis",     "country": "Greece",         "flag": "🇬🇷", "league": "LEC", "position": ["Mid"],    "titles": false, "worlds": false, "age": 20, "team": "Fnatic"},
+    {"name": "Upset",       "real": "Elias Lipp",               "country": "Germany",        "flag": "🇩🇪", "league": "LEC", "position": ["ADC"],    "titles": false, "worlds": false, "age": 26, "team": "Fnatic"},
+    {"name": "Lospa",       "real": "Kyeong Kyu-tae",           "country": "South Korea",    "flag": "🇰🇷", "league": "LEC", "position": ["Support"],"titles": false, "worlds": false, "age": 23, "team": "Fnatic"},
+
+    {"name": "Myrwn",       "real": "Alex Villarejo",           "country": "Spain",          "flag": "🇪🇸", "league": "LEC", "position": ["Top"],    "titles": false, "worlds": false, "age": 22, "team": "Movistar KOI"},
+    {"name": "Elyoya",      "real": "Javier Prades Batalla",    "country": "Spain",          "flag": "🇪🇸", "league": "LEC", "position": ["Jungle"], "titles": true,  "worlds": false, "age": 26, "team": "Movistar KOI"},
+    {"name": "Jojopyun",    "real": "Joseph Joon Pyun",         "country": "Canada",         "flag": "🇨🇦", "league": "LEC", "position": ["Mid"],    "titles": true,  "worlds": false, "age": 21, "team": "Movistar KOI"},
+    {"name": "Supa",        "real": "David Martínez García",    "country": "Spain",          "flag": "🇪🇸", "league": "LEC", "position": ["ADC"],    "titles": false, "worlds": false, "age": 25, "team": "Movistar KOI"},
+    {"name": "Alvaro",      "real": "Álvaro Fernández del Amo", "country": "Spain",          "flag": "🇪🇸", "league": "LEC", "position": ["Support"],"titles": false, "worlds": false, "age": 22, "team": "Movistar KOI"},
+
+    {"name": "Maynter",     "real": "Volodymyr Sorokin",        "country": "Ukraine",        "flag": "🇺🇦", "league": "LEC", "position": ["Top"],    "titles": false, "worlds": false, "age": 23, "team": "NAVI"},
+    {"name": "Rhilech",     "real": "Enes Uçan",                "country": "Turkey",         "flag": "🇹🇷", "league": "LEC", "position": ["Jungle"], "titles": false, "worlds": false, "age": 22, "team": "NAVI"},
+    {"name": "Poby",        "real": "Yoon Sung-won",            "country": "South Korea",    "flag": "🇰🇷", "league": "LEC", "position": ["Mid"],    "titles": false, "worlds": false, "age": 20, "team": "NAVI"},
+    {"name": "Hans SamD",   "real": "Lee Jae-hoon",             "country": "South Korea",    "flag": "🇰🇷", "league": "LEC", "position": ["ADC"],    "titles": false, "worlds": false, "age": 24, "team": "NAVI"},
+    {"name": "Parus",       "real": "Polat Çiçek",              "country": "Turkey",         "flag": "🇹🇷", "league": "LEC", "position": ["Support"],"titles": false, "worlds": false, "age": 22, "team": "NAVI"},
+
+    {"name": "Wunder",      "real": "Martin Nordahl Hansen",    "country": "Denmark",        "flag": "🇩🇰", "league": "LEC", "position": ["Top"],    "titles": true,  "worlds": false, "age": 27, "team": "SK Gaming"},
+    {"name": "Skeanz",      "real": "Duncan Marquet",           "country": "France",         "flag": "🇫🇷", "league": "LEC", "position": ["Jungle"], "titles": false, "worlds": false, "age": 25, "team": "SK Gaming"},
+    {"name": "LIDER",       "real": "Adam Ilyasov",             "country": "Norway",         "flag": "🇳🇴", "league": "LEC", "position": ["Mid"],    "titles": false, "worlds": false, "age": 26, "team": "SK Gaming"},
+    {"name": "Jopa",        "real": "Mihailo Jugović",          "country": "Serbia",         "flag": "🇷🇸", "league": "LEC", "position": ["ADC"],    "titles": false, "worlds": false, "age": 22, "team": "SK Gaming"},
+    {"name": "Mikyx",       "real": "Mihael Mehle",             "country": "Slovenia",       "flag": "🇸🇮", "league": "LEC", "position": ["Support"],"titles": true,  "worlds": false, "age": 27, "team": "SK Gaming"},
+
+    {"name": "Rooster",     "real": "Kaan Yılmaz",              "country": "Turkey",         "flag": "🇹🇷", "league": "LEC", "position": ["Top"],    "titles": false, "worlds": false, "age": 21, "team": "Shifters"},
+    {"name": "Boukada",     "real": "Theo Lelaidier",           "country": "France",         "flag": "🇫🇷", "league": "LEC", "position": ["Jungle"], "titles": false, "worlds": false, "age": 23, "team": "Shifters"},
+    {"name": "nuc",         "real": "Ilias Bizriken",           "country": "France",         "flag": "🇫🇷", "league": "LEC", "position": ["Mid"],    "titles": false, "worlds": false, "age": 23, "team": "Shifters"},
+    {"name": "Paduck",      "real": "Park Seok-hyun",           "country": "South Korea",    "flag": "🇰🇷", "league": "LEC", "position": ["ADC"],    "titles": false, "worlds": false, "age": 22, "team": "Shifters"},
+    {"name": "Trymbi",      "real": "Adrian Trybus",            "country": "Poland",         "flag": "🇵🇱", "league": "LEC", "position": ["Support"],"titles": true,  "worlds": false, "age": 25, "team": "Shifters"},
+
+    {"name": "Tracyn",      "real": "Kadir Yalçın",             "country": "Turkey",         "flag": "🇹🇷", "league": "LEC", "position": ["Top"],    "titles": false, "worlds": false, "age": 20, "team": "Team Heretics"},
+    {"name": "Sheo",        "real": "Théo Borile",              "country": "France",         "flag": "🇫🇷", "league": "LEC", "position": ["Jungle"], "titles": false, "worlds": false, "age": 24, "team": "Team Heretics"},
+    {"name": "Serin",       "real": "Tolga Ölmez",              "country": "Turkey",         "flag": "🇹🇷", "league": "LEC", "position": ["Mid"],    "titles": false, "worlds": false, "age": 23, "team": "Team Heretics"},
+    {"name": "Ice",         "real": "Yoon Sang-hoon",           "country": "South Korea",    "flag": "🇰🇷", "league": "LEC", "position": ["ADC"],    "titles": false, "worlds": false, "age": 24, "team": "Team Heretics"},
+    {"name": "Stend",       "real": "Paul Lardin",              "country": "France",         "flag": "🇫🇷", "league": "LEC", "position": ["Support"],"titles": false, "worlds": false, "age": 23, "team": "Team Heretics"},
+
+    {"name": "Naak Nako",   "real": "Kaan Okan",                "country": "Turkey",         "flag": "🇹🇷", "league": "LEC", "position": ["Top"],    "titles": false, "worlds": false, "age": 20, "team": "Team Vitality"},
+    {"name": "Lyncas",      "real": "Linas Nauncikas",          "country": "Lithuania",      "flag": "🇱🇹", "league": "LEC", "position": ["Jungle"], "titles": false, "worlds": false, "age": 21, "team": "Team Vitality"},
+    {"name": "Humanoid",    "real": "Marek Brázda",             "country": "Czech Republic", "flag": "🇨🇿", "league": "LEC", "position": ["Mid"],    "titles": true,  "worlds": false, "age": 25, "team": "Team Vitality"},
+    {"name": "Carzzy",      "real": "Matyáš Orság",             "country": "Czech Republic", "flag": "🇨🇿", "league": "LEC", "position": ["ADC"],    "titles": true,  "worlds": false, "age": 24, "team": "Team Vitality"},
+    {"name": "Fleshy",      "real": "Kadri Göker",              "country": "Turkey",         "flag": "🇹🇷", "league": "LEC", "position": ["Support"],"titles": false, "worlds": false, "age": 22, "team": "Team Vitality"},
+
+
+
+{"name": "Doran",     "real": "Choi Hyeon-joon",   "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Top"],    "titles": true,  "worlds": false, "age": 25, "team": "T1"},
+    {"name": "Oner",      "real": "Mun Hyeon-jun",     "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Jungle"], "titles": true,  "worlds": true,  "age": 23, "team": "T1"},
+    {"name": "Faker",     "real": "Lee Sang-hyeok",    "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Mid"],    "titles": true,  "worlds": true,  "age": 29, "team": "T1"},
+    {"name": "Peyz",      "real": "Kim Su-hwan",       "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["ADC"],    "titles": true,  "worlds": false, "age": 20, "team": "T1"},
+    {"name": "Keria",     "real": "Ryu Min-seok",      "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Support"],"titles": true,  "worlds": true,  "age": 23, "team": "T1"},
+
+    {"name": "Kiin",      "real": "Kim Gi-in",         "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Top"],    "titles": true,  "worlds": false, "age": 26, "team": "Gen.G"},
+    {"name": "Canyon",    "real": "Kim Geon-bu",       "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Jungle"], "titles": true,  "worlds": true,  "age": 24, "team": "Gen.G"},
+    {"name": "Chovy",     "real": "Jeong Ji-hoon",     "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Mid"],    "titles": true,  "worlds": false, "age": 25, "team": "Gen.G"},
+    {"name": "Ruler",     "real": "Park Jae-hyuk",     "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["ADC"],    "titles": true,  "worlds": true,  "age": 27, "team": "Gen.G"},
+    {"name": "Duro",      "real": "Joo Min-kyu",       "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Support"],"titles": false, "worlds": false, "age": 24, "team": "Gen.G"},
+
+    {"name": "Zeus",      "real": "Choi Woo-je",       "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Top"],    "titles": true,  "worlds": true,  "age": 22, "team": "Hanwha Life Esports"},
+    {"name": "Kanavi",    "real": "Seo Jin-hyeok",     "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Jungle"], "titles": true,  "worlds": false, "age": 25, "team": "Hanwha Life Esports"},
+    {"name": "Zeka",      "real": "Kim Geon-woo",      "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Mid"],    "titles": true,  "worlds": true,  "age": 23, "team": "Hanwha Life Esports"},
+    {"name": "Gumayusi",  "real": "Lee Min-hyeong",    "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["ADC"],    "titles": true,  "worlds": true,  "age": 24, "team": "Hanwha Life Esports"},
+    {"name": "Delight",   "real": "Yoo Hwan-joong",    "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Support"],"titles": true,  "worlds": false, "age": 23, "team": "Hanwha Life Esports"},
+
+    {"name": "Casting",   "real": "Shin Min-je",       "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Top"],    "titles": false, "worlds": false, "age": 21, "team": "Hanjin BRION"},
+    {"name": "GIDEON",    "real": "Kim Min-seong",     "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Jungle"], "titles": false, "worlds": false, "age": 22, "team": "Hanjin BRION"},
+    {"name": "Roamer",    "real": "Jo Woo-jin",        "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Mid"],    "titles": false, "worlds": false, "age": 23, "team": "Hanjin BRION"},
+    {"name": "Teddy",     "real": "Park Jin-seong",    "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["ADC"],    "titles": true,  "worlds": false, "age": 28, "team": "Hanjin BRION"},
+    {"name": "Namgung",   "real": "Namgung Seong-hoon","country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Support"],"titles": false, "worlds": false, "age": 21, "team": "Hanjin BRION"},
+
+    {"name": "Siwoo",     "real": "Jeon Si-woo",       "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Top"],    "titles": false, "worlds": false, "age": 19, "team": "Dplus KIA"},
+    {"name": "Lucid",     "real": "Choi Yong-hyeok",   "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Jungle"], "titles": false, "worlds": false, "age": 21, "team": "Dplus KIA"},
+    {"name": "ShowMaker", "real": "Heo Su",            "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Mid"],    "titles": true,  "worlds": true,  "age": 25, "team": "Dplus KIA"},
+    {"name": "Smash",     "real": "Shin Geum-jae",     "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["ADC"],    "titles": false, "worlds": false, "age": 21, "team": "Dplus KIA"},
+    {"name": "Career",    "real": "Oh Hyeong-seok",    "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Support"],"titles": false, "worlds": false, "age": 21, "team": "Dplus KIA"},
+
+    {"name": "PerfecT",   "real": "Lee Seung-min",     "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Top"],    "titles": false, "worlds": false, "age": 21, "team": "KT Rolster"},
+    {"name": "Cuzz",      "real": "Moon Woo-chan",     "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Jungle"], "titles": true,  "worlds": false, "age": 26, "team": "KT Rolster"},
+    {"name": "Bdd",       "real": "Gwak Bo-seong",     "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Mid"],    "titles": true,  "worlds": false, "age": 27, "team": "KT Rolster"},
+    {"name": "Aiming",    "real": "Kim Ha-ram",        "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["ADC"],    "titles": true,  "worlds": false, "age": 25, "team": "KT Rolster"},
+    {"name": "Ghost",     "real": "Jang Yong-jun",     "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Support"],"titles": true,  "worlds": true,  "age": 26, "team": "KT Rolster"},
+
+    {"name": "Kingen",    "real": "Hwang Seong-hoon",  "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Top"],    "titles": false, "worlds": true,  "age": 26, "team": "Nongshim RedForce"},
+    {"name": "Sponge",    "real": "Bae Young-jun",     "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Jungle"], "titles": false, "worlds": false, "age": 21, "team": "Nongshim RedForce"},
+    {"name": "Scout",     "real": "Lee Ye-chan",       "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Mid"],    "titles": true,  "worlds": true,  "age": 28, "team": "Nongshim RedForce"},
+    {"name": "Taeyoon",   "real": "Kim Tae-yoon",      "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["ADC"],    "titles": false, "worlds": false, "age": 23, "team": "Nongshim RedForce"},
+    {"name": "Lehends",   "real": "Son Si-woo",        "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Support"],"titles": true,  "worlds": false, "age": 25, "team": "Nongshim RedForce"},
+
+    {"name": "DuDu",      "real": "Lee Dong-ju",       "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Top"],    "titles": false, "worlds": false, "age": 25, "team": "DN SOOPers"},
+    {"name": "Pyosik",    "real": "Hong Chang-hyeon",  "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Jungle"], "titles": false, "worlds": true,  "age": 26, "team": "DN SOOPers"},
+    {"name": "Clozer",    "real": "Lee Ju-hyeon",      "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Mid"],    "titles": false, "worlds": false, "age": 22, "team": "DN SOOPers"},
+    {"name": "deokdam",   "real": "Seo Dae-gil",       "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["ADC"],    "titles": false, "worlds": false, "age": 25, "team": "DN SOOPers"},
+    {"name": "Life",      "real": "Kim Jeong-min",     "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Support"],"titles": false, "worlds": false, "age": 25, "team": "DN SOOPers"},
+
+    {"name": "Clear",     "real": "Song Hyeon-min",    "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Top"],    "titles": false, "worlds": false, "age": 21, "team": "BNK FEARX"},
+    {"name": "Raptor",    "real": "Jeon Eo-jin",       "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Jungle"], "titles": false, "worlds": false, "age": 22, "team": "BNK FEARX"},
+    {"name": "VicLa",     "real": "Lee Dae-kwang",     "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Mid"],    "titles": false, "worlds": false, "age": 23, "team": "BNK FEARX"},
+    {"name": "Diable",    "real": "Nam Dae-geun",      "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["ADC"],    "titles": false, "worlds": false, "age": 21, "team": "BNK FEARX"},
+    {"name": "Kellin",    "real": "Kim Hyeong-gyu",    "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Support"],"titles": false, "worlds": false, "age": 25, "team": "BNK FEARX"},
+
+    {"name": "Rich",      "real": "Lee Jae-won",       "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Top"],    "titles": false, "worlds": false, "age": 28, "team": "DRX"},
+    {"name": "Willer",    "real": "Kim Jeong-hyeon",   "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Jungle"], "titles": false, "worlds": false, "age": 22, "team": "DRX"},
+    {"name": "Ucal",      "real": "Son Woo-hyeon",     "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Mid"],    "titles": true,  "worlds": false, "age": 25, "team": "DRX"},
+    {"name": "Jiwoo",     "real": "Jung Ji-woo",       "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["ADC"],    "titles": false, "worlds": false, "age": 22, "team": "DRX"},
+    {"name": "Andil",     "real": "Moon Gwan-bin",     "country": "South Korea", "flag": "🇰🇷", "league": "LCK", "position": ["Support"],"titles": false, "worlds": false, "age": 21, "team": "DRX"},
+
+    
+    
+    {"name": "Bin",         "real": "Chen Ze-Bin",        "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Top"],    "titles": true,  "worlds": false, "age": 23, "team": "Bilibili Gaming"},
+    {"name": "Xun",         "real": "Peng Li-Xun",        "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Jungle"], "titles": true,  "worlds": false, "age": 24, "team": "Bilibili Gaming"},
+    {"name": "Knight",      "real": "Zhuo Ding",          "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Mid"],    "titles": true,  "worlds": false, "age": 25, "team": "Bilibili Gaming"},
+    {"name": "Viper",       "real": "Park Do-hyeon",      "country": "South Korea", "flag": "🇰🇷", "league": "LPL", "position": ["ADC"],    "titles": true,  "worlds": true,  "age": 25, "team": "Bilibili Gaming"},
+    {"name": "ON",          "real": "Luo Wen-Jun",        "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Support"],"titles": true,  "worlds": false, "age": 23, "team": "Bilibili Gaming"},
+
+    {"name": "Xiaoxu",      "real": "Xu Xing-Zu",         "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Top"],    "titles": false, "worlds": false, "age": 21, "team": "JD Gaming"},
+    {"name": "JunJia",      "real": "Yu Chun-Chia",       "country": "Taiwan",      "flag": "🇹🇼", "league": "LPL", "position": ["Jungle"], "titles": true,  "worlds": false, "age": 24, "team": "JD Gaming"},
+    {"name": "HongQ",       "real": "Tsai Ming-Hong",     "country": "Taiwan",      "flag": "🇹🇼", "league": "LPL", "position": ["Mid"],    "titles": true,  "worlds": false, "age": 18, "team": "JD Gaming"},
+    {"name": "GALA",        "real": "Chen Wei",           "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["ADC"],    "titles": true,  "worlds": false, "age": 25, "team": "JD Gaming"},
+    {"name": "Vampire",     "real": "Zhao Zhe-Can",       "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Support"],"titles": false, "worlds": false, "age": 22, "team": "JD Gaming"},
+
+    {"name": "369",         "real": "Bai Jia-Hao",        "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Top"],    "titles": true,  "worlds": false, "age": 25, "team": "Top Esports"},
+    {"name": "naiyou",      "real": "Yang Zi-Jian",       "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Jungle"], "titles": false, "worlds": false, "age": 21, "team": "Top Esports"},
+    {"name": "Creme",       "real": "Lin Jian",           "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Mid"],    "titles": false, "worlds": false, "age": 22, "team": "Top Esports"},
+    {"name": "JackeyLove",  "real": "Yu Wen-Bo",          "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["ADC"],    "titles": true,  "worlds": true,  "age": 25, "team": "Top Esports"},
+    {"name": "Hang",        "real": "Fu Ming-Hang",       "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Support"],"titles": true,  "worlds": false, "age": 23, "team": "Top Esports"},
+
+    {"name": "Zika",        "real": "Tang Hua-Yu",        "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Top"],    "titles": false, "worlds": false, "age": 23, "team": "Weibo Gaming"},
+    {"name": "Jiejie",      "real": "Zhao Li-Jie",        "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Jungle"], "titles": true,  "worlds": true,  "age": 25, "team": "Weibo Gaming"},
+    {"name": "Xiaohu",      "real": "Li Yuan-Hao",        "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Mid"],    "titles": true,  "worlds": false, "age": 28, "team": "Weibo Gaming"},
+    {"name": "Elk",         "real": "Zhao Jia-Hao",       "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["ADC"],    "titles": true,  "worlds": false, "age": 24, "team": "Weibo Gaming"},
+    {"name": "erha",        "real": "Shi Xun-Ye",         "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Support"],"titles": false, "worlds": false, "age": 22, "team": "Weibo Gaming"},
+
+    {"name": "sheer",       "real": "Xu Wen-Jie",         "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Top"],    "titles": false, "worlds": false, "age": 21, "team": "LNG Esports"},
+    {"name": "Croco",       "real": "Kim Dong-beom",      "country": "South Korea", "flag": "🇰🇷", "league": "LPL", "position": ["Jungle"], "titles": false, "worlds": false, "age": 26, "team": "LNG Esports"},
+    {"name": "BuLLDoG",     "real": "Lee Tae-young",      "country": "South Korea", "flag": "🇰🇷", "league": "LPL", "position": ["Mid"],    "titles": false, "worlds": false, "age": 21, "team": "LNG Esports"},
+    {"name": "1xn",         "real": "Li Xiu-Nan",         "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["ADC"],    "titles": false, "worlds": false, "age": 21, "team": "LNG Esports"},
+    {"name": "MISSING",     "real": "Lou Yun-Feng",       "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Support"],"titles": true,  "worlds": false, "age": 25, "team": "LNG Esports"},
+
+    {"name": "Flandre",     "real": "Li Xuan-Jun",        "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Top"],    "titles": true,  "worlds": true,  "age": 27, "team": "Anyone's Legend"},
+    {"name": "Tarzan",      "real": "Lee Seung-yong",     "country": "South Korea", "flag": "🇰🇷", "league": "LPL", "position": ["Jungle"], "titles": false, "worlds": false, "age": 27, "team": "Anyone's Legend"},
+    {"name": "Shanks",      "real": "Cui Xiao-Jun",       "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Mid"],    "titles": false, "worlds": false, "age": 25, "team": "Anyone's Legend"},
+    {"name": "Hope",        "real": "Wang Jie",           "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["ADC"],    "titles": true,  "worlds": false, "age": 25, "team": "Anyone's Legend"},
+    {"name": "Kael",        "real": "Kim Jin-hong",       "country": "South Korea", "flag": "🇰🇷", "league": "LPL", "position": ["Support"],"titles": false, "worlds": false, "age": 22, "team": "Anyone's Legend"},
+
+    {"name": "Soboro",      "real": "Lim Seong-min",      "country": "South Korea", "flag": "🇰🇷", "league": "LPL", "position": ["Top"],    "titles": false, "worlds": false, "age": 23, "team": "Invictus Gaming"},
+    {"name": "Wei",         "real": "Yan Yang-Wei",       "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Jungle"], "titles": true,  "worlds": false, "age": 23, "team": "Invictus Gaming"},
+    {"name": "Rookie",      "real": "Song Eui-jin",       "country": "South Korea", "flag": "🇰🇷", "league": "LPL", "position": ["Mid"],    "titles": true,  "worlds": true,  "age": 29, "team": "Invictus Gaming"},
+    {"name": "Photic",      "real": "Ying Qi-Shen",       "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["ADC"],    "titles": false, "worlds": false, "age": 24, "team": "Invictus Gaming"},
+    {"name": "Jwei",        "real": "Sun Jun-Wei",        "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Support"],"titles": false, "worlds": false, "age": 24, "team": "Invictus Gaming"},
+
+    {"name": "HOYA",        "real": "Yoon Yong-ho",       "country": "South Korea", "flag": "🇰🇷", "league": "LPL", "position": ["Top"],    "titles": false, "worlds": false, "age": 25, "team": "Ninjas in Pyjamas"},
+    {"name": "Guwon",       "real": "Koo Kwan-mo",        "country": "South Korea", "flag": "🇰🇷", "league": "LPL", "position": ["Jungle"], "titles": false, "worlds": false, "age": 22, "team": "Ninjas in Pyjamas"},
+    {"name": "Care",        "real": "Yang Jie",           "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Mid"],    "titles": false, "worlds": false, "age": 23, "team": "Ninjas in Pyjamas"},
+    {"name": "Assum",       "real": "Zou Wei",            "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["ADC"],    "titles": false, "worlds": false, "age": 23, "team": "Ninjas in Pyjamas"},
+    {"name": "Zhuo",        "real": "Wang Xu-Zhuo",       "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Support"],"titles": false, "worlds": false, "age": 25, "team": "Ninjas in Pyjamas"},
+
+    {"name": "Hery",        "real": "Wang He-Yong",       "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Top"],    "titles": false, "worlds": false, "age": 24, "team": "Oh My God"},
+    {"name": "Juhan",       "real": "Lee Ju-han",         "country": "South Korea", "flag": "🇰🇷", "league": "LPL", "position": ["Jungle"], "titles": false, "worlds": true,  "age": 25, "team": "Oh My God"},
+    {"name": "haichao",     "real": "Zhang Hai-Chao",     "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Mid"],    "titles": false, "worlds": false, "age": 22, "team": "Oh My God"},
+    {"name": "Starry",      "real": "Lei Ming",           "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["ADC"],    "titles": false, "worlds": false, "age": 22, "team": "Oh My God"},
+    {"name": "Moham",       "real": "Jeong Jae-hun",      "country": "South Korea", "flag": "🇰🇷", "league": "LPL", "position": ["Support"],"titles": false, "worlds": false, "age": 23, "team": "Oh My God"},
+
+    {"name": "Cube",        "real": "Dai Yi",             "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Top"],    "titles": false, "worlds": false, "age": 24, "team": "Team WE"},
+    {"name": "Monki",       "real": "Wang Meng-Qi",       "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Jungle"], "titles": false, "worlds": false, "age": 21, "team": "Team WE"},
+    {"name": "Karis",       "real": "Kim Hong-jo",        "country": "South Korea", "flag": "🇰🇷", "league": "LPL", "position": ["Mid"],    "titles": false, "worlds": false, "age": 23, "team": "Team WE"},
+    {"name": "About",       "real": "Moon Hyeong-seok",   "country": "South Korea", "flag": "🇰🇷", "league": "LPL", "position": ["ADC"],    "titles": false, "worlds": false, "age": 22, "team": "Team WE"},
+    {"name": "yaoyao",      "real": "Bi Hao-Tian",        "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Support"],"titles": false, "worlds": false, "age": 22, "team": "Team WE"},
+
+    {"name": "Liangchen",   "real": "Zhang Liang-Chen",   "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Top"],    "titles": false, "worlds": false, "age": 20, "team": "Ultra Prime"},
+    {"name": "Grizzly",     "real": "Jo Seung-hoon",      "country": "South Korea", "flag": "🇰🇷", "league": "LPL", "position": ["Jungle"], "titles": false, "worlds": false, "age": 20, "team": "Ultra Prime"},
+    {"name": "Saber",       "real": "Song Dai-Lin",       "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Mid"],    "titles": false, "worlds": false, "age": 21, "team": "Ultra Prime"},
+    {"name": "Hena",        "real": "Park Jeung-hwan",    "country": "South Korea", "flag": "🇰🇷", "league": "LPL", "position": ["ADC"],    "titles": false, "worlds": false, "age": 26, "team": "Ultra Prime"},
+    {"name": "Xiaoxia",     "real": "Xia Jing-Yao",       "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Support"],"titles": false, "worlds": false, "age": 22, "team": "Ultra Prime"},
+
+    {"name": "sasi",        "real": "Yan Rui",            "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Top"],    "titles": false, "worlds": false, "age": 21, "team": "LGD Gaming"},
+    {"name": "Heng",        "real": "Yang Cui-Heng",      "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Jungle"], "titles": false, "worlds": false, "age": 22, "team": "LGD Gaming"},
+    {"name": "Tangyuan",    "real": "Lin Yu-Hong",        "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Mid"],    "titles": false, "worlds": false, "age": 21, "team": "LGD Gaming"},
+    {"name": "Shaoye",      "real": "Qiu Guo-Bin",        "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["ADC"],    "titles": false, "worlds": false, "age": 22, "team": "LGD Gaming"},
+    {"name": "Ycx",         "real": "Zhao Wen-Hao",       "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Support"],"titles": false, "worlds": false, "age": 21, "team": "LGD Gaming"},
+
+    {"name": "Zdz",         "real": "Zhu De-Zhang",       "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Top"],    "titles": false, "worlds": false, "age": 24, "team": "EDward Gaming"},
+    {"name": "Xiaohao",     "real": "Peng Hao",           "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Jungle"], "titles": false, "worlds": false, "age": 23, "team": "EDward Gaming"},
+    {"name": "Angel",       "real": "Xiang Tao",          "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Mid"],    "titles": true,  "worlds": false, "age": 25, "team": "EDward Gaming"},
+    {"name": "Leave",       "real": "Hu Hong-Chao",       "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["ADC"],    "titles": false, "worlds": false, "age": 23, "team": "EDward Gaming"},
+    {"name": "Parukia",     "real": "Wang Ping-Yang",     "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Support"],"titles": false, "worlds": false, "age": 22, "team": "EDward Gaming"},
+
+    {"name": "Keshi",       "real": "Li Qing-Hua",        "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Top"],    "titles": false, "worlds": false, "age": 20, "team": "ThunderTalk Gaming"},
+    {"name": "Junhao",      "real": "Luo Jun-Hao",        "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Jungle"], "titles": false, "worlds": false, "age": 21, "team": "ThunderTalk Gaming"},
+    {"name": "Heru",        "real": "Desconocido",        "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Mid"],    "titles": false, "worlds": false, "age": 20, "team": "ThunderTalk Gaming"},
+    {"name": "Ryan3",       "real": "Desconocido",        "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["ADC"],    "titles": false, "worlds": false, "age": 20, "team": "ThunderTalk Gaming"},
+    {"name": "Feather",     "real": "Desconocido",        "country": "China",       "flag": "🇨🇳", "league": "LPL", "position": ["Support"],"titles": false, "worlds": false, "age": 21, "team": "ThunderTalk Gaming"},
+
+    
+    
+    {"name": "Xyno",      "real": "Carlos Ferreira",           "country": "Brazil",      "flag": "🇧🇷", "league": "CBLOL", "position": ["Top"],    "titles": false, "worlds": false, "age": 19, "team": "LOUD"},
+    {"name": "YoungJae",  "real": "Ko Yeong-jae",              "country": "South Korea", "flag": "🇰🇷", "league": "CBLOL", "position": ["Jungle"], "titles": true,  "worlds": false, "age": 23, "team": "LOUD"},
+    {"name": "Envy",      "real": "Bruno Farias",              "country": "Brazil",      "flag": "🇧🇷", "league": "CBLOL", "position": ["Mid"],    "titles": true,  "worlds": false, "age": 26, "team": "LOUD"},
+    {"name": "Bull",      "real": "Song Seon-gyu",             "country": "South Korea", "flag": "🇰🇷", "league": "CBLOL", "position": ["ADC"],    "titles": false, "worlds": false, "age": 24, "team": "LOUD"},
+    {"name": "RedBert",   "real": "Ygor Freitas",              "country": "Brazil",      "flag": "🇧🇷", "league": "CBLOL", "position": ["Support"],"titles": true,  "worlds": false, "age": 27, "team": "LOUD"},
+
+    {"name": "Robo",      "real": "Leonardo Souza",            "country": "Brazil",      "flag": "🇧🇷", "league": "CBLOL", "position": ["Top"],    "titles": true,  "worlds": false, "age": 27, "team": "paiN Gaming"},
+    {"name": "CarioK",    "real": "Marcos Oliveira",           "country": "Brazil",      "flag": "🇧🇷", "league": "CBLOL", "position": ["Jungle"], "titles": true,  "worlds": false, "age": 26, "team": "paiN Gaming"},
+    {"name": "tinowns",   "real": "Thiago Sartori",            "country": "Brazil",      "flag": "🇧🇷", "league": "CBLOL", "position": ["Mid"],    "titles": true,  "worlds": false, "age": 28, "team": "paiN Gaming"},
+    {"name": "Trigger",   "real": "Kim Eui-joo",               "country": "South Korea", "flag": "🇰🇷", "league": "CBLOL", "position": ["ADC"],    "titles": false, "worlds": false, "age": 25, "team": "paiN Gaming"},
+    {"name": "Kuri",      "real": "Choi Won-yeong",            "country": "South Korea", "flag": "🇰🇷", "league": "CBLOL", "position": ["Support"],"titles": true,  "worlds": false, "age": 25, "team": "paiN Gaming"},
+
+    {"name": "Boal",      "real": "Thiago Souza",              "country": "Brazil",      "flag": "🇧🇷", "league": "CBLOL", "position": ["Top"],    "titles": true,  "worlds": false, "age": 23, "team": "Vivo Keyd Stars"},
+    {"name": "Disamis",   "real": "Pedro Gonçalves",           "country": "Brazil",      "flag": "🇧🇷", "league": "CBLOL", "position": ["Jungle"], "titles": false, "worlds": false, "age": 21, "team": "Vivo Keyd Stars"},
+    {"name": "Mireu",     "real": "Jeong Jo-bin",              "country": "South Korea", "flag": "🇰🇷", "league": "CBLOL", "position": ["Mid"],    "titles": false, "worlds": false, "age": 24, "team": "Vivo Keyd Stars"},
+    {"name": "Morttheus", "real": "Matheus Motta",             "country": "Brazil",      "flag": "🇧🇷", "league": "CBLOL", "position": ["ADC"],    "titles": false, "worlds": false, "age": 20, "team": "Vivo Keyd Stars"},
+    {"name": "Kaiwing",   "real": "Ling Kai Wing",             "country": "Hong Kong",   "flag": "🇭🇰", "league": "CBLOL", "position": ["Support"],"titles": true,  "worlds": false, "age": 29, "team": "Vivo Keyd Stars"},
+
+    {"name": "fNb",       "real": "Francisco Braz",            "country": "Brazil",      "flag": "🇧🇷", "league": "CBLOL", "position": ["Top"],    "titles": false, "worlds": false, "age": 25, "team": "RED Canids"},
+    {"name": "Curse",     "real": "Raí Yamada",                "country": "Brazil",      "flag": "🇧🇷", "league": "CBLOL", "position": ["Jungle"], "titles": false, "worlds": false, "age": 20, "team": "RED Canids"},
+    {"name": "Kaze",      "real": "Lucas Sebastián Fe",        "country": "Argentina",   "flag": "🇦🇷", "league": "CBLOL", "position": ["Mid"],    "titles": false, "worlds": false, "age": 20, "team": "RED Canids"},
+    {"name": "Rabelo",    "real": "Felipe Rabelo",             "country": "Brazil",      "flag": "🇧🇷", "league": "CBLOL", "position": ["ADC"],    "titles": false, "worlds": false, "age": 20, "team": "RED Canids"},
+    {"name": "Frosty",    "real": "Vitor Luid",                "country": "Brazil",      "flag": "🇧🇷", "league": "CBLOL", "position": ["Support"],"titles": false, "worlds": false, "age": 22, "team": "RED Canids"},
+
+    {"name": "Guigo",     "real": "Guilherme Ruiz",            "country": "Brazil",      "flag": "🇧🇷", "league": "CBLOL", "position": ["Top"],    "titles": true,  "worlds": false, "age": 24, "team": "FURIA"},
+    {"name": "Tatu",      "real": "Gabriel Bandeira",          "country": "Brazil",      "flag": "🇧🇷", "league": "CBLOL", "position": ["Jungle"], "titles": false, "worlds": false, "age": 20, "team": "FURIA"},
+    {"name": "Tutsz",     "real": "Arthur Machado",            "country": "Brazil",      "flag": "🇧🇷", "league": "CBLOL", "position": ["Mid"],    "titles": true,  "worlds": false, "age": 23, "team": "FURIA"},
+    {"name": "Ayu",       "real": "João Lucas Machado",        "country": "Brazil",      "flag": "🇧🇷", "league": "CBLOL", "position": ["ADC"],    "titles": false, "worlds": false, "age": 20, "team": "FURIA"},
+    {"name": "Jojo",      "real": "Gabriel Dzelme",            "country": "Brazil",      "flag": "🇧🇷", "league": "CBLOL", "position": ["Support"],"titles": true,  "worlds": false, "age": 26, "team": "FURIA"},
+
+    {"name": "curty",     "real": "Pedro Curty",               "country": "Brazil",      "flag": "🇧🇷", "league": "CBLOL", "position": ["Top"],    "titles": false, "worlds": false, "age": 21, "team": "Fluxo W7M"},
+    {"name": "Peach",     "real": "Lee Min-gyu",               "country": "South Korea", "flag": "🇰🇷", "league": "CBLOL", "position": ["Jungle"], "titles": false, "worlds": false, "age": 25, "team": "Fluxo W7M"},
+    {"name": "Hauz",      "real": "Bruno Augusto",             "country": "Brazil",      "flag": "🇧🇷", "league": "CBLOL", "position": ["Mid"],    "titles": false, "worlds": false, "age": 23, "team": "Fluxo W7M"},
+    {"name": "BAO",       "real": "Jeong Ji-woo",              "country": "South Korea", "flag": "🇰🇷", "league": "CBLOL", "position": ["ADC"],    "titles": false, "worlds": false, "age": 24, "team": "Fluxo W7M"},
+    {"name": "ProDelta",  "real": "Fábio Marques",             "country": "Brazil",      "flag": "🇧🇷", "league": "CBLOL", "position": ["Support"],"titles": false, "worlds": false, "age": 23, "team": "Fluxo W7M"},
+
+    {"name": "Devost",    "real": "Julian Orozco",             "country": "Colombia",    "flag": "🇨🇴", "league": "CBLOL", "position": ["Top"],    "titles": false, "worlds": false, "age": 18, "team": "Leviatán"},
+    {"name": "Booki",     "real": "Piero Aldo Medina Galarza", "country": "Peru",        "flag": "🇵🇪", "league": "CBLOL", "position": ["Jungle"], "titles": false, "worlds": false, "age": 18, "team": "Leviatán"},
+    {"name": "Enga",      "real": "Eneas Protti",              "country": "Argentina",   "flag": "🇦🇷", "league": "CBLOL", "position": ["Mid"],    "titles": false, "worlds": false, "age": 22, "team": "Leviatán"},
+    {"name": "ceo",       "real": "Lorenzo Tévez",             "country": "Argentina",   "flag": "🇦🇷", "league": "CBLOL", "position": ["ADC"],    "titles": true,  "worlds": false, "age": 22, "team": "Leviatán"},
+    {"name": "TopLop",    "real": "Nicolás Marinoni",          "country": "Argentina",   "flag": "🇦🇷", "league": "CBLOL", "position": ["Support"],"titles": true,  "worlds": false, "age": 26, "team": "Leviatán"},
+
+    {"name": "Zest",      "real": "Kim Dong-min",              "country": "South Korea", "flag": "🇰🇷", "league": "CBLOL", "position": ["Top"],    "titles": false, "worlds": false, "age": 25, "team": "LOS"},
+    {"name": "Drakehero", "real": "Guilherme Martins",         "country": "Brazil",      "flag": "🇧🇷", "league": "CBLOL", "position": ["Jungle"], "titles": false, "worlds": false, "age": 22, "team": "LOS"},
+    {"name": "Feisty",    "real": "Jeong Seong-hoon",          "country": "South Korea", "flag": "🇰🇷", "league": "CBLOL", "position": ["Mid"],    "titles": false, "worlds": false, "age": 22, "team": "LOS"},
+    {"name": "Duduhh",    "real": "Eduardo Canto",             "country": "Brazil",      "flag": "🇧🇷", "league": "CBLOL", "position": ["ADC"],    "titles": false, "worlds": false, "age": 20, "team": "LOS"},
+    {"name": "Ackerman",  "real": "Gabriel Aparicio",          "country": "Argentina",   "flag": "🇦🇷", "league": "CBLOL", "position": ["Support"],"titles": true,  "worlds": false, "age": 24, "team": "LOS"},
+
+
+
+    {"name": "Thanatos",    "real": "Park Seung-gyu",       "country": "South Korea", "flag": "🇰🇷", "league": "LCS", "position": ["Top"],    "titles": true,  "worlds": false, "age": 21, "team": "Cloud9"},
+    {"name": "Blaber",      "real": "Robert Huang",         "country": "United States","flag": "🇺🇸", "league": "LCS", "position": ["Jungle"], "titles": true,  "worlds": false, "age": 26, "team": "Cloud9"},
+    {"name": "APA",         "real": "Eain Stearns",         "country": "United States","flag": "🇺🇸", "league": "LCS", "position": ["Mid"],    "titles": true,  "worlds": false, "age": 24, "team": "Cloud9"},
+    {"name": "Zven",        "real": "Jesper Svenningsen",   "country": "Denmark",     "flag": "🇩🇰", "league": "LCS", "position": ["ADC"],    "titles": true,  "worlds": false, "age": 28, "team": "Cloud9"},
+    {"name": "Vulcan",      "real": "Philippe Laflamme",    "country": "Canada",      "flag": "🇨🇦", "league": "LCS", "position": ["Support"],"titles": true,  "worlds": false, "age": 26, "team": "Cloud9"},
+
+    {"name": "Gakgos",      "real": "İbrahim Samet Bulut",  "country": "Turkey",      "flag": "🇹🇷", "league": "LCS", "position": ["Top"],    "titles": false, "worlds": false, "age": 18, "team": "FlyQuest"},
+    {"name": "Gryffinn",    "real": "Johnson Le",           "country": "United States","flag": "🇺🇸", "league": "LCS", "position": ["Jungle"], "titles": false, "worlds": false, "age": 19, "team": "FlyQuest"},
+    {"name": "Quad",        "real": "Song Su-hyeong",       "country": "South Korea", "flag": "🇰🇷", "league": "LCS", "position": ["Mid"],    "titles": true,  "worlds": false, "age": 23, "team": "FlyQuest"},
+    {"name": "Massu",       "real": "Fahad Abdulmalek",     "country": "Canada",      "flag": "🇨🇦", "league": "LCS", "position": ["ADC"],    "titles": true,  "worlds": false, "age": 21, "team": "FlyQuest"},
+    {"name": "Cryogen",     "real": "Desconocido",          "country": "United States","flag": "🇺🇸", "league": "LCS", "position": ["Support"],"titles": false, "worlds": false, "age": 20, "team": "FlyQuest"},
+
+    {"name": "Photon",      "real": "Kyeong Gyu-tae",       "country": "South Korea", "flag": "🇰🇷", "league": "LCS", "position": ["Top"],    "titles": false, "worlds": false, "age": 24, "team": "Dignitas"},
+    {"name": "eXyu",        "real": "Galen Holgate",        "country": "United States","flag": "🇺🇸", "league": "LCS", "position": ["Jungle"], "titles": false, "worlds": false, "age": 23, "team": "Dignitas"},
+    {"name": "Palafox",     "real": "Cristian Palafox",     "country": "United States","flag": "🇺🇸", "league": "LCS", "position": ["Mid"],    "titles": true,  "worlds": false, "age": 27, "team": "Dignitas"},
+    {"name": "FBI",         "real": "Victor Huang",         "country": "Australia",   "flag": "🇦🇺", "league": "LCS", "position": ["ADC"],    "titles": true,  "worlds": false, "age": 27, "team": "Dignitas"},
+    {"name": "Ignar",       "real": "Lee Dong-geun",        "country": "South Korea", "flag": "🇰🇷", "league": "LCS", "position": ["Support"],"titles": false, "worlds": false, "age": 29, "team": "Dignitas"},
+
+    {"name": "Impact",      "real": "Jeong Eon-young",      "country": "South Korea", "flag": "🇰🇷", "league": "LCS", "position": ["Top"],    "titles": true,  "worlds": true,  "age": 31, "team": "Sentinels"},
+    {"name": "HamBak",      "real": "Ham Min-woo",          "country": "South Korea", "flag": "🇰🇷", "league": "LCS", "position": ["Jungle"], "titles": false, "worlds": false, "age": 21, "team": "Sentinels"},
+    {"name": "DARKWINGS",   "real": "David Ramos",          "country": "Mexico",      "flag": "🇲🇽", "league": "LCS", "position": ["Mid"],    "titles": false, "worlds": false, "age": 20, "team": "Sentinels"},
+    {"name": "Rahel",       "real": "Cho Min-seong",        "country": "South Korea", "flag": "🇰🇷", "league": "LCS", "position": ["ADC"],    "titles": false, "worlds": false, "age": 22, "team": "Sentinels"},
+    {"name": "huhi",        "real": "Choi Jae-hyun",        "country": "South Korea", "flag": "🇰🇷", "league": "LCS", "position": ["Support"],"titles": true,  "worlds": false, "age": 30, "team": "Sentinels"},
+
+    {"name": "Zamudo",      "real": "Landon Zamudio",       "country": "United States","flag": "🇺🇸", "league": "LCS", "position": ["Top"],    "titles": false, "worlds": false, "age": 22, "team": "LYON"},
+    {"name": "Inspired",    "real": "Kacper Słoma",         "country": "Poland",      "flag": "🇵🇱", "league": "LCS", "position": ["Jungle"], "titles": true,  "worlds": false, "age": 24, "team": "LYON"},
+    {"name": "Saint",       "real": "Kang Sung-in",         "country": "South Korea", "flag": "🇰🇷", "league": "LCS", "position": ["Mid"],    "titles": false, "worlds": false, "age": 21, "team": "LYON"},
+    {"name": "Berserker",   "real": "Kim Min-cheol",        "country": "South Korea", "flag": "🇰🇷", "league": "LCS", "position": ["ADC"],    "titles": true,  "worlds": false, "age": 23, "team": "LYON"},
+    {"name": "Isles",       "real": "Jonah Rosario",        "country": "Australia",   "flag": "🇦🇺", "league": "LCS", "position": ["Support"],"titles": false, "worlds": false, "age": 24, "team": "LYON"},
+
+    {"name": "Castle",      "real": "Cho Hyun-seong",       "country": "South Korea", "flag": "🇰🇷", "league": "LCS", "position": ["Top"],    "titles": false, "worlds": false, "age": 23, "team": "Disguised"},
+    {"name": "KryRa",       "real": "Christian Vergara",    "country": "United States","flag": "🇺🇸", "league": "LCS", "position": ["Jungle"], "titles": false, "worlds": false, "age": 21, "team": "Disguised"},
+    {"name": "Callme",      "real": "Oh Ji-hoon",           "country": "South Korea", "flag": "🇰🇷", "league": "LCS", "position": ["Mid"],    "titles": false, "worlds": false, "age": 21, "team": "Disguised"},
+    {"name": "Sajed",       "real": "Sajed Abou Jaoude",    "country": "United States", "flag": "🇺🇸", "league": "LCS", "position": ["ADC"],    "titles": false, "worlds": false, "age": 22, "team": "Disguised"},
+    {"name": "Lyonz",       "real": "Felipe Montes",        "country": "Colombia",    "flag": "🇨🇴", "league": "LCS", "position": ["Support"],"titles": false, "worlds": false, "age": 22, "team": "Disguised"},
+
+    {"name": "Fudge",       "real": "Ibrahim Allami",       "country": "Australia",   "flag": "🇦🇺", "league": "LCS", "position": ["Top"],    "titles": true,  "worlds": false, "age": 23, "team": "Shopify Rebellion"},
+    {"name": "Contractz",   "real": "Juan Arturo Garcia",   "country": "United States","flag": "🇺🇸", "league": "LCS", "position": ["Jungle"], "titles": true,  "worlds": false, "age": 26, "team": "Shopify Rebellion"},
+    {"name": "Zinie",       "real": "Yoo Jin-hee",          "country": "South Korea", "flag": "🇰🇷", "league": "LCS", "position": ["Mid"],    "titles": false, "worlds": false, "age": 20, "team": "Shopify Rebellion"},
+    {"name": "Bvoy",        "real": "Joo Seung-ho",         "country": "South Korea", "flag": "🇰🇷", "league": "LCS", "position": ["ADC"],    "titles": false, "worlds": false, "age": 28, "team": "Shopify Rebellion"},
+    {"name": "Ceos",        "real": "Denilson Oliveira",    "country": "Brazil",      "flag": "🇧🇷", "league": "LCS", "position": ["Support"],"titles": true,  "worlds": false, "age": 25, "team": "Shopify Rebellion"},
+
+    {"name": "Morgan",      "real": "Park Gi-tae",          "country": "South Korea", "flag": "🇰🇷", "league": "LCS", "position": ["Top"],    "titles": false, "worlds": false, "age": 24, "team": "Team Liquid"},
+    {"name": "Josedeodo",   "real": "Sebastián Alonso",     "country": "Argentina",   "flag": "🇦🇷", "league": "LCS", "position": ["Jungle"], "titles": true,  "worlds": false, "age": 25, "team": "Team Liquid"},
+    {"name": "Quid",        "real": "Lim Myeong-woo",       "country": "South Korea", "flag": "🇰🇷", "league": "LCS", "position": ["Mid"],    "titles": false, "worlds": false, "age": 22, "team": "Team Liquid"},
+    {"name": "Yeon",        "real": "Sean Sung",            "country": "United States","flag": "🇺🇸", "league": "LCS", "position": ["ADC"],    "titles": true,  "worlds": false, "age": 24, "team": "Team Liquid"},
+    {"name": "CoreJJ",      "real": "Jo Yong-in",           "country": "South Korea", "flag": "🇰🇷", "league": "LCS", "position": ["Support"],"titles": true,  "worlds": true,  "age": 31, "team": "Team Liquid"},
+
+
+
+    {"name": "Rest",        "real": "Hsu Shih-Chieh",        "country": "Taiwan",      "flag": "🇹🇼", "league": "LCP", "position": ["Top"],    "titles": true,  "worlds": false, "age": 25, "team": "CTBC Flying Oyster"},
+    {"name": "Shad0w",      "real": "Zhao Zhi-Qiang",        "country": "China",       "flag": "🇨🇳", "league": "LCP", "position": ["Jungle"], "titles": false, "worlds": false, "age": 24, "team": "CTBC Flying Oyster"},
+    {"name": "Pungyeon",    "real": "Lee Jong-hyuk",         "country": "South Korea", "flag": "🇰🇷", "league": "LCP", "position": ["Mid"],    "titles": false, "worlds": false, "age": 20, "team": "CTBC Flying Oyster"},
+    {"name": "Doggo",       "real": "Chiu Tzu-Chuan",        "country": "Taiwan",      "flag": "🇹🇼", "league": "LCP", "position": ["ADC"],    "titles": true,  "worlds": false, "age": 23, "team": "CTBC Flying Oyster"},
+    {"name": "2274",        "real": "Chiu Chang-En",         "country": "Taiwan",      "flag": "🇹🇼", "league": "LCP", "position": ["Support"],"titles": false, "worlds": false, "age": 20, "team": "CTBC Flying Oyster"},
+
+    {"name": "Evi",         "real": "Shunsuke Murase",       "country": "Japan",       "flag": "🇯🇵", "league": "LCP", "position": ["Top"],    "titles": true,  "worlds": false, "age": 28, "team": "SoftBank HAWKS"},
+    {"name": "Van",         "real": "Kim Seung-hoo",         "country": "South Korea", "flag": "🇰🇷", "league": "LCP", "position": ["Jungle"], "titles": false, "worlds": false, "age": 22, "team": "SoftBank HAWKS"},
+    {"name": "Aria",        "real": "Lee Ga-eul",            "country": "South Korea", "flag": "🇰🇷", "league": "LCP", "position": ["Mid"],    "titles": true,  "worlds": false, "age": 25, "team": "SoftBank HAWKS"},
+    {"name": "Marble",      "real": "Rei Shimaya",           "country": "Japan",       "flag": "🇯🇵", "league": "LCP", "position": ["ADC"],    "titles": true,  "worlds": false, "age": 22, "team": "SoftBank HAWKS"},
+    {"name": "Vsta",        "real": "Oh Hyo-seong",          "country": "South Korea", "flag": "🇰🇷", "league": "LCP", "position": ["Support"],"titles": false, "worlds": false, "age": 25, "team": "SoftBank HAWKS"},
+
+    {"name": "Kiaya",       "real": "Trần Duy Sang",         "country": "Vietnam",     "flag": "🇻🇳", "league": "LCP", "position": ["Top"],    "titles": true,  "worlds": false, "age": 24, "team": "GAM Esports"},
+    {"name": "Draktharr",   "real": "Lê Ngọc Toàn",          "country": "Vietnam",     "flag": "🇻🇳", "league": "LCP", "position": ["Jungle"], "titles": true,  "worlds": false, "age": 22, "team": "GAM Esports"},
+    {"name": "Aress",       "real": "Hồ Văn Vĩ Đại",         "country": "Vietnam",     "flag": "🇻🇳", "league": "LCP", "position": ["Mid"],    "titles": true,  "worlds": false, "age": 22, "team": "GAM Esports"},
+    {"name": "EasyLove",    "real": "Hứa Thành An",          "country": "Vietnam",     "flag": "🇻🇳", "league": "LCP", "position": ["ADC"],    "titles": true,  "worlds": false, "age": 25, "team": "GAM Esports"},
+    {"name": "Elio",        "real": "Phạm Thạch Nhân Băng",  "country": "Vietnam",     "flag": "🇻🇳", "league": "LCP", "position": ["Support"],"titles": true,  "worlds": false, "age": 25, "team": "GAM Esports"},
+
+    {"name": "Hiro02",      "real": "Trần Lê Trung Hậu",     "country": "Vietnam",     "flag": "🇻🇳", "league": "LCP", "position": ["Top"],    "titles": false, "worlds": false, "age": 22, "team": "Secret Whales"},
+    {"name": "Hizto",       "real": "Lê Văn Hoàng Hải",      "country": "Vietnam",     "flag": "🇻🇳", "league": "LCP", "position": ["Jungle"], "titles": false, "worlds": false, "age": 21, "team": "Secret Whales"},
+    {"name": "Dire",        "real": "Trần Duy Đức",          "country": "Vietnam",     "flag": "🇻🇳", "league": "LCP", "position": ["Mid"],    "titles": false, "worlds": false, "age": 22, "team": "Secret Whales"},
+    {"name": "Eddie",       "real": "Hoàng Công Nghĩa",      "country": "Vietnam",     "flag": "🇻🇳", "league": "LCP", "position": ["ADC"],    "titles": false, "worlds": false, "age": 22, "team": "Secret Whales"},
+    {"name": "Taki",        "real": "Đinh Anh Tài",          "country": "Vietnam",     "flag": "🇻🇳", "league": "LCP", "position": ["Support"],"titles": false, "worlds": false, "age": 22, "team": "Secret Whales"},
+
+    {"name": "RayFarky",    "real": "Minato Shinohara",      "country": "Japan",       "flag": "🇯🇵", "league": "LCP", "position": ["Top"],    "titles": false, "worlds": false, "age": 23, "team": "DetonatioN FocusMe"},
+    {"name": "Citrus",      "real": "Byeon Ji-woong",        "country": "South Korea", "flag": "🇰🇷", "league": "LCP", "position": ["Jungle"], "titles": false, "worlds": false, "age": 24, "team": "DetonatioN FocusMe"},
+    {"name": "Keine",       "real": "Kim Joon-cheol",        "country": "South Korea", "flag": "🇰🇷", "league": "LCP", "position": ["Mid"],    "titles": false, "worlds": false, "age": 23, "team": "DetonatioN FocusMe"},
+    {"name": "Kakkun",      "real": "Kamon Nomoto",          "country": "Japan",       "flag": "🇯🇵", "league": "LCP", "position": ["ADC"],    "titles": false, "worlds": false, "age": 20, "team": "DetonatioN FocusMe"},
+    {"name": "Gaeng",       "real": "Yang Gwang-woo",        "country": "South Korea", "flag": "🇰🇷", "league": "LCP", "position": ["Support"],"titles": true,  "worlds": false, "age": 26, "team": "DetonatioN FocusMe"},
+
+    {"name": "Kratos",      "real": "Ngô Đức Khánh",         "country": "Vietnam",     "flag": "🇻🇳", "league": "LCP", "position": ["Top"],    "titles": false, "worlds": false, "age": 21, "team": "MVK Esports"},
+    {"name": "Gury",        "real": "Lương Hải Long",        "country": "Vietnam",     "flag": "🇻🇳", "league": "LCP", "position": ["Jungle"], "titles": false, "worlds": false, "age": 23, "team": "MVK Esports"},
+    {"name": "Kati",        "real": "Đặng Thanh Phê",        "country": "Vietnam",     "flag": "🇻🇳", "league": "LCP", "position": ["Mid"],    "titles": true,  "worlds": false, "age": 24, "team": "MVK Esports"},
+    {"name": "Shogun",      "real": "Nguyễn Văn Huy",        "country": "Vietnam",     "flag": "🇻🇳", "league": "LCP", "position": ["ADC"],    "titles": true,  "worlds": false, "age": 20, "team": "MVK Esports"},
+    {"name": "Bie",         "real": "Trần Đức Hiếu",         "country": "Vietnam",     "flag": "🇻🇳", "league": "LCP", "position": ["Support"],"titles": true,  "worlds": false, "age": 25, "team": "MVK Esports"},
+
+    {"name": "Flauren",     "real": "Lo Chak Kin",           "country": "Hong Kong",   "flag": "🇭🇰", "league": "LCP", "position": ["Top"],    "titles": false, "worlds": false, "age": 21, "team": "Deep Cross Gaming"},
+    {"name": "POP9",        "real": "Wu Yi-Han",             "country": "Taiwan",      "flag": "🇹🇼", "league": "LCP", "position": ["Jungle"], "titles": false, "worlds": false, "age": 20, "team": "Deep Cross Gaming"},
+    {"name": "HongSuo",     "real": "Guo Bei-Yi",            "country": "Taiwan",      "flag": "🇹🇼", "league": "LCP", "position": ["Mid"],    "titles": false, "worlds": false, "age": 22, "team": "Deep Cross Gaming"},
+    {"name": "Feng",        "real": "Chen Chun-Feng",        "country": "Taiwan",      "flag": "🇹🇼", "league": "LCP", "position": ["ADC"],    "titles": false, "worlds": false, "age": 21, "team": "Deep Cross Gaming"},
+    {"name": "ShiauC",      "real": "Liu Chia-Hao",          "country": "Taiwan",      "flag": "🇹🇼", "league": "LCP", "position": ["Support"],"titles": true,  "worlds": false, "age": 26, "team": "Deep Cross Gaming"},
+
+    {"name": "1Jiang",      "real": "Chen Yi-Chin",          "country": "Taiwan",      "flag": "🇹🇼", "league": "LCP", "position": ["Top"],    "titles": false, "worlds": false, "age": 21, "team": "Ground Zero Gaming"},
+    {"name": "Husha",       "real": "Huang Tzu-Wei",         "country": "Taiwan",      "flag": "🇹🇼", "league": "LCP", "position": ["Jungle"], "titles": true,  "worlds": false, "age": 23, "team": "Ground Zero Gaming"},
+    {"name": "JimieN",      "real": "Tseng Hao-Chun",        "country": "Taiwan",      "flag": "🇹🇼", "league": "LCP", "position": ["Mid"],    "titles": false, "worlds": false, "age": 22, "team": "Ground Zero Gaming"},
+    {"name": "Shunn",       "real": "Chao Ying-Shun",        "country": "Taiwan",      "flag": "🇹🇼", "league": "LCP", "position": ["ADC"],    "titles": true,  "worlds": false, "age": 23, "team": "Ground Zero Gaming"},
+    {"name": "Orca",        "real": "Kuo Cheng-Han",         "country": "Taiwan",      "flag": "🇹🇼", "league": "LCP", "position": ["Support"],"titles": false, "worlds": false, "age": 21, "team": "Ground Zero Gaming"}
+  ]
+}

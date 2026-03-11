@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LoL Career Guess</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   BASE & RESET
+═══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold: #C89B3C;
+  --gold-light: #F0D270;
+  --gold-dark: #8B6914;
+  --blue: #0BC4E3;
+  --red: #E84057;
+  --green: #00C853;
+  --bg: #0A0A0F;
+  --bg2: #12121A;
+  --bg3: #1A1A26;
+  --bg4: #222233;
+  --text: #E8E0D0;
+  --text-dim: #8A8299;
+  --border: rgba(200,155,60,0.2);
+  --lck: #0BC4E3;
+  --lpl: #FF8C00;
+  --lec: #9B59B6;
+  --lcs: #E84057;
+  --other: #00C853;
+}
+
+html { font-size: 16px; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Rajdhani', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════
+   HEX BACKGROUND
+═══════════════════════════════════════════ */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(11,196,227,0.04) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(200,155,60,0.05) 0%, transparent 40%),
+    radial-gradient(circle at 60% 80%, rgba(232,64,87,0.03) 0%, transparent 40%);
+  pointer-events: none; z-index: 0;
+}
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpath d='M28 66L0 50V18L28 2l28 16v32L28 66zm0-4l24-14V20L28 6 4 20v28l24 14z' fill='%23C89B3C' fill-opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0;
+}
+
+/* ═══════════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════════ */
+.app {
+  position: relative; z-index: 1;
+  max-width: 720px; margin: 0 auto;
+  padding: 24px 16px 80px;
+}
+
+/* ═══════════════════════════════════════════
+   HEADER
+═══════════════════════════════════════════ */
+header {
+  text-align: center;
+  margin-bottom: 32px;
+  animation: fadeDown 0.6s ease;
+}
+.logo-icon {
+  width: 56px; height: 56px;
+  margin: 0 auto 12px;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+}
+h1 {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.subtitle {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* ═══════════════════════════════════════════
+   STATS BAR
+═══════════════════════════════════════════ */
+.stats-bar {
+  display: flex; justify-content: center; gap: 32px;
+  margin-bottom: 28px;
+  padding: 14px 24px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  animation: fadeUp 0.6s ease 0.1s both;
+}
+.stat { text-align: center; }
+.stat-value {
+  font-family: 'Cinzel', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+/* ═══════════════════════════════════════════
+   PROGRESS DOTS
+═══════════════════════════════════════════ */
+.progress-dots {
+  display: flex; justify-content: center; gap: 10px;
+  margin-bottom: 24px;
+}
+.dot {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--bg4);
+  border: 2px solid var(--bg4);
+  transition: all 0.3s ease;
+}
+.dot.correct { background: var(--green); border-color: var(--green); box-shadow: 0 0 8px var(--green); }
+.dot.wrong   { background: var(--red);   border-color: var(--red);   box-shadow: 0 0 8px var(--red); }
+.dot.hint    { background: var(--gold);  border-color: var(--gold);  box-shadow: 0 0 8px var(--gold); }
+.dot.current { border-color: var(--gold); animation: pulse 1.2s infinite; }
+
+/* ═══════════════════════════════════════════
+   CAREER TIMELINE
+═══════════════════════════════════════════ */
+.timeline-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  animation: fadeUp 0.4s ease;
+}
+.timeline-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 8px;
+}
+.timeline-title::before, .timeline-title::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+}
+.timeline {
+  position: relative;
+  padding-left: 28px;
+}
+.timeline::before {
+  content: '';
+  position: absolute; left: 6px; top: 8px; bottom: 8px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--gold-dark), transparent);
+}
+.timeline-item {
+  position: relative;
+  display: flex; align-items: center; gap: 12px;
+  padding: 8px 0;
+  animation: slideIn 0.3s ease;
+}
+.timeline-dot {
+  position: absolute; left: -23px;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 2px solid var(--bg2);
+  box-shadow: 0 0 6px var(--gold-dark);
+}
+.timeline-year {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  min-width: 56px;
+  letter-spacing: 0.05em;
+}
+.timeline-team {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  flex: 1;
+}
+.region-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 2px 8px;
+  border-radius: 20px;
+  border: 1px solid;
+}
+.region-badge.LCK { color: var(--lck); border-color: var(--lck); background: rgba(11,196,227,0.1); }
+.region-badge.LPL { color: var(--lpl); border-color: var(--lpl); background: rgba(255,140,0,0.1); }
+.region-badge.LEC { color: var(--lec); border-color: var(--lec); background: rgba(155,89,182,0.1); }
+.region-badge.LCS { color: var(--lcs); border-color: var(--lcs); background: rgba(232,64,87,0.1); }
+.region-badge.OTHER { color: var(--other); border-color: var(--other); background: rgba(0,200,83,0.1); }
+.timeline-more {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 0 0 0;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+}
+.more-dots { display: flex; gap: 4px; }
+.more-dots span {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--gold-dark);
+  animation: morePulse 1.5s infinite;
+}
+.more-dots span:nth-child(2) { animation-delay: 0.2s; }
+.more-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+/* ═══════════════════════════════════════════
+   HINTS LOG
+═══════════════════════════════════════════ */
+.hints-log {
+  display: flex; flex-direction: column; gap: 8px;
+  margin-bottom: 20px;
+  min-height: 0;
+}
+.hint-item {
+  background: var(--bg3);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  border-left: 3px solid;
+  animation: slideIn 0.3s ease;
+  display: flex; align-items: center; gap: 8px;
+}
+.hint-item.wrong    { border-color: var(--red);   background: rgba(232,64,87,0.07); }
+.hint-item.auto     { border-color: var(--blue);  background: rgba(11,196,227,0.07); }
+.hint-item.manual   { border-color: var(--gold);  background: rgba(200,155,60,0.07); }
+.hint-player { font-weight: 700; color: var(--red); }
+.hint-icon { font-size: 1rem; flex-shrink: 0; }
+.hint-text { flex: 1; color: var(--text-dim); }
+.hint-text strong { color: var(--text); }
+
+/* ═══════════════════════════════════════════
+   INPUT AREA
+═══════════════════════════════════════════ */
+.input-section {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+  animation: fadeUp 0.4s ease 0.2s both;
+}
+.input-wrapper {
+  position: relative;
+}
+.guess-input {
+  width: 100%;
+  background: var(--bg3);
+  border: 1.5px solid var(--bg4);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  letter-spacing: 0.03em;
+}
+.guess-input:focus {
+  border-color: var(--gold-dark);
+  box-shadow: 0 0 0 3px rgba(200,155,60,0.1);
+}
+.guess-input::placeholder { color: var(--text-dim); }
+.guess-input:disabled {
+  opacity: 0.4; cursor: not-allowed;
+}
+
+/* Autocomplete dropdown */
+.autocomplete-list {
+  position: absolute; top: calc(100% + 6px); left: 0; right: 0;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 100;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  display: none;
+}
+.autocomplete-list.open { display: block; }
+.autocomplete-item {
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text);
+  display: flex; align-items: center; justify-content: space-between;
+  transition: background 0.15s;
+}
+.autocomplete-item:hover,
+.autocomplete-item.active {
+  background: var(--bg4);
+  color: var(--gold-light);
+}
+.autocomplete-pos {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+}
+.autocomplete-list::-webkit-scrollbar { width: 4px; }
+.autocomplete-list::-webkit-scrollbar-track { background: transparent; }
+.autocomplete-list::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 4px; }
+
+/* Action buttons */
+.action-buttons {
+  display: flex; gap: 10px; margin-top: 12px;
+}
+.btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex; align-items: center; gap: 6px;
+}
+.btn:disabled { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
+
+.btn-submit {
+  flex: 1;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  color: #0A0A0F;
+}
+.btn-submit:hover { filter: brightness(1.15); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(200,155,60,0.3); }
+
+.btn-hint {
+  background: var(--bg4);
+  color: var(--gold);
+  border: 1px solid var(--gold-dark);
+}
+.btn-hint:hover { background: rgba(200,155,60,0.1); transform: translateY(-1px); }
+
+.btn-skip {
+  background: var(--bg4);
+  color: var(--text-dim);
+  border: 1px solid var(--bg4);
+}
+.btn-skip:hover { background: rgba(232,64,87,0.1); color: var(--red); border-color: var(--red); transform: translateY(-1px); }
+
+.btn-next {
+  width: 100%;
+  background: linear-gradient(135deg, #1a3a2a, #00C853);
+  color: #fff;
+  justify-content: center;
+  font-size: 1rem;
+  padding: 14px;
+  border-radius: 10px;
+  display: none;
+}
+.btn-next.visible { display: flex; animation: fadeUp 0.4s ease; }
+.btn-next:hover { filter: brightness(1.1); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(0,200,83,0.3); }
+
+/* ═══════════════════════════════════════════
+   MODAL
+═══════════════════════════════════════════ */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px;
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+.modal-overlay.open { opacity: 1; visibility: visible; }
+
+.modal {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px 28px;
+  max-width: 480px; width: 100%;
+  text-align: center;
+  transform: scale(0.85) translateY(20px);
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  position: relative; overflow: hidden;
+}
+.modal-overlay.open .modal {
+  transform: scale(1) translateY(0);
+}
+.modal::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.modal.win::before  { background: linear-gradient(90deg, var(--green), var(--blue)); }
+.modal.lose::before { background: linear-gradient(90deg, var(--red), var(--gold)); }
+
+.modal-icon { font-size: 3.5rem; margin-bottom: 12px; animation: iconPop 0.5s ease 0.2s both; }
+.modal-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.5rem; font-weight: 700;
+  margin-bottom: 8px;
+}
+.modal.win  .modal-title { color: var(--green); }
+.modal.lose .modal-title { color: var(--red); }
+.modal-player {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem; color: var(--gold);
+  margin-bottom: 6px;
+}
+.modal-subtitle {
+  color: var(--text-dim); font-size: 0.85rem;
+  margin-bottom: 20px;
+}
+.modal-stats {
+  display: flex; justify-content: center; gap: 24px;
+  background: var(--bg3);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+.modal-stat-val { font-family: 'Cinzel', serif; font-size: 1.3rem; color: var(--gold); }
+.modal-stat-lbl { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; }
+.modal-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  color: #0A0A0F;
+  transition: all 0.2s;
+}
+.modal-btn:hover { filter: brightness(1.15); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(200,155,60,0.3); }
+
+/* ═══════════════════════════════════════════
+   CONFETTI (win)
+═══════════════════════════════════════════ */
+.confetti-piece {
+  position: absolute;
+  width: 8px; height: 8px;
+  border-radius: 2px;
+  animation: confetti 1.2s ease forwards;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════════ */
+@keyframes fadeDown  { from { opacity:0; transform:translateY(-16px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeUp    { from { opacity:0; transform:translateY(16px);  } to { opacity:1; transform:translateY(0); } }
+@keyframes slideIn   { from { opacity:0; transform:translateX(-12px); } to { opacity:1; transform:translateX(0); } }
+@keyframes pulse     { 0%,100%{box-shadow:0 0 0 0 rgba(200,155,60,0.6);} 50%{box-shadow:0 0 0 6px rgba(200,155,60,0);} }
+@keyframes morePulse { 0%,100%{opacity:0.3;} 50%{opacity:1;} }
+@keyframes iconPop   { from{transform:scale(0) rotate(-20deg);} to{transform:scale(1) rotate(0);} }
+@keyframes confetti  { 0%{transform:translate(0,0) rotate(0);opacity:1;} 100%{transform:translate(var(--cx),var(--cy)) rotate(720deg);opacity:0;} }
+@keyframes shake     { 0%,100%{transform:translateX(0);} 20%,60%{transform:translateX(-6px);} 40%,80%{transform:translateX(6px);} }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo-icon">⚔</div>
+    <h1>LoL Career Guess</h1>
+    <p class="subtitle">Adivina al jugador por su trayectoria</p>
+  </header>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat-value" id="stat-wins">0</div>
+      <div class="stat-label">Victorias</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value" id="stat-played">0</div>
+      <div class="stat-label">Jugados</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value" id="stat-streak">0</div>
+      <div class="stat-label">Racha</div>
+    </div>
+  </div>
+
+  <!-- PROGRESS DOTS -->
+  <div class="progress-dots" id="progress-dots"></div>
+
+  <!-- TIMELINE -->
+  <div class="timeline-card">
+    <div class="timeline-title">Trayectoria Revelada</div>
+    <div class="timeline" id="timeline"></div>
+  </div>
+
+  <!-- HINTS LOG -->
+  <div class="hints-log" id="hints-log"></div>
+
+  <!-- INPUT -->
+  <div class="input-section">
+    <div class="input-wrapper">
+      <input type="text" class="guess-input" id="guess-input"
+             placeholder="Escribe el nombre del jugador…"
+             autocomplete="off" spellcheck="false">
+      <div class="autocomplete-list" id="autocomplete-list"></div>
+    </div>
+    <div class="action-buttons">
+      <button class="btn btn-submit" id="btn-submit">⚔ Adivinar</button>
+      <button class="btn btn-hint"   id="btn-hint">💡 Pista</button>
+      <button class="btn btn-skip"   id="btn-skip">⏭ Saltar</button>
+    </div>
+  </div>
+
+  <!-- NEXT BUTTON (shown after round ends) -->
+  <button class="btn btn-next" id="btn-next">▶ Siguiente Jugador</button>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" id="modal">
+    <div class="modal-icon" id="modal-icon"></div>
+    <div class="modal-title" id="modal-title"></div>
+    <div class="modal-player" id="modal-player"></div>
+    <div class="modal-subtitle" id="modal-subtitle"></div>
+    <div class="modal-stats">
+      <div class="modal-stat">
+        <div class="modal-stat-val" id="modal-wins">0</div>
+        <div class="modal-stat-lbl">Victorias</div>
+      </div>
+      <div class="modal-stat">
+        <div class="modal-stat-val" id="modal-played">0</div>
+        <div class="modal-stat-lbl">Jugados</div>
+      </div>
+      <div class="modal-stat">
+        <div class="modal-stat-val" id="modal-streak">0</div>
+        <div class="modal-stat-lbl">Racha</div>
+      </div>
+    </div>
+    <button class="modal-btn" id="modal-btn">▶ Siguiente Jugador</button>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   DATABASE
+═══════════════════════════════════════════════════════════════ */
+const PLAYERS = [
+  {
+    name: "Faker", position: "Mid",
+    hint: "El inmortal. Considerado universalmente el mejor jugador de LoL de todos los tiempos. Tres veces Campeón Mundial con SKT/T1.",
+    career: [
+      { year: "2013", team: "SK Telecom T1 2", region: "LCK" },
+      { year: "2013–18", team: "SK Telecom T1", region: "LCK" },
+      { year: "2019–25", team: "T1", region: "LCK" },
+    ]
+  },
+  {
+    name: "Uzi", position: "Bot",
+    hint: "El ADC legendario chino. Conocido por su mecánica agresiva y por haber sido dos veces subcampeón mundial con Royal Never Give Up.",
+    career: [
+      { year: "2012–13", team: "Royal Club", region: "LPL" },
+      { year: "2014", team: "Samsung White (Loan)", region: "LCK" },
+      { year: "2015–19", team: "Royal Never Give Up", region: "LPL" },
+    ]
+  },
+  {
+    name: "Caps", position: "Mid",
+    hint: "El Baby Faker europeo. Campeón mundial con G2 Esports en 2022 y múltiples veces campeón de la LEC.",
+    career: [
+      { year: "2017", team: "Fnatic", region: "LEC" },
+      { year: "2018–25", team: "G2 Esports", region: "LEC" },
+    ]
+  },
+  {
+    name: "Bjergsen", position: "Mid",
+    hint: "El rey de la LCS norteamericana durante casi una década. Jugó 8 temporadas con Team SoloMid (TSM).",
+    career: [
+      { year: "2013", team: "Copenhagen Wolves", region: "LEC" },
+      { year: "2014–21", team: "TSM", region: "LCS" },
+      { year: "2022", team: "Team Liquid", region: "LCS" },
+      { year: "2023", team: "TSM (vuelta)", region: "LCS" },
+    ]
+  },
+  {
+    name: "Rekkles", position: "Bot",
+    hint: "El ADC sueco más exitoso de Europa. Campeón de la LEC varias veces con Fnatic y G2, y medallista de plata en Mundiales.",
+    career: [
+      { year: "2012–14", team: "Fnatic", region: "LEC" },
+      { year: "2015–20", team: "Fnatic", region: "LEC" },
+      { year: "2021", team: "G2 Esports", region: "LEC" },
+      { year: "2022", team: "NaVi", region: "LEC" },
+      { year: "2023–24", team: "Fnatic", region: "LEC" },
+    ]
+  },
+  {
+    name: "TheShy", position: "Top",
+    hint: "El top laner chino más agresivo. Campeón Mundial 2018 con Invictus Gaming gracias a su estilo ultraofensivo.",
+    career: [
+      { year: "2016", team: "Longzhu Gaming", region: "LCK" },
+      { year: "2017–22", team: "Invictus Gaming", region: "LPL" },
+      { year: "2023", team: "Weibo Gaming", region: "LPL" },
+      { year: "2024", team: "NIP", region: "LPL" },
+    ]
+  },
+  {
+    name: "Doinb", position: "Mid",
+    hint: "El midlaner no convencional chino. Campeón Mundial 2019 con FunPlus Phoenix jugando campeones de utilidad en mid.",
+    career: [
+      { year: "2014–15", team: "Royal Never Give Up", region: "LPL" },
+      { year: "2016", team: "QG Reapers", region: "LPL" },
+      { year: "2017–18", team: "Rogue Warriors", region: "LPL" },
+      { year: "2019–21", team: "FunPlus Phoenix", region: "LPL" },
+      { year: "2022", team: "LNG Esports", region: "LPL" },
+      { year: "2023", team: "KT Rolster", region: "LCK" },
+      { year: "2024", team: "FunPlus Phoenix", region: "LPL" },
+    ]
+  },
+  {
+    name: "ShowMaker", position: "Mid",
+    hint: "El midlaner coreano de alta mecánica. Campeón del Worlds 2020 con DWG KIA y conocido por su Zed y Orianna excepcionales.",
+    career: [
+      { year: "2019–23", team: "DAMWON Gaming / DWG KIA", region: "LCK" },
+      { year: "2024", team: "Dplus KIA", region: "LCK" },
+    ]
+  },
+  {
+    name: "Ruler", position: "Bot",
+    hint: "Campeón del Worlds 2022 con Gen.G. Es considerado uno de los mejores ADC de LCK por su consistencia y posicionamiento.",
+    career: [
+      { year: "2016–22", team: "Samsung Galaxy / Gen.G", region: "LCK" },
+      { year: "2023", team: "JDG Intel Esports Club", region: "LPL" },
+      { year: "2024", team: "Gen.G", region: "LCK" },
+    ]
+  },
+  {
+    name: "Deft", position: "Bot",
+    hint: "Campeón del Worlds 2022 con DRX a sus 27 años en lo que fue una de las historias más emotivas de los esports.",
+    career: [
+      { year: "2013", team: "CJ Entus", region: "LCK" },
+      { year: "2014–15", team: "Samsung Blue / White", region: "LCK" },
+      { year: "2016", team: "EDward Gaming", region: "LPL" },
+      { year: "2017", team: "Samsung Galaxy", region: "LCK" },
+      { year: "2018–19", team: "kt Rolster", region: "LCK" },
+      { year: "2020–22", team: "DRX", region: "LCK" },
+      { year: "2023", team: "Hanwha Life", region: "LCK" },
+      { year: "2024", team: "T1", region: "LCK" },
+    ]
+  },
+  {
+    name: "Chovy", position: "Mid",
+    hint: "Considerado el mejor CS-er midlaner de la historia. Ha sido el jugador con más KDA en varias temporadas de LCK.",
+    career: [
+      { year: "2018–19", team: "Griffin", region: "LCK" },
+      { year: "2020", team: "DRX", region: "LCK" },
+      { year: "2021–25", team: "Gen.G", region: "LCK" },
+    ]
+  },
+  {
+    name: "Perkz", position: "Mid",
+    hint: "El jugador europeo más versátil. Ha jugado mid y bot, ganado múltiples LEC títulos con G2, y jugado en Cloud9 en LCS.",
+    career: [
+      { year: "2015–20", team: "G2 Esports", region: "LEC" },
+      { year: "2021", team: "Cloud9", region: "LCS" },
+      { year: "2022", team: "Vitality", region: "LEC" },
+      { year: "2023", team: "G2 Esports", region: "LEC" },
+      { year: "2024", team: "Karmine Corp", region: "LEC" },
+    ]
+  },
+  {
+    name: "Jankos", position: "Jungle",
+    hint: "El jungla polaco más exitoso de Europa. Ganó múltiples LEC títulos con G2 Esports, conocido por su estilo de juego caótico y entretenido.",
+    career: [
+      { year: "2013", team: "Giants Gaming", region: "LEC" },
+      { year: "2014–15", team: "Roccat", region: "LEC" },
+      { year: "2016–17", team: "H2K Gaming", region: "LEC" },
+      { year: "2018–21", team: "G2 Esports", region: "LEC" },
+      { year: "2022", team: "Cloud9", region: "LCS" },
+      { year: "2023", team: "Excel Esports", region: "LEC" },
+      { year: "2024", team: "Team Heretics", region: "LEC" },
+    ]
+  },
+  {
+    name: "Doublelift", position: "Bot",
+    hint: "La estrella de la LCS norteamericana durante más de una década. Conocido tanto por su habilidad como por su personalidad carismática.",
+    career: [
+      { year: "2011–13", team: "Counter Logic Gaming", region: "LCS" },
+      { year: "2014–17", team: "Team SoloMid", region: "LCS" },
+      { year: "2018–19", team: "Team Liquid", region: "LCS" },
+      { year: "2019–20", team: "TSM", region: "LCS" },
+      { year: "2021", team: "Team SoloMid", region: "LCS" },
+    ]
+  },
+  {
+    name: "CoreJJ", position: "Support",
+    hint: "Campeón del Worlds 2017 con Samsung Galaxy. Considerado uno de los mejores soportes del mundo en múltiples temporadas.",
+    career: [
+      { year: "2013–15", team: "Various Korean teams", region: "LCK" },
+      { year: "2016", team: "Jin Air Green Wings", region: "LCK" },
+      { year: "2017", team: "Samsung Galaxy", region: "LCK" },
+      { year: "2018–22", team: "Team Liquid", region: "LCS" },
+      { year: "2023", team: "Golden Guardians", region: "LCS" },
+      { year: "2024", team: "T1", region: "LCK" },
+    ]
+  },
+  {
+    name: "Viper", position: "Bot",
+    hint: "El ADC chino de EDG. Campeón Mundial 2021 con Edward Gaming, derrotando a DWG KIA en una de las finales más emocionantes.",
+    career: [
+      { year: "2019–22", team: "Edward Gaming", region: "LPL" },
+      { year: "2023", team: "Hanwha Life", region: "LCK" },
+      { year: "2024", team: "Edward Gaming", region: "LPL" },
+    ]
+  },
+  {
+    name: "Scout", position: "Mid",
+    hint: "El coreano que emigró a China. Campeón Mundial 2021 con EDG, conocido por su consistencia a lo largo de los años en LPL.",
+    career: [
+      { year: "2015", team: "SKT T1 (sub)", region: "LCK" },
+      { year: "2016–22", team: "Edward Gaming", region: "LPL" },
+      { year: "2023–24", team: "JDG Intel Esports Club", region: "LPL" },
+    ]
+  },
+  {
+    name: "Knight", position: "Mid",
+    hint: "El midlaner de LPL más dominante de su época. Finalista del Worlds 2023 con JDG, conocido por su agresividad en lane.",
+    career: [
+      { year: "2018–19", team: "Snake Esports / eStar", region: "LPL" },
+      { year: "2020–21", team: "Top Esports", region: "LPL" },
+      { year: "2022–24", team: "JDG Intel Esports Club", region: "LPL" },
+    ]
+  },
+  {
+    name: "Zeus", position: "Top",
+    hint: "El sucesor de Faker en T1. Campeón del Worlds 2023 y considerado el mejor top laner del mundo en 2023-2024.",
+    career: [
+      { year: "2021–25", team: "T1", region: "LCK" },
+    ]
+  },
+  {
+    name: "Keria", position: "Support",
+    hint: "El soporte prodigio de T1. Campeón del Worlds 2023 y apodado el mejor support de la historia por muchos analistas.",
+    career: [
+      { year: "2020", team: "DRX", region: "LCK" },
+      { year: "2021–25", team: "T1", region: "LCK" },
+    ]
+  },
+  {
+    name: "Smeb", position: "Top",
+    hint: "El mejor top laner del mundo en 2016. Finalista del Worlds 2016 con ROX Tigers, perdiendo ante SKT T1 en semifinales épicas.",
+    career: [
+      { year: "2013–14", team: "CJ Entus", region: "LCK" },
+      { year: "2015", team: "GE Tigers", region: "LCK" },
+      { year: "2016", team: "ROX Tigers", region: "LCK" },
+      { year: "2017–18", team: "kt Rolster", region: "LCK" },
+      { year: "2019–20", team: "Griffin", region: "LCK" },
+    ]
+  },
+  {
+    name: "Mata", position: "Support",
+    hint: "Campeón del Worlds 2014 con Samsung White. Considerado revolucionario del rol support y uno de los mejores de la historia.",
+    career: [
+      { year: "2012–14", team: "Samsung White", region: "LCK" },
+      { year: "2015", team: "Royal Never Give Up", region: "LPL" },
+      { year: "2016–18", team: "Various Korean teams", region: "LCK" },
+      { year: "2019–20", team: "kt Rolster", region: "LCK" },
+    ]
+  },
+  {
+    name: "Bang", position: "Bot",
+    hint: "Dos veces Campeón Mundial con SKT T1 (2015 y 2016). Considerado un top-3 ADC histórico de la LCK.",
+    career: [
+      { year: "2014–18", team: "SK Telecom T1", region: "LCK" },
+      { year: "2019–20", team: "100 Thieves / Evil Geniuses", region: "LCS" },
+      { year: "2021–22", team: "KT Rolster", region: "LCK" },
+    ]
+  },
+  {
+    name: "Rookie", position: "Mid",
+    hint: "Campeón Mundial 2018 con Invictus Gaming. Dejó LCK para dominar la LPL y es considerado el mejor import coreano en China.",
+    career: [
+      { year: "2013", team: "SKT T1 S (sub)", region: "LCK" },
+      { year: "2014", team: "CJ Entus", region: "LCK" },
+      { year: "2015–22", team: "Invictus Gaming", region: "LPL" },
+      { year: "2023", team: "Weibo Gaming", region: "LPL" },
+    ]
+  },
+  {
+    name: "Tian", position: "Jungle",
+    hint: "Campeón Mundial 2019 con FunPlus Phoenix. Conocido por su agresividad en early game y sus mecánicas de Olaf.",
+    career: [
+      { year: "2018–21", team: "FunPlus Phoenix", region: "LPL" },
+      { year: "2022", team: "Cloud9", region: "LCS" },
+      { year: "2023", team: "Weibo Gaming", region: "LPL" },
+    ]
+  },
+  {
+    name: "Meiko", position: "Support",
+    hint: "El soporte icónico de EDG. Ha pasado toda su carrera con Edward Gaming siendo el support más leal de la LPL.",
+    career: [
+      { year: "2014–24", team: "Edward Gaming", region: "LPL" },
+    ]
+  },
+  {
+    name: "Wunder", position: "Top",
+    hint: "El top laner danés de G2. Múltiples veces campeón de la LEC, conocido por su piscine de campeones y su shotcalling.",
+    career: [
+      { year: "2016–17", team: "Splyce", region: "LEC" },
+      { year: "2018–21", team: "G2 Esports", region: "LEC" },
+      { year: "2022–23", team: "Cloud9 / NRG", region: "LCS" },
+      { year: "2024", team: "G2 Esports", region: "LEC" },
+    ]
+  },
+  {
+    name: "Jensen", position: "Mid",
+    hint: "El midlaner danés que se convirtió en pilar de la LCS. Ha competido en Worlds con C9 y Team Liquid múltiples veces.",
+    career: [
+      { year: "2015–17", team: "Cloud9", region: "LCS" },
+      { year: "2018–20", team: "Team Liquid", region: "LCS" },
+      { year: "2021", team: "Cloud9", region: "LCS" },
+      { year: "2022–24", team: "Team Liquid", region: "LCS" },
+    ]
+  },
+  {
+    name: "Sneaky", position: "Bot",
+    hint: "El ADC icónico de Cloud9. Pasó casi toda su carrera con C9 y es recordado por sus cosplays fuera del juego.",
+    career: [
+      { year: "2013–19", team: "Cloud9", region: "LCS" },
+    ]
+  },
+  {
+    name: "xPeke", position: "Mid",
+    hint: "La leyenda europea. Su backdoor con Kassadin contra SK Gaming en 2013 es uno de los momentos más icónicos de LoL esports.",
+    career: [
+      { year: "2011–14", team: "Fnatic", region: "LEC" },
+      { year: "2015–17", team: "Origen (fundador)", region: "LEC" },
+    ]
+  },
+  {
+    name: "sOAZ", position: "Top",
+    hint: "El top laner más longevo de Europa. Pasó muchos años en Fnatic y Origen siendo un pilar del equipo europeo.",
+    career: [
+      { year: "2011–13", team: "Fnatic", region: "LEC" },
+      { year: "2014", team: "Fnatic", region: "LEC" },
+      { year: "2015–16", team: "Origen", region: "LEC" },
+      { year: "2017–18", team: "Fnatic", region: "LEC" },
+      { year: "2019", team: "Misfits Gaming", region: "LEC" },
+    ]
+  },
+  {
+    name: "Pray", position: "Bot",
+    hint: "Finalista del Worlds 2016 con ROX Tigers. Conocido por su dúo legendario con Gorilla y su consistencia en LCK.",
+    career: [
+      { year: "2013–14", team: "NaJin White Shield", region: "LCK" },
+      { year: "2015", team: "GE Tigers", region: "LCK" },
+      { year: "2016", team: "ROX Tigers", region: "LCK" },
+      { year: "2017–18", team: "kt Rolster", region: "LCK" },
+    ]
+  },
+  {
+    name: "Gorilla", position: "Support",
+    hint: "La otra mitad del dúo Pray-Gorilla. Finalista del Worlds 2016, ganó el campeonato mundial más tarde como coach con Gen.G.",
+    career: [
+      { year: "2013–14", team: "NaJin White Shield", region: "LCK" },
+      { year: "2015", team: "GE Tigers", region: "LCK" },
+      { year: "2016", team: "ROX Tigers", region: "LCK" },
+      { year: "2017", team: "kt Rolster", region: "LCK" },
+      { year: "2018", team: "Royal Never Give Up", region: "LPL" },
+    ]
+  },
+  {
+    name: "Piglet", position: "Bot",
+    hint: "Campeón del Worlds 2013 con SKT T1. Fue el primer ADC coreano en competir en la LCS norteamericana.",
+    career: [
+      { year: "2012–13", team: "SK Telecom T1", region: "LCK" },
+      { year: "2014", team: "Team Liquid", region: "LCS" },
+      { year: "2015–18", team: "Various NA teams", region: "LCS" },
+    ]
+  },
+  {
+    name: "Peanut", position: "Jungle",
+    hint: "Campeón del Worlds 2017 con Samsung Galaxy. Pasó por SKT, ROX, KT y más equipos, siendo muy versátil.",
+    career: [
+      { year: "2015", team: "ROX Tigers", region: "LCK" },
+      { year: "2016", team: "ROX Tigers", region: "LCK" },
+      { year: "2017", team: "SK Telecom T1", region: "LCK" },
+      { year: "2017", team: "Samsung Galaxy", region: "LCK" },
+      { year: "2018–20", team: "kt Rolster / others", region: "LCK" },
+    ]
+  },
+  {
+    name: "Huni", position: "Top",
+    hint: "El top laner finlandés conocido por su estilo agresivo y poco ortodoxo. Jugó en Fnatic, SKT, y varias ligas.",
+    career: [
+      { year: "2015", team: "Fnatic", region: "LEC" },
+      { year: "2016", team: "Immortals", region: "LCS" },
+      { year: "2017", team: "SK Telecom T1", region: "LCK" },
+      { year: "2018–19", team: "Clutch Gaming / Echo Fox", region: "LCS" },
+      { year: "2020", team: "Dignitas", region: "LCS" },
+    ]
+  },
+  {
+    name: "Ambition", position: "Jungle",
+    hint: "Campeón del Worlds 2017 con Samsung Galaxy. Empezó como midlaner y se convirtió en uno de los mejores junglas de LCK.",
+    career: [
+      { year: "2012–13", team: "CJ Entus (Mid)", region: "LCK" },
+      { year: "2014", team: "Samsung Blue (Mid)", region: "LCK" },
+      { year: "2015–17", team: "Samsung Galaxy (Jungle)", region: "LCK" },
+      { year: "2018", team: "Gen.G (Jungle)", region: "LCK" },
+    ]
+  },
+  {
+    name: "Broxah", position: "Jungle",
+    hint: "El jungla danés de Fnatic. Llevó a Fnatic a la final del Worlds 2018 y después jugó en Team Liquid en LCS.",
+    career: [
+      { year: "2017–19", team: "Fnatic", region: "LEC" },
+      { year: "2020", team: "Team Liquid", region: "LCS" },
+      { year: "2021–22", team: "CLG / Counter Logic Gaming", region: "LCS" },
+    ]
+  },
+  {
+    name: "Mikyx", position: "Support",
+    hint: "El soporte esloveno de G2. Múltiples veces campeón de la LEC, conocido por su Nautilus y sus jugadas de iniciación.",
+    career: [
+      { year: "2017", team: "Splyce", region: "LEC" },
+      { year: "2018", team: "Misfits Gaming", region: "LEC" },
+      { year: "2019–21", team: "G2 Esports", region: "LEC" },
+      { year: "2022", team: "Excel Esports", region: "LEC" },
+      { year: "2023–24", team: "G2 Esports", region: "LEC" },
+    ]
+  },
+  {
+    name: "Zven", position: "Bot",
+    hint: "El ADC danés que jugó en G2 y luego se fue a LCS con TSM y C9. Conocido por su precisión en teamfights.",
+    career: [
+      { year: "2015", team: "Elements / SK Gaming", region: "LEC" },
+      { year: "2016–17", team: "G2 Esports", region: "LEC" },
+      { year: "2018–19", team: "TSM", region: "LCS" },
+      { year: "2020–22", team: "Cloud9", region: "LCS" },
+    ]
+  },
+  {
+    name: "Bwipo", position: "Top",
+    hint: "El top laner belga de Fnatic y posteriormente TL. Conocido por su enorme piscine y su estilo de juego hipercarry.",
+    career: [
+      { year: "2018–21", team: "Fnatic", region: "LEC" },
+      { year: "2022", team: "Team Liquid", region: "LCS" },
+      { year: "2023", team: "NRG Esports", region: "LCS" },
+      { year: "2024", team: "Fnatic", region: "LEC" },
+    ]
+  },
+  {
+    name: "Karsa", position: "Jungle",
+    hint: "El jungla taiwanés que domino la LPL con Royal Never Give Up y ganó reconocimiento mundial por su Olaf y Lee Sin.",
+    career: [
+      { year: "2014–15", team: "Flash Wolves", region: "OTHER" },
+      { year: "2016–17", team: "Flash Wolves", region: "OTHER" },
+      { year: "2018–20", team: "Royal Never Give Up", region: "LPL" },
+      { year: "2021", team: "Top Esports", region: "LPL" },
+    ]
+  },
+  {
+    name: "Xiaohu", position: "Mid",
+    hint: "El midlaner estrella de RNG. Dos veces finalista del Worlds con Royal Never Give Up y luego jugó como top laner.",
+    career: [
+      { year: "2015–22", team: "Royal Never Give Up", region: "LPL" },
+      { year: "2023", team: "JDG Intel Esports Club", region: "LPL" },
+    ]
+  },
+  {
+    name: "369", position: "Top",
+    hint: "El top laner de JDG. Finalista del Worlds 2023, conocido por su versatilidad y su habilidad para jugar tanto carries como tanks.",
+    career: [
+      { year: "2019–20", team: "JDG Intel Esports Club", region: "LPL" },
+      { year: "2021", team: "Top Esports", region: "LPL" },
+      { year: "2022–24", team: "JDG Intel Esports Club", region: "LPL" },
+    ]
+  },
+  {
+    name: "Oner", position: "Jungle",
+    hint: "El jungla de T1. Campeón del Worlds 2023 y reconocido por su agresividad en early game y su sinergia con Faker.",
+    career: [
+      { year: "2022–25", team: "T1", region: "LCK" },
+    ]
+  },
+  {
+    name: "Gumayusi", position: "Bot",
+    hint: "El ADC de T1. Campeón del Worlds 2023, conocido por su mecánica excepcional en Tristana y Ezreal.",
+    career: [
+      { year: "2020–25", team: "T1", region: "LCK" },
+    ]
+  },
+  {
+    name: "Clearlove", position: "Jungle",
+    hint: "El jungla de EDG durante años. Uno de los junglas más icónicos de la LPL, conocido por su Jarvan y Evelynn.",
+    career: [
+      { year: "2012–14", team: "Various LPL teams", region: "LPL" },
+      { year: "2015–19", team: "Edward Gaming", region: "LPL" },
+    ]
+  },
+  {
+    name: "Ming", position: "Support",
+    hint: "El soporte de RNG. Campeón del MSI 2018 junto a Uzi, conocido por su Tahm Kench y sus salvadas imposibles.",
+    career: [
+      { year: "2016–22", team: "Royal Never Give Up", region: "LPL" },
+      { year: "2023", team: "Bilibili Gaming", region: "LPL" },
+    ]
+  },
+  {
+    name: "Jiejie", position: "Jungle",
+    hint: "El jungla de EDG que ganó el Worlds 2021. Conocido por su Lee Sin y su capacidad para generar ventaja en early.",
+    career: [
+      { year: "2019–23", team: "Edward Gaming", region: "LPL" },
+      { year: "2024", team: "BLG", region: "LPL" },
+    ]
+  },
+  {
+    name: "Clid", position: "Jungle",
+    hint: "Campeón del Worlds 2019 con SKT T1/FPX. El jungla coreano que fue parte del equipo de Faker en su regreso al trono.",
+    career: [
+      { year: "2019", team: "SK Telecom T1", region: "LCK" },
+      { year: "2020–21", team: "KT Rolster", region: "LCK" },
+      { year: "2022", team: "JDG Intel Esports Club", region: "LPL" },
+    ]
+  },
+  {
+    name: "Wolf", position: "Support",
+    hint: "Dos veces Campeón Mundial con SKT T1 (2015, 2016). El soporte silencioso que complementó perfectamente a Bang.",
+    career: [
+      { year: "2014–18", team: "SK Telecom T1", region: "LCK" },
+      { year: "2019", team: "Longzhu / KSV", region: "LCK" },
+    ]
+  },
+  {
+    name: "Teddy", position: "Bot",
+    hint: "El ADC de T1/SKT. Conocido como el sucesor de Bang, fue una pieza clave del equipo junto a Faker en 2019.",
+    career: [
+      { year: "2017–18", team: "Jin Air Green Wings", region: "LCK" },
+      { year: "2019–23", team: "T1 / SK Telecom T1", region: "LCK" },
+      { year: "2024", team: "Nongshim RedForce", region: "LCK" },
+    ]
+  },
+  {
+    name: "Svenskeren", position: "Jungle",
+    hint: "El jungla danés de SKT, TSM y más. Conocido por su Gragas y por su paso por múltiples equipos top de LCK y LCS.",
+    career: [
+      { year: "2013–15", team: "SK Gaming", region: "LEC" },
+      { year: "2016–17", team: "TSM", region: "LCS" },
+      { year: "2018", team: "SK Telecom T1", region: "LCK" },
+      { year: "2019–20", team: "Cloud9 / Evil Geniuses", region: "LCS" },
+    ]
+  },
+  {
+    name: "Impact", position: "Top",
+    hint: "Campeón del Worlds 2013 con SKT T1. Emigró a LCS con Team Liquid y se convirtió en un referente top laner de NA.",
+    career: [
+      { year: "2012–13", team: "SK Telecom T1", region: "LCK" },
+      { year: "2014–19", team: "Team Liquid / others", region: "LCS" },
+      { year: "2020–23", team: "100 Thieves", region: "LCS" },
+    ]
+  },
+  {
+    name: "Xmithie", position: "Jungle",
+    hint: "El jungla de Team Liquid que llegó a semifinales del Worlds 2018. Conocido por su shotcalling y visión control.",
+    career: [
+      { year: "2012–16", team: "Counter Logic Gaming", region: "LCS" },
+      { year: "2017–19", team: "Team Liquid", region: "LCS" },
+      { year: "2020", team: "Immortals", region: "LCS" },
+    ]
+  },
+  {
+    name: "Nemesis", position: "Mid",
+    hint: "El midlaner esloveno de Fnatic. Llevó a Fnatic a semifinales del Worlds 2019 con su Ryze y TF.",
+    career: [
+      { year: "2019–20", team: "Fnatic", region: "LEC" },
+      { year: "2021", team: "Team Vitality", region: "LEC" },
+      { year: "2022", team: "FL Esports", region: "LPL" },
+    ]
+  },
+  {
+    name: "Ryu", position: "Mid",
+    hint: "El midlaner coreano famoso por su duel épico contra Faker con Zed en 2013, considerado el mejor 1v1 de la historia de LoL.",
+    career: [
+      { year: "2012–14", team: "KT Rolster Bullets", region: "LCK" },
+      { year: "2015–16", team: "H2K Gaming", region: "LEC" },
+      { year: "2017–18", team: "Phoenix1 / 100 Thieves", region: "LCS" },
+    ]
+  },
+];
+
+/* ═══════════════════════════════════════════════════════════════
+   STATE MANAGER (Single Source of Truth)
+═══════════════════════════════════════════════════════════════ */
+const State = (() => {
+  const MAX_ATTEMPTS = 6;
+  const INITIAL_REVEAL = 2;
+
+  let state = {
+    currentPlayer: null,
+    attempts: [],          // { name, correct }[]
+    hintsUsed: [],         // log entries
+    revealedCount: INITIAL_REVEAL,
+    hintUsed: false,
+    roundOver: false,
+    won: false,
+    queue: [],             // shuffled player indices not yet played
+    stats: { wins: 0, played: 0, streak: 0 },
+  };
+
+  const load = () => {
+    try {
+      const s = JSON.parse(localStorage.getItem('lolguess_stats') || '{}');
+      if (s.wins   !== undefined) state.stats.wins   = s.wins;
+      if (s.played !== undefined) state.stats.played = s.played;
+      if (s.streak !== undefined) state.stats.streak = s.streak;
+    } catch(e) {}
+  };
+  const save = () => {
+    localStorage.setItem('lolguess_stats', JSON.stringify(state.stats));
+  };
+  const resetQueue = () => {
+    state.queue = [...Array(PLAYERS.length).keys()].sort(() => Math.random() - 0.5);
+  };
+  const nextPlayer = () => {
+    if (!state.queue.length) resetQueue();
+    const idx = state.queue.pop();
+    state.currentPlayer = PLAYERS[idx];
+    state.attempts = [];
+    state.hintsUsed = [];
+    state.revealedCount = Math.min(INITIAL_REVEAL, state.currentPlayer.career.length);
+    state.hintUsed = false;
+    state.roundOver = false;
+    state.won = false;
+  };
+  const guess = (name) => {
+    if (state.roundOver) return null;
+    const correct = name.trim().toLowerCase() === state.currentPlayer.name.toLowerCase();
+    state.attempts.push({ name, correct });
+    if (correct) {
+      state.won = true;
+      state.roundOver = true;
+      state.stats.wins++;
+      state.stats.played++;
+      state.stats.streak++;
+      save();
+      return { correct: true };
+    }
+    // Auto hint
+    const hint = generateAutoHint(name);
+    state.hintsUsed.push({ type: 'wrong', text: `"${name}" es incorrecto.`, detail: hint });
+    // Reveal more
+    if (state.revealedCount < state.currentPlayer.career.length) {
+      state.revealedCount++;
+    }
+    if (state.attempts.length >= MAX_ATTEMPTS) {
+      state.roundOver = true;
+      state.won = false;
+      state.stats.played++;
+      state.stats.streak = 0;
+      save();
+      return { correct: false, finished: true };
+    }
+    return { correct: false, finished: false };
+  };
+  const useHint = () => {
+    if (state.hintUsed || state.roundOver) return false;
+    state.hintUsed = true;
+    state.hintsUsed.push({ type: 'manual', text: state.currentPlayer.hint });
+    // costs 1 attempt slot
+    state.attempts.push({ name: '💡 Pista usada', correct: false, isHint: true });
+    if (state.attempts.length >= MAX_ATTEMPTS) {
+      state.roundOver = true;
+      state.won = false;
+      state.stats.played++;
+      state.stats.streak = 0;
+      save();
+      return { used: true, finished: true };
+    }
+    return { used: true, finished: false };
+  };
+  const skip = () => {
+    if (!state.roundOver) {
+      state.roundOver = true;
+      state.won = false;
+      state.stats.played++;
+      state.stats.streak = 0;
+      save();
+    }
+  };
+  const get = () => ({ ...state });
+  const getAttemptedNames = () => state.attempts.map(a => a.name.toLowerCase());
+  const getRemainingAttempts = () => MAX_ATTEMPTS - state.attempts.length;
+
+  load();
+  if (!state.queue.length) resetQueue();
+  nextPlayer();
+
+  return { get, guess, useHint, skip, nextPlayer, getAttemptedNames, getRemainingAttempts };
+})();
+
+/* ═══════════════════════════════════════════════════════════════
+   AUTO HINT GENERATOR
+═══════════════════════════════════════════════════════════════ */
+function generateAutoHint(guessedName) {
+  const target = State.get().currentPlayer;
+  const guessed = PLAYERS.find(p => p.name.toLowerCase() === guessedName.trim().toLowerCase());
+  if (!guessed) return `"${guessedName}" no está en nuestra base de datos.`;
+
+  const hints = [];
+
+  // Same role?
+  if (guessed.position === target.position) {
+    hints.push(`mismo rol (${target.position})`);
+  } else {
+    hints.push(`distinto rol (${guessed.position} vs ${target.position})`);
+  }
+
+  // Shared team?
+  const targetTeams = target.career.map(c => c.team.toLowerCase());
+  const guessedTeams = guessed.career.map(c => c.team.toLowerCase());
+  const shared = targetTeams.find(t => guessedTeams.includes(t));
+  if (shared) {
+    const original = target.career.find(c => c.team.toLowerCase() === shared).team;
+    hints.push(`ambos jugaron en <strong>${original}</strong>`);
+  }
+
+  // Debut year comparison
+  const targetDebut = parseInt(target.career[0].year);
+  const guessedDebut = parseInt(guessed.career[0].year);
+  if (!isNaN(targetDebut) && !isNaN(guessedDebut)) {
+    if (targetDebut > guessedDebut) hints.push(`el jugador buscado debutó más tarde (${targetDebut})`);
+    else if (targetDebut < guessedDebut) hints.push(`el jugador buscado debutó antes (${targetDebut})`);
+    else hints.push(`debutaron el mismo año (${targetDebut})`);
+  }
+
+  return hints.join(' · ');
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   AUTOCOMPLETE ENGINE
+═══════════════════════════════════════════════════════════════ */
+const Autocomplete = (() => {
+  let activeIndex = -1;
+  let items = [];
+
+  const filter = (query) => {
+    const attempted = State.getAttemptedNames();
+    const q = query.toLowerCase().trim();
+    if (!q) return [];
+    return PLAYERS
+      .filter(p => p.name.toLowerCase().includes(q) && !attempted.includes(p.name.toLowerCase()))
+      .slice(0, 8);
+  };
+
+  const render = (results, inputEl, listEl) => {
+    items = results;
+    activeIndex = -1;
+    if (!results.length) { listEl.classList.remove('open'); return; }
+    listEl.innerHTML = results.map((p, i) =>
+      `<div class="autocomplete-item" data-index="${i}" data-name="${p.name}">
+        ${highlightMatch(p.name, inputEl.value)}
+        <span class="autocomplete-pos">${p.position}</span>
+      </div>`
+    ).join('');
+    listEl.classList.add('open');
+  };
+
+  const highlightMatch = (name, query) => {
+    const q = query.trim();
+    if (!q) return name;
+    const idx = name.toLowerCase().indexOf(q.toLowerCase());
+    if (idx === -1) return name;
+    return name.slice(0, idx) +
+      `<strong style="color:var(--gold)">${name.slice(idx, idx + q.length)}</strong>` +
+      name.slice(idx + q.length);
+  };
+
+  const navigate = (dir, listEl) => {
+    const els = listEl.querySelectorAll('.autocomplete-item');
+    if (!els.length) return null;
+    if (dir === 1 && activeIndex < els.length - 1) activeIndex++;
+    else if (dir === -1 && activeIndex > 0) activeIndex--;
+    else if (dir === 1 && activeIndex === els.length - 1) activeIndex = 0;
+    else if (dir === -1 && activeIndex === 0) activeIndex = els.length - 1;
+    els.forEach((el, i) => el.classList.toggle('active', i === activeIndex));
+    return activeIndex >= 0 ? items[activeIndex]?.name : null;
+  };
+
+  const close = (listEl) => { listEl.classList.remove('open'); activeIndex = -1; };
+
+  const getActive = () => activeIndex >= 0 ? items[activeIndex]?.name : null;
+
+  return { filter, render, navigate, close, getActive };
+})();
+
+/* ═══════════════════════════════════════════════════════════════
+   RENDERER
+═══════════════════════════════════════════════════════════════ */
+const Renderer = (() => {
+
+  const regionClass = (r) => {
+    const map = { LCK:'LCK', LPL:'LPL', LEC:'LEC', LCS:'LCS' };
+    return map[r] || 'OTHER';
+  };
+
+  const renderTimeline = (player, revealedCount) => {
+    const el = document.getElementById('timeline');
+    const shown = player.career.slice(0, revealedCount);
+    const hidden = player.career.length - revealedCount;
+    el.innerHTML = shown.map(c => `
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <span class="timeline-year">${c.year}</span>
+        <span class="timeline-team">${c.team}</span>
+        <span class="region-badge ${regionClass(c.region)}">${c.region}</span>
+      </div>
+    `).join('') + (hidden > 0 ? `
+      <div class="timeline-more">
+        <div class="more-dots"><span></span><span></span><span></span></div>
+        <span>${hidden} etapa${hidden > 1 ? 's' : ''} más por revelar</span>
+      </div>
+    ` : '');
+  };
+
+  const renderDots = (attempts, maxAttempts) => {
+    const el = document.getElementById('progress-dots');
+    el.innerHTML = Array.from({ length: maxAttempts }, (_, i) => {
+      const a = attempts[i];
+      let cls = 'dot';
+      if (a) {
+        if (a.isHint) cls += ' hint';
+        else if (a.correct) cls += ' correct';
+        else cls += ' wrong';
+      } else if (i === attempts.length) {
+        cls += ' current';
+      }
+      return `<div class="${cls}"></div>`;
+    }).join('');
+  };
+
+  const renderHints = (hintsLog) => {
+    const el = document.getElementById('hints-log');
+    el.innerHTML = hintsLog.map(h => {
+      if (h.type === 'wrong') {
+        return `<div class="hint-item wrong">
+          <span class="hint-icon">✗</span>
+          <div><span class="hint-player">${h.text}</span>
+          ${h.detail ? `<br><span class="hint-text">${h.detail}</span>` : ''}</div>
+        </div>`;
+      }
+      if (h.type === 'manual') {
+        return `<div class="hint-item manual">
+          <span class="hint-icon">💡</span>
+          <span class="hint-text">${h.text}</span>
+        </div>`;
+      }
+      return '';
+    }).join('');
+  };
+
+  const renderStats = (stats) => {
+    document.getElementById('stat-wins').textContent   = stats.wins;
+    document.getElementById('stat-played').textContent = stats.played;
+    document.getElementById('stat-streak').textContent = stats.streak;
+  };
+
+  const update = () => {
+    const s = State.get();
+    renderTimeline(s.currentPlayer, s.revealedCount);
+    renderDots(s.attempts, 6);
+    renderHints(s.hintsUsed);
+    renderStats(s.stats);
+
+    const input = document.getElementById('guess-input');
+    const btnSubmit = document.getElementById('btn-submit');
+    const btnHint   = document.getElementById('btn-hint');
+    const btnSkip   = document.getElementById('btn-skip');
+    const btnNext   = document.getElementById('btn-next');
+
+    if (s.roundOver) {
+      input.disabled = true;
+      btnSubmit.disabled = true;
+      btnHint.disabled = true;
+      btnSkip.disabled = true;
+      btnNext.classList.add('visible');
+    } else {
+      input.disabled = false;
+      btnSubmit.disabled = false;
+      btnHint.disabled = s.hintUsed;
+      btnSkip.disabled = false;
+      btnNext.classList.remove('visible');
+    }
+  };
+
+  return { update };
+})();
+
+/* ═══════════════════════════════════════════════════════════════
+   MODAL CONTROLLER
+═══════════════════════════════════════════════════════════════ */
+const Modal = (() => {
+  const show = (won, player, stats, attempts) => {
+    const overlay = document.getElementById('modal-overlay');
+    const modal   = document.getElementById('modal');
+    modal.className = 'modal ' + (won ? 'win' : 'lose');
+    document.getElementById('modal-icon').textContent   = won ? '🏆' : '💀';
+    document.getElementById('modal-title').textContent  = won ? '¡Correcto!' : 'Ronda perdida';
+    document.getElementById('modal-player').textContent = player.name;
+    document.getElementById('modal-subtitle').textContent = won
+      ? `${player.position} · Adivinado en ${attempts.length} intento${attempts.length !== 1 ? 's' : ''}`
+      : `Era ${player.position} · ${player.career[0]?.year} – presente`;
+    document.getElementById('modal-wins').textContent   = stats.wins;
+    document.getElementById('modal-played').textContent = stats.played;
+    document.getElementById('modal-streak').textContent = stats.streak;
+
+    overlay.classList.add('open');
+
+    if (won) spawnConfetti(modal);
+  };
+  const hide = () => {
+    document.getElementById('modal-overlay').classList.remove('open');
+  };
+  return { show, hide };
+})();
+
+/* ═══════════════════════════════════════════════════════════════
+   CONFETTI
+═══════════════════════════════════════════════════════════════ */
+function spawnConfetti(parent) {
+  const colors = ['#C89B3C','#F0D270','#0BC4E3','#00C853','#E84057'];
+  for (let i = 0; i < 30; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    const cx = (Math.random() - 0.5) * 400 + 'px';
+    const cy = -(Math.random() * 300 + 100) + 'px';
+    piece.style.cssText = `
+      left:${Math.random()*100}%;
+      top:50%;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      --cx:${cx}; --cy:${cy};
+      animation-delay:${Math.random()*0.3}s;
+    `;
+    parent.appendChild(piece);
+    piece.addEventListener('animationend', () => piece.remove());
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GAME CONTROLLER
+═══════════════════════════════════════════════════════════════ */
+const Game = (() => {
+  const inputEl = () => document.getElementById('guess-input');
+  const listEl  = () => document.getElementById('autocomplete-list');
+
+  const submitGuess = () => {
+    const name = inputEl().value.trim();
+    if (!name) { shakeInput(); return; }
+    const result = State.guess(name);
+    if (!result) return;
+    inputEl().value = '';
+    Autocomplete.close(listEl());
+    Renderer.update();
+    if (result.correct || result.finished) {
+      const s = State.get();
+      setTimeout(() => Modal.show(s.won, s.currentPlayer, s.stats, s.attempts), 300);
+    }
+  };
+
+  const useHint = () => {
+    const result = State.useHint();
+    if (!result || !result.used) return;
+    Renderer.update();
+    if (result.finished) {
+      const s = State.get();
+      setTimeout(() => Modal.show(false, s.currentPlayer, s.stats, s.attempts), 300);
+    }
+  };
+
+  const skip = () => {
+    State.skip();
+    Renderer.update();
+    const s = State.get();
+    setTimeout(() => Modal.show(false, s.currentPlayer, s.stats, s.attempts), 200);
+  };
+
+  const nextRound = () => {
+    Modal.hide();
+    State.nextPlayer();
+    Renderer.update();
+    const input = inputEl();
+    input.value = '';
+    input.focus();
+    document.getElementById('hints-log').innerHTML = '';
+  };
+
+  const shakeInput = () => {
+    const el = inputEl();
+    el.style.animation = 'none';
+    void el.offsetWidth;
+    el.style.animation = 'shake 0.4s ease';
+    el.addEventListener('animationend', () => el.style.animation = '', { once: true });
+  };
+
+  const init = () => {
+    Renderer.update();
+
+    // Input events
+    inputEl().addEventListener('input', (e) => {
+      const results = Autocomplete.filter(e.target.value);
+      Autocomplete.render(results, inputEl(), listEl());
+    });
+
+    inputEl().addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') { e.preventDefault(); Autocomplete.navigate(1, listEl()); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); Autocomplete.navigate(-1, listEl()); }
+      else if (e.key === 'Enter') {
+        e.preventDefault();
+        const active = Autocomplete.getActive();
+        if (active) { inputEl().value = active; Autocomplete.close(listEl()); }
+        submitGuess();
+      }
+      else if (e.key === 'Escape') { Autocomplete.close(listEl()); }
+    });
+
+    // Autocomplete item click
+    listEl().addEventListener('mousedown', (e) => {
+      const item = e.target.closest('.autocomplete-item');
+      if (item) {
+        inputEl().value = item.dataset.name;
+        Autocomplete.close(listEl());
+        inputEl().focus();
+      }
+    });
+
+    // Close autocomplete on outside click
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.input-wrapper')) Autocomplete.close(listEl());
+    });
+
+    // Buttons
+    document.getElementById('btn-submit').addEventListener('click', submitGuess);
+    document.getElementById('btn-hint').addEventListener('click', useHint);
+    document.getElementById('btn-skip').addEventListener('click', skip);
+    document.getElementById('btn-next').addEventListener('click', nextRound);
+    document.getElementById('modal-btn').addEventListener('click', nextRound);
+  };
+
+  return { init };
+})();
+
+/* ═══════════════════════════════════════════════════════════════
+   BOOT
+═══════════════════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => Game.init());
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px}
+body{background:url('../dle/fondo1.jpg') center center/cover no-repeat fixed;background-color:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden}
+.bg-overlay{position:fixed;inset:0;background:rgba(1,10,19,0.72);pointer-events:none;z-index:0}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:3px}
+.app{position:relative;z-index:10;max-width:720px;margin:0 auto;padding:20px 12px 80px}

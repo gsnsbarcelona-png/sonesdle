@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DLE Games — Adivina el Pro Player</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gold:  { DEFAULT: '#c89b3c', light: '#f0e6d3', dark: '#785a28' },
+            lol:   {
+              bg:       '#010a13',
+              surface:  '#0a1428',
+              surface2: '#0f1e36',
+              border:   '#1e3a5f',
+              dim:      '#4a6080',
+              text:     '#c8d4e8',
+              teal:     '#0bc4c4',
+            },
+          },
+          fontFamily: {
+            cinzel:   ['Cinzel', 'serif'],
+            rajdhani: ['Rajdhani', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* ── Grid layout ────────────────────────────────────────── */
+    .game-grid {
+      display: grid;
+      grid-template-columns: 68px repeat(7, 1fr);
+      gap: 2px;
+    }
+    @media (min-width: 400px) {
+      .game-grid { grid-template-columns: 80px repeat(7, 1fr); gap: 3px; }
+    }
+    @media (min-width: 540px) {
+      .game-grid { grid-template-columns: 100px repeat(7, 1fr); }
+    }
+    @media (min-width: 768px) {
+      .game-grid { grid-template-columns: 130px repeat(7, 1fr); gap: 4px; }
+    }
+
+    /* ── Encabezados de columna ─────────────────────────────── */
+    .col-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 5px 1px;
+      color: #4a6080;
+      font-size: 0.5rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      gap: 2px;
+      border-radius: 4px 4px 0 0;
+    }
+    .col-icon { font-size: 0.85rem; }
+    @media (min-width: 400px) {
+      .col-header { font-size: 0.54rem; padding: 5px 2px; }
+      .col-icon   { font-size: 0.95rem; }
+    }
+    @media (min-width: 540px) {
+      .col-header { font-size: 0.6rem; }
+      .col-icon   { font-size: 1.05rem; }
+    }
+    @media (min-width: 768px) {
+      .col-header { font-size: 0.65rem; letter-spacing: 1.5px; padding: 6px 4px; }
+      .col-icon   { font-size: 1.1rem; }
+    }
+
+    /* ── Celdas base ────────────────────────────────────────── */
+    .cell {
+      height: 50px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 3px 2px;
+      border: 1px solid #1e3a5f;
+      background: #0a1428;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      border-radius: 4px;
+      /* estado inicial para la animacion */
+      opacity: 0;
+      transform: rotateY(90deg);
+    }
+    @media (min-width: 400px) {
+      .cell { height: 54px; font-size: 0.68rem; padding: 3px; }
+    }
+    @media (min-width: 540px) {
+      .cell { height: 58px; font-size: 0.72rem; }
+    }
+    @media (min-width: 768px) {
+      .cell { height: 66px; font-size: 0.8rem; padding: 4px 5px; border-radius: 6px; }
+    }
+
+    /* Celda de nombre (visible desde el principio, sin animacion) */
+    .cell-name {
+      border-color: #785a28;
+      background: #0f1e36;
+      color: #f0e6d3;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      border-radius: 4px;
+      opacity: 1;
+      transform: none;
+    }
+    @media (min-width: 540px)  { .cell-name { font-size: 0.78rem; } }
+    @media (min-width: 768px)  { .cell-name { font-size: 0.9rem; letter-spacing: 0.5px; border-radius: 6px; } }
+
+    /* Estados de celda */
+    .cell-correct { background: #0d3a1e; border-color: #00cc66; color: #a0ffcc; }
+    .cell-partial { background: #3a1f00; border-color: #cc6e00; color: #ffcc88; }
+    .cell-wrong   { background: #3a0d0d; border-color: #cc2222; color: #ffaaaa; }
+
+    /* Animacion flip reveal */
+    .cell-revealed {
+      animation: flipReveal 0.38s ease forwards;
+    }
+    @keyframes flipReveal {
+      from { opacity: 0; transform: rotateY(90deg); }
+      to   { opacity: 1; transform: rotateY(0deg);  }
+    }
+
+    /* Contenido de celda */
+    .cell-flag  { font-size: 1rem;  margin-bottom: 1px; }
+    .cell-text  { font-size: 0.6rem; line-height: 1.2; }
+    .cell-main  { font-size: 0.75rem; font-weight: 700; }
+    .cell-arrow { font-size: 0.85rem; margin-top: 1px; }
+    @media (min-width: 540px) {
+      .cell-flag  { font-size: 1.1rem; }
+      .cell-text  { font-size: 0.64rem; }
+      .cell-main  { font-size: 0.8rem; }
+    }
+    @media (min-width: 768px) {
+      .cell-flag  { font-size: 1.2rem; margin-bottom: 2px; }
+      .cell-text  { font-size: 0.68rem; line-height: 1.25; }
+      .cell-main  { font-size: 0.86rem; }
+      .cell-arrow { font-size: 0.95rem; }
+    }
+
+    /* ── Dropdown ───────────────────────────────────────────── */
+    .dd-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      cursor: pointer;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-bottom: 1px solid rgba(30,58,95,0.4);
+      transition: background 0.12s;
+    }
+    @media (min-width: 540px) {
+      .dd-item { gap: 10px; padding: 9px 14px; font-size: 0.92rem; }
+    }
+    .dd-item:last-child { border-bottom: none; }
+    .dd-item:hover,
+    .dd-item.dd-active  { background: rgba(200,155,60,0.1); color: #c89b3c; }
+    .dd-flag { font-size: 1.1rem; }
+    .dd-name { flex: 1; }
+    .dd-pos  { font-size: 0.65rem; color: #4a6080; letter-spacing: 1px; }
+
+    /* ── Victory overlay animation ──────────────────────────── */
+    @keyframes cardIn {
+      from { opacity: 0; transform: scale(0.88); }
+      to   { opacity: 1; transform: scale(1);    }
+    }
+    .victory-card { animation: cardIn 0.45s ease; }
+
+    /* ── Scrollbar ──────────────────────────────────────────── */
+    ::-webkit-scrollbar       { width: 5px; }
+    ::-webkit-scrollbar-track { background: #010a13; }
+    ::-webkit-scrollbar-thumb { background: #785a28; border-radius: 3px; }
+  </style>
+</head>
+
+<body class="text-lol-text font-rajdhani min-h-screen p-2 sm:p-3 md:p-5"
+      style="background: url('./fondo1.jpg') center center / cover no-repeat fixed; background-color: #010a13;">
+
+  <!-- Overlay oscuro sobre el fondo para mantener legibilidad -->
+  <div class="fixed inset-0 pointer-events-none z-0" style="background: rgba(1,10,19,0.72);"></div>
+
+  <!-- Particulas de fondo -->
+  <canvas id="canvas-particles" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+  <!-- Confetti victoria -->
+  <canvas id="canvas-confetti" class="fixed inset-0 pointer-events-none z-[201]"></canvas>
+
+  <!-- Selector de idioma (fijo arriba a la derecha) -->
+  <div id="lang-switcher" class="fixed top-3 right-3 z-50" style="font-family:'Rajdhani',sans-serif;">
+    <button id="lang-btn"
+            class="flex items-center gap-2 px-3 py-2 border border-lol-border bg-lol-surface
+                   hover:border-gold transition-all duration-200">
+      <img id="lang-flag" src="https://flagcdn.com/w20/es.png" width="20" height="15" alt="">
+      <span id="lang-code" class="text-xs font-bold tracking-widest text-lol-dim uppercase">ES</span>
+      <span style="color:#4a6080;font-size:0.55rem;">▼</span>
+    </button>
+    <div id="lang-menu" class="hidden absolute right-0 top-full mt-1 border border-lol-border bg-lol-surface shadow-lg min-w-[120px]">
+      <button data-lang="es" class="lang-option flex items-center gap-2 px-3 py-2 w-full text-left
+                                    hover:bg-[rgba(200,155,60,0.1)] transition-colors">
+        <img src="https://flagcdn.com/w20/es.png" width="20" height="15" alt="">
+        <span class="text-xs font-bold tracking-wider text-lol-dim">Español</span>
+      </button>
+      <button data-lang="en" class="lang-option flex items-center gap-2 px-3 py-2 w-full text-left
+                                    hover:bg-[rgba(200,155,60,0.1)] transition-colors border-t border-lol-border">
+        <img src="https://flagcdn.com/w20/gb.png" width="20" height="15" alt="">
+        <span class="text-xs font-bold tracking-wider text-lol-dim">English</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ CONTENIDO PRINCIPAL ══════════════════════════════════ -->
+  <div class="relative z-10 max-w-5xl mx-auto">
+
+    <!-- HEADER — Banner horizontal -->
+    <header class="text-center py-5">
+      <div class="inline-block w-full max-w-2xl mx-auto px-4"
+           style="background: rgba(1,10,19,0.82); border-top: 1px solid rgba(200,155,60,0.2); border-bottom: 1px solid rgba(200,155,60,0.2); padding: 1.2rem 2rem;">
+        <!-- Línea superior decorativa -->
+        <div class="flex items-center gap-3 mb-2">
+          <div class="flex-1 h-px" style="background: linear-gradient(to right, transparent, #c89b3c);"></div>
+          <span style="color:#c89b3c; font-size:0.55rem; letter-spacing:4px; font-family:'Rajdhani',sans-serif; font-weight:700;">✦</span>
+          <div class="flex-1 h-px" style="background: linear-gradient(to left, transparent, #c89b3c);"></div>
+        </div>
+
+        <!-- Título principal -->
+        <div style="
+          font-family: 'Cinzel', Georgia, serif;
+          font-size: clamp(2rem, 8vw, 3.6rem);
+          font-weight: 700;
+          letter-spacing: 0.18em;
+          color: #c89b3c;
+          text-shadow: 0 0 28px rgba(200,155,60,0.45), 0 2px 6px rgba(0,0,0,0.8);
+          line-height: 1;
+        ">DLE GAMES</div>
+
+        <!-- Separador central con rombo -->
+        <div class="flex items-center gap-3 my-2">
+          <div class="flex-1 h-px" style="background: linear-gradient(to right, transparent, #785a28);"></div>
+          <span style="color:#785a28; font-size:0.5rem; letter-spacing:3px; font-family:'Rajdhani',sans-serif;">◆ ◆ ◆</span>
+          <div class="flex-1 h-px" style="background: linear-gradient(to left, transparent, #785a28);"></div>
+        </div>
+
+        <!-- Subtítulo -->
+        <div data-i18n="subtitle" style="
+          font-family: 'Rajdhani', sans-serif;
+          font-size: clamp(0.65rem, 2.5vw, 0.9rem);
+          font-weight: 600;
+          letter-spacing: 0.35em;
+          color: #785a28;
+          text-transform: uppercase;
+        ">Adivina el Pro Player</div>
+
+        <!-- Línea inferior decorativa -->
+        <div class="flex items-center gap-3 mt-2">
+          <div class="flex-1 h-px" style="background: linear-gradient(to right, transparent, #c89b3c);"></div>
+          <span style="color:#c89b3c; font-size:0.55rem; letter-spacing:4px; font-family:'Rajdhani',sans-serif; font-weight:700;">✦</span>
+          <div class="flex-1 h-px" style="background: linear-gradient(to left, transparent, #c89b3c);"></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- BUSQUEDA -->
+    <div class="mb-4">
+      <div class="flex gap-2 max-w-xl mx-auto">
+
+        <!-- Input + dropdown -->
+        <div class="search-wrap relative flex-1">
+          <input
+            id="search-input"
+            type="text"
+            placeholder="Escribe el nombre de un pro player..."
+            data-i18n-ph="placeholder"
+            autocomplete="off"
+            class="w-full bg-lol-surface border border-gold-dark text-lol-text font-rajdhani
+                   text-base font-semibold px-4 py-3 outline-none tracking-wide
+                   placeholder:text-lol-dim placeholder:font-normal
+                   focus:border-gold focus:shadow-[0_0_18px_rgba(200,155,60,.18)]
+                   disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+          <div
+            id="search-dropdown"
+            class="hidden absolute top-[calc(100%+3px)] left-0 right-0
+                   bg-lol-surface border border-gold-dark z-50"
+          ></div>
+        </div>
+
+        <!-- Boton -->
+        <button
+          id="guess-btn"
+          class="bg-transparent border border-gold text-gold font-rajdhani
+                 text-sm font-bold tracking-widest uppercase px-5 md:px-7
+                 transition-all duration-200 whitespace-nowrap
+                 hover:bg-gold hover:text-lol-bg hover:shadow-[0_0_22px_rgba(200,155,60,.28)]
+                 disabled:opacity-40 disabled:cursor-not-allowed"
+        ><span data-i18n="guess">Adivinar</span></button>
+      </div>
+
+      <!-- Mensaje de error -->
+      <p id="error-msg" class="text-center text-red-500 text-xs tracking-wide mt-1 min-h-[1.1em]"></p>
+
+      <!-- Intentos + Rendirse -->
+      <div class="flex items-stretch justify-center gap-3 mt-3">
+        <div class="flex flex-col items-center justify-center px-6 py-2 border border-lol-border bg-lol-surface"
+             style="min-width: 110px;">
+          <span data-i18n="attempts" class="font-rajdhani text-xs tracking-widest uppercase text-lol-dim mb-0.5">Intentos</span>
+          <span id="attempt-count" class="text-gold font-cinzel font-bold text-2xl leading-none">0</span>
+        </div>
+        <button
+          id="giveup-btn"
+          class="flex flex-col items-center justify-center px-6 py-2 border border-red-900
+                 bg-lol-surface font-rajdhani text-xs tracking-widest uppercase text-red-800
+                 hover:border-red-500 hover:text-red-400 hover:bg-[#1a0505]
+                 transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
+          style="min-width: 110px;"
+        >
+          <span class="text-lg leading-none mb-0.5">✕</span>
+          <span data-i18n="giveup">Rendirse</span>
+        </button>
+      </div>
+    </div>
+
+    <hr class="border-lol-border my-4">
+
+    <!-- CABECERAS DE COLUMNA (las inyecta GridComponent) -->
+    <div id="grid-header"></div>
+
+    <!-- LISTA DE INTENTOS (los inyecta GridComponent) -->
+    <div id="attempts-list" class="flex flex-col gap-[3px]"></div>
+
+  </div><!-- /main -->
+
+  <!-- ══ OVERLAY VICTORIA ══════════════════════════════════════ -->
+  <div
+    id="victory-overlay"
+    class="hidden fixed inset-0 bg-lol-bg/90 z-[200] flex items-center justify-center"
+  >
+    <div class="victory-card bg-lol-surface border border-gold max-w-md w-[92%] p-8 md:p-12
+                text-center relative shadow-[0_0_80px_rgba(200,155,60,.22)]">
+      <!-- linea dorada superior -->
+      <div class="absolute top-0 left-0 right-0 h-[3px]
+                  bg-gradient-to-r from-transparent via-gold to-transparent"></div>
+
+      <div class="text-5xl mb-4">&#128081;</div>
+      <h2 id="v-title" class="font-cinzel text-3xl text-gold mb-2">&#161;Acertaste!</h2>
+      <img id="v-img" src="" alt="" class="hidden w-24 h-24 rounded-full object-cover object-top border-2 border-gold mx-auto mb-3" />
+      <p id="v-player" class="text-3xl font-bold text-gold-light mb-1"></p>
+      <p id="v-real"   class="text-base text-lol-dim tracking-wide mb-2"></p>
+      <p id="v-tries"  class="text-base text-lol-dim tracking-widest mb-8"></p>
+
+      <button
+        class="btn-restart bg-gold text-lol-bg font-rajdhani text-base font-bold
+               tracking-widest uppercase px-8 py-3 border-0
+               hover:bg-gold-light hover:shadow-[0_0_24px_rgba(200,155,60,.4)]
+               transition-all duration-200"
+      ><span data-i18n="playAgain">Jugar de nuevo</span></button>
+    </div>
+  </div>
+
+  <!-- ES Module entry point -->
+  <script type="module" src="./js/main.js"></script>
+
+</body>
+</html>

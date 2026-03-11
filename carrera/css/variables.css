@@ -1,0 +1,8 @@
+:root {
+  --bg:#010a13; --surface:#0a1428; --surface2:#0f1e36;
+  --border:#1e3a5f; --border-dim:rgba(30,58,95,0.4); --border-gold:rgba(200,155,60,0.2);
+  --text:#c8d4e8; --text-dim:#4a6080;
+  --gold:#c89b3c; --gold-light:#f0e6d3; --gold-dark:#785a28;
+  --teal:#0bc4c4; --green:#00cc66; --red:#cc2222;
+  --lck:#0bc4c4; --lpl:#FF8C00; --lec:#9B59B6; --lcs:#cc2222; --other:#00cc66;
+}

@@ -1,0 +1,15 @@
+[
+  {"id":"mid",     "icon":"🎯", "main":"Mid",     "sub":"Mid Laner",    "desc":"es <strong>Mid Laner</strong>",               "type":"pos",  "value":"mid"},
+  {"id":"adc",     "icon":"🏹", "main":"ADC",     "sub":"Bot Laner",    "desc":"es <strong>ADC / Bot Laner</strong>",         "type":"pos",  "value":"adc"},
+  {"id":"top",     "icon":"🗡️", "main":"Top",     "sub":"Top Laner",    "desc":"es <strong>Top Laner</strong>",               "type":"pos",  "value":"top"},
+  {"id":"jungle",  "icon":"🌿", "main":"Jungle",  "sub":"Jungler",      "desc":"es <strong>Jungler</strong>",                 "type":"pos",  "value":"jungle"},
+  {"id":"support", "icon":"🛡️", "main":"Support", "sub":"Support",      "desc":"es <strong>Support</strong>",                 "type":"pos",  "value":"support"},
+  {"id":"korean",  "icon":"🌏", "main":"Coreano", "sub":"Nacionalidad", "desc":"es de <strong>Corea del Sur</strong>",        "type":"nat",  "value":"korean"},
+  {"id":"european","icon":"🇪🇺","main":"Europeo", "sub":"Nacionalidad", "desc":"es <strong>europeo/a</strong>",              "type":"nat",  "value":"european"},
+  {"id":"t1",      "icon":"🏯", "main":"T1/SKT",  "sub":"Equipo",       "desc":"jugó en <strong>T1 / SKT</strong>",          "type":"team", "value":"t1"},
+  {"id":"geng",    "icon":"💎", "main":"Gen.G",   "sub":"Samsung/Gen.G","desc":"jugó en <strong>Gen.G / Samsung</strong>",   "type":"team", "value":"geng"},
+  {"id":"g2",      "icon":"🐺", "main":"G2",      "sub":"G2 Esports",   "desc":"jugó en <strong>G2 Esports</strong>",        "type":"team", "value":"g2"},
+  {"id":"fnatic",  "icon":"🦁", "main":"Fnatic",  "sub":"Equipo",       "desc":"jugó en <strong>Fnatic</strong>",            "type":"team", "value":"fnatic"},
+  {"id":"c9",      "icon":"☁️", "main":"Cloud9",  "sub":"Equipo",       "desc":"jugó en <strong>Cloud9</strong>",            "type":"team", "value":"c9"},
+  {"id":"worlds",  "icon":"🏆", "main":"Worlds",  "sub":"Campeón",      "desc":"ganó el <strong>Campeonato Mundial</strong>","type":"comp", "value":"worlds"}
+]

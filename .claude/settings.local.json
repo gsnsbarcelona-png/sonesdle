@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:lol.fandom.com)",
+      "Bash(curl -s \"https://lol.fandom.com/api.php?action=cargoquery&format=json&origin=*&tables=Players&fields=ID,Name,Country,Role,Team,Residency,Birthdate,IsRetired&where=Role+IS+NOT+NULL+AND+Role+!%3D+%22%22+AND+Birthdate+IS+NOT+NULL+AND+Birthdate+!%3D+%22%22&limit=5\")",
+      "Bash(python -m json.tool)",
+      "Bash(curl -s \"https://lol.fandom.com/api.php?action=cargoquery&format=json&origin=*&tables=Tournaments,TournamentRosters&join_on=Tournaments.OverviewPage%3DTournamentRosters.OverviewPage&fields=TournamentRosters.Players&where=Tournaments.League%3D%22World+Championship%22&limit=3\")",
+      "Bash(curl -sv \"https://lol.fandom.com/api.php?action=cargoquery&format=json&origin=*&tables=Players&fields=ID&limit=2\")",
+      "WebSearch"
+    ]
+  }
+}

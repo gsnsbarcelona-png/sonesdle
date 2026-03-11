@@ -1,0 +1,170 @@
+============================================================
+  DLE GAMES — Adivina el Pro Player
+  Guia para editar y mantener el juego
+============================================================
+
+El archivo principal de datos es: data/players.json
+
+Puedes abrirlo con cualquier editor de texto (Notepad, VSCode, etc.)
+y agregar, editar o eliminar jugadores libremente.
+
+NOTA: Los datos tambien se cargan automaticamente desde la API de
+Leaguepedia al iniciar el juego. El archivo local actua como copia
+de seguridad y cache. Si un jugador de la API tiene datos incorrectos,
+puedes corregirlo directamente en players.json y tendra prioridad.
+
+------------------------------------------------------------
+  CAMPOS DE CADA JUGADOR
+------------------------------------------------------------
+
+  name      → Nombre del jugador tal como aparece en el juego (obligatorio)
+  real      → Nombre real completo
+  country   → Pais de origen en texto libre (ej: "Corea del Sur")
+  flag      → Emoji de bandera (copia de la lista de abajo o busca en internet)
+  league    → Liga actual. Valores recomendados:
+                LCK   (Corea)
+                LEC   (Europa)
+                LCS   (Norteamerica)
+                LPL   (China)
+                CBLOL (Brasil)
+                LJL   (Japon)
+                LLA   (Latinoamerica)
+  position  → Array de posiciones. Puede tener mas de una.
+                Valores validos: "Top", "Jungle", "Mid", "ADC", "Support"
+                Ejemplos: ["Mid"]  /  ["Top", "Mid"]
+  titles    → true si ha ganado algun titulo regional (LCK, LEC, LCS...), false si no
+  worlds    → true si ha ganado el Campeonato Mundial (Worlds), false si no
+  age       → Edad actual como numero entero
+  team      → Nombre del equipo actual
+  image     → (opcional) URL de la foto del jugador. Se rellena automaticamente
+               desde Leaguepedia. Puedes dejarlo en null si no tienes imagen.
+
+  CAMPOS ELIMINADOS: "champion" ya no existe en el juego. No lo incluyas.
+
+------------------------------------------------------------
+  EJEMPLO DE JUGADOR
+------------------------------------------------------------
+
+  {
+    "name": "Faker",
+    "real": "Lee Sang-hyeok",
+    "country": "Corea del Sur",
+    "flag": "🇰🇷",
+    "league": "LCK",
+    "position": ["Mid"],
+    "titles": true,
+    "worlds": true,
+    "age": 28,
+    "team": "T1",
+    "image": null
+  }
+
+------------------------------------------------------------
+  COMO AGREGAR UN JUGADOR NUEVO
+------------------------------------------------------------
+
+  1. Abre data/players.json con un editor de texto
+  2. Busca el ultimo jugador de la lista (antes del ] final)
+  3. Anade una coma al final de ese jugador
+  4. Pega el bloque del nuevo jugador con todos sus campos
+  5. Guarda el archivo en formato UTF-8
+  6. Recarga el juego en el navegador
+
+------------------------------------------------------------
+  COMO CORREGIR UN JUGADOR EXISTENTE
+------------------------------------------------------------
+
+  Si un jugador muestra datos incorrectos (equipo, edad, etc.):
+
+  1. Abre data/players.json
+  2. Busca al jugador por su nombre
+  3. Edita el campo que corresponda
+  4. Guarda y recarga el juego
+
+  Los datos del archivo local tienen prioridad sobre la API.
+  Si el error viene de Leaguepedia, corrigelo aqui manualmente.
+
+------------------------------------------------------------
+  COMO ELIMINAR UN JUGADOR
+------------------------------------------------------------
+
+  1. Abre data/players.json
+  2. Borra el bloque completo del jugador (desde { hasta })
+  3. Asegurate de que no queden comas extra al final del bloque anterior
+  4. Guarda y recarga el juego
+
+------------------------------------------------------------
+  BANDERAS (emoji de bandera)
+------------------------------------------------------------
+
+  Las banderas se muestran como imagenes (no como emojis) para
+  garantizar compatibilidad en Windows. Aun asi, el campo "flag"
+  del JSON debe ser el emoji correspondiente.
+
+  🇰🇷  Corea del Sur       🇨🇳  China
+  🇩🇰  Dinamarca           🇵🇱  Polonia
+  🇸🇪  Suecia              🇨🇿  Rep. Checa
+  🇺🇸  EE. UU.             🇧🇷  Brasil
+  🇩🇪  Alemania            🇫🇷  Francia
+  🇪🇸  Espana              🇹🇼  Taiwan
+  🇦🇺  Australia           🇧🇬  Bulgaria
+  🇷🇴  Rumania             🇨🇦  Canada
+  🇲🇦  Marruecos           🇹🇷  Turquia
+  🇧🇪  Belgica             🇳🇱  Paises Bajos
+  🇬🇷  Grecia              🇵🇹  Portugal
+  🇫🇮  Finlandia           🇳🇴  Noruega
+  🇸🇰  Eslovaquia          🇭🇺  Hungria
+
+------------------------------------------------------------
+  VALIDAR EL JSON
+------------------------------------------------------------
+
+  Si el juego no carga tras editar el archivo, probablemente
+  hay un error de formato. Puedes validarlo en:
+
+    https://jsonlint.com
+
+  Errores comunes:
+    - Coma extra al final del ultimo elemento
+    - Comillas olvidadas alrededor de un texto
+    - Llave { o corchete [ sin cerrar
+    - Usar true/false con mayuscula (incorrecto: True)
+
+------------------------------------------------------------
+  CACHE DE DATOS
+------------------------------------------------------------
+
+  El juego guarda los datos en el navegador (localStorage) bajo
+  la clave "loldle_players_v3" para no llamar a la API en cada
+  carga. Si necesitas forzar una recarga completa desde la API:
+
+    1. Abre las herramientas de desarrollador del navegador (F12)
+    2. Ve a Aplicacion > Almacenamiento local
+    3. Elimina la entrada "loldle_players_v3"
+    4. Recarga la pagina
+
+  Esto es util si acabas de corregir datos en Leaguepedia y
+  quieres que se reflejen inmediatamente.
+
+------------------------------------------------------------
+  NOTAS TECNICAS
+------------------------------------------------------------
+
+  - El juego usa ES Modules y necesita un servidor local para funcionar.
+    NO se puede abrir directamente con doble clic en el navegador.
+
+  - Opciones para ejecutar en local:
+      * VSCode + extension "Live Server" → click derecho en index.html
+                                          → "Open with Live Server"
+      * Python: cd dle && python -m http.server 3000
+                luego abre http://localhost:3000
+
+  - Necesitas al menos 2 jugadores en el JSON para que el juego funcione.
+
+  - El juego esta disponible en espanol e ingles. El idioma se
+    cambia desde el desplegable en la esquina superior derecha.
+
+  - Para mas contexto sobre la aplicacion, consulta CONTEXTO.md
+    en esta misma carpeta.
+
+============================================================
