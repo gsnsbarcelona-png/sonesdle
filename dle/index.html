@@ -3,7 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DLE Games — Adivina el Pro Player</title>
+  <title>DLE Games — Adivina el Pro Player de LoL</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Adivina el pro player de League of Legends. Wordle estilo para fans del LoL esports: descubre el jugador por su país, equipo, posición y más.">
+  <meta name="keywords" content="lol, league of legends, wordle, pro player, esports, adivina, dle games">
+  <meta name="author" content="DLE Games">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://lolprogames.com/">
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://lolprogames.com/">
+  <meta property="og:title"       content="DLE Games — Adivina el Pro Player de LoL">
+  <meta property="og:description" content="Wordle estilo para fans del LoL esports. ¿Cuántos intentos necesitas para adivinar el pro player?">
+  <meta property="og:image"       content="https://lolprogames.com/og-image.jpg">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="DLE Games — Adivina el Pro Player de LoL">
+  <meta name="twitter:description" content="Wordle estilo para fans del LoL esports.">
+  <meta name="twitter:image"       content="https://lolprogames.com/og-image.jpg">
+
+  <!-- PWA / App -->
+  <meta name="theme-color" content="#010a13">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="DLE Games">
+  <link rel="manifest" href="./manifest.json">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="icon" type="image/png"     href="./favicon.png" sizes="32x32">
+  <link rel="apple-touch-icon"          href="./apple-touch-icon.png">
+
+  <!-- Preconnect para recursos externos críticos -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://flagcdn.com">
+  <link rel="dns-prefetch" href="https://lol.fandom.com">
+
+  <!-- Preload del fondo (recurso más pesado de la página) -->
+  <link rel="preload" href="./fondo1.jpg" as="image">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -377,7 +419,13 @@
     </div>
   </div>
 
-  <!-- ES Module entry point -->
+  <!-- Modulepreload: el navegador descarga los módulos en paralelo antes de ejecutarlos -->
+  <link rel="modulepreload" href="./js/main.js">
+  <link rel="modulepreload" href="./js/services/GameService.js">
+  <link rel="modulepreload" href="./js/repositories/PlayerRepository.js">
+  <link rel="modulepreload" href="./js/utils/helpers.js">
+  <link rel="modulepreload" href="./js/utils/i18n.js">
+
   <script type="module" src="./js/main.js"></script>
 
 </body>
