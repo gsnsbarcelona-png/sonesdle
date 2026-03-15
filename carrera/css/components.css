@@ -19,9 +19,12 @@ header{text-align:center;padding:20px 0 28px;animation:fadeDown 0.6s ease}
 .stat+.stat{border-left:none}
 .stat-value{font-family:'Cinzel',serif;font-size:1.6rem;font-weight:700;color:var(--gold);line-height:1}
 .stat-label{font-size:0.65rem;color:var(--text-dim);letter-spacing:0.12em;text-transform:uppercase;margin-top:3px;font-weight:600}
+/* LIVES BOX */
+.lives-box{display:flex;align-items:center;justify-content:center;gap:16px;padding:14px 24px;background:var(--surface);border:1px solid var(--border);border-top:2px solid var(--gold-dark);margin-bottom:16px;animation:fadeUp 0.5s ease 0.05s both}
+.lives-label{font-family:'Rajdhani',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-dark);white-space:nowrap}
 /* DOTS */
-.progress-dots{display:flex;justify-content:center;gap:8px;margin-bottom:20px}
-.dot{width:13px;height:13px;background:var(--surface2);border:1px solid var(--border);transition:all 0.3s ease}
+.progress-dots{display:flex;justify-content:center;gap:8px}
+.dot{width:14px;height:14px;background:var(--surface2);border:1px solid var(--border);transition:all 0.3s ease}
 .dot.correct{background:#0d3a1e;border-color:var(--green);box-shadow:0 0 8px rgba(0,204,102,0.5)}
 .dot.wrong{background:#3a0d0d;border-color:var(--red);box-shadow:0 0 8px rgba(204,34,34,0.5)}
 .dot.hint{background:#2a1e00;border-color:var(--gold);box-shadow:0 0 8px rgba(200,155,60,0.5)}
@@ -42,6 +45,7 @@ header{text-align:center;padding:20px 0 28px;animation:fadeDown 0.6s ease}
 .region-badge.LEC{color:var(--lec);border-color:var(--lec);background:rgba(155,89,182,0.08)}
 .region-badge.LCS{color:var(--lcs);border-color:var(--lcs);background:rgba(204,34,34,0.08)}
 .region-badge.OTHER{color:var(--other);border-color:var(--other);background:rgba(0,204,102,0.08)}
+.position-badge{font-size:0.65rem;font-weight:700;letter-spacing:0.12em;padding:2px 8px;border:1px solid var(--gold);color:var(--gold);background:rgba(200,155,60,0.1);animation:iconPop 0.3s ease}
 .timeline-more{display:flex;align-items:center;gap:8px;padding:6px 0 0;color:var(--text-dim);font-size:0.75rem}
 .more-dots{display:flex;gap:4px}
 .more-dots span{width:4px;height:4px;background:#785a28;animation:morePulse 1.5s infinite}
@@ -75,15 +79,16 @@ header{text-align:center;padding:20px 0 28px;animation:fadeDown 0.6s ease}
 .autocomplete-list::-webkit-scrollbar{width:4px}
 .autocomplete-list::-webkit-scrollbar-track{background:transparent}
 .autocomplete-list::-webkit-scrollbar-thumb{background:#785a28}
+/* UTILS */
+.hidden{display:none!important}
 /* BUTTONS */
-.action-buttons{display:flex;gap:8px;margin-top:8px}
 .btn{padding:11px 20px;border:none;font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap}
 .btn:disabled{opacity:0.3;cursor:not-allowed;pointer-events:none}
 .btn-submit{flex:0 0 auto;padding:11px 18px;background:transparent;border:1px solid var(--gold);color:var(--gold)}
 .btn-submit:hover{background:var(--gold);color:var(--bg);box-shadow:0 0 22px rgba(200,155,60,0.28)}
 .btn-hint{background:transparent;border:1px solid var(--gold-dark);color:var(--gold-dark)}
 .btn-hint:hover{border-color:var(--gold);color:var(--gold);background:rgba(200,155,60,0.07)}
-.btn-skip{background:transparent;border:1px solid #660000;color:#884444}
+.btn-skip{background:transparent;border:1px solid #660000;color:#884444;padding:7px 16px;font-size:0.75rem;white-space:nowrap}
 .btn-skip:hover{border-color:var(--red);color:var(--red);background:rgba(204,34,34,0.07)}
 .btn-next{width:100%;background:var(--gold);color:var(--bg);justify-content:center;font-size:0.95rem;padding:13px;display:none;border:none}
 .btn-next.visible{display:flex;animation:fadeUp 0.4s ease}

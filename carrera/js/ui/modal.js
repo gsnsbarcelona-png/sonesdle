@@ -1,3 +1,5 @@
+import { t } from '../i18n.js';
+
 /** @type {import('./particles.js').ParticlesComponent | null} */
 let _particles = null;
 
@@ -22,12 +24,12 @@ export function showModal(won, player, stats, attempts) {
   modal.className = `modal ${won ? 'win' : 'lose'}`;
 
   document.getElementById('modal-icon').textContent = won ? '🏆' : '💀';
-  document.getElementById('modal-title').textContent = won ? '¡Correcto!' : 'Ronda perdida';
+  document.getElementById('modal-title').textContent = won ? t('modalWin') : t('modalLose');
   document.getElementById('modal-player').textContent = player.name;
 
   document.getElementById('modal-subtitle').textContent = won
-    ? `${player.position} · Adivinado en ${attempts.length} intento${attempts.length !== 1 ? 's' : ''}`
-    : `Era ${player.position} · ${player.career[0]?.year} – presente`;
+    ? t('modalWinSub', player.position, attempts.length)
+    : t('modalLoseSub', player.position, player.career[0]?.year);
 
   document.getElementById('modal-wins').textContent   = stats.wins;
   document.getElementById('modal-played').textContent = stats.played;

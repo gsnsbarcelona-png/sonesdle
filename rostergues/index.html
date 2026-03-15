@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roster Guess — LOL Pro Games</title>
+  <meta name="description" content="Adivina el roster histórico de los equipos campeones de League of Legends. Pon a prueba tu conocimiento del LoL esports.">
+  <meta name="keywords" content="League of Legends, LoL, esports, roster, guess, Worlds, campeones, juego">
+  <meta name="author" content="LOL Pro Games">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://lolprogames.com/rostergues/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Roster Guess — LOL Pro Games">
+  <meta property="og:description" content="Adivina el roster histórico de los equipos campeones de League of Legends.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://lolprogames.com/rostergues/">
+  <meta property="og:image" content="https://lolprogames.com/og-image.jpg">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:locale:alternate" content="en_GB">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Roster Guess — LOL Pro Games">
+  <meta name="twitter:description" content="Adivina el roster histórico de los equipos campeones de League of Legends.">
+  <meta name="twitter:image" content="https://lolprogames.com/og-image.jpg">
+
+  <!-- Favicons & Manifest -->
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#010a13">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LOL Pro Games">
+
+  <!-- Preload fondo -->
+  <link rel="preload" href="../fondo1.jpg" as="image">
+
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+  <div class="bg-overlay"></div>
+  <canvas id="canvas-particles" style="position:fixed;inset:0;pointer-events:none;z-index:1"></canvas>
+  <canvas id="canvas-confetti"  style="position:fixed;inset:0;pointer-events:none;z-index:201"></canvas>
+
+  <div class="app">
+
+    <!-- BACK LINK -->
+    <div class="back-link">
+      <a href="../index.html" class="back-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="11"><polyline points="15 18 9 12 15 6"/></svg>
+        <span>LOL PRO GAMES</span>
+      </a>
+    </div>
+
+    <!-- HEADER -->
+    <header>
+      <div class="header-banner">
+        <div class="header-deco">
+          <div class="header-deco-line left"></div>
+          <span class="header-deco-star">✦</span>
+          <div class="header-deco-line right"></div>
+        </div>
+        <div class="header-title">Roster Guess</div>
+        <div class="header-sep">
+          <div class="header-sep-line left"></div>
+          <span class="header-sep-diamonds">◆ ◆ ◆</span>
+          <div class="header-sep-line right"></div>
+        </div>
+        <div class="header-subtitle" data-i18n="subtitle">Adivina el roster histórico</div>
+        <div class="header-deco">
+          <div class="header-deco-line left"></div>
+          <span class="header-deco-star">✦</span>
+          <div class="header-deco-line right"></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- YEAR BANNER -->
+    <div class="year-banner" id="year-banner">
+      <div class="year-team" id="year-team"></div>
+      <div class="year-year" id="year-year"></div>
+      <div class="year-event" id="year-event"></div>
+    </div>
+
+    <!-- INFO ROW: contadores + pista en una sola fila sobre el grid -->
+    <div class="info-row">
+      <div class="counter-box">
+        <span class="counter-value" id="counter-attempts">0</span>
+        <span class="counter-label" data-i18n="attemptsLabel">⚡ Intentos</span>
+      </div>
+      <div class="hint-progress hidden" id="hint-progress"></div>
+      <div class="counter-box">
+        <span class="counter-value" id="counter-solved">0/5</span>
+        <span class="counter-label" data-i18n="solvedLabel">✓ Acertados</span>
+      </div>
+    </div>
+
+    <!-- SLOTS GRID -->
+    <div class="slots-grid" id="slots-grid"></div>
+
+    <!-- SEARCH -->
+    <div class="search-section" id="search-section">
+      <div class="input-row">
+        <div class="input-wrapper">
+          <input
+            type="text"
+            class="guess-input"
+            id="guess-input"
+            placeholder="Escribe el nombre del jugador…"
+            autocomplete="off"
+            spellcheck="false"
+          >
+          <div class="autocomplete-list" id="autocomplete-list"></div>
+        </div>
+        <button class="btn btn-submit" id="btn-submit" data-i18n="btnGuess">⚔ Adivinar</button>
+        <button class="btn btn-surrender" id="btn-surrender" data-i18n="btnSurrender">⚑ Rendirse</button>
+      </div>
+    </div>
+
+    <!-- GUESS HISTORY -->
+    <div class="guess-history" id="guess-history"></div>
+
+  </div><!-- /.app -->
+
+  <!-- RESULT OVERLAY -->
+  <div class="result-overlay hidden" id="result-overlay">
+    <div class="result-card">
+      <div class="result-icon"  id="result-icon"></div>
+      <div class="result-title" id="result-title"></div>
+      <div class="result-attempts" id="result-attempts"></div>
+      <div class="result-roster" id="result-roster"></div>
+      <button class="result-btn" id="result-btn" data-i18n="resultBtn">▶ Jugar de nuevo</button>
+    </div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

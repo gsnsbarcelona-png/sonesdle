@@ -212,7 +212,6 @@ export class CookieBanner {
     catch { return true; }
   }
 
-  // ── Private ──────────────────────────────────────────────
 
   #injectCSS() {
     if (document.getElementById('ck-style')) return;
@@ -229,7 +228,6 @@ export class CookieBanner {
     } catch { /* usa defaults */ }
   }
 
-  // ── Banner ────────────────────────────────────────────────
 
   #showBanner() {
     const el = document.createElement('div');
@@ -266,7 +264,6 @@ export class CookieBanner {
     setTimeout(() => { this.#bannerEl?.remove(); this.#bannerEl = null; cb?.(); }, 310);
   }
 
-  // ── Modal ─────────────────────────────────────────────────
 
   #openModal() {
     if (this.#overlayEl) return;
@@ -341,7 +338,6 @@ export class CookieBanner {
     setTimeout(() => { this.#overlayEl?.remove(); this.#overlayEl = null; cb?.(); }, 220);
   }
 
-  // ── Reopener ──────────────────────────────────────────────
 
   #showReopener() {
     if (this.#reopenerEl) return;
@@ -355,7 +351,6 @@ export class CookieBanner {
     this.#reopenerEl = el;
   }
 
-  // ── Decisiones ────────────────────────────────────────────
 
   #acceptAll() {
     this.#prefs = { necessary: true, preferences: true };
@@ -378,7 +373,6 @@ export class CookieBanner {
     this.#closeModal(() => this.#hideBanner(() => this.#showReopener()));
   }
 
-  // ── Actualización de textos (langchange) ──────────────────
 
   #applyLang() {
     this.#applyBannerLang();

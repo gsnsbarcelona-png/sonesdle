@@ -1,8 +1,3 @@
-/**
- * i18n.js — Módulo de internacionalización.
- * Soporta ES (español) y EN (inglés).
- */
-
 const TRANSLATIONS = {
   es: {
     subtitle:      'Adivina el Pro Player',
@@ -43,6 +38,20 @@ const TRANSLATIONS = {
     cookieAlways:       'Siempre activo',
     cookiePrivacy:      'Política de privacidad',
     cookieReopener:     'Cookies',
+    tipPlayer:   'Jugador que has adivinado',
+    tipCountry:  'País de origen del jugador',
+    tipLeague:   'Liga regional actual del jugador',
+    tipPosition: 'Rol en el equipo. 🟧 = coincidencia parcial',
+    tipTitles:   'Ha ganado algún título regional',
+    tipWorlds:   'Ha ganado el Campeonato Mundial',
+    tipAge:      'Edad actual. ↑ mayor · ↓ menor',
+    tipTeam:     'Equipo actual',
+    dailyBadge:         'DIARIO',
+    dailyDone:          '¡Ya has jugado hoy!',
+    dailyNext:          'Próximo reto en',
+    dailyFreePlay:      'Modo libre',
+    dailyShare:         'Compartir resultado',
+    dailyCopied:        '¡Copiado!',
   },
   en: {
     subtitle:      'Guess the Pro Player',
@@ -83,18 +92,30 @@ const TRANSLATIONS = {
     cookieAlways:       'Always on',
     cookiePrivacy:      'Privacy policy',
     cookieReopener:     'Cookies',
+    tipPlayer:   'The player you guessed',
+    tipCountry:  'Player\'s country of origin',
+    tipLeague:   'Current regional league',
+    tipPosition: 'Role in the team. 🟧 = partial match',
+    tipTitles:   'Has won a regional title',
+    tipWorlds:   'Has won the World Championship',
+    tipAge:      'Current age. ↑ older · ↓ younger',
+    tipTeam:     'Current team',
+    dailyBadge:         'DAILY',
+    dailyDone:          'Already played today!',
+    dailyNext:          'Next challenge in',
+    dailyFreePlay:      'Free play',
+    dailyShare:         'Share result',
+    dailyCopied:        'Copied!',
   },
 };
 
-let _lang = localStorage.getItem('dle_lang') || 'es';
+let _lang = localStorage.getItem('app_lang') || 'es';
 
-/** Traduce una clave al idioma actual. */
 export function t(key, ...args) {
   const val = TRANSLATIONS[_lang]?.[key] ?? TRANSLATIONS['es'][key] ?? key;
   return typeof val === 'function' ? val(...args) : val;
 }
 
-/** Devuelve el idioma actual. */
 export function getLang() { return _lang; }
 
 /**
@@ -104,7 +125,7 @@ export function getLang() { return _lang; }
 export function setLang(lang) {
   if (!TRANSLATIONS[lang]) return;
   _lang = lang;
-  localStorage.setItem('dle_lang', lang);
+  localStorage.setItem('app_lang', lang);
   applyStaticTranslations();
   document.dispatchEvent(new Event('langchange'));
 }

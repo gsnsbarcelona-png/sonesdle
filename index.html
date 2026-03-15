@@ -3,29 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DLE Games — Juegos de League of Legends</title>
+  <title>LOL Pro Games — Juegos de League of Legends</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Juegos de conocimiento sobre pro players de League of Legends. Wordle, Grid y Career Guess para fans del LoL esports.">
+  <meta name="keywords" content="lol, league of legends, pro player, esports, wordle, adivina, juegos, lolprogames">
+  <meta name="author" content="LOL Pro Games">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://lolprogames.com/">
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://lolprogames.com/">
+  <meta property="og:title"       content="LOL Pro Games — Juegos de League of Legends">
+  <meta property="og:description" content="Juegos de conocimiento sobre pro players de LoL esports. DLE Games, Pro Grid y Career Guess.">
+  <meta property="og:image"       content="https://lolprogames.com/og-image.jpg">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="LOL Pro Games — Juegos de League of Legends">
+  <meta name="twitter:description" content="Juegos de conocimiento sobre pro players de LoL esports.">
+  <meta name="twitter:image"       content="https://lolprogames.com/og-image.jpg">
+
+  <!-- PWA / App -->
+  <meta name="theme-color" content="#010a13">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LOL Pro Games">
+  <link rel="manifest" href="./manifest.json">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="icon" type="image/png"     href="./favicon.png" sizes="32x32">
+  <link rel="apple-touch-icon"          href="./apple-touch-icon.png">
+
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Preload fondo -->
+  <link rel="preload" href="./fondo1.jpg" as="image">
+
+  <!-- Shared CSS variables -->
+  <link rel="stylesheet" href="./shared/css/variables.css">
 
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      --gold:        #c89b3c;
-      --gold-light:  #f0e6d3;
-      --gold-dark:   #785a28;
-      --bg:          #010a13;
-      --surface:     #0a1428;
-      --surface2:    #0f1e36;
-      --border:      #1e3a5f;
-      --dim:         #4a6080;
-      --text:        #c8d4e8;
-    }
-
     html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Rajdhani', sans-serif;
+      background: url('./fondo1.jpg') center center/cover no-repeat fixed;
       background-color: var(--bg);
       color: var(--text);
       min-height: 100vh;
@@ -145,6 +177,16 @@
     }
     .game-card:hover::before { opacity: 1; }
 
+    .game-card.disabled {
+      opacity: 0.45; cursor: not-allowed; pointer-events: none;
+    }
+    .card-soon {
+      position: absolute; top: 12px; left: 12px;
+      font-size: 0.55rem; font-weight: 700; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--bg);
+      background: var(--gold-dark); padding: 3px 10px;
+    }
+
     .card-number {
       font-family: 'Cinzel', serif;
       font-size: 3.5rem; font-weight: 700; line-height: 1;
@@ -260,11 +302,11 @@
   <!-- ══ HERO ════════════════════════════════════════════════ -->
   <section class="hero">
     <div class="hero-badge">lolprogames.com</div>
-    <h1 class="hero-title">DLE GAMES</h1>
+    <h1 class="hero-title">LOL PRO GAMES</h1>
     <div class="hero-divider"><span>◆ ◆ ◆</span></div>
-    <p class="hero-sub">Juegos de conocimiento sobre pro players de League of Legends</p>
+    <p class="hero-sub" data-i18n="heroSub">Juegos de conocimiento sobre pro players de League of Legends</p>
     <div class="hero-scroll">
-      <span>Descubre los juegos</span>
+      <span data-i18n="discover">Descubre los juegos</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="6 9 12 15 18 9"/>
       </svg>
@@ -274,8 +316,8 @@
   <!-- ══ JUEGOS ═══════════════════════════════════════════════ -->
   <section class="games-section">
     <div class="section-header">
-      <span class="section-label">Modos de juego</span>
-      <h2 class="section-title">Elige tu desafío</h2>
+      <span class="section-label" data-i18n="modesLabel">Modos de juego</span>
+      <h2 class="section-title" data-i18n="modesTitle">Elige tu desafío</h2>
     </div>
 
     <div class="cards-grid">
@@ -284,20 +326,20 @@
       <a href="./dle/index.html" class="game-card">
         <span class="card-number">01</span>
         <span class="card-icon">🎯</span>
-        <div class="card-tag">Wordle · Diario</div>
-        <h3 class="card-title">Adivina el Pro Player</h3>
-        <p class="card-desc">
+        <div class="card-tag" data-i18n="c1tag">Wordle · Diario</div>
+        <h3 class="card-title" data-i18n="c1title">Adivina el Pro Player</h3>
+        <p class="card-desc" data-i18n="c1desc">
           Un jugador misterioso se esconde cada día. Adivínalo usando las pistas
           que te da cada intento: país, posición, equipo, edad, liga y más.
         </p>
         <ul class="card-features">
-          <li>Celda verde = coincide exactamente</li>
-          <li>Naranja = parcialmente correcto</li>
-          <li>Rojo = no coincide</li>
-          <li>Flechas indican si el valor es mayor o menor</li>
+          <li data-i18n="c1f1">Celda verde = coincide exactamente</li>
+          <li data-i18n="c1f2">Naranja = parcialmente correcto</li>
+          <li data-i18n="c1f3">Rojo = no coincide</li>
+          <li data-i18n="c1f4">Flechas indican si el valor es mayor o menor</li>
         </ul>
         <span class="card-cta">
-          Jugar
+          <span data-i18n="play">Jugar</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <line x1="5" y1="12" x2="19" y2="12"/>
             <polyline points="12 5 19 12 12 19"/>
@@ -305,24 +347,24 @@
         </span>
       </a>
 
-      <!-- Pro Grid -->
-      <a href="./grid/index.html" class="game-card">
+      <!-- Roster Guess -->
+      <a href="./rostergues/index.html" class="game-card">
         <span class="card-number">02</span>
-        <span class="card-icon">🔲</span>
-        <div class="card-tag">Grid · Conexiones</div>
-        <h3 class="card-title">LoL Pro Grid</h3>
-        <p class="card-desc">
-          Una cuadrícula 3×3 con criterios en filas y columnas. Encuentra el pro player
-          que cumple ambas condiciones de cada casilla. Tienes vidas limitadas.
+        <span class="card-icon">🏆</span>
+        <div class="card-tag" data-i18n="c3tag">Roster · Histórico</div>
+        <h3 class="card-title" data-i18n="c3title">Roster Guess</h3>
+        <p class="card-desc" data-i18n="c3desc">
+          Se muestra el equipo y el año de un roster mítico de Worlds. Adivina
+          los 5 jugadores que lo formaban, uno a uno, con pistas progresivas de letras.
         </p>
         <ul class="card-features">
-          <li>9 casillas para rellenar</li>
-          <li>Combina equipo, posición, liga, país…</li>
-          <li>Vidas limitadas por partida</li>
-          <li>Sin repetir jugadores</li>
+          <li data-i18n="c3f1">12 rosters históricos de Worlds</li>
+          <li data-i18n="c3f2">Cada 5 errores se revela una letra</li>
+          <li data-i18n="c3f3">Top, Jungle, Mid, ADC y Support</li>
+          <li data-i18n="c3f4">Anti-repetición entre partidas</li>
         </ul>
         <span class="card-cta">
-          Jugar
+          <span data-i18n="play">Jugar</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <line x1="5" y1="12" x2="19" y2="12"/>
             <polyline points="12 5 19 12 12 19"/>
@@ -334,26 +376,52 @@
       <a href="./carrera/index.html" class="game-card">
         <span class="card-number">03</span>
         <span class="card-icon">📋</span>
-        <div class="card-tag">Timeline · Carrera</div>
+        <div class="card-tag" data-i18n="c3tag">Timeline · Carrera</div>
         <h3 class="card-title">LoL Career Guess</h3>
-        <p class="card-desc">
+        <p class="card-desc" data-i18n="c3desc">
           Se muestra la carrera de un pro player con equipos y años. Adivina
           quién es a partir de su historial profesional paso a paso.
         </p>
         <ul class="card-features">
-          <li>Historial de equipos revelado progresivamente</li>
-          <li>Cuantos menos pasos, mejor puntuación</li>
-          <li>Datos de toda la carrera del jugador</li>
-          <li>Jugadores de todas las ligas principales</li>
+          <li data-i18n="c3f1">Historial de equipos revelado progresivamente</li>
+          <li data-i18n="c3f2">Cuantos menos pasos, mejor puntuación</li>
+          <li data-i18n="c3f3">Datos de toda la carrera del jugador</li>
+          <li data-i18n="c3f4">Jugadores de todas las ligas principales</li>
         </ul>
         <span class="card-cta">
-          Jugar
+          <span data-i18n="play">Jugar</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <line x1="5" y1="12" x2="19" y2="12"/>
             <polyline points="12 5 19 12 12 19"/>
           </svg>
         </span>
       </a>
+
+      <!-- Pro Grid -->
+      <div class="game-card disabled">
+        <div class="card-soon" data-i18n="soon">Próximamente</div>
+        <span class="card-number">04</span>
+        <span class="card-icon">🔲</span>
+        <div class="card-tag" data-i18n="c4tag">Grid · Conexiones</div>
+        <h3 class="card-title">LoL Pro Grid</h3>
+        <p class="card-desc" data-i18n="c4desc">
+          Una cuadrícula 3×3 con criterios en filas y columnas. Encuentra el pro player
+          que cumple ambas condiciones de cada casilla. Tienes vidas limitadas.
+        </p>
+        <ul class="card-features">
+          <li data-i18n="c4f1">9 casillas para rellenar</li>
+          <li data-i18n="c4f2">Combina equipo, posición, liga, país…</li>
+          <li data-i18n="c4f3">Vidas limitadas por partida</li>
+          <li data-i18n="c4f4">Sin repetir jugadores</li>
+        </ul>
+        <span class="card-cta">
+          <span data-i18n="play">Jugar</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </span>
+      </div>
 
     </div>
   </section>
@@ -364,29 +432,29 @@
       <div class="feature-item">
         <span class="feature-icon">🌍</span>
         <div>
-          <div class="feature-title">Bilingüe</div>
-          <div class="feature-desc">Disponible en español e inglés. Cambia de idioma en cualquier momento.</div>
+          <div class="feature-title" data-i18n="feat1t">Bilingüe</div>
+          <div class="feature-desc"   data-i18n="feat1d">Disponible en español e inglés. Cambia de idioma en cualquier momento.</div>
         </div>
       </div>
       <div class="feature-item">
         <span class="feature-icon">⚡</span>
         <div>
-          <div class="feature-title">Sin registro</div>
-          <div class="feature-desc">Juega directamente desde el navegador, sin crear cuenta.</div>
+          <div class="feature-title" data-i18n="feat2t">Sin registro</div>
+          <div class="feature-desc"   data-i18n="feat2d">Juega directamente desde el navegador, sin crear cuenta.</div>
         </div>
       </div>
       <div class="feature-item">
         <span class="feature-icon">📱</span>
         <div>
-          <div class="feature-title">Responsive</div>
-          <div class="feature-desc">Diseñado para funcionar en móvil, tablet y escritorio.</div>
+          <div class="feature-title" data-i18n="feat3t">Responsive</div>
+          <div class="feature-desc"   data-i18n="feat3d">Diseñado para funcionar en móvil, tablet y escritorio.</div>
         </div>
       </div>
       <div class="feature-item">
         <span class="feature-icon">🏆</span>
         <div>
-          <div class="feature-title">Datos reales</div>
-          <div class="feature-desc">Pro players de LCK, LEC, LCS, LPL y otras ligas principales.</div>
+          <div class="feature-title" data-i18n="feat4t">Datos reales</div>
+          <div class="feature-desc"   data-i18n="feat4d">Pro players de LCK, LEC, LCS, LPL y otras ligas principales.</div>
         </div>
       </div>
     </div>
@@ -394,11 +462,87 @@
 
   <!-- ══ FOOTER ════════════════════════════════════════════════ -->
   <footer>
-    <div class="footer-logo">DLE GAMES</div>
+    <div class="footer-logo">LOL PRO GAMES</div>
     <div class="footer-copy">lolprogames.com · Un homenaje a los pro players de League of Legends</div>
   </footer>
 
 </div>
+
+<script type="module">
+  import { mountSwitcher, applyStaticTranslations } from './shared/lang.js';
+
+  const T = {
+    es: {
+      heroSub:   'Juegos de conocimiento sobre pro players de League of Legends',
+      discover:  'Descubre los juegos',
+      modesLabel:'Modos de juego',
+      modesTitle:'Elige tu desafío',
+      c1tag:'Wordle · Diario', c1title:'Adivina el Pro Player',
+      c1desc:'Un jugador misterioso se esconde cada día. Adivínalo usando las pistas que te da cada intento: país, posición, equipo, edad, liga y más.',
+      c1f1:'Celda verde = coincide exactamente', c1f2:'Naranja = parcialmente correcto',
+      c1f3:'Rojo = no coincide', c1f4:'Flechas indican si el valor es mayor o menor',
+      c2tag:'Grid · Conexiones',
+      c2desc:'Una cuadrícula 3×3 con criterios en filas y columnas. Encuentra el pro player que cumple ambas condiciones de cada casilla. Tienes vidas limitadas.',
+      c2f1:'9 casillas para rellenar', c2f2:'Combina equipo, posición, liga, país…',
+      c2f3:'Vidas limitadas por partida', c2f4:'Sin repetir jugadores',
+      c3tag:'Roster · Histórico', c3title:'Roster Guess',
+      c3desc:'Se muestra el equipo y el año de un roster mítico de Worlds. Adivina los 5 jugadores que lo formaban, uno a uno, con pistas progresivas de letras.',
+      c3f1:'12 rosters históricos de Worlds', c3f2:'Cada 5 errores se revela una letra',
+      c3f3:'Top, Jungle, Mid, ADC y Support', c3f4:'Anti-repetición entre partidas',
+      c3tag:'Timeline · Carrera',
+      c3desc:'Se muestra la carrera de un pro player con equipos y años. Adivina quién es a partir de su historial profesional paso a paso.',
+      c3f1:'Historial de equipos revelado progresivamente', c3f2:'Cuantos menos pasos, mejor puntuación',
+      c3f3:'Datos de toda la carrera del jugador', c3f4:'Jugadores de todas las ligas principales',
+      c4tag:'Grid · Conexiones',
+      c4desc:'Una cuadrícula 3×3 con criterios en filas y columnas. Encuentra el pro player que cumple ambas condiciones de cada casilla.',
+      c4f1:'9 casillas para rellenar', c4f2:'Combina equipo, posición, liga, país…',
+      c4f3:'Vidas limitadas por partida', c4f4:'Sin repetir jugadores',
+      soon:'Próximamente',
+      feat1t:'Bilingüe', feat1d:'Disponible en español e inglés. Cambia de idioma en cualquier momento.',
+      feat2t:'Sin registro', feat2d:'Juega directamente desde el navegador, sin crear cuenta.',
+      feat3t:'Responsive', feat3d:'Diseñado para funcionar en móvil, tablet y escritorio.',
+      feat4t:'Datos reales', feat4d:'Pro players de LCK, LEC, LCS, LPL y otras ligas principales.',
+      play:'Jugar',
+    },
+    en: {
+      heroSub:   'Knowledge games about League of Legends pro players',
+      discover:  'Discover the games',
+      modesLabel:'Game modes',
+      modesTitle:'Choose your challenge',
+      c1tag:'Wordle · Daily', c1title:'Guess the Pro Player',
+      c1desc:'A mysterious player hides each day. Guess them using the clues from each attempt: country, position, team, age, league and more.',
+      c1f1:'Green cell = exact match', c1f2:'Orange = partially correct',
+      c1f3:'Red = no match', c1f4:'Arrows indicate if the value is higher or lower',
+      c2tag:'Grid · Connections',
+      c2desc:'A 3×3 grid with criteria in rows and columns. Find the pro player who meets both conditions of each cell. Limited lives.',
+      c2f1:'9 cells to fill', c2f2:'Combine team, position, league, country…',
+      c2f3:'Limited lives per game', c2f4:'No repeated players',
+      c3tag:'Roster · Historical', c3title:'Roster Guess',
+      c3desc:'The team and year of a legendary Worlds roster is shown. Guess all 5 players one by one, with progressive letter hints.',
+      c3f1:'12 historical Worlds rosters', c3f2:'Every 5 wrong guesses reveals a letter',
+      c3f3:'Top, Jungle, Mid, ADC and Support', c3f4:'Anti-repeat between games',
+      c3tag:'Timeline · Career',
+      c3desc:'A pro player\'s career with teams and years is shown. Guess who it is from their professional history step by step.',
+      c3f1:'Team history progressively revealed', c3f2:'Fewer steps, better score',
+      c3f3:'Full career data of the player', c3f4:'Players from all major leagues',
+      c4tag:'Grid · Connections',
+      c4desc:'A 3×3 grid with criteria in rows and columns. Find the pro player who meets both conditions of each cell. Limited lives.',
+      c4f1:'9 cells to fill', c4f2:'Combine team, position, league, country…',
+      c4f3:'Limited lives per game', c4f4:'No repeated players',
+      soon:'Coming Soon',
+      feat1t:'Bilingual', feat1d:'Available in Spanish and English. Switch language at any time.',
+      feat2t:'No registration', feat2d:'Play directly from the browser, no account needed.',
+      feat3t:'Responsive', feat3d:'Designed to work on mobile, tablet and desktop.',
+      feat4t:'Real data', feat4d:'Pro players from LCK, LEC, LCS, LPL and other major leagues.',
+      play:'Play',
+    },
+  };
+
+  mountSwitcher();
+  applyStaticTranslations(T);
+  document.addEventListener('langchange', () => applyStaticTranslations(T));
+
+</script>
 
 <script>
   // Partículas flotantes (mismo estilo que los juegos)

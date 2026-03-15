@@ -1,10 +1,4 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --bg:#010a13; --surface:#0a1428; --surface2:#0f1e36; --border:#1e3a5f;
-  --dim:#4a6080; --text:#c8d4e8; --gold:#c89b3c; --gold-light:#f0e6d3;
-  --gold-dark:#785a28; --teal:#0bc4c4; --green:#00cc66; --green-bg:#0d3a1e;
-  --green-text:#a0ffcc; --red:#cc2222; --cell:110px; --label:110px;
-}
 html,body { height:100%; background:var(--bg); color:var(--text); font-family:'Rajdhani',sans-serif; overflow-x:hidden; }
 ::-webkit-scrollbar{width:5px} ::-webkit-scrollbar-track{background:var(--bg)} ::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:3px}
 #bgCanvas { position:fixed; inset:0; z-index:0; pointer-events:none; }

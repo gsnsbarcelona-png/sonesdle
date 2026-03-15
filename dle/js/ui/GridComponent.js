@@ -2,14 +2,14 @@ import { flagImg, esc } from '../utils/helpers.js';
 import { t } from '../utils/i18n.js';
 
 const COLUMN_KEYS = [
-  { key: 'colPlayer',   icon: ''   },
-  { key: 'colCountry',  icon: '🌍' },
-  { key: 'colLeague',   icon: '🏅' },
-  { key: 'colPosition', icon: '🎮' },
-  { key: 'colTitles',   icon: '🏅' },
-  { key: 'colWorlds',   icon: '🏆' },
-  { key: 'colAge',      icon: '📅' },
-  { key: 'colTeam',     icon: '🛡️' },
+  { key: 'colPlayer',   icon: '',    tip: 'tipPlayer'   },
+  { key: 'colCountry',  icon: '🌍',  tip: 'tipCountry'  },
+  { key: 'colLeague',   icon: '🏅',  tip: 'tipLeague'   },
+  { key: 'colPosition', icon: '🎮',  tip: 'tipPosition' },
+  { key: 'colTitles',   icon: '🏅',  tip: 'tipTitles'   },
+  { key: 'colWorlds',   icon: '🏆',  tip: 'tipWorlds'   },
+  { key: 'colAge',      icon: '📅',  tip: 'tipAge'      },
+  { key: 'colTeam',     icon: '🛡️', tip: 'tipTeam'     },
 ];
 
 const REVEAL_DELAY_MS = 130;
@@ -27,7 +27,6 @@ export class GridComponent {
     this.refreshHeader();
   }
 
-  // ── Public API ──────────────────────────────────────────
 
   addRow(player, result) {
     const row = document.createElement('div');
@@ -46,7 +45,7 @@ export class GridComponent {
     ];
     dataCells.forEach(cell => row.appendChild(cell));
 
-    // Filas mas recientes arriba (igual que Wordle / Loldle original)
+    // Filas mas recientes arriba (igual que Wordle / DLE Games original)
     this.#listEl.insertBefore(row, this.#listEl.firstChild);
 
     // Flip escalonado
@@ -60,12 +59,11 @@ export class GridComponent {
     this.#listEl.innerHTML = '';
   }
 
-  // ── Private ──────────────────────────────────────────────
 
   refreshHeader() {
     this.#headerEl.className = 'game-grid mb-1';
     this.#headerEl.innerHTML = COLUMN_KEYS.map(col => `
-      <div class="col-header">
+      <div class="col-header col-tip" data-tip="${t(col.tip)}">
         ${col.icon ? `<span class="col-icon">${col.icon}</span>` : ''}
         <span>${t(col.key)}</span>
       </div>

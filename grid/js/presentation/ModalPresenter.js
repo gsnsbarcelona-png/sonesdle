@@ -1,4 +1,5 @@
 import { EVENTS } from '../events.js';
+import { t } from '../i18n.js';
 
 export class ModalPresenter {
   constructor(bus, overlayEl, inputEl) {
@@ -11,8 +12,7 @@ export class ModalPresenter {
 
   _open(rowCat, colCat) {
     document.getElementById('modalIcons').textContent = `${rowCat.icon} × ${colCat.icon}`;
-    document.getElementById('modalDesc').innerHTML =
-      `Pro player que ${rowCat.desc} y que ${colCat.desc}.`;
+    document.getElementById('modalDesc').innerHTML = t('modalDesc', rowCat.desc, colCat.desc);
     this._input.value = '';
     this._clearErr();
     this._overlay.style.display = 'flex';
@@ -23,7 +23,7 @@ export class ModalPresenter {
 
   _showError(raw, livesLeft) {
     const el = document.getElementById('errorMsg');
-    el.textContent = `"${raw}" no es válido · ${livesLeft} vida${livesLeft !== 1 ? 's' : ''} restante${livesLeft !== 1 ? 's' : ''}`;
+    el.textContent = t('invalidPlayer', raw, livesLeft);
     el.classList.remove('shake');
     void el.offsetWidth;
     el.classList.add('shake');

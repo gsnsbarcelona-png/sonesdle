@@ -2,10 +2,10 @@ import { PLAYERS }          from '../data/players.js';
 import { generateAutoHint } from './hintEngine.js';
 
 /** Maximum guesses per round. */
-const MAX_ATTEMPTS = 6;
+export const MAX_ATTEMPTS = 6;
 
 /** Teams revealed at the start of each round. */
-const INITIAL_REVEAL = 2;
+const INITIAL_REVEAL = 1;
 
 /** Storage key for persistent stats. */
 const STORAGE_KEY = 'lolguess_stats';
@@ -16,7 +16,7 @@ let currentPlayer  = null;
 let attempts       = [];   // { name: string, correct: boolean, isHint?: boolean }[]
 let hintsLog       = [];   // { type: 'wrong'|'manual', text: string, detail?: string }[]
 let revealedCount  = INITIAL_REVEAL;
-let hintUsed       = false;
+let hintsGiven     = 0;      // total manual hints used this round (>=1 means position revealed)
 let roundOver      = false;
 let won            = false;
 let queue          = [];   // shuffled indices into PLAYERS
@@ -37,6 +37,15 @@ function saveStats() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(stats));
 }
 
+function endRound(didWin) {
+  roundOver = true;
+  won       = didWin;
+  stats.played++;
+  if (didWin) { stats.wins++; stats.streak++; }
+  else         { stats.streak = 0; }
+  saveStats();
+}
+
 function resetQueue() {
   queue = [...Array(PLAYERS.length).keys()].sort(() => Math.random() - 0.5);
 }
@@ -50,7 +59,8 @@ export function getState() {
     attempts:      [...attempts],
     hintsLog:      [...hintsLog],
     revealedCount,
-    hintUsed,
+    hintUsed:      hintsGiven >= 1,
+    hintsGiven,
     roundOver,
     won,
     stats:         { ...stats },
@@ -75,7 +85,7 @@ export function nextPlayer() {
   attempts      = [];
   hintsLog      = [];
   revealedCount = Math.min(INITIAL_REVEAL, currentPlayer.career.length);
-  hintUsed      = false;
+  hintsGiven    = 0;
   roundOver     = false;
   won           = false;
 }
@@ -94,12 +104,7 @@ export function guess(name) {
   attempts.push({ name, correct });
 
   if (correct) {
-    won       = true;
-    roundOver = true;
-    stats.wins++;
-    stats.played++;
-    stats.streak++;
-    saveStats();
+    endRound(true);
     return { correct: true, finished: true };
   }
 
@@ -111,11 +116,7 @@ export function guess(name) {
   if (revealedCount < currentPlayer.career.length) revealedCount++;
 
   if (attempts.length >= MAX_ATTEMPTS) {
-    roundOver = true;
-    won       = false;
-    stats.played++;
-    stats.streak = 0;
-    saveStats();
+    endRound(false);
     return { correct: false, finished: true };
   }
 
@@ -123,22 +124,27 @@ export function guess(name) {
 }
 
 /**
- * Spend 1 attempt slot to reveal the special hint.
- * @returns {{ used: boolean, finished: boolean } | false} false if already used or round over
+ * Spend 1 attempt slot to reveal a hint.
+ * - 1st hint: reveals the player's position.
+ * - Subsequent hints: reveal the next career stage.
+ * @returns {{ used: boolean, finished: boolean } | false} false if round over or no more to reveal
  */
 export function useHint() {
-  if (hintUsed || roundOver) return false;
+  if (roundOver) return false;
 
-  hintUsed = true;
-  hintsLog.push({ type: 'manual', text: currentPlayer.hint });
-  attempts.push({ name: '💡 Pista usada', correct: false, isHint: true });
+  // Check there is something left to reveal
+  const isFirstHint = hintsGiven === 0;
+  if (!isFirstHint && revealedCount >= currentPlayer.career.length) return false;
+
+  hintsGiven++;
+  attempts.push({ name: `💡 Pista ${hintsGiven}`, correct: false, isHint: true });
+
+  if (!isFirstHint) {
+    revealedCount++;
+  }
 
   if (attempts.length >= MAX_ATTEMPTS) {
-    roundOver = true;
-    won       = false;
-    stats.played++;
-    stats.streak = 0;
-    saveStats();
+    endRound(false);
     return { used: true, finished: true };
   }
 
@@ -148,11 +154,7 @@ export function useHint() {
 /** Forfeit the current round without counting it as a win. */
 export function skip() {
   if (roundOver) return;
-  roundOver = true;
-  won       = false;
-  stats.played++;
-  stats.streak = 0;
-  saveStats();
+  endRound(false);
 }
 
 // ─── Boot ─────────────────────────────────────────────────────────────────────

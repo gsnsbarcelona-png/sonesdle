@@ -1,0 +1,22 @@
+:root {
+  /* Fondos */
+  --bg:#010a13; --surface:#0a1428; --surface2:#0f1e36;
+
+  /* Bordes */
+  --border:#1e3a5f; --border-dim:rgba(30,58,95,0.4); --border-gold:rgba(200,155,60,0.2);
+
+  /* Texto */
+  --text:#c8d4e8; --text-dim:#4a6080; --dim:#4a6080;
+
+  /* Dorado (marca principal) */
+  --gold:#c89b3c; --gold-light:#f0e6d3; --gold-dark:#785a28;
+
+  /* Colores de estado */
+  --teal:#0bc4c4; --green:#00cc66; --green-bg:#0d3a1e; --green-text:#a0ffcc; --red:#cc2222;
+
+  /* Ligas */
+  --lck:#0bc4c4; --lpl:#FF8C00; --lec:#9B59B6; --lcs:#cc2222; --other:#00cc66;
+
+  /* Grid game */
+  --cell:110px; --label:110px;
+}

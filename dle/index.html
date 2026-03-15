@@ -3,25 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DLE Games — Adivina el Pro Player de LoL</title>
+  <title>DLE Games — Adivina el Pro Player · LOL Pro Games</title>
 
   <!-- SEO -->
   <meta name="description" content="Adivina el pro player de League of Legends. Wordle estilo para fans del LoL esports: descubre el jugador por su país, equipo, posición y más.">
-  <meta name="keywords" content="lol, league of legends, wordle, pro player, esports, adivina, dle games">
-  <meta name="author" content="DLE Games">
+  <meta name="keywords" content="lol, league of legends, wordle, pro player, esports, adivina, dle games, lolprogames">
+  <meta name="author" content="LOL Pro Games">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://lolprogames.com/">
+  <link rel="canonical" href="https://lolprogames.com/dle/">
 
   <!-- Open Graph -->
   <meta property="og:type"        content="website">
-  <meta property="og:url"         content="https://lolprogames.com/">
-  <meta property="og:title"       content="DLE Games — Adivina el Pro Player de LoL">
+  <meta property="og:url"         content="https://lolprogames.com/dle/">
+  <meta property="og:title"       content="DLE Games — Adivina el Pro Player · LOL Pro Games">
   <meta property="og:description" content="Wordle estilo para fans del LoL esports. ¿Cuántos intentos necesitas para adivinar el pro player?">
   <meta property="og:image"       content="https://lolprogames.com/og-image.jpg">
 
   <!-- Twitter Card -->
   <meta name="twitter:card"        content="summary_large_image">
-  <meta name="twitter:title"       content="DLE Games — Adivina el Pro Player de LoL">
+  <meta name="twitter:title"       content="DLE Games — Adivina el Pro Player · LOL Pro Games">
   <meta name="twitter:description" content="Wordle estilo para fans del LoL esports.">
   <meta name="twitter:image"       content="https://lolprogames.com/og-image.jpg">
 
@@ -30,13 +30,13 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="DLE Games">
-  <link rel="manifest" href="./manifest.json">
+  <meta name="apple-mobile-web-app-title" content="LOL Pro Games">
+  <link rel="manifest" href="../manifest.json">
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
-  <link rel="icon" type="image/png"     href="./favicon.png" sizes="32x32">
-  <link rel="apple-touch-icon"          href="./apple-touch-icon.png">
+  <!-- Favicon (raíz global) -->
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="icon" type="image/png"     href="../favicon.png" sizes="32x32">
+  <link rel="apple-touch-icon"          href="../apple-touch-icon.png">
 
   <!-- Preconnect para recursos externos críticos -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,7 +45,10 @@
   <link rel="dns-prefetch" href="https://lol.fandom.com">
 
   <!-- Preload del fondo (recurso más pesado de la página) -->
-  <link rel="preload" href="./fondo1.jpg" as="image">
+  <link rel="preload" href="../fondo1.jpg" as="image">
+
+  <!-- Shared CSS variables (LOLPROGAMES global) -->
+  <link rel="stylesheet" href="../shared/css/variables.css">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -229,6 +232,44 @@
     }
     .victory-card { animation: cardIn 0.45s ease; }
 
+    /* ── Tooltips de columna ────────────────────────────────── */
+    .col-tip { position: relative; }
+    .col-tip::after {
+      content: attr(data-tip);
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0a1428;
+      border: 1px solid #785a28;
+      color: #c8d4e8;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      padding: 5px 9px;
+      white-space: nowrap;
+      z-index: 200;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+    .col-tip::before {
+      content: '';
+      position: absolute;
+      top: calc(100% + 1px);
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-bottom-color: #785a28;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      z-index: 201;
+      pointer-events: none;
+    }
+    .col-tip:hover::after,
+    .col-tip:hover::before { opacity: 1; }
+
     /* ── Scrollbar ──────────────────────────────────────────── */
     ::-webkit-scrollbar       { width: 5px; }
     ::-webkit-scrollbar-track { background: #010a13; }
@@ -237,7 +278,7 @@
 </head>
 
 <body class="text-lol-text font-rajdhani min-h-screen p-2 sm:p-3 md:p-5"
-      style="background: url('./fondo1.jpg') center center / cover no-repeat fixed; background-color: #010a13;">
+      style="background: url('../fondo1.jpg') center center / cover no-repeat fixed; background-color: #010a13;">
 
   <!-- Overlay oscuro sobre el fondo para mantener legibilidad -->
   <div class="fixed inset-0 pointer-events-none z-0" style="background: rgba(1,10,19,0.72);"></div>
@@ -321,6 +362,21 @@
         </div>
       </div>
     </header>
+
+    <!-- Badge modo + banner modo libre -->
+    <div class="flex items-center justify-center gap-3 mb-3">
+      <span id="daily-badge"
+            data-mode="daily"
+            class="font-rajdhani text-xs font-bold tracking-[3px] uppercase px-3 py-1 border
+                   border-gold text-gold bg-[rgba(200,155,60,0.08)]"
+            data-i18n="dailyBadge">DIARIO</span>
+    </div>
+    <div id="free-mode-banner" class="hidden text-center mb-3">
+      <button id="free-mode-btn"
+              class="font-rajdhani text-xs tracking-widest uppercase text-lol-dim underline
+                     underline-offset-2 hover:text-gold transition-colors"
+              data-i18n="dailyFreePlay">Modo libre</button>
+    </div>
 
     <!-- BUSQUEDA -->
     <div class="mb-4">
@@ -408,7 +464,16 @@
       <img id="v-img" src="" alt="" class="hidden w-24 h-24 rounded-full object-cover object-top border-2 border-gold mx-auto mb-3" />
       <p id="v-player" class="text-3xl font-bold text-gold-light mb-1"></p>
       <p id="v-real"   class="text-base text-lol-dim tracking-wide mb-2"></p>
-      <p id="v-tries"  class="text-base text-lol-dim tracking-widest mb-8"></p>
+      <p id="v-tries"  class="text-base text-lol-dim tracking-widest mb-4"></p>
+
+      <!-- Countdown + Share (solo modo diario) -->
+      <p id="daily-countdown"
+         class="hidden font-rajdhani text-xs tracking-widest uppercase text-lol-dim mb-3"></p>
+      <button id="share-btn"
+              class="hidden mb-6 bg-transparent border border-gold text-gold font-rajdhani
+                     text-xs font-bold tracking-widest uppercase px-6 py-2
+                     hover:bg-gold hover:text-lol-bg transition-all duration-200"
+              data-i18n="dailyShare">Compartir resultado</button>
 
       <button
         class="btn-restart bg-gold text-lol-bg font-rajdhani text-base font-bold
@@ -422,6 +487,7 @@
   <!-- Modulepreload: el navegador descarga los módulos en paralelo antes de ejecutarlos -->
   <link rel="modulepreload" href="./js/main.js">
   <link rel="modulepreload" href="./js/services/GameService.js">
+  <link rel="modulepreload" href="./js/services/DailyService.js">
   <link rel="modulepreload" href="./js/repositories/PlayerRepository.js">
   <link rel="modulepreload" href="./js/utils/helpers.js">
   <link rel="modulepreload" href="./js/utils/i18n.js">

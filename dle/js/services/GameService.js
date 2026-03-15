@@ -5,13 +5,13 @@ export class GameService {
   #attempts = 0;
   #over     = false;
 
-  /** @param {import('../repositories/PlayerRepository.js').PlayerRepository} repository */
   constructor(repository) {
     this.#repo = repository;
   }
 
-  start() {
-    this.#secret   = this.#repo.getRandom();
+  /** @param {object|null} forcedPlayer — jugador diario, o null para aleatorio */
+  start(forcedPlayer = null) {
+    this.#secret   = forcedPlayer ?? this.#repo.getRandom();
     this.#guessed  = new Set();
     this.#attempts = 0;
     this.#over     = false;
@@ -46,8 +46,6 @@ export class GameService {
   searchPlayers(query) {
     return this.#repo.search(query, this.#guessed);
   }
-
-  // ── Lógica de comparación (antes ComparatorService) ──────
 
   #compare(guessed, target) {
     return {

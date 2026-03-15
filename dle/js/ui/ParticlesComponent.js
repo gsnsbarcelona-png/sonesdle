@@ -49,7 +49,6 @@ export class ParticlesComponent {
     this.#animParticles();
   }
 
-  // ── Public API ──────────────────────────────────────────
 
   launchConfetti() {
     const w = this.#cCanvas.width;
@@ -105,7 +104,6 @@ export class ParticlesComponent {
     this.#confetti = [];
   }
 
-  // ── Private ──────────────────────────────────────────────
 
   #resize() {
     this.#pCanvas.width  = this.#cCanvas.width  = window.innerWidth;

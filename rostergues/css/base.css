@@ -5,4 +5,5 @@ body{background:url('../../fondo1.jpg') center center/cover no-repeat fixed;back
 ::-webkit-scrollbar{width:5px}
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:3px}
-.app{position:relative;z-index:10;max-width:720px;margin:0 auto;padding:20px 12px 80px}
+.app{position:relative;z-index:10;max-width:760px;margin:0 auto;padding:20px 12px 80px}
+.hidden{display:none!important}

@@ -19,7 +19,6 @@ export class SearchComponent {
     this.#bindEvents();
   }
 
-  // ── Public API ──────────────────────────────────────────
 
   get value() { return this.#input.value.trim(); }
 
@@ -39,7 +38,6 @@ export class SearchComponent {
     }, 3000);
   }
 
-  // ── Private ──────────────────────────────────────────────
 
   #bindEvents() {
     this.#input.addEventListener('input', () => this.#onInput());

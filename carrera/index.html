@@ -3,10 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LoL Career Guess</title>
+  <title>LoL Career Guess · LOL Pro Games</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Adivina al pro player por su trayectoria profesional. La carrera se revela paso a paso: equipos, años y ligas. ¿Cuántos pasos necesitas?">
+  <meta name="keywords" content="lol, league of legends, pro player, carrera, timeline, esports, adivina, lolprogames">
+  <meta name="author" content="LOL Pro Games">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://lolprogames.com/carrera/">
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://lolprogames.com/carrera/">
+  <meta property="og:title"       content="LoL Career Guess · LOL Pro Games">
+  <meta property="og:description" content="Adivina al pro player por su historial de equipos y años. Timeline progresivo.">
+  <meta property="og:image"       content="https://lolprogames.com/og-image.jpg">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="LoL Career Guess · LOL Pro Games">
+  <meta name="twitter:description" content="Adivina al pro player por su trayectoria profesional.">
+  <meta name="twitter:image"       content="https://lolprogames.com/og-image.jpg">
+
+  <!-- PWA / App -->
+  <meta name="theme-color" content="#010a13">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LOL Pro Games">
+  <link rel="manifest" href="../manifest.json">
+
+  <!-- Favicon (raíz global) -->
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="icon" type="image/png"     href="../favicon.png" sizes="32x32">
+  <link rel="apple-touch-icon"          href="../apple-touch-icon.png">
+
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Styles (order matters: variables → base → components → modal → animations) -->
@@ -50,7 +86,7 @@
       </div>
 
       <!-- subtítulo -->
-      <div class="header-subtitle">Adivina al jugador por su trayectoria</div>
+      <div class="header-subtitle" data-i18n="subtitle">Adivina al jugador por su trayectoria</div>
 
       <!-- línea inferior decorativa -->
       <div class="header-deco">
@@ -65,24 +101,30 @@
   <div class="stats-bar">
     <div class="stat">
       <div class="stat-value" id="stat-wins">0</div>
-      <div class="stat-label">Victorias</div>
+      <div class="stat-label" data-i18n="wins">Victorias</div>
     </div>
     <div class="stat">
       <div class="stat-value" id="stat-played">0</div>
-      <div class="stat-label">Jugados</div>
+      <div class="stat-label" data-i18n="played">Jugados</div>
     </div>
     <div class="stat">
       <div class="stat-value" id="stat-streak">0</div>
-      <div class="stat-label">Racha</div>
+      <div class="stat-label" data-i18n="streak">Racha</div>
     </div>
   </div>
 
-  <!-- ── PROGRESS DOTS ──────────────────────────────── -->
-  <div class="progress-dots" id="progress-dots"></div>
+  <!-- ── LIVES BOX (dots + rendirse) ───────────────── -->
+  <div class="lives-box">
+    <span class="lives-label" data-i18n="attempts">⚡ Intentos</span>
+    <div class="progress-dots" id="progress-dots"></div>
+  </div>
 
   <!-- ── CAREER TIMELINE ────────────────────────────── -->
   <div class="timeline-card">
-    <div class="timeline-title">Trayectoria Revelada</div>
+    <div class="timeline-title">
+      <span data-i18n="pathTitle">Trayectoria Revelada</span>
+      <span class="position-badge hidden" id="position-badge"></span>
+    </div>
     <div class="timeline" id="timeline"></div>
   </div>
 
@@ -96,22 +138,20 @@
           type="text"
           class="guess-input"
           id="guess-input"
-          placeholder="Escribe el nombre del jugador…"
+          data-i18n-ph="placeholder" placeholder="Escribe el nombre del jugador…"
           autocomplete="off"
           spellcheck="false"
         >
         <div class="autocomplete-list" id="autocomplete-list"></div>
       </div>
-      <button class="btn btn-submit" id="btn-submit">⚔ Adivinar</button>
-    </div>
-    <div class="action-buttons">
-      <button class="btn btn-hint" id="btn-hint">💡 Pista (-1 intento)</button>
-      <button class="btn btn-skip" id="btn-skip">✕ Saltar</button>
+      <button class="btn btn-submit" id="btn-submit" data-i18n="btnGuess">⚔ Adivinar</button>
+      <button class="btn btn-hint"   id="btn-hint"   data-i18n="btnHint">💡 Pista</button>
+      <button class="btn btn-skip hidden" id="btn-skip" data-i18n="btnSkip">⚑ Rendirse</button>
     </div>
   </div>
 
   <!-- ── NEXT ROUND BUTTON (visible after round ends) ─ -->
-  <button class="btn btn-next" id="btn-next">▶ Siguiente Jugador</button>
+  <button class="btn btn-next" id="btn-next" data-i18n="btnNext">▶ Siguiente Jugador</button>
 
   <!-- ── HINTS LOG ──────────────────────────────────── -->
   <div class="hints-log" id="hints-log"></div>
@@ -128,18 +168,18 @@
     <div class="modal-stats">
       <div class="modal-stat">
         <div class="modal-stat-val" id="modal-wins">0</div>
-        <div class="modal-stat-lbl">Victorias</div>
+        <div class="modal-stat-lbl" data-i18n="modalWins">Victorias</div>
       </div>
       <div class="modal-stat">
         <div class="modal-stat-val" id="modal-played">0</div>
-        <div class="modal-stat-lbl">Jugados</div>
+        <div class="modal-stat-lbl" data-i18n="modalPlayed">Jugados</div>
       </div>
       <div class="modal-stat">
         <div class="modal-stat-val" id="modal-streak">0</div>
-        <div class="modal-stat-lbl">Racha</div>
+        <div class="modal-stat-lbl" data-i18n="modalStreak">Racha</div>
       </div>
     </div>
-    <button class="modal-btn" id="modal-btn">▶ Siguiente Jugador</button>
+    <button class="modal-btn" id="modal-btn" data-i18n="modalBtn">▶ Siguiente Jugador</button>
   </div>
 </div>
 

@@ -3,7 +3,8 @@
  * Has no side effects beyond DOM mutations.
  */
 
-const MAX_ATTEMPTS = 6;
+import { MAX_ATTEMPTS } from '../core/state.js';
+import { t } from '../i18n.js';
 
 // ─── Region badge helper ───────────────────────────────────────────────────────
 
@@ -14,6 +15,28 @@ function regionClass(region) {
   return REGION_CLASSES[region] ?? 'OTHER';
 }
 
+// ─── Cached DOM elements (set once on first update) ───────────────────────────
+
+let dom = null;
+function getDOM() {
+  if (dom) return dom;
+  dom = {
+    timeline:   document.getElementById('timeline'),
+    dots:       document.getElementById('progress-dots'),
+    hintsLog:   document.getElementById('hints-log'),
+    statWins:   document.getElementById('stat-wins'),
+    statPlayed: document.getElementById('stat-played'),
+    statStreak: document.getElementById('stat-streak'),
+    input:      document.getElementById('guess-input'),
+    btnSubmit:  document.getElementById('btn-submit'),
+    btnHint:    document.getElementById('btn-hint'),
+    btnSkip:    document.getElementById('btn-skip'),
+    btnNext:    document.getElementById('btn-next'),
+    posBadge:   document.getElementById('position-badge'),
+  };
+  return dom;
+}
+
 // ─── Sub-renderers ────────────────────────────────────────────────────────────
 
 /**
@@ -21,7 +44,7 @@ function regionClass(region) {
  * @param {number} revealedCount
  */
 function renderTimeline(player, revealedCount) {
-  const el     = document.getElementById('timeline');
+  const { timeline } = getDOM();
   const shown  = player.career.slice(0, revealedCount);
   const hidden = player.career.length - revealedCount;
 
@@ -41,25 +64,25 @@ function renderTimeline(player, revealedCount) {
     hidden > 0
       ? `<div class="timeline-more">
            <div class="more-dots"><span></span><span></span><span></span></div>
-           <span>${hidden} etapa${hidden > 1 ? 's' : ''} más por revelar</span>
+           <span>${t('stagesLeft', hidden)}</span>
          </div>`
       : '';
 
-  el.innerHTML = itemsHTML + moreHTML;
+  timeline.innerHTML = itemsHTML + moreHTML;
 }
 
 /**
  * @param {{ name: string, correct: boolean, isHint?: boolean }[]} attempts
  */
 function renderDots(attempts) {
-  const el = document.getElementById('progress-dots');
-  el.innerHTML = Array.from({ length: MAX_ATTEMPTS }, (_, i) => {
+  const { dots } = getDOM();
+  dots.innerHTML = Array.from({ length: MAX_ATTEMPTS }, (_, i) => {
     const a = attempts[i];
     let cls = 'dot';
     if (a) {
-      if (a.isHint)   cls += ' hint';
+      if (a.isHint)       cls += ' hint';
       else if (a.correct) cls += ' correct';
-      else cls += ' wrong';
+      else                cls += ' wrong';
     } else if (i === attempts.length) {
       cls += ' current';
     }
@@ -71,9 +94,8 @@ function renderDots(attempts) {
  * @param {{ type: string, text: string, detail?: string }[]} hintsLog
  */
 function renderHintsLog(hintsLog) {
-  const el = document.getElementById('hints-log');
-  const sorted = [...hintsLog].sort((a, b) => (a.type === 'manual' ? -1 : 1) - (b.type === 'manual' ? -1 : 1));
-  el.innerHTML = sorted
+  const { hintsLog: el } = getDOM();
+  el.innerHTML = hintsLog
     .map((h) => {
       if (h.type === 'wrong') {
         return `
@@ -99,31 +121,38 @@ function renderHintsLog(hintsLog) {
 
 /** @param {{ wins: number, played: number, streak: number }} stats */
 function renderStats(stats) {
-  document.getElementById('stat-wins').textContent   = stats.wins;
-  document.getElementById('stat-played').textContent = stats.played;
-  document.getElementById('stat-streak').textContent = stats.streak;
+  const { statWins, statPlayed, statStreak } = getDOM();
+  statWins.textContent   = stats.wins;
+  statPlayed.textContent = stats.played;
+  statStreak.textContent = stats.streak;
 }
 
-/** @param {boolean} roundOver @param {boolean} hintUsed */
-function renderControls(roundOver, hintUsed) {
-  const input     = document.getElementById('guess-input');
-  const btnSubmit = document.getElementById('btn-submit');
-  const btnHint   = document.getElementById('btn-hint');
-  const btnSkip   = document.getElementById('btn-skip');
-  const btnNext   = document.getElementById('btn-next');
+/** @param {object} state */
+function renderControls(state) {
+  const { roundOver, hintUsed, revealedCount, currentPlayer } = state;
+  const { input, btnSubmit, btnHint, btnSkip, btnNext, posBadge } = getDOM();
+
+  // Position badge
+  posBadge.textContent   = hintUsed ? currentPlayer.position : '';
+  posBadge.classList.toggle('hidden', !hintUsed);
+
+  const noMoreHints = hintUsed && revealedCount >= currentPlayer.career.length;
 
   if (roundOver) {
-    input.disabled     = true;
+    input.disabled    = true;
     btnSubmit.disabled = true;
-    btnHint.disabled   = true;
-    btnSkip.disabled   = true;
+    btnHint.classList.add('hidden');
+    btnSkip.classList.add('hidden');
     btnNext.classList.add('visible');
   } else {
     input.disabled     = false;
     btnSubmit.disabled = false;
-    btnHint.disabled   = hintUsed;
-    btnSkip.disabled   = false;
     btnNext.classList.remove('visible');
+
+    btnHint.classList.toggle('hidden', noMoreHints);
+    btnSkip.classList.toggle('hidden', !noMoreHints);
+    btnHint.disabled = false;
+    btnSkip.disabled = false;
   }
 }
 
@@ -139,5 +168,5 @@ export function update(state) {
   renderDots(state.attempts);
   renderHintsLog(state.hintsLog);
   renderStats(state.stats);
-  renderControls(state.roundOver, state.hintUsed);
+  renderControls(state);
 }
