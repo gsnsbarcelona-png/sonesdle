@@ -39,6 +39,7 @@ async function boot() {
   document.addEventListener('langchange', () => {
     grid.refreshHeader();
     updateDailyBadge();
+    updateHardBtn();
   });
 
   const victory = new VictoryComponent({
@@ -65,10 +66,34 @@ async function boot() {
   const shareBtn    = document.getElementById('share-btn');
   const countdownEl = document.getElementById('daily-countdown');
   const freeModeBtn = document.getElementById('free-mode-btn');
+  const hardBtn     = document.getElementById('hard-mode-btn');
 
   // ── Estado del modo ───────────────────────────────────────
   let isDaily      = true;
   let pendingRows  = []; // acumula filas para el share
+  let isHard       = localStorage.getItem('dle_hard_mode') === '1';
+
+  // ── Modo difícil ──────────────────────────────────────────
+  grid.setHardMode(isHard);
+  updateHardBtn();
+
+  hardBtn?.addEventListener('click', () => {
+    if (game.attempts > 0) return;
+    isHard = !isHard;
+    localStorage.setItem('dle_hard_mode', isHard ? '1' : '0');
+    grid.setHardMode(isHard);
+    updateHardBtn();
+  });
+
+  function updateHardBtn() {
+    if (!hardBtn) return;
+    hardBtn.textContent = isHard ? t('hardModeOn') : t('hardModeBtn');
+    hardBtn.classList.toggle('border-gold',    isHard);
+    hardBtn.classList.toggle('text-gold',      isHard);
+    hardBtn.classList.toggle('border-lol-border', !isHard);
+    hardBtn.classList.toggle('text-lol-dim',   !isHard);
+  }
+
 
   // ── Modo diario ───────────────────────────────────────────
   function getDailyPlayer() {
@@ -198,6 +223,7 @@ async function boot() {
     particles.stopConfetti();
     if (shareBtn)    shareBtn.classList.add('hidden');
     if (countdownEl) countdownEl.classList.add('hidden');
+    updateHardBtn();
   }
 
   function disableInput() {

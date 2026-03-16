@@ -52,6 +52,9 @@ const TRANSLATIONS = {
     dailyFreePlay:      'Modo libre',
     dailyShare:         'Compartir resultado',
     dailyCopied:        '¡Copiado!',
+    hardModeBtn:        '💀 Modo difícil',
+    hardModeOn:         '💀 DIFÍCIL · ACTIVO',
+    hardModeTip:        'Oculta las columnas Liga y Equipo',
   },
   en: {
     subtitle:      'Guess the Pro Player',
@@ -106,6 +109,9 @@ const TRANSLATIONS = {
     dailyFreePlay:      'Free play',
     dailyShare:         'Share result',
     dailyCopied:        'Copied!',
+    hardModeBtn:        '💀 Hard mode',
+    hardModeOn:         '💀 HARD · ON',
+    hardModeTip:        'Hides League and Team columns',
   },
 };
 

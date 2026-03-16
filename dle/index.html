@@ -97,6 +97,17 @@
     @media (min-width: 768px) {
       .game-grid { grid-template-columns: 130px repeat(7, 1fr); gap: 4px; }
     }
+    /* Modo difícil: 5 columnas (sin Liga ni Equipo) */
+    .game-grid[data-hard] { grid-template-columns: 68px repeat(5, 1fr); }
+    @media (min-width: 400px) {
+      .game-grid[data-hard] { grid-template-columns: 80px repeat(5, 1fr); }
+    }
+    @media (min-width: 540px) {
+      .game-grid[data-hard] { grid-template-columns: 100px repeat(5, 1fr); }
+    }
+    @media (min-width: 768px) {
+      .game-grid[data-hard] { grid-template-columns: 130px repeat(5, 1fr); }
+    }
 
     /* ── Encabezados de columna ─────────────────────────────── */
     .col-header {
@@ -411,6 +422,18 @@
           <span data-i18n="giveup">Rendirse</span>
         </button>
       </div>
+
+      <!-- Modo difícil -->
+      <div class="flex justify-center mt-2">
+        <button
+          id="hard-mode-btn"
+          title="Oculta las columnas Liga y Equipo"
+          class="font-rajdhani text-xs font-bold tracking-widest uppercase px-4 py-1 border
+                 border-lol-border text-lol-dim transition-all duration-200
+                 hover:border-gold hover:text-gold"
+        >💀 Modo difícil</button>
+      </div>
+
     </div>
 
     <hr class="border-lol-border my-4">

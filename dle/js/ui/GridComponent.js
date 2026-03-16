@@ -2,14 +2,14 @@ import { flagImg, esc } from '../utils/helpers.js';
 import { t } from '../utils/i18n.js';
 
 const COLUMN_KEYS = [
-  { key: 'colPlayer',   icon: '',    tip: 'tipPlayer'   },
-  { key: 'colCountry',  icon: '🌍',  tip: 'tipCountry'  },
-  { key: 'colLeague',   icon: '🏅',  tip: 'tipLeague'   },
-  { key: 'colPosition', icon: '🎮',  tip: 'tipPosition' },
-  { key: 'colTitles',   icon: '🏅',  tip: 'tipTitles'   },
-  { key: 'colWorlds',   icon: '🏆',  tip: 'tipWorlds'   },
-  { key: 'colAge',      icon: '📅',  tip: 'tipAge'      },
-  { key: 'colTeam',     icon: '🛡️', tip: 'tipTeam'     },
+  { key: 'colPlayer',   icon: '',    tip: 'tipPlayer',   hard: true  },
+  { key: 'colCountry',  icon: '🌍',  tip: 'tipCountry',  hard: true  },
+  { key: 'colLeague',   icon: '🏅',  tip: 'tipLeague',   hard: false },
+  { key: 'colPosition', icon: '🎮',  tip: 'tipPosition', hard: true  },
+  { key: 'colTitles',   icon: '🏅',  tip: 'tipTitles',   hard: true  },
+  { key: 'colWorlds',   icon: '🏆',  tip: 'tipWorlds',   hard: true  },
+  { key: 'colAge',      icon: '📅',  tip: 'tipAge',      hard: true  },
+  { key: 'colTeam',     icon: '🛡️', tip: 'tipTeam',     hard: false },
 ];
 
 const REVEAL_DELAY_MS = 130;
@@ -17,6 +17,7 @@ const REVEAL_DELAY_MS = 130;
 export class GridComponent {
   #headerEl;
   #listEl;
+  #hardMode = false;
 
   /**
    * @param {{ headerEl: HTMLElement, listEl: HTMLElement }}
@@ -27,21 +28,27 @@ export class GridComponent {
     this.refreshHeader();
   }
 
+  setHardMode(val) {
+    this.#hardMode = val;
+    this.refreshHeader();
+  }
+
 
   addRow(player, result) {
     const row = document.createElement('div');
     row.className = 'game-grid';
+    if (this.#hardMode) row.dataset.hard = '';
 
     row.appendChild(this.#makeNameCell(player));
 
     const dataCells = [
       this.#makeCountryCell(player,  result.country),
-      this.#makeLeagueCell(player,   result.league),
+      ...(this.#hardMode ? [] : [this.#makeLeagueCell(player, result.league)]),
       this.#makePositionCell(player, result.position),
-      this.#makeTitlesCell(player,  result.titles),
+      this.#makeTitlesCell(player,   result.titles),
       this.#makeWorldsCell(player,   result.worlds),
       this.#makeAgeCell(player,      result.age),
-      this.#makeTeamCell(player,     result.team),
+      ...(this.#hardMode ? [] : [this.#makeTeamCell(player, result.team)]),
     ];
     dataCells.forEach(cell => row.appendChild(cell));
 
@@ -62,7 +69,11 @@ export class GridComponent {
 
   refreshHeader() {
     this.#headerEl.className = 'game-grid mb-1';
-    this.#headerEl.innerHTML = COLUMN_KEYS.map(col => `
+    if (this.#hardMode) this.#headerEl.dataset.hard = '';
+    else delete this.#headerEl.dataset.hard;
+
+    const cols = this.#hardMode ? COLUMN_KEYS.filter(c => c.hard !== false) : COLUMN_KEYS;
+    this.#headerEl.innerHTML = cols.map(col => `
       <div class="col-header col-tip" data-tip="${t(col.tip)}">
         ${col.icon ? `<span class="col-icon">${col.icon}</span>` : ''}
         <span>${t(col.key)}</span>
