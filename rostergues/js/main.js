@@ -356,6 +356,12 @@ function bindEvents() {
 
   input.addEventListener('blur', () => setTimeout(() => AC.close($('autocomplete-list')), 150));
 
+  $('autocomplete-list').addEventListener('mousedown', e => {
+    e.preventDefault(); // evita que el blur cierre el dropdown antes del click
+    const item = e.target.closest('.autocomplete-item');
+    if (item) selectAutocomplete(item.dataset.name);
+  });
+
   btnSubmit.addEventListener('click', () => submitGuess(input.value));
 
   btnSurr.addEventListener('click', () => {
