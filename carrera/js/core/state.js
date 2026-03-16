@@ -1,6 +1,8 @@
 import { PLAYERS }          from '../data/players.js';
 import { generateAutoHint } from './hintEngine.js';
 
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
 /** Maximum guesses per round. */
 export const MAX_ATTEMPTS = 6;
 
@@ -110,7 +112,7 @@ export function guess(name) {
 
   // Auto hint on wrong answer
   const detail = generateAutoHint(name, currentPlayer);
-  hintsLog.push({ type: 'wrong', text: `"${name}" es incorrecto.`, detail });
+  hintsLog.push({ type: 'wrong', text: `"${esc(name)}" es incorrecto.`, detail });
 
   // Reveal one more career entry
   if (revealedCount < currentPlayer.career.length) revealedCount++;

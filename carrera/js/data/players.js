@@ -548,4 +548,86 @@ export const PLAYERS = [
       { year: "2017–18", team: "Phoenix1 / 100 Thieves", region: "LCS" },
     ],
   },
+  {
+    name: "Bengi", position: "Jungle",
+    hint: "El jungla sombra de Faker. Tres veces campeón mundial con SKT T1 (2013, 2015, 2016). Su estilo pasivo y de servicio al equipo lo convirtió en leyenda.",
+    career: [
+      { year: "2013",    team: "SKT T1 K", region: "LCK" },
+      { year: "2014",    team: "SKT T1 K", region: "LCK" },
+      { year: "2015–16", team: "SKT T1",   region: "LCK" },
+      { year: "2017",    team: "SKT T1",   region: "LCK" },
+    ],
+  },
+  {
+    name: "MaRin", position: "Top",
+    hint: "Top laner coreano campeón del mundo con SKT T1 en 2015. Considerado el mejor top de su época, destacó por su agresividad y dominio del split push.",
+    career: [
+      { year: "2013",    team: "CJ Entus Blaze", region: "LCK" },
+      { year: "2014",    team: "KT Rolster",     region: "LCK" },
+      { year: "2015",    team: "SKT T1",         region: "LCK" },
+      { year: "2016",    team: "Qiao Gu",        region: "LPL" },
+      { year: "2017",    team: "Team WE",        region: "LPL" },
+    ],
+  },
+  {
+    name: "Madlife", position: "Support",
+    hint: "El support coreano más icónico de la era dorada del LoL. Sus hooks de Blitzcrank y Thresh eran de otro nivel. Jugó casi toda su carrera en CJ Entus.",
+    career: [
+      { year: "2012–13", team: "CJ Entus Blaze", region: "LCK" },
+      { year: "2014–15", team: "CJ Entus Blaze", region: "LCK" },
+      { year: "2016",    team: "CJ Entus",       region: "LCK" },
+      { year: "2017",    team: "Gold Coin United", region: "LCS" },
+    ],
+  },
+  {
+    name: "InSec", position: "Jungle",
+    hint: "El jungla coreano que dio nombre al 'InSec', la jugada de Flash+Lee Sin kick. Conocido por su mecánica excepcional y su paso por NaJin y KT Rolster.",
+    career: [
+      { year: "2012–13", team: "NaJin Sword",  region: "LCK" },
+      { year: "2014–15", team: "KT Rolster",   region: "LCK" },
+      { year: "2016",    team: "KT Rolster",   region: "LCK" },
+      { year: "2017",    team: "Longzhu",      region: "LCK" },
+    ],
+  },
+  {
+    name: "DanDy", position: "Jungle",
+    hint: "El jungla de Samsung White, campeón mundial en 2014. Considerado por muchos el mejor jungla de la historia del LoL por su dominio en Worlds 2014.",
+    career: [
+      { year: "2013",    team: "Samsung Ozone", region: "LCK" },
+      { year: "2014",    team: "Samsung White", region: "LCK" },
+      { year: "2015–16", team: "Team WE",       region: "LPL" },
+      { year: "2017",    team: "Vici Gaming",   region: "LPL" },
+    ],
+  },
+  {
+    name: "Dyrus", position: "Top",
+    hint: "El top laner más querido de Norteamérica. Jugó 5 Worlds consecutivos con TSM (2011–2015) y fue el rostro del esports de LoL en NA durante años.",
+    career: [
+      { year: "2011",    team: "TSM", region: "LCS" },
+      { year: "2012",    team: "TSM", region: "LCS" },
+      { year: "2013",    team: "TSM", region: "LCS" },
+      { year: "2014",    team: "TSM", region: "LCS" },
+      { year: "2015",    team: "TSM", region: "LCS" },
+    ],
+  },
+  {
+    name: "Hai", position: "Mid",
+    hint: "Co-fundador y alma de Cloud9. Lideró al equipo desde el Mid hasta moverse al Support. Una de las figuras más carismáticas del esports de NA.",
+    career: [
+      { year: "2012–13", team: "Cloud9",   region: "LCS" },
+      { year: "2014–15", team: "Cloud9",   region: "LCS" },
+      { year: "2016",    team: "Cloud9",   region: "LCS" },
+      { year: "2017",    team: "FlyQuest", region: "LCS" },
+    ],
+  },
+  {
+    name: "Froggen", position: "Mid",
+    hint: "El mejor midlaner europeo antes de la era de los coreanos. Su Anivia era legendaria. Jugó para CLG EU, Alliance y luego en NA con Echo Fox.",
+    career: [
+      { year: "2012",    team: "CLG EU",    region: "LEC" },
+      { year: "2013–14", team: "Alliance",  region: "LEC" },
+      { year: "2015",    team: "Elements",  region: "LEC" },
+      { year: "2017–18", team: "Echo Fox",  region: "LCS" },
+    ],
+  },
 ];
