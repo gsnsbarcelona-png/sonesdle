@@ -1,6 +1,6 @@
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+@import '../../shared/css/base.css';
+
 html,body { height:100%; background:var(--bg); color:var(--text); font-family:'Rajdhani',sans-serif; overflow-x:hidden; }
-::-webkit-scrollbar{width:5px} ::-webkit-scrollbar-track{background:var(--bg)} ::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:3px}
 #bgCanvas { position:fixed; inset:0; z-index:0; pointer-events:none; }
 #confettiCanvas { position:fixed; inset:0; z-index:201; pointer-events:none; }
 

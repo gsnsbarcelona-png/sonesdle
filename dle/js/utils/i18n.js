@@ -109,25 +109,21 @@ const TRANSLATIONS = {
   },
 };
 
-let _lang = localStorage.getItem('app_lang') || 'es';
+// Delegar getLang/setLang a shared/lang.js para sincronización global
+import { getLang as _sharedGetLang, setLang as _sharedSetLang } from '../../../shared/lang.js';
 
-export function t(key, ...args) {
-  const val = TRANSLATIONS[_lang]?.[key] ?? TRANSLATIONS['es'][key] ?? key;
-  return typeof val === 'function' ? val(...args) : val;
-}
+export function getLang() { return _sharedGetLang(); }
 
-export function getLang() { return _lang; }
-
-/**
- * Cambia el idioma, guarda en localStorage,
- * actualiza los elementos estáticos y emite 'langchange'.
- */
 export function setLang(lang) {
   if (!TRANSLATIONS[lang]) return;
-  _lang = lang;
-  localStorage.setItem('app_lang', lang);
-  applyStaticTranslations();
-  document.dispatchEvent(new Event('langchange'));
+  _sharedSetLang(lang);        // guarda en localStorage y emite 'langchange'
+  applyStaticTranslations();   // aplica traducciones DLE inmediatamente
+}
+
+export function t(key, ...args) {
+  const lang = getLang();
+  const val = TRANSLATIONS[lang]?.[key] ?? TRANSLATIONS['es'][key] ?? key;
+  return typeof val === 'function' ? val(...args) : val;
 }
 
 /** Actualiza todos los elementos con [data-i18n] y [data-i18n-ph]. */

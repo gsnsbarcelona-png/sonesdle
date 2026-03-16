@@ -1,0 +1,22 @@
+/**
+ * base.css — Reset y estilos universales para LOL Pro Games.
+ * Importar DESPUÉS de variables.css en cada juego.
+ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+
+/* Scrollbar global */
+::-webkit-scrollbar       { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 3px; }
+
+/* Overlay oscuro sobre fondo (todos los juegos lo usan) */
+.bg-overlay {
+  position: fixed; inset: 0;
+  background: rgba(1,10,19,0.72);
+  pointer-events: none; z-index: 0;
+}
+
+/* Utilidad universal */
+.hidden { display: none !important; }

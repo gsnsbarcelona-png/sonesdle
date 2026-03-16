@@ -3,6 +3,8 @@ import { pickRoster }                           from './services/RosterPickerSer
 import { getHintTarget, getMaskedName, nextRevealIn } from './services/HintService.js';
 import { mountSwitcher, applyStaticTranslations, getLang } from '../../shared/lang.js';
 import { mountGameNav } from '../../shared/nav.js';
+import { ParticlesComponent } from '../../shared/js/ParticlesComponent.js';
+import * as AC from '../../shared/js/autocomplete.js';
 
 /* ─── Constants ──────────────────────────────────────────── */
 const POSITION_ORDER   = ['Top', 'Jungle', 'Mid', 'ADC', 'Support'];
@@ -57,6 +59,9 @@ const state = {
 /* ─── DOM refs ───────────────────────────────────────────── */
 const $ = id => document.getElementById(id);
 
+/* ─── Particles (instancia compartida) ──────────────────── */
+let particles = null;
+
 /* ─── All player names for autocomplete ─────────────────── */
 const ALL_PLAYERS = [];
 for (const roster of ROSTERS) {
@@ -84,7 +89,7 @@ function initGame() {
   $('btn-submit').disabled  = false;
   $('btn-surrender').disabled = false;
   $('guess-input').value    = '';
-  closeAutocomplete();
+  AC.close($('autocomplete-list'));
 
   renderYearBanner();
   renderSlots();
@@ -233,7 +238,7 @@ function submitGuess(inputName) {
   }
 
   $('guess-input').value = '';
-  closeAutocomplete();
+  AC.close($('autocomplete-list'));
   renderSlots();
   renderHistory();
   renderCounters();
@@ -301,159 +306,31 @@ function showResult() {
   $('btn-submit').disabled     = true;
   $('btn-surrender').disabled  = true;
 
-  if (isWin) launchConfetti();
+  if (isWin) particles?.launchConfetti();
 }
 
 /* ─── Autocomplete ───────────────────────────────────────── */
-let acIndex = -1;
 
 function updateAutocomplete(query) {
-  const list    = $('autocomplete-list');
-  const used    = new Set(state.guesses.map(g => g.name.toLowerCase()));
-  const q       = query.trim().toLowerCase();
+  const list = $('autocomplete-list');
+  const used = new Set(state.guesses.map(g => g.name.toLowerCase()));
+  const q    = query.trim().toLowerCase();
 
-  if (!q) { closeAutocomplete(); return; }
+  if (!q) { AC.close(list); return; }
 
   const matches = ALL_PLAYERS
     .filter(p => p.name.toLowerCase().includes(q) && !used.has(p.name.toLowerCase()))
     .slice(0, 10);
 
-  if (!matches.length) { closeAutocomplete(); return; }
-
-  acIndex       = -1;
-  list.innerHTML = '';
-  for (const m of matches) {
-    const item = document.createElement('div');
-    item.className = 'autocomplete-item';
-    item.dataset.name = m.name;
-    item.innerHTML = `<span class="autocomplete-name">${m.name}</span><span class="autocomplete-pos">${m.position}</span>`;
-    item.addEventListener('mousedown', e => {
-      e.preventDefault();
-      selectAutocomplete(m.name);
-    });
-    list.appendChild(item);
-  }
-  list.classList.add('open');
-}
-
-function closeAutocomplete() {
-  const list = $('autocomplete-list');
-  list.innerHTML = '';
-  list.classList.remove('open');
-  acIndex = -1;
+  AC.render(matches, list, query);
 }
 
 function selectAutocomplete(name) {
   $('guess-input').value = name;
-  closeAutocomplete();
+  AC.close($('autocomplete-list'));
   submitGuess(name);
 }
 
-function navigateAutocomplete(dir) {
-  const list  = $('autocomplete-list');
-  const items = list.querySelectorAll('.autocomplete-item');
-  if (!items.length) return;
-
-  items[acIndex]?.classList.remove('active');
-  acIndex = (acIndex + dir + items.length) % items.length;
-  const active = items[acIndex];
-  active.classList.add('active');
-  $('guess-input').value = active.dataset.name;
-}
-
-/* ─── Particles ──────────────────────────────────────────── */
-function initParticles() {
-  const canvas = $('canvas-particles');
-  if (!canvas) return;
-  const ctx    = canvas.getContext('2d');
-  let W, H;
-
-  const GOLD = 'rgba(200,155,60,';
-  const particles = Array.from({ length: 25 }, () => ({
-    x: Math.random(),
-    y: Math.random(),
-    r: 1 + Math.random() * 2,
-    vx: (Math.random() - 0.5) * 0.3,
-    vy: -0.1 - Math.random() * 0.25,
-    a: 0.15 + Math.random() * 0.45,
-  }));
-
-  function resize() {
-    W = canvas.width  = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  }
-  window.addEventListener('resize', resize);
-  resize();
-
-  function tick() {
-    ctx.clearRect(0, 0, W, H);
-    for (const p of particles) {
-      p.x += p.vx / W * 60;
-      p.y += p.vy / H * 60;
-      if (p.y < -0.02) p.y = 1.02;
-      if (p.x < -0.02) p.x = 1.02;
-      if (p.x >  1.02) p.x = -0.02;
-
-      ctx.beginPath();
-      ctx.arc(p.x * W, p.y * H, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = GOLD + p.a + ')';
-      ctx.fill();
-    }
-    requestAnimationFrame(tick);
-  }
-  tick();
-}
-
-/* ─── Confetti ───────────────────────────────────────────── */
-function launchConfetti() {
-  const canvas = $('canvas-confetti');
-  if (!canvas) return;
-  const ctx  = canvas.getContext('2d');
-  canvas.width  = window.innerWidth;
-  canvas.height = window.innerHeight;
-
-  const COLORS = ['#c89b3c','#f0e6d3','#785a28','#00cc66','#ffffff'];
-  const pieces = Array.from({ length: 60 }, () => ({
-    x: Math.random() * canvas.width,
-    y: -10 - Math.random() * 100,
-    w: 6 + Math.random() * 8,
-    h: 4 + Math.random() * 4,
-    color: COLORS[Math.floor(Math.random() * COLORS.length)],
-    vx: (Math.random() - 0.5) * 2,
-    vy: 2 + Math.random() * 3,
-    rot: Math.random() * Math.PI * 2,
-    vrot: (Math.random() - 0.5) * 0.15,
-    alpha: 1,
-  }));
-
-  let frame;
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    let alive = false;
-    for (const p of pieces) {
-      if (p.alpha <= 0) continue;
-      alive = true;
-      p.x   += p.vx;
-      p.y   += p.vy;
-      p.rot += p.vrot;
-      if (p.y > canvas.height * 0.7) p.alpha -= 0.018;
-
-      ctx.save();
-      ctx.translate(p.x, p.y);
-      ctx.rotate(p.rot);
-      ctx.globalAlpha = Math.max(0, p.alpha);
-      ctx.fillStyle   = p.color;
-      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
-      ctx.restore();
-    }
-    if (alive) {
-      frame = requestAnimationFrame(draw);
-    } else {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
-  }
-  draw();
-}
 
 /* ─── Event Listeners ────────────────────────────────────── */
 function bindEvents() {
@@ -466,20 +343,18 @@ function bindEvents() {
 
   input.addEventListener('keydown', e => {
     const list = $('autocomplete-list');
-    if (e.key === 'ArrowDown') { e.preventDefault(); navigateAutocomplete(1); }
-    else if (e.key === 'ArrowUp') { e.preventDefault(); navigateAutocomplete(-1); }
+    if (e.key === 'ArrowDown') { e.preventDefault(); const n = AC.navigate(1, list); if (n) input.value = n; }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); const n = AC.navigate(-1, list); if (n) input.value = n; }
     else if (e.key === 'Enter') {
       e.preventDefault();
-      if (list.classList.contains('open') && acIndex >= 0) {
-        const active = list.querySelector('.autocomplete-item.active');
-        if (active) { selectAutocomplete(active.dataset.name); return; }
-      }
+      const active = AC.getActive(list);
+      if (active) { selectAutocomplete(active); return; }
       submitGuess(input.value);
     }
-    else if (e.key === 'Escape') closeAutocomplete();
+    else if (e.key === 'Escape') AC.close(list);
   });
 
-  input.addEventListener('blur', () => setTimeout(closeAutocomplete, 150));
+  input.addEventListener('blur', () => setTimeout(() => AC.close($('autocomplete-list')), 150));
 
   btnSubmit.addEventListener('click', () => submitGuess(input.value));
 
@@ -503,7 +378,10 @@ document.addEventListener('DOMContentLoaded', () => {
   mountSwitcher();
   mountGameNav();
   applyStaticTranslations(STATIC);
-  initParticles();
+  particles = new ParticlesComponent({
+    particleCanvas: $('canvas-particles'),
+    confettiCanvas: $('canvas-confetti'),
+  });
   bindEvents();
   initGame();
 });

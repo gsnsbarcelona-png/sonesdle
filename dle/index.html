@@ -47,11 +47,12 @@
   <!-- Preload del fondo (recurso más pesado de la página) -->
   <link rel="preload" href="../fondo1.jpg" as="image">
 
-  <!-- Shared CSS variables (LOLPROGAMES global) -->
+  <!-- Shared CSS (variables + base reset) -->
   <link rel="stylesheet" href="../shared/css/variables.css">
+  <link rel="stylesheet" href="../shared/css/base.css">
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -270,10 +271,6 @@
     .col-tip:hover::after,
     .col-tip:hover::before { opacity: 1; }
 
-    /* ── Scrollbar ──────────────────────────────────────────── */
-    ::-webkit-scrollbar       { width: 5px; }
-    ::-webkit-scrollbar-track { background: #010a13; }
-    ::-webkit-scrollbar-thumb { background: #785a28; border-radius: 3px; }
   </style>
 </head>
 
@@ -289,28 +286,6 @@
   <!-- Confetti victoria -->
   <canvas id="canvas-confetti" class="fixed inset-0 pointer-events-none z-[201]"></canvas>
 
-  <!-- Selector de idioma (fijo arriba a la derecha) -->
-  <div id="lang-switcher" class="fixed top-3 right-3 z-50" style="font-family:'Rajdhani',sans-serif;">
-    <button id="lang-btn"
-            class="flex items-center gap-2 px-3 py-2 border border-lol-border bg-lol-surface
-                   hover:border-gold transition-all duration-200">
-      <img id="lang-flag" src="https://flagcdn.com/w20/es.png" width="20" height="15" alt="">
-      <span id="lang-code" class="text-xs font-bold tracking-widest text-lol-dim uppercase">ES</span>
-      <span style="color:#4a6080;font-size:0.55rem;">▼</span>
-    </button>
-    <div id="lang-menu" class="hidden absolute right-0 top-full mt-1 border border-lol-border bg-lol-surface shadow-lg min-w-[120px]">
-      <button data-lang="es" class="lang-option flex items-center gap-2 px-3 py-2 w-full text-left
-                                    hover:bg-[rgba(200,155,60,0.1)] transition-colors">
-        <img src="https://flagcdn.com/w20/es.png" width="20" height="15" alt="">
-        <span class="text-xs font-bold tracking-wider text-lol-dim">Español</span>
-      </button>
-      <button data-lang="en" class="lang-option flex items-center gap-2 px-3 py-2 w-full text-left
-                                    hover:bg-[rgba(200,155,60,0.1)] transition-colors border-t border-lol-border">
-        <img src="https://flagcdn.com/w20/gb.png" width="20" height="15" alt="">
-        <span class="text-xs font-bold tracking-wider text-lol-dim">English</span>
-      </button>
-    </div>
-  </div>
 
   <!-- ══ CONTENIDO PRINCIPAL ══════════════════════════════════ -->
   <div class="relative z-10 max-w-5xl mx-auto">

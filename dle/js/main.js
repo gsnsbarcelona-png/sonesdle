@@ -6,12 +6,13 @@ import { GridComponent }      from './ui/GridComponent.js';
 import { VictoryComponent }   from './ui/VictoryComponent.js';
 import { ParticlesComponent } from './ui/ParticlesComponent.js';
 import { t, getLang, setLang, applyStaticTranslations } from './utils/i18n.js';
+import { mountSwitcher } from '../../shared/lang.js';
 import { CookieBanner } from './ui/CookieBanner.js';
 import { mountGameNav } from '../../shared/nav.js';
 
 async function boot() {
   applyStaticTranslations();
-  setupLangSwitcher();
+  mountSwitcher();
   mountGameNav();
   new CookieBanner().init();
 
@@ -254,28 +255,6 @@ async function boot() {
   startDaily();
 }
 
-function setupLangSwitcher() {
-  const btn     = document.getElementById('lang-btn');
-  const menu    = document.getElementById('lang-menu');
-  const flagImg = document.getElementById('lang-flag');
-  const codeEl  = document.getElementById('lang-code');
-
-  const FLAGS = { es: { src: 'https://flagcdn.com/w20/es.png', code: 'ES' },
-                  en: { src: 'https://flagcdn.com/w20/gb.png', code: 'EN' } };
-
-  const updateBtn = lang => { flagImg.src = FLAGS[lang].src; codeEl.textContent = FLAGS[lang].code; };
-
-  updateBtn(getLang());
-  btn.addEventListener('click', e => { e.stopPropagation(); menu.classList.toggle('hidden'); });
-  document.querySelectorAll('.lang-option').forEach(opt => {
-    opt.addEventListener('click', () => {
-      setLang(opt.dataset.lang);
-      updateBtn(opt.dataset.lang);
-      menu.classList.add('hidden');
-    });
-  });
-  document.addEventListener('click', () => menu.classList.add('hidden'));
-}
 
 boot().catch(err => {
   console.error('[DLE Games]', err);
