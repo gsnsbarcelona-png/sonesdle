@@ -17,12 +17,7 @@ async function boot() {
   new CookieBanner().init();
 
   const repo = new PlayerRepository();
-  try {
-    await repo.loadFromAPI();
-  } catch (apiErr) {
-    console.warn('[DLE Games] API no disponible, usando datos locales:', apiErr.message);
-    await repo.load('./data/players.json');
-  }
+  await repo.load('./data/players.json');
 
   const game = new GameService(repo);
 
