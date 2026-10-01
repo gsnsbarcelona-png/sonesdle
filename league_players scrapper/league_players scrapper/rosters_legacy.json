@@ -1,0 +1,62 @@
+[
+  {
+    "id": "fnatic-2011",
+    "team": "Fnatic",
+    "year": 2011,
+    "event": "Season 1 World Championship",
+    "region": "LEC",
+    "placement": "champion",
+    "players": [
+      { "name": "LamiaZed",  "real": "Tue Dissing",              "country": "Denmark",  "flag": "🇩🇰", "position": "Top"     },
+      { "name": "Cyanide",   "real": "Lauri Happonen",            "country": "Finland",  "flag": "🇫🇮", "position": "Jungle"  },
+      { "name": "xPeke",     "real": "Enrique Cedeño Martínez",   "country": "Spain",    "flag": "🇪🇸", "position": "Mid"     },
+      { "name": "Mellisan",  "real": "Troels Nielsen",            "country": "Denmark",  "flag": "🇩🇰", "position": "ADC"     },
+      { "name": "Shushei",   "real": "Maciej Hernik",             "country": "Poland",   "flag": "🇵🇱", "position": "Support" }
+    ]
+  },
+  {
+    "id": "tpa-2012",
+    "team": "Taipei Assassins",
+    "year": 2012,
+    "event": "Season 2 World Championship",
+    "region": "LMS",
+    "placement": "champion",
+    "players": [
+      { "name": "Stanley",   "real": "Yang Hsien-min",  "country": "Taiwan", "flag": "🇹🇼", "position": "Top"     },
+      { "name": "Lilballz",  "real": "Chou Cheng-Wei",  "country": "Taiwan", "flag": "🇹🇼", "position": "Jungle"  },
+      { "name": "Toyz",      "real": "Chu Chun-Chieh",  "country": "Taiwan", "flag": "🇹🇼", "position": "Mid"     },
+      { "name": "Bebe",      "real": "Liu Ping-Wei",    "country": "Taiwan", "flag": "🇹🇼", "position": "ADC"     },
+      { "name": "MiSTakE",   "real": "Kuo Chao-Hsin",  "country": "Taiwan", "flag": "🇹🇼", "position": "Support" }
+    ]
+  },
+  {
+    "id": "skt-t1-2013",
+    "team": "SKT T1",
+    "year": 2013,
+    "event": "Season 3 World Championship",
+    "region": "LCK",
+    "placement": "champion",
+    "players": [
+      { "name": "Impact",    "real": "Jung Eon-yeong",  "country": "South Korea", "flag": "🇰🇷", "position": "Top"     },
+      { "name": "Bengi",     "real": "Bae Seong-woong", "country": "South Korea", "flag": "🇰🇷", "position": "Jungle"  },
+      { "name": "Faker",     "real": "Lee Sang-hyeok",  "country": "South Korea", "flag": "🇰🇷", "position": "Mid"     },
+      { "name": "Piglet",    "real": "Chae Gwang-jin",  "country": "South Korea", "flag": "🇰🇷", "position": "ADC"     },
+      { "name": "PoohManDu", "real": "Lee Jeong-hyeon", "country": "South Korea", "flag": "🇰🇷", "position": "Support" }
+    ]
+  },
+  {
+    "id": "samsung-white-2014",
+    "team": "Samsung White",
+    "year": 2014,
+    "event": "Season 4 World Championship",
+    "region": "LCK",
+    "placement": "champion",
+    "players": [
+      { "name": "Looper", "real": "Lee Dong-woo",  "country": "South Korea", "flag": "🇰🇷", "position": "Top"     },
+      { "name": "DanDy",  "real": "Choi In-gyu",   "country": "South Korea", "flag": "🇰🇷", "position": "Jungle"  },
+      { "name": "PawN",   "real": "Heo Won-seok",  "country": "South Korea", "flag": "🇰🇷", "position": "Mid"     },
+      { "name": "imp",    "real": "Gu Seung-bin",  "country": "South Korea", "flag": "🇰🇷", "position": "ADC"     },
+      { "name": "Mata",   "real": "Cho Se-hyeong", "country": "South Korea", "flag": "🇰🇷", "position": "Support" }
+    ]
+  }
+]

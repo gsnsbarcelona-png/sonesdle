@@ -1,3 +1,11 @@
+/** Edad actual a partir de "YYYY-MM-DD" (así no se queda desfasada en el JSON). */
+function ageFrom(birthdate) {
+  const [y, m, d] = birthdate.split('-').map(Number);
+  const now = new Date();
+  const hadBirthday = now.getMonth() + 1 > m || (now.getMonth() + 1 === m && now.getDate() >= d);
+  return now.getFullYear() - y - (hadBirthday ? 0 : 1);
+}
+
 class Player {
   constructor(data) {
     this.name     = data.name;
@@ -8,7 +16,7 @@ class Player {
     this.position = data.position;
     this.titles   = data.titles;
     this.worlds   = data.worlds;
-    this.age      = data.age;
+    this.age      = data.birthdate ? ageFrom(data.birthdate) : null;
     this.team     = data.team;
     this.image    = data.image ?? null;
   }

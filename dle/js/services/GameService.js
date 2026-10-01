@@ -54,7 +54,9 @@ export class GameService {
       position: this.#comparePosition(guessed.position, target.position),
       titles:   this.#exact(guessed.titles,   target.titles),
       worlds:   this.#exact(guessed.worlds,   target.worlds),
-      age:      this.#compareNumeric(guessed.age, target.age),
+      age:      guessed.name === target.name
+                  ? { status: 'correct', arrow: null }
+                  : this.#compareNumeric(guessed.age, target.age),
       team:     this.#exact(guessed.team,     target.team),
     };
   }
@@ -68,6 +70,7 @@ export class GameService {
   }
 
   #compareNumeric(a, b) {
+    if (a == null || b == null) return { status: 'wrong', arrow: null }; // edad desconocida
     if (a === b) return { status: 'correct', arrow: null };
     return { status: 'wrong', arrow: a < b ? 'up' : 'down' };
   }

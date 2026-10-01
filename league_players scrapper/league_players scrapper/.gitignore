@@ -1,0 +1,5 @@
+# Cachés de Leaguepedia/Cargo y salidas generadas por build.py
+cache/
+__pycache__/
+*.log
+players_master.json
