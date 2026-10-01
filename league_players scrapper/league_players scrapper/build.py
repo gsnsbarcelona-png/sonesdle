@@ -1,23 +1,29 @@
 """
 Genera los datos de todos los juegos a partir de una única fuente.
 
-  players.json (main.py)  ─┐
-  Leaguepedia Cargo        ├─>  players_master.json  ─>  dle/data/players.json
-  player_list (caché)     ─┘
-  worlds_rosters.json (worlds_scraper.py) + Cargo  ─>  rostergues/js/data/rosters.js
+  players.json (main.py)          ─┐                          ┌─> dle/data/players.json
+  worlds_rosters.json (worlds_…)  ─┼─> players_master.json  ──┼─> rostergues/js/data/rosters.js
+  curated/carrera.json, grid.json ─┤                          ├─> carrera/js/data/players.js
+  Leaguepedia Cargo               ─┘                          └─> grid/data/players.json
 
 El maestro usa la página de Leaguepedia como clave (el ID no es único: hay
-varios "Viper", "Caps"...). De Cargo se toman los datos vivos: nacionalidad,
-fecha de nacimiento, equipo actual, si está retirado y la región del equipo
-(de ahí sale la liga actual; `home_league` es la liga histórica).
+varios "Viper", "Caps"...). Incluye a los jugadores tier 1 de main.py y a los
+que aparecen en rostergues, carrera y grid. De Cargo se toman los datos vivos:
+nacionalidad, fecha de nacimiento, equipo actual, si está retirado, la región
+del equipo (de ahí sale la liga actual; `home_league` es la histórica) y el
+historial de equipos. Los títulos de Worlds/MSI salen de las plantillas.
 
-El dle solo recibe jugadores en activo.
+Lo único escrito a mano está en curated/: qué jugadores salen en carrera
+(con su pista) y en grid (con su emoji).
+
+El dle solo recibe jugadores tier 1 en activo.
 
 Uso:
     python build.py             # usa la caché de Cargo si tiene < 24 h
     python build.py --refresh   # vuelve a descargar Cargo
 """
 import argparse
+import datetime
 import html
 import json
 import os
@@ -38,9 +44,16 @@ TEAMS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_teams.json")
 MASTER_PATH      = os.path.join(SCRIPT_DIR, "players_master.json")
 DLE_PATH         = os.path.join(ROOT, "dle", "data", "players.json")
 ROSTERS_PATH     = os.path.join(SCRIPT_DIR, "worlds_rosters.json")
-ROSTER_CARGO_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_roster_players.json")
-REDIRECTS_CACHE_PATH    = os.path.join(SCRIPT_DIR, "cache", "roster_redirects.json")
+EXTRA_CARGO_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_extra_players.json")
+REDIRECTS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "roster_redirects.json")
+TENURES_CACHE_PATH     = os.path.join(SCRIPT_DIR, "cache", "cargo_tenures.json")
+CHAMPIONS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_champions.json")
+CHAMPION_REDIRECTS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "champion_redirects.json")
+CURATED_CARRERA_PATH   = os.path.join(SCRIPT_DIR, "curated", "carrera.json")
+CURATED_GRID_PATH      = os.path.join(SCRIPT_DIR, "curated", "grid.json")
 ROSTERGUES_PATH  = os.path.join(ROOT, "rostergues", "js", "data", "rosters.js")
+CARRERA_PATH     = os.path.join(ROOT, "carrera", "js", "data", "players.js")
+GRID_PATH        = os.path.join(ROOT, "grid", "data", "players.json")
 
 CARGO_URL   = "https://lol.fandom.com/wiki/Special:CargoExport"
 API_URL     = "https://lol.fandom.com/api.php"
@@ -66,6 +79,45 @@ REGION_LEAGUES = {
     "Brazil":        ["CBLOL", "LLA"],
     "North America": ["LCS", "LLA"],
 }
+
+# Región de un equipo (Teams.Region) -> liga, para el historial
+TEAM_REGION_LEAGUE = {
+    "Korea": "LCK", "China": "LPL", "Europe": "LEC", "EMEA": "LEC",
+    "North America": "LCS", "Americas": "LCS", "Brazil": "CBLOL", "Latin America": "LLA",
+    "Latin America North": "LLA", "Latin America South": "LLA",
+    "PCS": "LCP", "LMS": "LCP", "Asia Pacific": "LCP", "Vietnam": "LCP",
+    "Japan": "LCP", "Oceania": "LCP", "Southeast Asia": "LCP",
+}
+MERGE_GAP_DAYS = 31   # etapas seguidas en el mismo equipo se unen si hay menos hueco
+
+# Equipos de las categorías de grid (nombre completo en minúsculas)
+GRID_TEAMS = {
+    "t1":     r"sk telecom t1( 2| k| s)?|t1",
+    "geng":   r"samsung (galaxy|white|blue|ozone)|ksv( esports)?|gen\.g",
+    "g2":     r"g2 esports|gamers2",
+    "fnatic": r"fnatic",
+    "c9":     r"cloud9",
+    "drx":    r"drx|dragonx|kingzone dragonx|longzhu gaming|incredible miracle",
+    "kt":     r"kt rolster|kt bullets|kt arrows",
+    "damwon": r"damwon gaming|dwg kia|damwon kia|dplus kia|dplus",
+    "tl":     r"team liquid( honda)?",
+    "edg":    r"edward gaming",
+    "tsm":    r"team solomid|tsm( ftx)?",
+    "fpx":    r"funplus phoenix",
+    "tpa":    r"taipei assassins",
+    "mad":    r"mad lions( koi)?",
+    "h2k":    r"h2k([- ]gaming)?",
+}
+GRID_NAT = {"South Korea": "korean", "China": "chinese", "Taiwan": "taiwanese",
+            "Hong Kong": "taiwanese", "United States": "na", "Canada": "na"}
+EUROPE = {"Austria", "Belgium", "Bulgaria", "Croatia", "Czech Republic", "Denmark",
+          "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Iceland",
+          "Ireland", "Italy", "Latvia", "Lithuania", "Luxembourg", "Netherlands",
+          "Norway", "Poland", "Portugal", "Romania", "Serbia", "Slovakia", "Slovenia",
+          "Spain", "Sweden", "Switzerland", "United Kingdom", "Belarus", "Ukraine",
+          "North Macedonia", "Bosnia and Herzegovina", "Albania", "Montenegro"}
+CARRERA_REGIONS = {"LCK", "LPL", "LEC", "LCS"}
+MIN_TENURE_DAYS = 60   # carrera ignora pruebas y cesiones muy cortas
 
 COUNTRY_ISO = {
     "Afghanistan": "AF", "Albania": "AL", "Algeria": "DZ", "Argentina": "AR",
@@ -282,6 +334,91 @@ def fetch_team_regions(teams):
     return regions
 
 
+def fetch_tenures(pages):
+    """{página en minúsculas: [{team, role, from, to}]}: cada etapa en un equipo
+    con el rol del fichaje ("Mid", "Mid/Owner", "Coach"...). `to` es None si sigue."""
+    tenures = defaultdict(list)
+    session = requests.Session()
+    pages = sorted(set(pages))
+
+    # Tenures.Player puede ser un alias de la página ("Broken Blade" -> "BrokenBlade")
+    alias_page = {p.lower(): p for p in pages}
+    for i in range(0, len(pages), CARGO_BATCH):
+        print(f"\r  Alias [{min(i + CARGO_BATCH, len(pages))}/{len(pages)}]", end="", flush=True)
+        for row in cargo_query(session, "OverviewPage", pages[i:i + CARGO_BATCH],
+                               table="PlayerRedirects", fields="AllName,OverviewPage"):
+            alias_page.setdefault(str(row["AllName"]).lower(), row["OverviewPage"])
+    print()
+
+    aliases = sorted(alias_page)
+    batch = 40   # ~10 etapas por alias: caben en una respuesta
+    for i in range(0, len(aliases), batch):
+        print(f"\r  Tenures [{min(i + batch, len(aliases))}/{len(aliases)}]", end="", flush=True)
+        time.sleep(CARGO_DELAY)
+        r = session.get(CARGO_URL, headers=HEADERS, timeout=60, params={
+            "tables": "Tenures=T,RosterChanges=RC",
+            "join_on": "T.RosterChangeIdJoin=RC.RosterChangeId",
+            "fields": "T.Player=Player,T.Team=Team,T.DateJoin=DateJoin,"
+                      "T.DateLeave=DateLeave,RC.Role=Role",
+            "where": "T.Player IN (%s)" % ",".join(cargo_quote(a) for a in aliases[i:i + batch]),
+            "format": "json", "limit": 5000,
+        })
+        r.raise_for_status()
+        for t in r.json():
+            page = alias_page.get(str(t["Player"]).lower())
+            if not page:
+                continue
+            tenures[page.lower()].append({
+                "team": t["Team"], "role": t.get("Role") or "",
+                "from": t.get("DateJoin"), "to": t.get("DateLeave"),
+            })
+    print()
+    for page in tenures:
+        unique = {(t["team"], t["from"], t["to"], t["role"]): t for t in tenures[page]}
+        tenures[page] = sorted(unique.values(), key=lambda t: t["from"] or "")
+    return tenures
+
+
+def tournament_year(name):
+    m = re.match(r"(\d{4}) ", name) or re.match(r"Season (\d+) ", name)
+    if not m:
+        return None
+    n = int(m.group(1))
+    return n if n > 2000 else 2010 + n   # "Season 3 World Championship" -> 2013
+
+
+def fetch_champions():
+    """{página o enlace: {"worlds": [años], "msi": [años]}}: todos los jugadores
+    (suplentes incluidos) de los equipos campeones de Worlds y MSI."""
+    session = requests.Session()
+    time.sleep(CARGO_DELAY)
+    winners = session.get(CARGO_URL, headers=HEADERS, timeout=60, params={
+        "tables": "TournamentResults", "fields": "OverviewPage,Team",
+        "where": '((OverviewPage LIKE "%World Championship" AND (OverviewPage LIKE "% Season World%" '
+                 'OR OverviewPage LIKE "Season %")) OR OverviewPage LIKE "%Mid-Season Invitational") '
+                 'AND Place = "1"',
+        "format": "json", "limit": 500,
+    }).json()
+    winners = [w for w in winners if w.get("Team")]
+    champions = defaultdict(lambda: {"worlds": [], "msi": []})
+    for w in winners:
+        time.sleep(CARGO_DELAY)
+        players = session.get(CARGO_URL, headers=HEADERS, timeout=60, params={
+            "tables": "TournamentPlayers", "fields": "Link,Role",
+            "where": f'OverviewPage LIKE {cargo_quote(w["OverviewPage"] + "%")} '
+                     f'AND Team = {cargo_quote(w["Team"])}',
+            "format": "json", "limit": 50,
+        }).json()
+        kind = "msi" if "Mid-Season" in w["OverviewPage"] else "worlds"
+        year = tournament_year(w["OverviewPage"])
+        for p in players:
+            roles = {r.strip().lower() for r in (p.get("Role") or "").split(",")}
+            link = str(p.get("Link") or "")
+            if link and roles & PLAYER_ROLES and year not in champions[link][kind]:
+                champions[link][kind].append(year)
+    return dict(champions)
+
+
 # ----------------------------------------------------------------- maestro
 
 def _key(s):
@@ -340,32 +477,109 @@ def current_league(region, home_league):
     return home_league if home_league in leagues else leagues[0]
 
 
-def build_master(scraped, pages, cargo_rows, team_regions):
-    master = []
-    for r, page in zip(scraped, pages):
-        cargo = cargo_rows.get(page) if page else None
-        status, team = status_and_team(cargo, r)
-        position = normalize_position(r.get("posicion", ""))
-        home = detect_league(r)
-        master.append({
-            "page":      page,
-            "id":        r["id"],
-            "real":      (cargo or {}).get("Name") or r.get("nombre_real", ""),
-            "country":   nationality(cargo, r),
-            "birthdate": (cargo or {}).get("Birthdate"),
-            "positions": [position] if position else [],
-            "league":    current_league(team_regions.get(team), home),
-            "home_league": home,
-            "status":    status,
-            "team":      team,
-            "debut":     r.get("debut"),
-            "titles": {
-                "international": r.get("titulos_internacionales", []),
-                "national":      r.get("titulos_nacionales", []),
-            },
-            "history": [{"team": h["equipo"], "from": h["desde"], "to": h["hasta"]}
-                        for h in r.get("historial_equipos", [])],
-        })
+def tenure_role(role):
+    """"Mid/Owner" -> "Mid"; "Coach", "Shareholder"... -> None."""
+    for token in re.split(r"[/,]", role or ""):
+        if token.strip().lower() in PLAYER_ROLES:
+            return token.strip().capitalize()
+    return None
+
+
+def history_from_tenures(tenures, team_regions):
+    """Solo etapas como jugador. Las del mismo equipo separadas por menos de
+    MERGE_GAP_DAYS se unen, aunque haya otra etapa solapada en medio (una
+    cesión, p. ej.). Un equipo sin región hereda la liga de la etapa vecina."""
+    history = []
+    for t in tenures:
+        role = tenure_role(t["role"])
+        start = _date(t["from"])
+        if not role:
+            continue
+        same = next((h for h in reversed(history) if h["team"] == t["team"]), None)
+        end = _date(same["to"]) if same else None
+        if same and start and (same["to"] is None or (end and (start - end).days <= MERGE_GAP_DAYS)):
+            if same["to"] is not None and (t["to"] is None or t["to"] > same["to"]):
+                same["to"] = t["to"]
+            same["days"][role] = same["days"].get(role, 0) + tenure_days(t)
+            continue
+        history.append({"team": t["team"],
+                        "league": TEAM_REGION_LEAGUE.get(team_regions.get(t["team"])),
+                        "from": t["from"], "to": t["to"],
+                        "days": {role: tenure_days(t)}})
+    for i, h in enumerate(history):
+        h["role"] = max(h["days"], key=h["days"].get)
+        if not h["league"]:
+            neighbours = history[i - 1:i][::-1] + history[i + 1:i + 2]
+            h["league"] = next((n["league"] for n in neighbours if n["league"]), None)
+    return history
+
+
+def tenure_days(t):
+    start, end = _date(t["from"]), _date(t["to"]) or datetime.date.today()
+    return max((end - start).days, 1) if start else 1
+
+
+def roles_from_history(history, min_share=0.15):
+    """Posiciones ordenadas por tiempo jugado ("Bot" -> "ADC"); solo las que
+    suman al menos `min_share` de la carrera."""
+    days = Counter()
+    for h in history:
+        days.update(h["days"])
+    total = sum(days.values())
+    return [normalize_position(r) for r, d in days.most_common() if total and d / total >= min_share]
+
+
+def home_league_from_history(history):
+    """La liga en la que más tiempo ha jugado (aprox. por número de etapas)."""
+    leagues = Counter(h["league"] for h in history if h["league"])
+    return leagues.most_common(1)[0][0] if leagues else None
+
+
+def master_entry(page, cargo, scraped, tenures, team_regions, achievements):
+    status, team = status_and_team(cargo, scraped or {})
+    history = history_from_tenures(tenures.get((page or "").lower(), []), team_regions)
+    roles = roles_from_history(history)
+    if scraped:   # el dle sigue usando la posición y liga de main.py
+        position = normalize_position(scraped.get("posicion", ""))
+        home = detect_league(scraped)
+    else:
+        position = roles[0] if roles else normalize_position((cargo or {}).get("Role") or "")
+        home = home_league_from_history(history)
+    for h in history:
+        del h["days"]
+    years = [int(h["from"][:4]) for h in history if (h["from"] or "")[:4].isdigit()]
+    return {
+        "page":        page,
+        "id":          (scraped or {}).get("id") or (cargo or {}).get("ID"),
+        "tier1":       scraped is not None,
+        "real":        (cargo or {}).get("Name") or (scraped or {}).get("nombre_real", ""),
+        "country":     nationality(cargo, scraped or {}),
+        "birthdate":   (cargo or {}).get("Birthdate"),
+        "positions":   [position] if position in POSITION_MAP.values() else [],
+        "roles":       roles,   # todas las posiciones de su carrera, por tiempo jugado
+        "league":      current_league(team_regions.get(team), home),
+        "home_league": home,
+        "status":      status,
+        "team":        team,
+        "debut":       min(years) if years else (scraped or {}).get("debut"),
+        "achievements": achievements.get(page, {"worlds": [], "msi": []}),
+        "titles": {   # torneos según main.py (no siempre son victorias)
+            "international": (scraped or {}).get("titulos_internacionales", []),
+            "national":      (scraped or {}).get("titulos_nacionales", []),
+        },
+        "history":     history,
+    }
+
+
+def build_master(scraped, pages, cargo_rows, extra_pages, tenures, team_regions, achievements):
+    master = [master_entry(page, cargo_rows.get(page) if page else None, r,
+                           tenures, team_regions, achievements)
+              for r, page in zip(scraped, pages)]
+    known = {p for p in pages if p}
+    for page in sorted(set(extra_pages) - known):
+        if page in cargo_rows:
+            master.append(master_entry(page, cargo_rows[page], None,
+                                       tenures, team_regions, achievements))
     return master
 
 
@@ -379,8 +593,8 @@ def display_names(master):
 
 
 def build_dle(master):
-    """Solo jugadores en activo: así todos tienen equipo real que comparar."""
-    active = [p for p in master if p["status"] in ("player", "sub")]
+    """Solo jugadores tier 1 en activo: así todos tienen equipo real que comparar."""
+    active = [p for p in master if p["tier1"] and p["status"] in ("player", "sub")]
     players = []
     for p, name in zip(active, display_names(active)):
         players.append({
@@ -404,28 +618,36 @@ def roster_player_info(cargo, fallback_country):
     return {"real": (cargo or {}).get("Name") or "", "country": country, "flag": to_flag(country)}
 
 
-def build_rostergues_js(rosters, cargo_rows, canonical):
-    """rosters.js con los datos de cada jugador una sola vez (PLAYERS) y las
-    plantillas apuntando a su página.
-
-    El nombre es el que tenía en el torneo (Incarnati0n en 2015, no Jensen),
-    pero las variantes de mayúsculas/espacios se unifican con el ID de
-    Leaguepedia ("Hans sama", "HansSama" -> "Hans Sama"). Los jugadores de las
-    plantillas 2011-2014 (sin página) se asocian por nombre a los de las
-    modernas; si no hay coincidencia llevan sus datos en línea."""
+def assign_roster_pages(rosters, canonical):
+    """Pone en cada jugador de las plantillas su página actual (siguiendo
+    redirecciones). Los de 2011-2014 no tienen página: se asocian por nombre
+    a los de las plantillas modernas si la coincidencia es única."""
     by_key = defaultdict(set)
     for r in rosters:
         for p in r["players"]:
             if p.get("page"):
-                by_key[_key(p["name"])].add(canonical.get(p["page"], p["page"]))
+                p["page"] = canonical.get(p["page"], p["page"])
+                by_key[_key(p["name"])].add(p["page"])
+    for r in rosters:
+        for p in r["players"]:
+            if not p.get("page") and len(by_key.get(_key(p["name"]), ())) == 1:
+                p["page"] = next(iter(by_key[_key(p["name"])]))
+    return rosters
 
+
+def build_rostergues_js(rosters, cargo_rows):
+    """rosters.js con los datos de cada jugador una sola vez (PLAYERS) y las
+    plantillas apuntando a su página (ver assign_roster_pages).
+
+    El nombre es el que tenía en el torneo (Incarnati0n en 2015, no Jensen),
+    pero las variantes de mayúsculas/espacios se unifican con el ID de
+    Leaguepedia ("Hans sama", "HansSama" -> "Hans Sama"). Los jugadores sin
+    página llevan sus datos en línea."""
     players, raw = {}, []
     for r in rosters:
         entries = []
         for p in r["players"]:
-            page = canonical.get(p.get("page"), p.get("page"))
-            if not page and len(by_key.get(_key(p["name"]), ())) == 1:
-                page = next(iter(by_key[_key(p["name"])]))
+            page = p.get("page")
             cargo = cargo_rows.get(page) if page else None
             name = cargo["ID"] if cargo and _key(cargo["ID"]) == _key(p["name"]) else p["name"]
             entry = {"name": name, "position": p["position"]}
@@ -453,6 +675,79 @@ def build_rostergues_js(rosters, cargo_rows, canonical):
     return "\n".join(lines), players
 
 
+def _date(s):
+    return datetime.date.fromisoformat(s) if s and re.fullmatch(r"\d{4}-\d{2}-\d{2}", s) else None
+
+
+def career_from_history(history):
+    """Etapas de carrera: "2016–18" + equipo + región (LCK|LPL|LEC|LCS|OTHER).
+    Se saltan pruebas/cesiones de menos de MIN_TENURE_DAYS."""
+    today = datetime.date.today()
+    rows = []
+    for h in history:
+        start, end = _date(h["from"]), _date(h["to"]) or today
+        if not start:
+            continue
+        rows.append((start, end, h))
+    long_enough = [r for r in rows if (r[1] - r[0]).days >= MIN_TENURE_DAYS] or rows
+    career = []
+    for start, end, h in long_enough:
+        year = str(start.year) if start.year == end.year else f"{start.year}–{str(end.year)[2:]}"
+        region = h["league"] if h["league"] in CARRERA_REGIONS else "OTHER"
+        career.append({"year": year, "team": h["team"], "region": region})
+    return career
+
+
+def build_carrera_js(curated, by_page):
+    players, missing = [], []
+    for c in curated:
+        p = by_page.get(c["page"])
+        if not p or not p["history"]:
+            missing.append(c["page"])
+            continue
+        main_role = (p["roles"] or p["positions"] or [""])[0]
+        position = {"ADC": "Bot"}.get(main_role, main_role)
+        players.append({"name": p["id"], "position": position, "hint": c["hint"],
+                        "career": career_from_history(p["history"])})
+    J = lambda v: json.dumps(v, ensure_ascii=False)
+    lines = ["// Generado por build.py (curated/carrera.json + Leaguepedia). No editar a mano.",
+             "// Para añadir un jugador: añádelo a curated/carrera.json y ejecuta build.py.",
+             "",
+             "/**",
+             " * @typedef {{ year: string, team: string, region: string }} CareerEntry",
+             " * @typedef {{ name: string, position: string, hint: string, career: CareerEntry[] }} Player",
+             " * Regions: LCK | LPL | LEC | LCS | OTHER",
+             " */",
+             "",
+             "/** @type {Player[]} */",
+             "export const PLAYERS = ["]
+    lines += [f"  {J(p)}," for p in players]
+    lines += ["];", ""]
+    return "\n".join(lines), missing
+
+
+def grid_nat(country):
+    return GRID_NAT.get(country) or ("european" if country in EUROPE else "other")
+
+
+def build_grid(curated, by_page):
+    players, missing = [], []
+    for c in curated:
+        p = by_page.get(c["page"])
+        if not p:
+            missing.append(c["page"])
+            continue
+        teams = {t["team"].lower() for t in p["history"]}
+        groups = [g for g, rx in GRID_TEAMS.items() if any(re.fullmatch(rx, t) for t in teams)]
+        leagues = sorted({h["league"].lower() for h in p["history"]
+                          if h["league"] in CARRERA_REGIONS})
+        comps = [k for k in ("worlds", "msi") if p["achievements"][k]] + leagues
+        players.append({"key": p["id"].lower(), "em": c["em"],
+                        "pos": [x.lower() for x in p["roles"] or p["positions"]],
+                        "nat": grid_nat(p["country"]), "teams": groups, "comps": comps})
+    return players, missing
+
+
 def write_json(path, data):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
@@ -476,12 +771,49 @@ def main():
     entries = [(page, r["id"], r.get("nombre_real", "")) for r, page in zip(scraped, pages) if page]
     cargo_rows = cached(CARGO_CACHE_PATH, args.refresh, lambda: fetch_players(entries))
 
-    teams = sorted({row["Team"] for row in cargo_rows.values() if row.get("Team")})
+    # Jugadores de rostergues, carrera y grid que no son tier 1
+    with open(ROSTERS_PATH, encoding="utf-8") as f:
+        rosters = json.load(f)
+    roster_pages = {p["page"] for r in rosters for p in r["players"] if p.get("page")}
+    canonical = cached(REDIRECTS_CACHE_PATH, args.refresh, lambda: resolve_redirects(roster_pages))
+    rosters = assign_roster_pages(rosters, canonical)
+    with open(CURATED_CARRERA_PATH, encoding="utf-8") as f:
+        curated_carrera = json.load(f)
+    with open(CURATED_GRID_PATH, encoding="utf-8") as f:
+        curated_grid = json.load(f)
+
+    extra_entries = {(p["page"], p["name"], "", p.get("country", ""))
+                     for r in rosters for p in r["players"] if p.get("page")}
+    extra_entries |= {(c["page"], c["page"], "") for c in curated_carrera + curated_grid}
+    extra_entries = sorted(e for e in extra_entries if e[0] not in cargo_rows)
+    extra = cached(EXTRA_CARGO_CACHE_PATH, args.refresh, lambda: fetch_players(extra_entries))
+    cargo_rows = {**extra, **cargo_rows}
+    extra_pages = [e[0] for e in extra_entries]
+
+    all_pages = [p for p in pages if p] + extra_pages
+    tenures = cached(TENURES_CACHE_PATH, args.refresh, lambda: fetch_tenures(all_pages))
+    teams = sorted({row["Team"] for row in cargo_rows.values() if row.get("Team")}
+                   | {t["team"] for ts in tenures.values() for t in ts if t["team"]})
     team_regions = cached(TEAMS_CACHE_PATH, args.refresh, lambda: fetch_team_regions(teams))
-    master = build_master(scraped, pages, cargo_rows, team_regions)
+
+    # Campeones de Worlds/MSI, con el enlace de cada jugador llevado a su página actual
+    champions = cached(CHAMPIONS_CACHE_PATH, args.refresh, fetch_champions)
+    champion_pages = cached(CHAMPION_REDIRECTS_CACHE_PATH, args.refresh,
+                            lambda: resolve_redirects(champions))
+    achievements = {}
+    for link, won in champions.items():
+        page = champion_pages.get(link, link)
+        merged = achievements.setdefault(page, {"worlds": [], "msi": []})
+        for kind in merged:
+            merged[kind] = sorted(set(merged[kind]) | set(won[kind]))
+
+    master = build_master(scraped, pages, cargo_rows, extra_pages, tenures,
+                          team_regions, achievements)
     missing = [m["id"] for m in master if m["status"] == "unknown"]
     print(f"{len(master) - len(missing)}/{len(master)} con datos de Cargo"
           + (f" (sin datos: {', '.join(missing[:10])})" if missing else ""))
+    print(f"  {sum(1 for m in master if m['history'])} con historial, "
+          f"{sum(1 for m in master if not m['tier1'])} no tier 1")
 
     write_json(MASTER_PATH, {"built_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
                              "players": master})
@@ -490,24 +822,26 @@ def main():
     dle = build_dle(master)
     write_json(DLE_PATH, {"players": dle})
     print(f"dle -> {DLE_PATH} ({len(dle)} jugadores)")
-    for status, n in Counter(m["status"] for m in master).most_common():
-        print(f"  {status}: {n}")
 
-    # rostergues: jugadores de las plantillas que no están en el maestro
-    with open(ROSTERS_PATH, encoding="utf-8") as f:
-        rosters = json.load(f)
-    roster_pages = {p["page"] for r in rosters for p in r["players"] if p.get("page")}
-    canonical = cached(REDIRECTS_CACHE_PATH, args.refresh, lambda: resolve_redirects(roster_pages))
-    roster_entries = {(canonical.get(p["page"], p["page"]), p["name"], "", p.get("country", ""))
-                      for r in rosters for p in r["players"] if p.get("page")}
-    roster_entries = sorted(e for e in roster_entries if e[0] not in cargo_rows)
-    extra = cached(ROSTER_CARGO_CACHE_PATH, args.refresh, lambda: fetch_players(roster_entries))
-    js, roster_players = build_rostergues_js(rosters, {**extra, **cargo_rows}, canonical)
+    js, roster_players = build_rostergues_js(rosters, cargo_rows)
     with open(ROSTERGUES_PATH, "w", encoding="utf-8") as f:
         f.write(js)
     no_real = sum(1 for p in roster_players.values() if not p["real"])
     print(f"rostergues -> {ROSTERGUES_PATH} ({len(rosters)} plantillas, "
           f"{len(roster_players)} jugadores, {no_real} sin nombre real)")
+
+    by_page = {m["page"]: m for m in master if m["page"]}
+    js, missing = build_carrera_js(curated_carrera, by_page)
+    with open(CARRERA_PATH, "w", encoding="utf-8") as f:
+        f.write(js)
+    print(f"carrera -> {CARRERA_PATH} ({len(curated_carrera) - len(missing)} jugadores"
+          + (f", sin datos: {', '.join(missing)}" if missing else "") + ")")
+
+    grid, missing = build_grid(curated_grid, by_page)
+    with open(GRID_PATH, "w", encoding="utf-8") as f:
+        f.write("[\n" + ",\n".join("  " + json.dumps(p, ensure_ascii=False) for p in grid) + "\n]\n")
+    print(f"grid -> {GRID_PATH} ({len(grid)} jugadores"
+          + (f", sin datos: {', '.join(missing)}" if missing else "") + ")")
 
 
 if __name__ == "__main__":
