@@ -1,10 +1,17 @@
+import { getLang } from '../../shared/lang.js';
+
 /**
- * Acceso con contraseña mientras el grid está en pruebas.
+ * Acceso con código beta mientras el grid está en pruebas.
  * No es seguridad real (todo se ejecuta en el navegador); solo evita que se juegue sin querer.
  * Para abrirlo al público: quitar `await unlockGate()` de main.js y borrar este archivo.
  */
 const HASH = 'e9d43f9b0fa32e205d74f2f047d6b3188bdafa2d4cfbe28ecf38ca8e1f22cf96';   // SHA-256
 const KEY  = 'grid_unlocked';
+
+const TEXT = {
+  es: { title: 'Acceso beta', sub: 'Introduce tu código beta para jugar', ph: 'Código beta', btn: 'Entrar', err: 'Código no válido' },
+  en: { title: 'Beta access', sub: 'Enter your beta code to play',        ph: 'Beta code',   btn: 'Enter',  err: 'Invalid code' },
+};
 
 /** SHA-256 en JS: crypto.subtle no existe fuera de https (p. ej. probando en local por IP). */
 function sha256(text) {
@@ -50,20 +57,22 @@ function isUnlocked() {
 
 export function unlockGate() {
   if (isUnlocked()) return Promise.resolve();
+  const tx = TEXT[getLang()] ?? TEXT.es;
   return new Promise(resolve => {
     const overlay = document.createElement('div');
     overlay.className = 'overlay';
     overlay.innerHTML = `
       <div class="modal-card"><div class="modal-body">
         <div class="cell-context">
-          <span class="cell-context-icons">🔒</span>
-          <span class="cell-context-text">Grid en pruebas · introduce la contraseña</span>
+          <span class="cell-context-icons">🧪</span>
+          <span class="cell-context-text"><strong>${tx.title}</strong> · ${tx.sub}</span>
         </div>
         <div class="input-wrap">
-          <input class="modal-input" type="password" placeholder="Contraseña" autocomplete="off" autocapitalize="none">
+          <input class="modal-input" type="text" placeholder="${tx.ph}" autocomplete="off" autocapitalize="none" spellcheck="false"
+                 style="text-align:center;letter-spacing:3px;text-transform:uppercase">
         </div>
         <p class="error-msg"></p>
-        <div class="btn-row"><button class="btn btn-confirm">Entrar</button></div>
+        <div class="btn-row"><button class="btn btn-confirm">${tx.btn}</button></div>
       </div></div>`;
     document.body.appendChild(overlay);
     const input = overlay.querySelector('input');
@@ -71,7 +80,7 @@ export function unlockGate() {
 
     const submit = () => {
       if (sha256(input.value.trim().toLowerCase()) !== HASH) {
-        error.textContent = 'Contraseña incorrecta';
+        error.textContent = tx.err;
         input.select();
         return;
       }
