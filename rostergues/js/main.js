@@ -10,8 +10,11 @@ import * as AC from '../../shared/js/autocomplete.js';
 const POSITION_ORDER   = ['Top', 'Jungle', 'Mid', 'ADC', 'Support'];
 const HINTS_EVERY_N_WRONGS = 5;
 
-const DIFF_KEY  = 'rostergues_difficulty';
-const DAILY_KEY = 'rostergues_daily_done';
+const DIFF_KEY   = 'rostergues_difficulty';
+const REGION_KEY = 'rostergues_region';
+const DAILY_KEY  = 'rostergues_daily_done';
+// Filtro por región: las cuatro ligas mayores, o "other" para el resto (LMS, VCS, PCS...)
+const MAJOR_REGIONS = ['LCK', 'LPL', 'LEC', 'LCS'];
 const PLACEMENT_POOLS = {
   facil:   ['champion', 'finalist'],
   media:   ['champion', 'finalist', 'semifinalist', 'quarterfinalist'],
@@ -79,21 +82,32 @@ const $ = id => document.getElementById(id);
 
 /* ─── Difficulty ─────────────────────────────────────────── */
 let difficulty = localStorage.getItem(DIFF_KEY) ?? 'media';
+let region     = localStorage.getItem(REGION_KEY) ?? 'all';
+
+const inRegion = (r, reg) =>
+  reg === 'all' || (reg === 'other' ? !MAJOR_REGIONS.includes(r.region) : r.region === reg);
 
 function getRosterPool() {
-  const pool = isDailyDone() ? difficulty : 'media';
-  const allowed = PLACEMENT_POOLS[pool] ?? PLACEMENT_POOLS.media;
-  return ROSTERS.filter(r => allowed.includes(r.placement));
+  // La partida diaria siempre es en media y con todas las regiones
+  const done    = isDailyDone();
+  const allowed = PLACEMENT_POOLS[done ? difficulty : 'media'] ?? PLACEMENT_POOLS.media;
+  const byPlacement = ROSTERS.filter(r => allowed.includes(r.placement));
+  const byRegion    = byPlacement.filter(r => inRegion(r, done ? region : 'all'));
+  return byRegion.length ? byRegion : byPlacement;   // p. ej. "Fácil" + "Otras" puede quedar vacío
 }
 
 function renderDiffButtons() {
-  document.querySelectorAll('.diff-btn').forEach(btn => {
+  document.querySelectorAll('[data-diff]').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.diff === difficulty);
+  });
+  document.querySelectorAll('[data-region]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.region === region);
   });
 }
 
 function showDiffRow() {
   $('difficulty-row').classList.remove('hidden');
+  $('region-row').classList.remove('hidden');
 }
 
 /* ─── Particles (instancia compartida) ──────────────────── */
@@ -443,11 +457,21 @@ function bindEvents() {
 
   btnResult.addEventListener('click', () => initGame());
 
-  document.querySelectorAll('.diff-btn').forEach(btn => {
+  document.querySelectorAll('[data-diff]').forEach(btn => {
     btn.addEventListener('click', () => {
       if (!isDailyDone()) return;
       difficulty = btn.dataset.diff;
       localStorage.setItem(DIFF_KEY, difficulty);
+      renderDiffButtons();
+      initGame();
+    });
+  });
+
+  document.querySelectorAll('[data-region]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!isDailyDone()) return;
+      region = btn.dataset.region;
+      localStorage.setItem(REGION_KEY, region);
       renderDiffButtons();
       initGame();
     });
