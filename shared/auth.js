@@ -108,6 +108,20 @@ export async function syncPending() {
   saveLocal(local);
 }
 
+/**
+ * Reto diario de hoy ya guardado en la cuenta (jugado en otro dispositivo),
+ * o null si no hay sesión o no lo ha jugado.
+ */
+export async function getTodayDaily(game) {
+  const sb = await getClient();
+  if (!sb || !(await getUser())) return null;
+  const { data, error } = await sb.from('results')
+    .select('won, attempts, details')
+    .eq('game', game).eq('mode', 'daily').eq('played_on', today())
+    .maybeSingle();
+  return error ? null : data;
+}
+
 /** Resultados de un juego: de la cuenta si hay sesión, si no de este navegador. */
 export async function getResults(game) {
   const sb = await getClient();

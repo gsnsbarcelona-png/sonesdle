@@ -3,7 +3,7 @@ import { pickRoster }                           from './services/RosterPickerSer
 import { getHintTarget, getMaskedName, nextRevealIn } from './services/HintService.js';
 import { mountSwitcher, applyStaticTranslations, getLang } from '../../shared/lang.js';
 import { mountGameNav } from '../../shared/nav.js';
-import { recordResult } from '../../shared/auth.js';
+import { recordResult, getTodayDaily } from '../../shared/auth.js';
 import { ParticlesComponent } from '../../shared/js/ParticlesComponent.js';
 import * as AC from '../../shared/js/autocomplete.js';
 
@@ -509,4 +509,15 @@ document.addEventListener('DOMContentLoaded', () => {
   if (isDailyDone()) showDiffRow();
   renderDiffButtons();
   initGame();
+
+  // Partida diaria ya jugada en otro dispositivo con la misma cuenta: la de
+  // aquí pasa a contar como libre y se desbloquean dificultad y región
+  if (!isDailyDone()) {
+    getTodayDaily('rostergues').then(remote => {
+      if (!remote || isDailyDone()) return;
+      markDailyDone();
+      showDiffRow();
+      renderDiffButtons();
+    });
+  }
 });

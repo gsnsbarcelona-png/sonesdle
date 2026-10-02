@@ -9,7 +9,7 @@ import { t, getLang, setLang, applyStaticTranslations } from './utils/i18n.js';
 import { mountSwitcher } from '../../shared/lang.js';
 import { CookieBanner } from './ui/CookieBanner.js';
 import { mountGameNav } from '../../shared/nav.js';
-import { recordResult } from '../../shared/auth.js';
+import { recordResult, getTodayDaily } from '../../shared/auth.js';
 
 async function boot() {
   applyStaticTranslations();
@@ -320,8 +320,10 @@ async function boot() {
     recordResult({
       game: 'dle', mode: isDaily ? 'daily' : 'free', won,
       attempts: won ? game.attempts : null,
+      // En el reto diario se guardan los colores de cada intento: así otro
+      // dispositivo puede mostrar el resultado y el texto para compartir
       details: { player: game.secret.name, hard: isHard,
-                 ...(isDaily ? {} : { maxTier: freeTier, region: freeRegion }) },
+                 ...(isDaily ? { rows: pendingRows } : { maxTier: freeTier, region: freeRegion }) },
     });
   }
 
@@ -409,6 +411,21 @@ async function boot() {
 
   // ── Arranque ──────────────────────────────────────────────
   startDaily();
+  syncDailyFromAccount();
+
+  /** Si el reto de hoy ya está en la cuenta (jugado en otro dispositivo),
+   *  mostrar ese resultado en vez de dejar jugarlo otra vez. */
+  async function syncDailyFromAccount() {
+    if (DailyService.hasPlayedToday()) return;
+    const remote = await getTodayDaily('dle');
+    // Solo si sigue en el reto diario y aún no ha empezado a jugarlo aquí
+    if (!remote || !isDaily || game.attempts > 0 || DailyService.hasPlayedToday()) return;
+    DailyService.saveResult({
+      secret: getDailyPlayer(), attempts: remote.attempts ?? 0,
+      won: remote.won, rows: remote.details?.rows ?? [],
+    });
+    startDaily();
+  }
 }
 
 
