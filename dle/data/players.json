@@ -695,7 +695,7 @@
       "worlds": false,
       "birthdate": "2000-05-14",
       "team": "Babos Gaming",
-      "free_agent": false
+      "free_agent": true
     },
     {
       "name": "Filou",
@@ -12952,23 +12952,6 @@
       "worlds": false,
       "birthdate": "2002-03-16",
       "team": "Maryville University",
-      "free_agent": false
-    },
-    {
-      "name": "Scenario",
-      "real": "Hlias Aidarov",
-      "country": "Greece",
-      "flag": "🇬🇷",
-      "league": null,
-      "tier": 3,
-      "region": null,
-      "position": [
-        "ADC"
-      ],
-      "titles": false,
-      "worlds": false,
-      "birthdate": "2003-02-21",
-      "team": "The ParadOx Academy",
       "free_agent": false
     },
     {
