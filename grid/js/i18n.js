@@ -18,6 +18,7 @@ const T = {
     invalidPlayer: (raw, n) => `"${raw}" no es válido · ${n} vida${n !== 1 ? 's' : ''} restante${n !== 1 ? 's' : ''}`,
     unknownPlayer: raw => `No encontramos a "${raw}" · elige uno de la lista`,
     usedPlayer:    raw => `${raw} ya está en otra casilla`,
+    triedPlayer:   raw => `${raw} ya lo has probado aquí`,
   },
   en: {
     headerSub:     'Fill all 9 cells · Pro Players',
@@ -36,6 +37,7 @@ const T = {
     invalidPlayer: (raw, n) => `"${raw}" is not valid · ${n} ${n !== 1 ? 'lives' : 'life'} remaining`,
     unknownPlayer: raw => `"${raw}" not found · pick one from the list`,
     usedPlayer:    raw => `${raw} is already in another cell`,
+    triedPlayer:   raw => `You already tried ${raw} here`,
   },
 };
 

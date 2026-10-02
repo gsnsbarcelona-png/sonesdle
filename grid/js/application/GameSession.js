@@ -15,6 +15,8 @@ export class GameSession {
     this._config   = null;
     this._lives    = maxLives;
     this._active   = null;
+    this._tried    = new Map();   // "r,c" → claves ya falladas en esa casilla
+    this._lastRaw  = '';
     // Índice de búsqueda: nombre normalizado (sin tildes) → jugador
     this._index    = playerRepository.getAll().map(p => ({ norm: normalizer.normalize(p.name), p }));
     this._subscribe();
@@ -38,6 +40,7 @@ export class GameSession {
     this._board.reset();
     this._lives  = this._maxLives;
     this._active = null;
+    this._tried.clear();
     this._bus.emit(EVENTS.GAME_STARTED, {
       cols: this._config.cols, rows: this._config.rows, lives: this._lives,
     });
@@ -56,13 +59,15 @@ export class GameSession {
   /** Sugerencias entre todos los jugadores (no solo los válidos: eso daría la respuesta). */
   _onInputChanged({ raw }) {
     if (!this._active) return;
-    const norm = this._norm.normalize(raw);
-    const used = this._usedKeys();
+    this._lastRaw = raw;
+    const norm  = this._norm.normalize(raw);
+    const used  = this._usedKeys();
+    const tried = this._triedHere();
     const matches = !norm ? [] : this._index
       .filter(({ norm: n, p }) => n.includes(norm) && !used.has(p.key))
       .sort((a, b) => b.norm.startsWith(norm) - a.norm.startsWith(norm) || a.norm.length - b.norm.length)
       .slice(0, 8)
-      .map(({ p }) => p);
+      .map(({ p }) => ({ ...p, tried: tried.has(p.key) }));
     this._bus.emit(EVENTS.AC_RESULTS, { matches });
   }
 
@@ -84,12 +89,15 @@ export class GameSession {
     if (this._lives <= 0) return;
     if (!player)                           return this._bus.emit(EVENTS.GUESS_REJECTED, { raw, reason: 'unknown' });
     if (this._usedKeys().has(player.key))  return this._bus.emit(EVENTS.GUESS_REJECTED, { raw: player.name, reason: 'used' });
+    if (this._triedHere().has(player.key)) return this._bus.emit(EVENTS.GUESS_REJECTED, { raw: player.name, reason: 'tried' });
     const { r, c } = this._active;
     if (this._config.valid[r][c].includes(player.key)) {
       this._doPlace(r, c, player);
     } else {
       this._lives--;
+      this._triedHere().add(player.key);
       this._bus.emit(EVENTS.GUESS_WRONG, { raw: player.name, livesLeft: this._lives });
+      this._onInputChanged({ raw: this._lastRaw });   // la lista lo muestra ya como fallado
       if (this._lives === 0) {
         this._record(false);
         setTimeout(() => {
@@ -98,6 +106,12 @@ export class GameSession {
         }, 900);
       }
     }
+  }
+
+  _triedHere() {
+    const k = `${this._active.r},${this._active.c}`;
+    if (!this._tried.has(k)) this._tried.set(k, new Set());
+    return this._tried.get(k);
   }
 
   _usedKeys() { return new Set(this._board.snapshot().flat().filter(Boolean)); }

@@ -9,7 +9,7 @@ export class ModalPresenter {
     bus.on(EVENTS.MODAL_CLOSE, () => this._close());
     bus.on(EVENTS.GUESS_WRONG, ({ raw, livesLeft }) => this._showError(t('invalidPlayer', raw, livesLeft)));
     bus.on(EVENTS.GUESS_REJECTED, ({ raw, reason }) =>
-      this._showError(t(reason === 'used' ? 'usedPlayer' : 'unknownPlayer', raw)));
+      this._showError(t({ used: 'usedPlayer', tried: 'triedPlayer' }[reason] ?? 'unknownPlayer', raw)));
   }
 
   _open(rowCat, colCat) {
