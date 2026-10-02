@@ -8,10 +8,10 @@ export class GridBuilderStrategy {
   build(_players, _categories) { throw new Error('GridBuilderStrategy.build() not implemented'); }
 }
 
-/** Override getAll() and getEmojiMap() */
+/** Override getAll() and get(key) */
 export class PlayerRepository {
-  getAll()      { throw new Error('PlayerRepository.getAll() not implemented'); }
-  getEmojiMap() { throw new Error('PlayerRepository.getEmojiMap() not implemented'); }
+  getAll()  { throw new Error('PlayerRepository.getAll() not implemented'); }
+  get(_key) { throw new Error('PlayerRepository.get() not implemented'); }
 }
 
 /** Override getPool() → category[] */

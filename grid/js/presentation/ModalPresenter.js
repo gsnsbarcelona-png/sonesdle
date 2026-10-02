@@ -1,5 +1,5 @@
 import { EVENTS } from '../events.js';
-import { t } from '../i18n.js';
+import { t, catText } from '../i18n.js';
 
 export class ModalPresenter {
   constructor(bus, overlayEl, inputEl) {
@@ -7,12 +7,14 @@ export class ModalPresenter {
     this._input   = inputEl;
     bus.on(EVENTS.MODAL_OPEN,  ({ rowCat, colCat }) => this._open(rowCat, colCat));
     bus.on(EVENTS.MODAL_CLOSE, () => this._close());
-    bus.on(EVENTS.GUESS_WRONG, ({ raw, livesLeft }) => this._showError(raw, livesLeft));
+    bus.on(EVENTS.GUESS_WRONG, ({ raw, livesLeft }) => this._showError(t('invalidPlayer', raw, livesLeft)));
+    bus.on(EVENTS.GUESS_REJECTED, ({ raw, reason }) =>
+      this._showError(t(reason === 'used' ? 'usedPlayer' : 'unknownPlayer', raw)));
   }
 
   _open(rowCat, colCat) {
     document.getElementById('modalIcons').textContent = `${rowCat.icon} × ${colCat.icon}`;
-    document.getElementById('modalDesc').innerHTML = t('modalDesc', rowCat.desc, colCat.desc);
+    document.getElementById('modalDesc').innerHTML = t('modalDesc', catText(rowCat, 'desc'), catText(colCat, 'desc'));
     this._input.value = '';
     this._clearErr();
     this._overlay.style.display = 'flex';
@@ -21,9 +23,9 @@ export class ModalPresenter {
 
   _close() { this._overlay.style.display = 'none'; }
 
-  _showError(raw, livesLeft) {
+  _showError(msg) {
     const el = document.getElementById('errorMsg');
-    el.textContent = t('invalidPlayer', raw, livesLeft);
+    el.textContent = msg;
     el.classList.remove('shake');
     void el.offsetWidth;
     el.classList.add('shake');

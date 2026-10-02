@@ -997,14 +997,14 @@ def grid_nat(country):
     return GRID_NAT.get(country) or ("european" if country in EUROPE else "other")
 
 
-def grid_entry(p, key, emoji=None):
+def grid_entry(p, name, emoji=None):
     teams = {t["team"].lower() for t in p["history"]}
     groups = [g for g, rx in GRID_TEAMS.items() if any(re.fullmatch(rx, t) for t in teams)]
     comps = ([k for k in ("worlds", "msi") if p["achievements"][k]]
              + (["league_title"] if p["titles"] else []) + p["major_leagues"])
-    entry = {"key": key, "pos": [x.lower() for x in p["roles"] or p["positions"]],
+    entry = {"key": name.lower(), "name": name, "pos": [x.lower() for x in p["roles"] or p["positions"]],
              "nat": grid_nat(p["country"]), "teams": groups, "comps": comps}
-    return {"key": key, "em": emoji, **entry} if emoji else entry
+    return {**entry, "em": emoji} if emoji else entry
 
 
 def build_grid(curated, master):
@@ -1015,9 +1015,9 @@ def build_grid(curated, master):
     pool = [by_page[c["page"]] for c in curated if c["page"] in by_page]
     pool += [m for m in master if m["page"] not in curated_pages and m["major_leagues"]
              and (m["roles"] or m["positions"])]
-    keys = {m["page"]: name.lower() for m, name in zip(pool, display_names(pool))}
+    names = {m["page"]: name for m, name in zip(pool, display_names(pool))}
     emojis = {c["page"]: c["em"] for c in curated}
-    players = [grid_entry(m, keys[m["page"]], emojis.get(m["page"])) for m in pool]
+    players = [grid_entry(m, names[m["page"]], emojis.get(m["page"])) for m in pool]
     missing = [c["page"] for c in curated if c["page"] not in by_page]
     return players, missing
 

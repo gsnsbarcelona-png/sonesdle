@@ -15,6 +15,8 @@ export class GameSession {
     this._config   = null;
     this._lives    = maxLives;
     this._active   = null;
+    // Índice de búsqueda: nombre normalizado (sin tildes) → jugador
+    this._index    = playerRepository.getAll().map(p => ({ norm: normalizer.normalize(p.name), p }));
     this._subscribe();
   }
 
@@ -51,24 +53,43 @@ export class GameSession {
     });
   }
 
+  /** Sugerencias entre todos los jugadores (no solo los válidos: eso daría la respuesta). */
   _onInputChanged({ raw }) {
     if (!this._active) return;
-    const { r, c } = this._active;
-    const norm  = this._norm.normalize(raw);
-    const valid = this._config.valid[r][c];
-    const matches = norm ? valid.filter(k => k.startsWith(norm) || k.includes(norm)) : [];
-    this._bus.emit(EVENTS.AC_RESULTS, { matches, emojiMap: this._players.getEmojiMap() });
+    const norm = this._norm.normalize(raw);
+    const used = this._usedKeys();
+    const matches = !norm ? [] : this._index
+      .filter(({ norm: n, p }) => n.includes(norm) && !used.has(p.key))
+      .sort((a, b) => b.norm.startsWith(norm) - a.norm.startsWith(norm) || a.norm.length - b.norm.length)
+      .slice(0, 8)
+      .map(({ p }) => p);
+    this._bus.emit(EVENTS.AC_RESULTS, { matches });
   }
 
   _onInputSubmitted({ raw }) {
     if (!this._active || !raw.trim()) return;
+    const norm = this._norm.normalize(raw);
+    const hit  = this._index.find(e => e.norm === norm);
+    this._guess(hit?.p ?? null, raw.trim());
+  }
+
+  _onAcSelected({ key }) {
+    if (!this._active) return;
+    const player = this._players.get(key);
+    this._guess(player, player?.name ?? key);
+  }
+
+  /** Un nombre que no existe o un jugador ya colocado no cuestan vida. */
+  _guess(player, raw) {
+    if (this._lives <= 0) return;
+    if (!player)                           return this._bus.emit(EVENTS.GUESS_REJECTED, { raw, reason: 'unknown' });
+    if (this._usedKeys().has(player.key))  return this._bus.emit(EVENTS.GUESS_REJECTED, { raw: player.name, reason: 'used' });
     const { r, c } = this._active;
-    const key = this._norm.normalize(raw);
-    if (this._config.valid[r][c].includes(key)) {
-      this._doPlace(r, c, key);
+    if (this._config.valid[r][c].includes(player.key)) {
+      this._doPlace(r, c, player);
     } else {
       this._lives--;
-      this._bus.emit(EVENTS.GUESS_WRONG, { raw: raw.trim(), livesLeft: this._lives });
+      this._bus.emit(EVENTS.GUESS_WRONG, { raw: player.name, livesLeft: this._lives });
       if (this._lives === 0) {
         this._record(false);
         setTimeout(() => {
@@ -79,16 +100,12 @@ export class GameSession {
     }
   }
 
-  _onAcSelected({ key }) {
-    if (!this._active) return;
-    this._doPlace(this._active.r, this._active.c, key);
-  }
+  _usedKeys() { return new Set(this._board.snapshot().flat().filter(Boolean)); }
 
-  _doPlace(r, c, key) {
-    const emoji = this._players.getEmojiMap()[key] || '🎮';
-    this._board.place(r, c, key);
+  _doPlace(r, c, player) {
+    this._board.place(r, c, player.key);
     const count = this._board.filledCount();
-    this._bus.emit(EVENTS.GUESS_CORRECT, { r, c, key, emoji, filledCount: count });
+    this._bus.emit(EVENTS.GUESS_CORRECT, { r, c, key: player.key, name: player.name, emoji: player.em || '🎮', filledCount: count });
     this._bus.emit(EVENTS.MODAL_CLOSE);
     if (this._winCond.check(this._board.snapshot())) {
       this._record(true);

@@ -16,6 +16,8 @@ const T = {
     tryAgain:      'Intentar de nuevo',
     modalDesc:     (rd, cd) => `Pro player que ${rd} y que ${cd}.`,
     invalidPlayer: (raw, n) => `"${raw}" no es válido · ${n} vida${n !== 1 ? 's' : ''} restante${n !== 1 ? 's' : ''}`,
+    unknownPlayer: raw => `No encontramos a "${raw}" · elige uno de la lista`,
+    usedPlayer:    raw => `${raw} ya está en otra casilla`,
   },
   en: {
     headerSub:     'Fill all 9 cells · Pro Players',
@@ -32,10 +34,20 @@ const T = {
     tryAgain:      'Try again',
     modalDesc:     (rd, cd) => `Pro player who ${rd} and ${cd}.`,
     invalidPlayer: (raw, n) => `"${raw}" is not valid · ${n} ${n !== 1 ? 'lives' : 'life'} remaining`,
+    unknownPlayer: raw => `"${raw}" not found · pick one from the list`,
+    usedPlayer:    raw => `${raw} is already in another cell`,
   },
 };
 
 export function t(key, ...args) {
   const val = T[getLang()]?.[key] ?? T.es[key] ?? key;
   return typeof val === 'function' ? val(...args) : val;
+}
+
+/** Escapa HTML (los nombres vienen de Leaguepedia). */
+export const esc = v => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+/** Texto de una categoría en el idioma actual: `cat.en.main` en inglés, `cat.main` en español. */
+export function catText(cat, field) {
+  return (getLang() === 'en' && cat.en?.[field]) || cat[field];
 }

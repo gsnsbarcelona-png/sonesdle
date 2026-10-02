@@ -1,4 +1,5 @@
 import { EVENTS } from '../events.js';
+import { esc } from '../i18n.js';
 
 export class AutocompletePresenter {
   constructor(bus, inputEl, listEl) {
@@ -7,7 +8,7 @@ export class AutocompletePresenter {
     this._list  = listEl;
     this._idx   = -1;
 
-    bus.on(EVENTS.AC_RESULTS,    ({ matches, emojiMap }) => this._update(matches, emojiMap));
+    bus.on(EVENTS.AC_RESULTS,    ({ matches }) => this._update(matches));
     bus.on(EVENTS.MODAL_CLOSE,   () => this._clear());
     bus.on(EVENTS.GAME_STARTED,  () => this._clear());
     bus.on(EVENTS.INPUT_KEYDOWN, ({ dir }) => this._navigate(dir));
@@ -23,11 +24,11 @@ export class AutocompletePresenter {
     return false;
   }
 
-  _update(matches, emojiMap) {
+  _update(matches) {
     this._idx = -1;
     if (!matches.length) { this._clear(); return; }
     this._list.innerHTML = matches
-      .map(p => `<div class="ac-item" data-key="${p}">${emojiMap[p] || '🎮'} ${this._display(p)}</div>`)
+      .map(p => `<div class="ac-item" data-key="${esc(p.key)}" data-name="${esc(p.name)}">${p.em || '🎮'} ${esc(p.name)}</div>`)
       .join('');
     this._list.classList.add('open');
     this._list.querySelectorAll('.ac-item').forEach(item =>
@@ -46,8 +47,6 @@ export class AutocompletePresenter {
     if (dir === 'down') this._idx = Math.min(this._idx + 1, items.length - 1);
     else                this._idx = Math.max(this._idx - 1, 0);
     items.forEach((it, i) => it.classList.toggle('focused', i === this._idx));
-    if (items[this._idx]) this._input.value = this._display(items[this._idx].dataset.key);
+    if (items[this._idx]) this._input.value = items[this._idx].dataset.name;
   }
-
-  _display(key) { return key.split(' ').map(w => w[0].toUpperCase() + w.slice(1)).join(' '); }
 }

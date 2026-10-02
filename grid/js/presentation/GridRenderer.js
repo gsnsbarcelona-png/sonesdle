@@ -1,4 +1,5 @@
 import { EVENTS } from '../events.js';
+import { esc, catText } from '../i18n.js';
 
 export class GridRenderer {
   constructor(bus, containerEl) {
@@ -10,11 +11,18 @@ export class GridRenderer {
     bus.on(EVENTS.GAME_STARTED, ({ cols, rows }) => {
       this._cols = cols; this._rows = rows; this._render();
     });
-    bus.on(EVENTS.GUESS_CORRECT, ({ r, c, key, emoji }) => {
-      this._fillCell(r, c, key, emoji);
+    bus.on(EVENTS.GUESS_CORRECT, ({ r, c, name, emoji }) => {
+      this._fillCell(r, c, name, emoji);
       const rect = this._getCell(r, c)?.getBoundingClientRect();
       if (rect) bus.emit(EVENTS.CELL_RENDERED, { rect });
     });
+    document.addEventListener('langchange', () => this._relabel());
+  }
+
+  /** Cambia el idioma de las cabeceras sin tocar las casillas ya rellenas. */
+  _relabel() {
+    const labels = this._el.querySelectorAll('.col-label, .row-label');
+    [...this._cols, ...this._rows].forEach((cat, i) => { if (labels[i]) labels[i].innerHTML = this._labelHtml(cat); });
   }
 
   _render() {
@@ -29,22 +37,20 @@ export class GridRenderer {
     }
   }
 
-  _colLabel(cat) {
+  _colLabel(cat) { return this._label('col-label', cat); }
+  _rowLabel(cat) { return this._label('row-label', cat); }
+
+  _label(className, cat) {
     const d = document.createElement('div');
-    d.className = 'col-label';
-    d.innerHTML = `<span class="lbl-icon">${cat.icon}</span>
-                   <span class="lbl-main">${cat.main}</span>
-                   <span class="lbl-sub">${cat.sub}</span>`;
+    d.className = className;
+    d.innerHTML = this._labelHtml(cat);
     return d;
   }
 
-  _rowLabel(cat) {
-    const d = document.createElement('div');
-    d.className = 'row-label';
-    d.innerHTML = `<span class="lbl-icon">${cat.icon}</span>
-                   <span class="lbl-main">${cat.main}</span>
-                   <span class="lbl-sub">${cat.sub}</span>`;
-    return d;
+  _labelHtml(cat) {
+    return `<span class="lbl-icon">${cat.icon}</span>
+            <span class="lbl-main">${catText(cat, 'main')}</span>
+            <span class="lbl-sub">${catText(cat, 'sub')}</span>`;
   }
 
   _makeCell(r, c) {
@@ -57,16 +63,15 @@ export class GridRenderer {
     return d;
   }
 
-  _fillCell(r, c, key, emoji) {
+  _fillCell(r, c, name, emoji) {
     const el = this._getCell(r, c);
     if (!el) return;
     el.innerHTML = `<div class="cell-content">
       <span class="cell-emoji">${emoji}</span>
-      <span class="cell-name">${this._display(key)}</span>
+      <span class="cell-name">${esc(name)}</span>
     </div>`;
     el.classList.add('filled');
   }
 
   _getCell(r, c) { return this._el.querySelector(`.cell[data-r="${r}"][data-c="${c}"]`); }
-  _display(key)  { return key.split(' ').map(w => w[0].toUpperCase() + w.slice(1)).join(' '); }
 }

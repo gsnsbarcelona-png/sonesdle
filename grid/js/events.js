@@ -9,6 +9,7 @@ export const EVENTS = Object.freeze({
   AC_SELECTED:     'ac.selected',
   GUESS_CORRECT:   'guess.correct',
   GUESS_WRONG:     'guess.wrong',
+  GUESS_REJECTED:  'guess.rejected',
   CELL_RENDERED:   'cell.rendered',
   GAME_STARTED:    'game.started',
   GAME_WON:        'game.won',
