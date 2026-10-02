@@ -51,6 +51,7 @@ TENURES_CACHE_PATH     = os.path.join(SCRIPT_DIR, "cache", "cargo_tenures.json")
 ALIASES_CACHE_PATH     = os.path.join(SCRIPT_DIR, "cache", "cargo_aliases.json")
 LEAGUE_TITLES_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_league_titles.json")
 LEAGUE_INFO_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_leagues.json")
+MAJOR_LEAGUES_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_major_leagues.json")
 CHAMPIONS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_champions.json")
 TEAM_TOURNAMENTS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_team_tournaments.json")
 CHAMPION_REDIRECTS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "champion_redirects.json")
@@ -136,6 +137,17 @@ EUROPE = {"Austria", "Belgium", "Bulgaria", "Croatia", "Czech Republic", "Denmar
           "Spain", "Sweden", "Switzerland", "United Kingdom", "Belarus", "Ukraine",
           "North Macedonia", "Bosnia and Herzegovina", "Albania", "Montenegro"}
 CARRERA_REGIONS = {"LCK", "LPL", "LEC", "LCS"}
+# Las cuatro ligas mayores con sus nombres históricos en Leaguepedia. Un jugador
+# "jugó en" una si tiene al menos MIN_MAJOR_TOURNAMENTS torneos en ella (descarta
+# invitaciones puntuales, como CLG en OGN Champions 2012).
+MAJOR_LEAGUES = {
+    "lck": ["LoL Champions Korea", "LoL The Champions"],
+    "lpl": ["Tencent LoL Pro League"],
+    "lec": ["LoL EMEA Championship", "Europe League Championship Series"],
+    "lcs": ["League of Legends Championship Series", "North America League Championship Series",
+            "League of Legends Championship of The Americas North"],
+}
+MIN_MAJOR_TOURNAMENTS = 3
 MIN_TENURE_DAYS = 60   # carrera ignora pruebas y cesiones muy cortas
 # Fases de un torneo de liga que no dan título (si no son playoffs)
 REGULAR_STAGE_RE = re.compile(r"season|preseason|group|stage|qualifier|regional|opening",
@@ -512,6 +524,35 @@ def fetch_league_titles(aliases):
     return {link: [list(t) for t in sorted(ts)] for link, ts in titles.items()}
 
 
+def fetch_major_leagues(aliases):
+    """{alias en minúsculas: [[liga mayor, torneo]]}: torneos jugados en LCK, LPL,
+    LEC o LCS (con sus nombres antiguos)."""
+    session = requests.Session()
+    aliases = sorted(aliases)
+    names = ",".join(cargo_quote(n) for names in MAJOR_LEAGUES.values() for n in names)
+    by_name = {n: code for code, names in MAJOR_LEAGUES.items() for n in names}
+    result = defaultdict(list)
+    batch = 50
+    for i in range(0, len(aliases), batch):
+        print(f"\r  Ligas mayores [{min(i + batch, len(aliases))}/{len(aliases)}]", end="", flush=True)
+        time.sleep(CARGO_DELAY)
+        r = session.get(CARGO_URL, headers=HEADERS, timeout=60, params={
+            "tables": "TournamentPlayers=TP,Tournaments=T",
+            "join_on": "TP.OverviewPage=T.OverviewPage",
+            "fields": "TP.Link=Link,T.League=League,TP.OverviewPage=Page,TP.Role=Role",
+            "where": f"T.League IN ({names}) AND TP.Link IN (%s)"
+                     % ",".join(cargo_quote(a) for a in aliases[i:i + batch]),
+            "format": "json", "limit": 5000,
+        })
+        r.raise_for_status()
+        for t in r.json():
+            roles = {x.strip().lower() for x in (t.get("Role") or "").split(",")}
+            if t.get("Link") and roles & PLAYER_ROLES:
+                result[str(t["Link"]).lower()].append([by_name[t["League"]], str(t["Page"])])
+    print()
+    return dict(result)
+
+
 def fetch_league_info(names):
     """{liga: fila de Leagues (nombre corto, región, nivel, si es oficial)}.
     Si un lote falla (algún nombre que Cargo no acepta), se reintenta de uno en uno."""
@@ -779,6 +820,10 @@ def master_entry(page, cargo, scraped, ctx):
         "achievements": ctx["achievements"].get(page, {"worlds": [], "msi": []}),
         "titles":      league_titles(ctx["league_titles"].get((page or "").lower(), []),
                                      ctx["league_info"]),
+        # Ligas mayores en las que ha jugado de verdad (lck, lpl, lec, lcs)
+        "major_leagues": sorted(code for code, n in Counter(
+            code for code, _ in ctx["major_leagues"].get((page or "").lower(), [])).items()
+            if n >= MIN_MAJOR_TOURNAMENTS),
         "history":     history,
     }
 
@@ -952,21 +997,28 @@ def grid_nat(country):
     return GRID_NAT.get(country) or ("european" if country in EUROPE else "other")
 
 
-def build_grid(curated, by_page):
-    players, missing = [], []
-    for c in curated:
-        p = by_page.get(c["page"])
-        if not p:
-            missing.append(c["page"])
-            continue
-        teams = {t["team"].lower() for t in p["history"]}
-        groups = [g for g, rx in GRID_TEAMS.items() if any(re.fullmatch(rx, t) for t in teams)]
-        leagues = sorted({h["league"].lower() for h in p["history"]
-                          if h["league"] in CARRERA_REGIONS})
-        comps = [k for k in ("worlds", "msi") if p["achievements"][k]] + leagues
-        players.append({"key": p["id"].lower(), "em": c["em"],
-                        "pos": [x.lower() for x in p["roles"] or p["positions"]],
-                        "nat": grid_nat(p["country"]), "teams": groups, "comps": comps})
+def grid_entry(p, key, emoji=None):
+    teams = {t["team"].lower() for t in p["history"]}
+    groups = [g for g, rx in GRID_TEAMS.items() if any(re.fullmatch(rx, t) for t in teams)]
+    comps = ([k for k in ("worlds", "msi") if p["achievements"][k]]
+             + (["league_title"] if p["titles"] else []) + p["major_leagues"])
+    entry = {"key": key, "pos": [x.lower() for x in p["roles"] or p["positions"]],
+             "nat": grid_nat(p["country"]), "teams": groups, "comps": comps}
+    return {"key": key, "em": emoji, **entry} if emoji else entry
+
+
+def build_grid(curated, master):
+    """Los jugadores de curated/grid.json (con su emoji) y, como respuestas
+    válidas, todos los que han jugado en LCK, LPL, LEC o LCS."""
+    by_page = {m["page"]: m for m in master if m["page"]}
+    curated_pages = {c["page"] for c in curated}
+    pool = [by_page[c["page"]] for c in curated if c["page"] in by_page]
+    pool += [m for m in master if m["page"] not in curated_pages and m["major_leagues"]
+             and (m["roles"] or m["positions"])]
+    keys = {m["page"]: name.lower() for m, name in zip(pool, display_names(pool))}
+    emojis = {c["page"]: c["em"] for c in curated}
+    players = [grid_entry(m, keys[m["page"]], emojis.get(m["page"])) for m in pool]
+    missing = [c["page"] for c in curated if c["page"] not in by_page]
     return players, missing
 
 
@@ -1024,6 +1076,9 @@ def main():
     won_titles = group_by_page(
         cached_by_key(LEAGUE_TITLES_CACHE_PATH, args.refresh, alias_page, fetch_league_titles),
         alias_page)
+    major_leagues = group_by_page(
+        cached_by_key(MAJOR_LEAGUES_CACHE_PATH, args.refresh, alias_page, fetch_major_leagues),
+        alias_page)
     title_leagues = {league for ts in won_titles.values() for league, _, _ in ts}
     league_info = cached_by_key(LEAGUE_INFO_CACHE_PATH, args.refresh, title_leagues,
                                 fetch_league_info)
@@ -1052,7 +1107,8 @@ def main():
 
     ctx = {"tenures": tenures, "team_regions": team_regions,
            "team_tournaments": team_tournaments, "achievements": achievements,
-           "league_titles": won_titles, "league_info": league_info}
+           "league_titles": won_titles, "league_info": league_info,
+           "major_leagues": major_leagues}
     master = build_master(scraped, pages, cargo_rows, extra_pages, ctx)
     missing = [m["id"] for m in master if m["status"] == "unknown"]
     print(f"{len(master) - len(missing)}/{len(master)} con datos de Cargo"
@@ -1082,7 +1138,7 @@ def main():
     print(f"carrera -> {CARRERA_PATH} ({len(curated_carrera) - len(missing)} jugadores"
           + (f", sin datos: {', '.join(missing)}" if missing else "") + ")")
 
-    grid, missing = build_grid(curated_grid, by_page)
+    grid, missing = build_grid(curated_grid, master)
     with open(GRID_PATH, "w", encoding="utf-8") as f:
         f.write("[\n" + ",\n".join("  " + json.dumps(p, ensure_ascii=False) for p in grid) + "\n]\n")
     print(f"grid -> {GRID_PATH} ({len(grid)} jugadores"
