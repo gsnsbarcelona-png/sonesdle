@@ -17,12 +17,14 @@ function emojiToIso(emoji) {
 /**
  * Devuelve un `<img>` HTML con la bandera desde flagcdn.com.
  * @param {string} flagEmoji
- * @param {number} size — ancho en px (20 | 40 | 80)
+ * @param {number} size — ancho en px con el que se muestra
  */
 export function flagImg(flagEmoji, size = 20) {
   const code = emojiToIso(flagEmoji);
   if (!code) return '';
-  return `<img src="https://flagcdn.com/w${size}/${code}.png"
+  // flagcdn solo tiene anchos fijos (w24 da un 404): se pide el siguiente y se escala
+  const cdnWidth = [20, 40, 80, 160].find(w => w >= size) ?? 160;
+  return `<img src="https://flagcdn.com/w${cdnWidth}/${code}.png"
               width="${size}" height="${Math.round(size * 0.75)}"
               style="vertical-align:middle;border-radius:2px;display:inline-block"
               alt="" onerror="this.style.display='none'">`;
