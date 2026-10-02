@@ -127,7 +127,9 @@ export class GridComponent {
 
   #makeTeamCell(p, status) {
     const d = this.#baseCell(status);
-    d.innerHTML = `<div class="cell-text">${esc(p.team)}</div>`;
+    // Agente libre reciente: se compara con su último equipo
+    const tag = p.freeAgent ? `<div class="cell-tag" title="${esc(t('freeAgentTip'))}">FA</div>` : '';
+    d.innerHTML = `<div class="cell-text">${esc(p.team)}</div>${tag}`;
     return d;
   }
 

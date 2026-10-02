@@ -16,7 +16,8 @@ historial de equipos. Los títulos de Worlds/MSI salen de las plantillas.
 Lo único escrito a mano está en curated/: qué jugadores salen en carrera
 (con su pista) y en grid (con su emoji).
 
-El dle solo recibe jugadores tier 1 en activo.
+El dle recibe a los jugadores de main.py en activo, con la liga exacta de su
+equipo, su tier (1 = liga con plaza a Worlds) y su región.
 
 Uso:
     python build.py             # usa la caché de Cargo si tiene < 24 h
@@ -48,6 +49,7 @@ EXTRA_CARGO_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_extra_players.
 REDIRECTS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "roster_redirects.json")
 TENURES_CACHE_PATH     = os.path.join(SCRIPT_DIR, "cache", "cargo_tenures.json")
 CHAMPIONS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_champions.json")
+TEAM_TOURNAMENTS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_team_tournaments.json")
 CHAMPION_REDIRECTS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "champion_redirects.json")
 CURATED_CARRERA_PATH   = os.path.join(SCRIPT_DIR, "curated", "carrera.json")
 CURATED_GRID_PATH      = os.path.join(SCRIPT_DIR, "curated", "grid.json")
@@ -69,16 +71,30 @@ PLAYER_ROLES = {"top", "jungle", "mid", "bot", "support"}
 PLAYER_FIELDS = ("OverviewPage,ID,Name,Country,Nationality,NationalityPrimary,"
                  "Birthdate,Team,Role,IsRetired,IsSubstitute")
 
-# Región del equipo en Leaguepedia -> ligas posibles del dle (la primera es la
-# de por defecto). Leaguepedia agrupa a los equipos de la LLA en Brazil/NA.
-REGION_LEAGUES = {
-    "Korea":         ["LCK"],
-    "China":         ["LPL"],
-    "EMEA":          ["LEC"],
-    "Asia Pacific":  ["LCP"],
-    "Brazil":        ["CBLOL", "LLA"],
-    "North America": ["LCS", "LLA"],
+# Liga actual de un equipo: la de mejor tier en la que ha jugado en el último año
+# de LEAGUE_YEARS con alguna liga (si empatan, la más reciente).
+#   tier 1: ligas con plaza directa a Worlds
+#   tier 2: resto de ligas oficiales de primera división (ERL, LCK CL, NACL, LJL...)
+#   tier 3: segundas divisiones, academias, universitarias y no oficiales
+LEAGUE_YEARS = ("2025", "2026")
+TIER1_LEAGUES = {"LCK": "LCK", "LPL": "LPL", "LEC": "LEC", "LCP": "LCP", "LCS": "LCS",
+                 "CBLOL": "CBLOL", "LTA N": "LCS", "LTA S": "CBLOL"}
+# No son la liga de un equipo: internacionales, copas entre ligas, exhibiciones
+NOT_A_LEAGUE = {"EM", "KeSPA Cup", "AM", "AME", "AG", "AC", "EWC", "WSCI", "WLRQ"}
+NOT_A_LEAGUE_RE = re.compile(r"cup|showmatch|invitational|all-?star|nations|games\b|retirement",
+                             re.IGNORECASE)
+LOWER_DIVISION_RE = re.compile(r"2nd division|division 2|3rd division|academy|rising|"
+                               r"college|university", re.IGNORECASE)
+# Región de Leaguepedia (de la liga o del equipo) -> región del dle
+REGION_CODES = {
+    "Korea": "KR", "China": "CN", "Europe": "EMEA", "EMEA": "EMEA", "Turkey": "EMEA",
+    "North America": "NA", "Brazil": "BR", "Latin America": "LATAM",
+    "Asia Pacific": "PAC", "Asia": "PAC", "Japan": "PAC", "Vietnam": "PAC",
+    "PCS": "PAC", "LMS": "PAC", "Oceania": "PAC", "Southeast Asia": "PAC",
 }
+LEAGUE_REGION = {"LTA N": "NA", "LTA S": "BR", "CD": "BR"}   # ligas con región "Americas"
+HISTORY_LEAGUE_REGION = {"LEC": "EMEA", "LCK": "KR", "LPL": "CN", "LCP": "PAC",
+                         "LCS": "NA", "CBLOL": "BR", "LLA": "LATAM"}
 
 # Región de un equipo (Teams.Region) -> liga, para el historial
 TEAM_REGION_LEAGUE = {
@@ -118,6 +134,7 @@ EUROPE = {"Austria", "Belgium", "Bulgaria", "Croatia", "Czech Republic", "Denmar
           "North Macedonia", "Bosnia and Herzegovina", "Albania", "Montenegro"}
 CARRERA_REGIONS = {"LCK", "LPL", "LEC", "LCS"}
 MIN_TENURE_DAYS = 60   # carrera ignora pruebas y cesiones muy cortas
+RECENT_FREE_AGENT_DAYS = 90   # el dle mantiene a los agentes libres de hace menos tiempo
 
 COUNTRY_ISO = {
     "Afghanistan": "AF", "Albania": "AL", "Algeria": "DZ", "Argentina": "AR",
@@ -334,6 +351,40 @@ def fetch_team_regions(teams):
     return regions
 
 
+def fetch_team_tournaments(teams):
+    """{equipo: [[liga, fila de Leagues, fecha]]} de los torneos de LEAGUE_YEARS."""
+    session = requests.Session()
+    teams = sorted(set(teams))
+    result = defaultdict(list)
+    years = ",".join(cargo_quote(y) for y in LEAGUE_YEARS)
+    for i in range(0, len(teams), 50):
+        print(f"\r  Torneos [{min(i + 50, len(teams))}/{len(teams)}]", end="", flush=True)
+        time.sleep(CARGO_DELAY)
+        r = session.get(CARGO_URL, headers=HEADERS, timeout=60, params={
+            "tables": "TournamentRosters=TR,Tournaments=T",
+            "join_on": "TR.OverviewPage=T.OverviewPage",
+            "fields": "TR.Team=Team,T.League=League,T.DateStart=DateStart",
+            "where": f"T.Year IN ({years}) AND TR.Team IN (%s)"
+                     % ",".join(cargo_quote(t) for t in teams[i:i + 50]),
+            "format": "json", "limit": 5000,
+        })
+        r.raise_for_status()
+        for row in r.json():
+            if row.get("League"):
+                result[str(row["Team"])].append([row["League"], row.get("DateStart")])
+    print()
+
+    names = sorted({league for entries in result.values() for league, _ in entries})
+    info = {}
+    for i in range(0, len(names), CARGO_BATCH):
+        for row in cargo_query(session, "League", names[i:i + CARGO_BATCH], table="Leagues",
+                               fields="League,League_Short,Region,Level,IsOfficial"):
+            info[html.unescape(row["League"])] = row
+    # Todos los equipos pedidos, aunque no tengan torneos (así la caché sabe que ya se miraron)
+    return {team: [[league, info.get(league), date] for league, date in result.get(team, [])]
+            for team in teams}
+
+
 def fetch_tenures(pages):
     """{página en minúsculas: [{team, role, from, to}]}: cada etapa en un equipo
     con el rol del fichaje ("Mid", "Mid/Owner", "Coach"...). `to` es None si sigue."""
@@ -469,12 +520,37 @@ def status_and_team(cargo, scraped):
     return "player", cargo["Team"]
 
 
-def current_league(region, home_league):
-    """Liga del equipo actual; si la región no lo deja claro, la histórica."""
-    leagues = REGION_LEAGUES.get(region)
-    if not leagues:
-        return home_league
-    return home_league if home_league in leagues else leagues[0]
+def classify_league(name, info):
+    """(nombre corto, tier, región) de una liga, o None si no es la liga de un
+    equipo (torneo internacional, copa...). `info` es su fila de Leagues."""
+    short = (info or {}).get("League Short") or name
+    if short in NOT_A_LEAGUE or (info or {}).get("Region") == "International" \
+            or NOT_A_LEAGUE_RE.search(name):
+        return None
+    region = LEAGUE_REGION.get(short) or REGION_CODES.get((info or {}).get("Region"))
+    if short in TIER1_LEAGUES:
+        return TIER1_LEAGUES[short], 1, region
+    if (info or {}).get("IsOfficial") == "Yes" and not LOWER_DIVISION_RE.search(name):
+        return short, 2, region
+    if LOWER_DIVISION_RE.search(name) and short == (info or {}).get("League Short"):
+        short = name   # "Prime League 2nd Division" comparte "PRM" con la 1ª división
+    return short, 3, region
+
+
+def team_league(entries, team_region):
+    """{league, tier, region} del equipo a partir de sus torneos recientes
+    [(liga, info, fecha)]. Sin torneos: tier 3 y la región del equipo."""
+    candidates = [(*league, date or "") for name, info, date in entries
+                  if (league := classify_league(name, info))]
+    fallback = REGION_CODES.get(team_region)
+    if not candidates:
+        return {"league": None, "tier": 3, "region": fallback}
+    # Solo el último año con liga: un equipo que ha bajado no conserva la del año anterior
+    last_year = max(c[3][:4] for c in candidates)
+    candidates = [c for c in candidates if c[3][:4] == last_year]
+    best_tier = min(c[1] for c in candidates)
+    best = max((c for c in candidates if c[1] == best_tier), key=lambda c: c[3])
+    return {"league": best[0], "tier": best[1], "region": best[2] or fallback}
 
 
 def tenure_role(role):
@@ -535,9 +611,11 @@ def home_league_from_history(history):
     return leagues.most_common(1)[0][0] if leagues else None
 
 
-def master_entry(page, cargo, scraped, tenures, team_regions, achievements):
+def master_entry(page, cargo, scraped, ctx):
+    """`ctx`: tenures, team_regions, team_tournaments y achievements de Cargo."""
     status, team = status_and_team(cargo, scraped or {})
-    history = history_from_tenures(tenures.get((page or "").lower(), []), team_regions)
+    history = history_from_tenures(ctx["tenures"].get((page or "").lower(), []),
+                                   ctx["team_regions"])
     roles = roles_from_history(history)
     if scraped:   # el dle sigue usando la posición y liga de main.py
         position = normalize_position(scraped.get("posicion", ""))
@@ -548,21 +626,40 @@ def master_entry(page, cargo, scraped, tenures, team_regions, achievements):
     for h in history:
         del h["days"]
     years = [int(h["from"][:4]) for h in history if (h["from"] or "")[:4].isdigit()]
+    # Agente libre desde hace poco: el dle lo sigue usando con su último equipo
+    last = max(history, key=lambda h: h["to"] or "9999") if history else None
+    left = _date(last["to"]) if last else None
+    recent_fa = bool(status == "free_agent" and left
+                     and (datetime.date.today() - left).days <= RECENT_FREE_AGENT_DAYS)
+    game_team = team if status in ("player", "sub") else last["team"] if recent_fa else None
+    if game_team:
+        current = team_league(ctx["team_tournaments"].get(game_team, []),
+                              ctx["team_regions"].get(game_team))
+        if not current["region"]:   # equipo pequeño sin región: la de su última etapa
+            last_league = next((h["league"] for h in reversed(history) if h["league"]), None)
+            current["region"] = HISTORY_LEAGUE_REGION.get(last_league)
+    else:
+        current = {"league": None, "tier": None, "region": None}
     return {
         "page":        page,
         "id":          (scraped or {}).get("id") or (cargo or {}).get("ID"),
-        "tier1":       scraped is not None,
+        "scraped":     scraped is not None,   # viene de main.py (jugadores de ligas tier 1)
         "real":        (cargo or {}).get("Name") or (scraped or {}).get("nombre_real", ""),
         "country":     nationality(cargo, scraped or {}),
         "birthdate":   (cargo or {}).get("Birthdate"),
         "positions":   [position] if position in POSITION_MAP.values() else [],
         "roles":       roles,   # todas las posiciones de su carrera, por tiempo jugado
-        "league":      current_league(team_regions.get(team), home),
-        "home_league": home,
         "status":      status,
         "team":        team,
+        # En los juegos: equipo actual, o el último si es agente libre desde hace poco
+        "game_team":   game_team,
+        "left_team_on": last["to"] if recent_fa else None,
+        "league":      current["league"],   # liga exacta de game_team (LEC, LFL, LCK CL...)
+        "tier":        current["tier"],
+        "region":      current["region"],   # EMEA, KR, CN, PAC, NA, BR, LATAM
+        "home_league": home,                # liga histórica principal
         "debut":       min(years) if years else (scraped or {}).get("debut"),
-        "achievements": achievements.get(page, {"worlds": [], "msi": []}),
+        "achievements": ctx["achievements"].get(page, {"worlds": [], "msi": []}),
         "titles": {   # torneos según main.py (no siempre son victorias)
             "international": (scraped or {}).get("titulos_internacionales", []),
             "national":      (scraped or {}).get("titulos_nacionales", []),
@@ -571,15 +668,13 @@ def master_entry(page, cargo, scraped, tenures, team_regions, achievements):
     }
 
 
-def build_master(scraped, pages, cargo_rows, extra_pages, tenures, team_regions, achievements):
-    master = [master_entry(page, cargo_rows.get(page) if page else None, r,
-                           tenures, team_regions, achievements)
+def build_master(scraped, pages, cargo_rows, extra_pages, ctx):
+    master = [master_entry(page, cargo_rows.get(page) if page else None, r, ctx)
               for r, page in zip(scraped, pages)]
     known = {p for p in pages if p}
     for page in sorted(set(extra_pages) - known):
         if page in cargo_rows:
-            master.append(master_entry(page, cargo_rows[page], None,
-                                       tenures, team_regions, achievements))
+            master.append(master_entry(page, cargo_rows[page], None, ctx))
     return master
 
 
@@ -593,8 +688,10 @@ def display_names(master):
 
 
 def build_dle(master):
-    """Solo jugadores tier 1 en activo: así todos tienen equipo real que comparar."""
-    active = [p for p in master if p["tier1"] and p["status"] in ("player", "sub")]
+    """Jugadores de main.py en activo o agentes libres desde hace menos de
+    RECENT_FREE_AGENT_DAYS (con su último equipo): todos tienen equipo que comparar.
+    `tier` dice si su liga actual es tier 1 (reto diario) o inferior (modo libre)."""
+    active = [p for p in master if p["scraped"] and p["game_team"]]
     players = []
     for p, name in zip(active, display_names(active)):
         players.append({
@@ -603,12 +700,15 @@ def build_dle(master):
             "country":   p["country"],
             "flag":      to_flag(p["country"]),
             "league":    p["league"],
+            "tier":      p["tier"],
+            "region":    p["region"],
             "position":  p["positions"],
             "titles":    any(re.search(r"playoff|finals", t, re.IGNORECASE)
                              for t in p["titles"]["national"]),
             "worlds":    any("play-in" not in t.lower() for t in p["titles"]["international"]),
             "birthdate": p["birthdate"],
-            "team":      p["team"],
+            "team":      p["game_team"],
+            "free_agent": p["status"] == "free_agent",   # sigue con su último equipo
         })
     return players
 
@@ -807,13 +907,29 @@ def main():
         for kind in merged:
             merged[kind] = sorted(set(merged[kind]) | set(won[kind]))
 
-    master = build_master(scraped, pages, cargo_rows, extra_pages, tenures,
-                          team_regions, achievements)
+    # Equipos actuales y últimos equipos de quien lo ha dejado hace poco (agentes libres)
+    cutoff = (datetime.date.today() - datetime.timedelta(days=RECENT_FREE_AGENT_DAYS)).isoformat()
+    teams_needed = {row["Team"] for row in cargo_rows.values() if row.get("Team")}
+    teams_needed |= {t["team"] for ts in tenures.values() for t in ts
+                     if t["to"] and t["to"] >= cutoff and t["team"]}
+    team_tournaments = cached(TEAM_TOURNAMENTS_CACHE_PATH, args.refresh,
+                              lambda: fetch_team_tournaments(teams_needed))
+    missing_teams = teams_needed - set(team_tournaments)
+    if missing_teams:   # la caché es de antes de que hicieran falta estos equipos
+        team_tournaments.update(fetch_team_tournaments(missing_teams))
+        with open(TEAM_TOURNAMENTS_CACHE_PATH, encoding="utf-8") as f:
+            fetched_at = json.load(f)["fetched_at"]   # no alargar la caducidad
+        with open(TEAM_TOURNAMENTS_CACHE_PATH, "w", encoding="utf-8") as f:
+            json.dump({"fetched_at": fetched_at, "data": team_tournaments}, f, ensure_ascii=False)
+
+    ctx = {"tenures": tenures, "team_regions": team_regions,
+           "team_tournaments": team_tournaments, "achievements": achievements}
+    master = build_master(scraped, pages, cargo_rows, extra_pages, ctx)
     missing = [m["id"] for m in master if m["status"] == "unknown"]
     print(f"{len(master) - len(missing)}/{len(master)} con datos de Cargo"
           + (f" (sin datos: {', '.join(missing[:10])})" if missing else ""))
     print(f"  {sum(1 for m in master if m['history'])} con historial, "
-          f"{sum(1 for m in master if not m['tier1'])} no tier 1")
+          f"{sum(1 for m in master if not m['scraped'])} fuera de main.py")
 
     write_json(MASTER_PATH, {"built_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
                              "players": master})

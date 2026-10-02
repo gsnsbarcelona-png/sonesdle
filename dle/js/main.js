@@ -1,4 +1,4 @@
-import { PlayerRepository }  from './repositories/PlayerRepository.js';
+import { PlayerRepository, DAILY_FILTER } from './repositories/PlayerRepository.js';
 import { GameService }        from './services/GameService.js';
 import { DailyService }       from './services/DailyService.js';
 import { SearchComponent }    from './ui/SearchComponent.js';
@@ -35,6 +35,8 @@ async function boot() {
     grid.refreshHeader();
     updateDailyBadge();
     updateHardBtn();
+    updateVHardBtn();
+    renderFilters();
   });
 
   const victory = new VictoryComponent({
@@ -55,18 +57,27 @@ async function boot() {
     onGuess:    handleGuess,
   });
 
-  const guessBtn    = document.getElementById('guess-btn');
-  const giveupBtn   = document.getElementById('giveup-btn');
-  const countEl     = document.getElementById('attempt-count');
-  const shareBtn    = document.getElementById('share-btn');
-  const countdownEl = document.getElementById('daily-countdown');
-  const freeModeBtn = document.getElementById('free-mode-btn');
-  const hardBtn     = document.getElementById('hard-mode-btn');
+  const guessBtn         = document.getElementById('guess-btn');
+  const giveupBtn        = document.getElementById('giveup-btn');
+  const countEl          = document.getElementById('attempt-count');
+  const shareBtn         = document.getElementById('share-btn');
+  const countdownEl      = document.getElementById('daily-countdown');
+  const freeModeBtn      = document.getElementById('free-mode-btn');
+  const hardBtn          = document.getElementById('hard-mode-btn');
+  const freePlayOptions  = document.getElementById('free-play-options');
+  const vHardBtn         = document.getElementById('v-hard-btn');
+  const vTierBtns        = document.getElementById('v-tier-btns');
+  const vRegionBtns      = document.getElementById('v-region-btns');
+  const tierSelect       = document.getElementById('tier-filter-select');
+  const regionSelect     = document.getElementById('region-filter-select');
 
   // ── Estado del modo ───────────────────────────────────────
   let isDaily      = true;
   let pendingRows  = []; // acumula filas para el share
   let isHard       = localStorage.getItem('dle_hard_mode') === '1';
+  // Modo libre: hasta qué tier de liga entra (1 = solo ligas de Worlds) y región
+  let freeTier     = Number(localStorage.getItem('dle_free_tier')) || 1;
+  let freeRegion   = null; // null = todas las regiones
 
   // ── Modo difícil ──────────────────────────────────────────
   grid.setHardMode(isHard);
@@ -78,27 +89,123 @@ async function boot() {
     localStorage.setItem('dle_hard_mode', isHard ? '1' : '0');
     grid.setHardMode(isHard);
     updateHardBtn();
+    updateVHardBtn();
   });
 
   function updateHardBtn() {
     if (!hardBtn) return;
     hardBtn.textContent = isHard ? t('hardModeOn') : t('hardModeBtn');
-    hardBtn.classList.toggle('border-gold',    isHard);
-    hardBtn.classList.toggle('text-gold',      isHard);
+    hardBtn.classList.toggle('border-gold',       isHard);
+    hardBtn.classList.toggle('text-gold',         isHard);
     hardBtn.classList.toggle('border-lol-border', !isHard);
-    hardBtn.classList.toggle('text-lol-dim',   !isHard);
+    hardBtn.classList.toggle('text-lol-dim',      !isHard);
+  }
+
+  // ── Filtros del modo libre: tier y región ─────────────────
+  // Los mismos filtros se muestran como botones en el overlay de victoria y como
+  // desplegables junto al modo difícil.
+  const TIERS = [1, 2, 3];
+  const tierLabel   = tier   => t(`tier${tier}`);
+  const regionLabel = region => region === 'all' ? t('regionAll') : region;
+  const freeFilter  = () => ({ maxTier: freeTier, region: freeRegion });
+
+  function onFilterChange() {
+    localStorage.setItem('dle_free_tier', String(freeTier));
+    if (!repo.getRegions(freeTier).includes(freeRegion)) freeRegion = null;
+    renderFilters();
+    // En plena partida sin intentos, empezar otra con el nuevo filtro
+    if (!isDaily && game.attempts === 0) {
+      game.start(null, freeFilter());
+      resetUI();
+    }
+  }
+
+  function renderButtons(container, items, isActive, label, onPick) {
+    if (!container) return;
+    container.replaceChildren(...items.map(item => {
+      const btn = document.createElement('button');
+      const active = isActive(item);
+      btn.className = [
+        'font-rajdhani text-xs font-bold tracking-widest uppercase',
+        'px-3 py-1 border transition-all duration-200 hover:border-gold hover:text-gold',
+        active ? 'border-gold text-gold' : 'border-lol-border text-lol-dim',
+      ].join(' ');
+      btn.textContent = label(item);
+      btn.addEventListener('click', () => onPick(item));
+      return btn;
+    }));
+  }
+
+  function renderSelect(select, items, value, label) {
+    if (!select) return;
+    select.replaceChildren(...items.map(item => {
+      const opt = document.createElement('option');
+      opt.value = item;
+      opt.textContent = label(item);
+      return opt;
+    }));
+    select.value = String(value);
+  }
+
+  function renderFilters() {
+    const regions = ['all', ...repo.getRegions(freeTier)];
+    const pickTier   = tier   => { freeTier = tier; onFilterChange(); };
+    const pickRegion = region => { freeRegion = region === 'all' ? null : region; onFilterChange(); };
+    renderButtons(vTierBtns, TIERS, tier => tier === freeTier, tierLabel, pickTier);
+    renderButtons(vRegionBtns, regions, r => (r === 'all' ? null : r) === freeRegion,
+                  regionLabel, pickRegion);
+    renderSelect(tierSelect, TIERS, freeTier, tierLabel);
+    renderSelect(regionSelect, regions, freeRegion ?? 'all', regionLabel);
+    if (tierSelect)   tierSelect.title   = t('tierFilter');
+    if (regionSelect) regionSelect.title = t('regionFilter');
+  }
+
+  tierSelect?.addEventListener('change', () => {
+    freeTier = Number(tierSelect.value);
+    onFilterChange();
+  });
+  regionSelect?.addEventListener('change', () => {
+    freeRegion = regionSelect.value === 'all' ? null : regionSelect.value;
+    onFilterChange();
+  });
+  renderFilters();
+
+  if (vHardBtn) {
+    vHardBtn.addEventListener('click', () => {
+      isHard = !isHard;
+      localStorage.setItem('dle_hard_mode', isHard ? '1' : '0');
+      updateVHardBtn();
+      updateHardBtn();
+    });
+    updateVHardBtn();
+  }
+
+  function updateVHardBtn() {
+    if (!vHardBtn) return;
+    const label = isHard ? t('hardModeOn') : t('hardModeBtn');
+    vHardBtn.innerHTML = `💀 <span>${label}</span>`;
+    vHardBtn.classList.toggle('border-gold',       isHard);
+    vHardBtn.classList.toggle('text-gold',         isHard);
+    vHardBtn.classList.toggle('border-lol-border', !isHard);
+    vHardBtn.classList.toggle('text-lol-dim',      !isHard);
+  }
+
+  function setFilterSelectsVisible(visible) {
+    tierSelect?.classList.toggle('hidden', !visible);
+    regionSelect?.classList.toggle('hidden', !visible);
   }
 
 
-  // ── Modo diario ───────────────────────────────────────────
+  // ── Modo diario (solo jugadores de ligas tier 1) ──────────
   function getDailyPlayer() {
-    return repo.getByIndex(DailyService.getDailyIndex(repo.count));
+    return repo.getDaily(DailyService.getDailyIndex(repo.dailyCount));
   }
 
   function startDaily() {
     isDaily     = true;
     pendingRows = [];
     updateDailyBadge();
+    setFilterSelectsVisible(false);
 
     if (DailyService.hasPlayedToday()) {
       // Ya jugó hoy: reconstruir grid y mostrar resultado
@@ -112,7 +219,7 @@ async function boot() {
       return;
     }
 
-    game.start(getDailyPlayer());
+    game.start(getDailyPlayer(), DAILY_FILTER);
     resetUI();
     hideFreeModeBanner();
   }
@@ -120,9 +227,10 @@ async function boot() {
   function startFreePlay() {
     isDaily = false;
     updateDailyBadge();
-    game.start();
+    game.start(null, freeFilter());
     resetUI();
     showFreeModeBanner();
+    setFilterSelectsVisible(true);
   }
 
   // ── Handlers ──────────────────────────────────────────────
@@ -207,6 +315,7 @@ async function boot() {
   // ── Helpers de UI ─────────────────────────────────────────
   function showVictory(secret, attempts, won) {
     victory.show(secret, won ? attempts : 0);
+    if (isDaily) showFreePlayOptions();
   }
 
   function resetUI() {
@@ -216,9 +325,22 @@ async function boot() {
     enableInput();
     victory.hide();
     particles.stopConfetti();
-    if (shareBtn)    shareBtn.classList.add('hidden');
-    if (countdownEl) countdownEl.classList.add('hidden');
+    if (shareBtn)       shareBtn.classList.add('hidden');
+    if (countdownEl)    countdownEl.classList.add('hidden');
+    hideFreePlayOptions();
     updateHardBtn();
+  }
+
+  function showFreePlayOptions() {
+    if (!freePlayOptions) return;
+    updateVHardBtn();
+    renderFilters();
+    freePlayOptions.classList.remove('hidden');
+  }
+
+  function hideFreePlayOptions() {
+    if (!freePlayOptions) return;
+    freePlayOptions.classList.add('hidden');
   }
 
   function disableInput() {
