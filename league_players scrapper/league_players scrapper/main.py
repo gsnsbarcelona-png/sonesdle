@@ -636,6 +636,7 @@ def parse_player_page_full(html_main, html_tourney, player):
 
     player_data = {
         "id": player["id"],
+        "page": unquote(player["page_name"]).replace("_", " "),   # clave en build.py
         "nombre_real": infobox.get("name", ""),
         "nacionalidad": nacionalidad,
         "posicion": posicion,

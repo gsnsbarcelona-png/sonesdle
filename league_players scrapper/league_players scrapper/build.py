@@ -1036,10 +1036,11 @@ def main():
 
     with open(SCRAPED_PATH, encoding="utf-8") as f:
         scraped = json.load(f)["players"]
-    with open(PLAYER_LIST_PATH, encoding="utf-8") as f:
-        player_list = json.load(f)
-
-    pages = resolve_pages(scraped, player_list)
+    if all(r.get("page") for r in scraped):
+        pages = [r["page"] for r in scraped]
+    else:   # players.json antiguo, sin página: se deduce de la lista de main.py
+        with open(PLAYER_LIST_PATH, encoding="utf-8") as f:
+            pages = resolve_pages(scraped, json.load(f))
     print(f"{sum(p is not None for p in pages)}/{len(pages)} jugadores asociados a su página")
 
     entries = [(page, r["id"], r.get("nombre_real", "")) for r, page in zip(scraped, pages) if page]
