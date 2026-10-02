@@ -1,8 +1,9 @@
 /**
  * nav.js — Cabecera compartida para LOL Pro Games.
  * Fila 1: logo "LOL PRO GAMES" (link a inicio) + lang switcher (derecha)
- * Fila 2: iconos circulares de cada juego
+ * Fila 2: iconos circulares de cada juego + botón de cuenta
  */
+import { mountAccount } from './account.js';
 
 const GAMES = [
   { id: 'dle',        href: '../dle/index.html',        icon: '🎯', name: 'Adivina el Pro',  tag: 'Wordle'       },
@@ -72,6 +73,12 @@ export function mountGameNav() {
     el.innerHTML = `<span class="gnav-icon-emoji">${g.icon}</span>`;
     iconsRow.appendChild(el);
   });
+
+  // Cuenta de Google + estadísticas (a la derecha de los juegos)
+  const sep = document.createElement('span');
+  sep.className = 'gnav-sep';
+  iconsRow.appendChild(sep);
+  mountAccount(iconsRow, currentId);
 
   header.appendChild(brandRow);
   header.appendChild(iconsRow);
@@ -224,6 +231,7 @@ function _injectStyles() {
       cursor: not-allowed;
     }
     .gnav-icon-emoji { font-size: 1.15rem; line-height: 1; }
+    .gnav-sep { width: 1px; height: 26px; background: #1e3a5f; }
 
     /* ── Cookie reopener ── */
     #ck-reopener { bottom: 16px !important; left: 16px !important; }

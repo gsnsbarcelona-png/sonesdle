@@ -1,5 +1,6 @@
 import { PLAYERS }          from '../data/players.js';
 import { generateAutoHint } from './hintEngine.js';
+import { recordResult }     from '../../../shared/auth.js';
 
 const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
@@ -46,6 +47,12 @@ function endRound(didWin) {
   if (didWin) { stats.wins++; stats.streak++; }
   else         { stats.streak = 0; }
   saveStats();
+
+  // Historial del usuario (cuenta de Google o este navegador)
+  recordResult({
+    game: 'carrera', mode: 'free', won: didWin, attempts: attempts.length,
+    details: { player: currentPlayer.name, hints: hintsGiven },
+  });
 }
 
 function resetQueue() {

@@ -1,5 +1,6 @@
 import { EVENTS } from '../events.js';
 import { BoardState } from '../domain/BoardState.js';
+import { recordResult } from '../../../shared/auth.js';
 
 export class GameSession {
   constructor({ bus, playerRepository, categoryRepository, winCondition, gridBuilder, normalizer, maxLives }) {
@@ -69,6 +70,7 @@ export class GameSession {
       this._lives--;
       this._bus.emit(EVENTS.GUESS_WRONG, { raw: raw.trim(), livesLeft: this._lives });
       if (this._lives === 0) {
+        this._record(false);
         setTimeout(() => {
           this._bus.emit(EVENTS.MODAL_CLOSE);
           this._bus.emit(EVENTS.GAME_LOST);
@@ -89,7 +91,17 @@ export class GameSession {
     this._bus.emit(EVENTS.GUESS_CORRECT, { r, c, key, emoji, filledCount: count });
     this._bus.emit(EVENTS.MODAL_CLOSE);
     if (this._winCond.check(this._board.snapshot())) {
+      this._record(true);
       setTimeout(() => this._bus.emit(EVENTS.GAME_WON), 400);
     }
+  }
+
+  /** Historial del usuario (cuenta de Google o este navegador). Intentos = fallos. */
+  _record(won) {
+    recordResult({
+      game: 'grid', mode: 'free', won, attempts: this._maxLives - this._lives,
+      details: { filled: this._board.filledCount(),
+                 cols: this._config.cols.map(c => c.id), rows: this._config.rows.map(c => c.id) },
+    });
   }
 }

@@ -9,6 +9,7 @@ import { t, getLang, setLang, applyStaticTranslations } from './utils/i18n.js';
 import { mountSwitcher } from '../../shared/lang.js';
 import { CookieBanner } from './ui/CookieBanner.js';
 import { mountGameNav } from '../../shared/nav.js';
+import { recordResult } from '../../shared/auth.js';
 
 async function boot() {
   applyStaticTranslations();
@@ -246,6 +247,7 @@ async function boot() {
       showCountdown();
       showShareBtn(DailyService.getTodayResult());
     }
+    saveToHistory(false);
 
     setTimeout(() => {
       showVictory(game.secret, 0, false);
@@ -304,12 +306,23 @@ async function boot() {
         showCountdown();
         showShareBtn(DailyService.getTodayResult());
       }
+      saveToHistory(true);
 
       setTimeout(() => {
         showVictory(game.secret, game.attempts, true);
         particles.launchConfetti();
       }, 1000);
     }
+  }
+
+  /** Historial del usuario (cuenta de Google o este navegador). */
+  function saveToHistory(won) {
+    recordResult({
+      game: 'dle', mode: isDaily ? 'daily' : 'free', won,
+      attempts: won ? game.attempts : null,
+      details: { player: game.secret.name, hard: isHard,
+                 ...(isDaily ? {} : { maxTier: freeTier, region: freeRegion }) },
+    });
   }
 
   // ── Helpers de UI ─────────────────────────────────────────
