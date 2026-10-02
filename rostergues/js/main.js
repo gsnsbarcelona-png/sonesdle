@@ -10,6 +10,24 @@ import * as AC from '../../shared/js/autocomplete.js';
 const POSITION_ORDER   = ['Top', 'Jungle', 'Mid', 'ADC', 'Support'];
 const HINTS_EVERY_N_WRONGS = 5;
 
+const DIFF_KEY  = 'rostergues_difficulty';
+const DAILY_KEY = 'rostergues_daily_done';
+const PLACEMENT_POOLS = {
+  facil:   ['champion', 'finalist'],
+  media:   ['champion', 'finalist', 'semifinalist', 'quarterfinalist'],
+  dificil: ['champion', 'finalist', 'semifinalist', 'quarterfinalist', 'groups'],
+};
+
+function todayStr() {
+  return new Date().toISOString().slice(0, 10);
+}
+function isDailyDone() {
+  return localStorage.getItem(DAILY_KEY) === todayStr();
+}
+function markDailyDone() {
+  localStorage.setItem(DAILY_KEY, todayStr());
+}
+
 /* ─── i18n ───────────────────────────────────────────────── */
 const STATIC = {
   es: {
@@ -59,6 +77,25 @@ const state = {
 /* ─── DOM refs ───────────────────────────────────────────── */
 const $ = id => document.getElementById(id);
 
+/* ─── Difficulty ─────────────────────────────────────────── */
+let difficulty = localStorage.getItem(DIFF_KEY) ?? 'media';
+
+function getRosterPool() {
+  const pool = isDailyDone() ? difficulty : 'media';
+  const allowed = PLACEMENT_POOLS[pool] ?? PLACEMENT_POOLS.media;
+  return ROSTERS.filter(r => allowed.includes(r.placement));
+}
+
+function renderDiffButtons() {
+  document.querySelectorAll('.diff-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.diff === difficulty);
+  });
+}
+
+function showDiffRow() {
+  $('difficulty-row').classList.remove('hidden');
+}
+
 /* ─── Particles (instancia compartida) ──────────────────── */
 let particles = null;
 
@@ -74,7 +111,7 @@ for (const roster of ROSTERS) {
 
 /* ─── Init ───────────────────────────────────────────────── */
 function initGame() {
-  state.roster          = pickRoster(ROSTERS);
+  state.roster          = pickRoster(getRosterPool());
   state.solvedSlots     = new Set();
   state.guesses         = [];
   state.attempts        = 0;
@@ -103,7 +140,32 @@ function renderYearBanner() {
   const r = state.roster;
   $('year-team').textContent  = r.team;
   $('year-year').textContent  = r.year;
-  $('year-event').textContent = r.event;
+  const placementLabels = {
+    champion:        '🏆 Campeón',
+    finalist:        '🥈 Finalista',
+    semifinalist:    '🥉 Semifinalista',
+    quarterfinalist: '⚔️ Cuartos',
+    groups:          '📋 Grupos',
+  };
+  const placementColors = {
+    champion:        '#f0c040',
+    finalist:        '#aaa',
+    semifinalist:    '#cd7f32',
+    quarterfinalist: '#7ec8e3',
+    groups:          '#888',
+  };
+  const eventText = r.event;
+  const placementText = placementLabels[r.placement] || '';
+  const placementColor = placementColors[r.placement] || 'var(--text-dim)';
+  const evEl = $('year-event');
+  evEl.textContent = eventText + (placementText ? '  ·  ' : '');
+  if (placementText) {
+    const sp = document.createElement('span');
+    sp.id = 'year-placement';
+    sp.textContent = placementText;
+    sp.style.color = placementColor;
+    evEl.appendChild(sp);
+  }
 
   // region badge
   let badge = document.querySelector('.year-region-badge');
@@ -298,6 +360,17 @@ function showResult() {
     rosterEl.appendChild(card);
   }
 
+  // Daily challenge logic
+  const wasAlreadyDone = isDailyDone();
+  if (!wasAlreadyDone) {
+    markDailyDone();
+    showDiffRow();
+    $('result-diff-unlock').classList.remove('hidden');
+    renderDiffButtons();
+  } else {
+    $('result-diff-unlock').classList.add('hidden');
+  }
+
   $('result-overlay').classList.remove('hidden');
   $('search-section').classList.add('hidden');
 
@@ -370,6 +443,16 @@ function bindEvents() {
 
   btnResult.addEventListener('click', () => initGame());
 
+  document.querySelectorAll('.diff-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!isDailyDone()) return;
+      difficulty = btn.dataset.diff;
+      localStorage.setItem(DIFF_KEY, difficulty);
+      renderDiffButtons();
+      initGame();
+    });
+  });
+
   // Re-render on language change
   document.addEventListener('langchange', () => {
     applyStaticTranslations(STATIC);
@@ -389,5 +472,7 @@ document.addEventListener('DOMContentLoaded', () => {
     confettiCanvas: $('canvas-confetti'),
   });
   bindEvents();
+  if (isDailyDone()) showDiffRow();
+  renderDiffButtons();
   initGame();
 });

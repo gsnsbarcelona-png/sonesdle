@@ -1,7 +1,14 @@
-/* BACK LINK */
-.back-link{padding:12px 0 0;margin-bottom:-8px}
-.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:0.6rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold-dark);text-decoration:none;transition:color 0.2s}
-.back-btn:hover{color:var(--gold)}
+/* DIFFICULTY */
+.difficulty-row{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:14px}
+.diff-btn{padding:5px 14px;border-radius:20px;border:1px solid #1e3a5f;background:transparent;color:#4a6080;font-family:'Rajdhani',sans-serif;font-size:0.78rem;font-weight:600;letter-spacing:0.06em;cursor:pointer;transition:border-color 0.2s,color 0.2s,background 0.2s}
+.diff-btn:hover{border-color:#c89b3c;color:#c89b3c}
+.diff-btn.active{border-color:#c89b3c;color:#c89b3c;background:rgba(200,155,60,0.1)}
+
+/* GAME TITLE ROW */
+.game-title-row{display:flex;align-items:center;justify-content:center;gap:10px;padding:20px 0 12px}
+.game-title-text{font-family:'Cinzel',serif;font-size:clamp(1.3rem,5vw,2rem);font-weight:700;letter-spacing:0.18em;color:#c89b3c;text-shadow:0 0 20px rgba(200,155,60,0.3)}
+.game-instr-btn{width:26px;height:26px;border-radius:50%;background:transparent;border:1px solid #1e3a5f;color:#4a6080;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.8rem;cursor:pointer;transition:border-color 0.2s,color 0.2s;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.game-instr-btn:hover{border-color:#c89b3c;color:#c89b3c}
 
 /* HEADER */
 header{text-align:center;padding:20px 0 28px;animation:fadeDown 0.6s ease}
@@ -37,6 +44,15 @@ header{text-align:center;padding:20px 0 28px;animation:fadeDown 0.6s ease}
 .year-region-badge.LEC{color:#9b59b6;border-color:#9b59b6;background:rgba(155,89,182,0.08)}
 .year-region-badge.EU{color:#9b59b6;border-color:#9b59b6;background:rgba(155,89,182,0.08)}
 .year-region-badge.LCS{color:#cc2222;border-color:#cc2222;background:rgba(204,34,34,0.08)}
+.year-region-badge.LMS{color:#d4a017;border-color:#d4a017;background:rgba(212,160,23,0.08)}
+.year-region-badge.PCS{color:#0093c7;border-color:#0093c7;background:rgba(0,147,199,0.08)}
+.year-region-badge.VCS{color:#00b894;border-color:#00b894;background:rgba(0,184,148,0.08)}
+.year-region-badge.CBLOL{color:#27ae60;border-color:#27ae60;background:rgba(39,174,96,0.08)}
+.year-region-badge.LJL{color:#e17055;border-color:#e17055;background:rgba(225,112,85,0.08)}
+.year-region-badge.LLA{color:#e67e22;border-color:#e67e22;background:rgba(230,126,34,0.08)}
+.year-region-badge.GPL{color:#8e44ad;border-color:#8e44ad;background:rgba(142,68,173,0.08)}
+.year-region-badge.LCO{color:#16a085;border-color:#16a085;background:rgba(22,160,133,0.08)}
+.year-region-badge.WC{color:#888888;border-color:#888888;background:rgba(136,136,136,0.08)}
 
 /* SLOTS GRID */
 .slots-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px;animation:fadeUp 0.5s ease 0.12s both}
@@ -113,6 +129,9 @@ header{text-align:center;padding:20px 0 28px;animation:fadeDown 0.6s ease}
 .result-player-pos{font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;opacity:0.7}
 .result-player-name{font-family:'Courier New',monospace;font-size:0.8rem;word-break:break-all;text-align:center}
 .result-player-flag{font-size:1.2rem;line-height:1}
+.result-diff-unlock{margin:0 0 18px;padding:14px 16px;border:1px solid #1e3a5f;background:rgba(200,155,60,0.04)}
+.result-diff-label{font-family:'Rajdhani',sans-serif;font-size:0.75rem;color:#4a6080;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px}
+.result-diff-btns{display:flex;justify-content:center;gap:8px}
 .result-btn{margin-top:4px;padding:13px 32px;background:var(--gold);color:var(--bg);border:none;font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;width:100%}
 .result-btn:hover{background:var(--gold-light);box-shadow:0 0 24px rgba(200,155,60,0.4)}
 

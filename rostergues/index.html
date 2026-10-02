@@ -60,36 +60,18 @@
 
   <div class="app">
 
-    <!-- BACK LINK -->
-    <div class="back-link">
-      <a href="../index.html" class="back-btn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="11"><polyline points="15 18 9 12 15 6"/></svg>
-        <span>LOL PRO GAMES</span>
-      </a>
+    <!-- Título del juego + instrucciones -->
+    <div class="game-title-row">
+      <h1 class="game-title-text">Roster Guess</h1>
+      <button class="game-instr-btn" id="instructions-btn" title="Instrucciones">?</button>
     </div>
 
-    <!-- HEADER -->
-    <header>
-      <div class="header-banner">
-        <div class="header-deco">
-          <div class="header-deco-line left"></div>
-          <span class="header-deco-star">✦</span>
-          <div class="header-deco-line right"></div>
-        </div>
-        <div class="header-title">Roster Guess</div>
-        <div class="header-sep">
-          <div class="header-sep-line left"></div>
-          <span class="header-sep-diamonds">◆ ◆ ◆</span>
-          <div class="header-sep-line right"></div>
-        </div>
-        <div class="header-subtitle" data-i18n="subtitle">Adivina el roster histórico</div>
-        <div class="header-deco">
-          <div class="header-deco-line left"></div>
-          <span class="header-deco-star">✦</span>
-          <div class="header-deco-line right"></div>
-        </div>
-      </div>
-    </header>
+    <!-- DIFICULTAD (visible solo tras completar el reto diario) -->
+    <div class="difficulty-row hidden" id="difficulty-row">
+      <button class="diff-btn" data-diff="facil">⭐ Fácil</button>
+      <button class="diff-btn active" data-diff="media">⚔️ Media</button>
+      <button class="diff-btn" data-diff="dificil">💀 Difícil</button>
+    </div>
 
     <!-- YEAR BANNER -->
     <div class="year-banner" id="year-banner">
@@ -145,9 +127,45 @@
       <div class="result-title" id="result-title"></div>
       <div class="result-attempts" id="result-attempts"></div>
       <div class="result-roster" id="result-roster"></div>
+      <div class="result-diff-unlock hidden" id="result-diff-unlock">
+        <div class="result-diff-label">Elige la dificultad para la próxima partida</div>
+        <div class="result-diff-btns">
+          <button class="diff-btn" data-diff="facil">⭐ Fácil</button>
+          <button class="diff-btn" data-diff="media">⚔️ Media</button>
+          <button class="diff-btn" data-diff="dificil">💀 Difícil</button>
+        </div>
+      </div>
       <button class="result-btn" id="result-btn" data-i18n="resultBtn">▶ Jugar de nuevo</button>
     </div>
   </div>
+
+  <!-- Modal instrucciones -->
+  <style>
+    #instructions-modal{display:none;position:fixed;inset:0;background:rgba(1,10,19,0.88);z-index:9999;align-items:center;justify-content:center}
+    #instructions-modal.open{display:flex}
+    .instr-card{background:#0a1428;border:1px solid #785a28;max-width:400px;width:92%;padding:28px 24px;position:relative}
+    .instr-card h3{font-family:'Cinzel',serif;color:#c89b3c;font-size:1rem;letter-spacing:2px;margin-bottom:16px;text-align:center}
+    .instr-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-family:'Rajdhani',sans-serif;font-size:0.82rem;color:#c8d4e8;line-height:1.4}
+    .instr-close{position:absolute;top:10px;right:12px;background:none;border:none;cursor:pointer;color:#4a6080;font-size:1.2rem;transition:color 0.15s}
+    .instr-close:hover{color:#c89b3c}
+    .instr-pip{flex-shrink:0;width:8px;height:8px;background:#785a28;border-radius:50%;margin-top:5px}
+  </style>
+  <div id="instructions-modal">
+    <div class="instr-card">
+      <button class="instr-close" id="instructions-close">✕</button>
+      <h3>CÓMO JUGAR</h3>
+      <div class="instr-row"><div class="instr-pip"></div><span>Se muestra el equipo y año de un roster histórico de Worlds o MSI</span></div>
+      <div class="instr-row"><div class="instr-pip"></div><span>Adivina los 5 jugadores (Top, Jg, Mid, ADC, Sup) uno a uno</span></div>
+      <div class="instr-row"><div class="instr-pip"></div><span>Cada 5 errores se revela una letra de un jugador sin resolver</span></div>
+      <div class="instr-row"><div class="instr-pip"></div><span>El <strong style="color:#c89b3c">reto diario</strong> es siempre en dificultad ⚔️ Media (hasta cuartos de final)</span></div>
+      <div class="instr-row"><div class="instr-pip"></div><span>Al completarlo desbloqueas el modo libre: ⭐ Fácil (top 2), ⚔️ Media (top 8) o 💀 Difícil (todos)</span></div>
+    </div>
+  </div>
+  <script>
+    document.getElementById('instructions-btn')?.addEventListener('click',()=>document.getElementById('instructions-modal').classList.add('open'));
+    document.getElementById('instructions-close')?.addEventListener('click',()=>document.getElementById('instructions-modal').classList.remove('open'));
+    document.getElementById('instructions-modal')?.addEventListener('click',e=>{if(e.target===e.currentTarget)e.currentTarget.classList.remove('open')});
+  </script>
 
   <script type="module" src="js/main.js"></script>
 </body>
