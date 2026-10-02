@@ -1,0 +1,5 @@
+# No publicar en la web: scraper y datos de origen, esquema de la base de datos y CI
+league_players scrapper
+supabase
+.github
+CNAME
