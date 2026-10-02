@@ -48,6 +48,9 @@ ROSTERS_PATH     = os.path.join(SCRIPT_DIR, "worlds_rosters.json")
 EXTRA_CARGO_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_extra_players.json")
 REDIRECTS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "roster_redirects.json")
 TENURES_CACHE_PATH     = os.path.join(SCRIPT_DIR, "cache", "cargo_tenures.json")
+ALIASES_CACHE_PATH     = os.path.join(SCRIPT_DIR, "cache", "cargo_aliases.json")
+LEAGUE_TITLES_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_league_titles.json")
+LEAGUE_INFO_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_leagues.json")
 CHAMPIONS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_champions.json")
 TEAM_TOURNAMENTS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_team_tournaments.json")
 CHAMPION_REDIRECTS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "champion_redirects.json")
@@ -134,6 +137,9 @@ EUROPE = {"Austria", "Belgium", "Bulgaria", "Croatia", "Czech Republic", "Denmar
           "North Macedonia", "Bosnia and Herzegovina", "Albania", "Montenegro"}
 CARRERA_REGIONS = {"LCK", "LPL", "LEC", "LCS"}
 MIN_TENURE_DAYS = 60   # carrera ignora pruebas y cesiones muy cortas
+# Fases de un torneo de liga que no dan título (si no son playoffs)
+REGULAR_STAGE_RE = re.compile(r"season|preseason|group|stage|qualifier|regional|opening",
+                              re.IGNORECASE)
 RECENT_FREE_AGENT_DAYS = 90   # el dle mantiene a los agentes libres de hace menos tiempo
 
 COUNTRY_ISO = {
@@ -259,6 +265,37 @@ def cargo_query(session, field, values, table="Players", fields=PLAYER_FIELDS):
     return rows
 
 
+def cached_by_key(path, refresh, keys, fetch):
+    """Como `cached`, pero por claves: `fetch(claves)` devuelve {clave: datos} y
+    solo se descargan las claves que no estaban en la caché (p. ej. al añadir
+    un jugador a curated/). Las claves sin datos también se recuerdan."""
+    keys = {str(k) for k in keys}
+    cache = {"fetched_at": time.time(), "keys": [], "data": {}}
+    if not refresh and os.path.exists(path):
+        with open(path, encoding="utf-8") as f:
+            stored = json.load(f)
+        if "keys" in stored and time.time() - stored["fetched_at"] < CACHE_TTL:
+            cache = stored
+    missing = keys - set(cache["keys"])
+    if missing:
+        cache["data"].update(fetch(sorted(missing)))
+        cache["keys"] = sorted(set(cache["keys"]) | missing)
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(cache, f, ensure_ascii=False)
+    return cache["data"]
+
+
+def group_by_page(by_alias, alias_page):
+    """{alias: [filas]} -> {página en minúsculas: [filas sin repetir]}."""
+    grouped = defaultdict(dict)
+    for alias, rows in by_alias.items():
+        page = alias_page.get(alias)
+        for row in rows if page else []:
+            grouped[page.lower()][json.dumps(row, sort_keys=True)] = row
+    return {page: list(rows.values()) for page, rows in grouped.items()}
+
+
 def cached(path, refresh, fn):
     """Resultado de fn(), guardado en `path` durante CACHE_TTL."""
     if not refresh and os.path.exists(path):
@@ -374,34 +411,49 @@ def fetch_team_tournaments(teams):
                 result[str(row["Team"])].append([row["League"], row.get("DateStart")])
     print()
 
-    names = sorted({league for entries in result.values() for league, _ in entries})
-    info = {}
-    for i in range(0, len(names), CARGO_BATCH):
-        for row in cargo_query(session, "League", names[i:i + CARGO_BATCH], table="Leagues",
-                               fields="League,League_Short,Region,Level,IsOfficial"):
-            info[html.unescape(row["League"])] = row
+    info = fetch_league_info({league for entries in result.values() for league, _ in entries})
     # Todos los equipos pedidos, aunque no tengan torneos (así la caché sabe que ya se miraron)
     return {team: [[league, info.get(league), date] for league, date in result.get(team, [])]
             for team in teams}
 
 
-def fetch_tenures(pages):
-    """{página en minúsculas: [{team, role, from, to}]}: cada etapa en un equipo
-    con el rol del fichaje ("Mid", "Mid/Owner", "Coach"...). `to` es None si sigue."""
-    tenures = defaultdict(list)
+def fetch_aliases(pages):
+    """{página: [alias en minúsculas]}. Las tablas de Leaguepedia a veces usan un
+    alias en vez de la página ("Broken Blade" -> "BrokenBlade", "caPs" -> "Caps")."""
     session = requests.Session()
     pages = sorted(set(pages))
-
-    # Tenures.Player puede ser un alias de la página ("Broken Blade" -> "BrokenBlade")
-    alias_page = {p.lower(): p for p in pages}
+    aliases = {p: {p.lower()} for p in pages}
     for i in range(0, len(pages), CARGO_BATCH):
         print(f"\r  Alias [{min(i + CARGO_BATCH, len(pages))}/{len(pages)}]", end="", flush=True)
         for row in cargo_query(session, "OverviewPage", pages[i:i + CARGO_BATCH],
                                table="PlayerRedirects", fields="AllName,OverviewPage"):
-            alias_page.setdefault(str(row["AllName"]).lower(), row["OverviewPage"])
+            if row["OverviewPage"] in aliases:
+                aliases[row["OverviewPage"]].add(str(row["AllName"]).lower())
     print()
+    return {page: sorted(a) for page, a in aliases.items()}
 
-    aliases = sorted(alias_page)
+
+def alias_to_page(aliases_by_page):
+    """{alias: página}. Si un alias es de varios jugadores ("doran"), gana el que
+    se llama exactamente así; si ninguno, se descarta por ambiguo."""
+    owners = defaultdict(set)
+    for page, aliases in aliases_by_page.items():
+        for alias in aliases:
+            owners[alias].add(page)
+    result = {}
+    for alias, pages in owners.items():
+        exact = [p for p in pages if p.lower() == alias]
+        if exact or len(pages) == 1:
+            result[alias] = (exact or list(pages))[0]
+    return result
+
+
+def fetch_tenures(aliases):
+    """{alias en minúsculas: [{team, role, from, to}]}: cada etapa en un equipo
+    con el rol del fichaje ("Mid", "Mid/Owner", "Coach"...). `to` es None si sigue."""
+    tenures = defaultdict(list)
+    session = requests.Session()
+    aliases = sorted(aliases)
     batch = 40   # ~10 etapas por alias: caben en una respuesta
     for i in range(0, len(aliases), batch):
         print(f"\r  Tenures [{min(i + batch, len(aliases))}/{len(aliases)}]", end="", flush=True)
@@ -416,18 +468,73 @@ def fetch_tenures(pages):
         })
         r.raise_for_status()
         for t in r.json():
-            page = alias_page.get(str(t["Player"]).lower())
-            if not page:
-                continue
-            tenures[page.lower()].append({
+            tenures[str(t["Player"]).lower()].append({
                 "team": t["Team"], "role": t.get("Role") or "",
                 "from": t.get("DateJoin"), "to": t.get("DateLeave"),
             })
     print()
-    for page in tenures:
-        unique = {(t["team"], t["from"], t["to"], t["role"]): t for t in tenures[page]}
-        tenures[page] = sorted(unique.values(), key=lambda t: t["from"] or "")
-    return tenures
+    return dict(tenures)
+
+
+def fetch_league_titles(aliases):
+    """{alias en minúsculas: [[liga, torneo, año]]}: torneos de
+    liga ganados (puesto 1) que cuentan como título: playoffs, o el torneo entero
+    en las ligas antiguas sin playoffs. Excluye fases regulares y clasificatorios."""
+    session = requests.Session()
+    aliases = sorted(aliases)
+    titles = defaultdict(set)
+    batch = 40
+    for i in range(0, len(aliases), batch):
+        print(f"\r  Títulos [{min(i + batch, len(aliases))}/{len(aliases)}]", end="", flush=True)
+        time.sleep(CARGO_DELAY)
+        r = session.get(CARGO_URL, headers=HEADERS, timeout=60, params={
+            "tables": "TournamentResults=TR,TournamentPlayers=TP,Tournaments=T",
+            "join_on": "TR.OverviewPage=TP.OverviewPage,TR.Team=TP.Team,"
+                       "TR.OverviewPage=T.OverviewPage",
+            "fields": "TP.Link=Link,TP.Role=Role,TR.OverviewPage=Page,T.League=League,"
+                      "T.Year=Year,T.IsPlayoffs=IsPlayoffs,T.IsQualifier=IsQualifier",
+            "where": 'TR.Place = "1" AND TP.Link IN (%s)'
+                     % ",".join(cargo_quote(a) for a in aliases[i:i + batch]),
+            "format": "json", "limit": 5000,
+        })
+        r.raise_for_status()
+        for t in r.json():
+            link = str(t.get("Link") or "").lower()
+            stage = str(t["Page"]).rsplit("/", 1)[-1]
+            roles = {x.strip().lower() for x in (t.get("Role") or "").split(",")}
+            if (not link or not t.get("League") or t.get("IsQualifier") == 1
+                    or not roles & PLAYER_ROLES):
+                continue
+            if t.get("IsPlayoffs") != 1 and REGULAR_STAGE_RE.search(stage):
+                continue
+            titles[link].add((t["League"], str(t["Page"]), t.get("Year")))
+    print()
+    return {link: [list(t) for t in sorted(ts)] for link, ts in titles.items()}
+
+
+def fetch_league_info(names):
+    """{liga: fila de Leagues (nombre corto, región, nivel, si es oficial)}.
+    Si un lote falla (algún nombre que Cargo no acepta), se reintenta de uno en uno."""
+    session = requests.Session()
+    names = sorted(set(names))
+    info = {}
+
+    def query(batch):
+        for row in cargo_query(session, "League", batch, table="Leagues",
+                               fields="League,League_Short,Region,Level,IsOfficial"):
+            info[html.unescape(row["League"])] = row
+
+    for i in range(0, len(names), 30):
+        batch = names[i:i + 30]
+        try:
+            query(batch)
+        except (requests.RequestException, ValueError):
+            for name in batch:
+                try:
+                    query([name])
+                except (requests.RequestException, ValueError):
+                    print(f"  ! Leagues: no se pudo consultar {name!r}")
+    return info
 
 
 def tournament_year(name):
@@ -611,8 +718,18 @@ def home_league_from_history(history):
     return leagues.most_common(1)[0][0] if leagues else None
 
 
+def league_titles(won, league_info):
+    """Títulos de liga regional (tier 1 o 2) de entre los torneos ganados."""
+    titles = []
+    for league, tournament, year in won:
+        classified = classify_league(league, league_info.get(league))
+        if classified and classified[1] <= 2:
+            titles.append({"league": classified[0], "tournament": tournament, "year": year})
+    return titles
+
+
 def master_entry(page, cargo, scraped, ctx):
-    """`ctx`: tenures, team_regions, team_tournaments y achievements de Cargo."""
+    """`ctx`: tenures, team_regions, team_tournaments, league_titles y achievements de Cargo."""
     status, team = status_and_team(cargo, scraped or {})
     history = history_from_tenures(ctx["tenures"].get((page or "").lower(), []),
                                    ctx["team_regions"])
@@ -660,21 +777,27 @@ def master_entry(page, cargo, scraped, ctx):
         "home_league": home,                # liga histórica principal
         "debut":       min(years) if years else (scraped or {}).get("debut"),
         "achievements": ctx["achievements"].get(page, {"worlds": [], "msi": []}),
-        "titles": {   # torneos según main.py (no siempre son victorias)
-            "international": (scraped or {}).get("titulos_internacionales", []),
-            "national":      (scraped or {}).get("titulos_nacionales", []),
-        },
+        "titles":      league_titles(ctx["league_titles"].get((page or "").lower(), []),
+                                     ctx["league_info"]),
         "history":     history,
     }
 
 
+def current_page(page, cargo_rows):
+    """Página actual del jugador según Cargo (main.py guarda la de cuando scrapeó)."""
+    row = cargo_rows.get(page) if page else None
+    return row["OverviewPage"] if row else page
+
+
 def build_master(scraped, pages, cargo_rows, extra_pages, ctx):
-    master = [master_entry(page, cargo_rows.get(page) if page else None, r, ctx)
+    master = [master_entry(current_page(page, cargo_rows), cargo_rows.get(page) if page else None,
+                           r, ctx)
               for r, page in zip(scraped, pages)]
-    known = {p for p in pages if p}
-    for page in sorted(set(extra_pages) - known):
-        if page in cargo_rows:
-            master.append(master_entry(page, cargo_rows[page], None, ctx))
+    known = {m["page"] for m in master if m["page"]}
+    for page in sorted(set(extra_pages)):
+        if page in cargo_rows and current_page(page, cargo_rows) not in known:
+            master.append(master_entry(current_page(page, cargo_rows), cargo_rows[page], None, ctx))
+            known.add(current_page(page, cargo_rows))
     return master
 
 
@@ -703,9 +826,8 @@ def build_dle(master):
             "tier":      p["tier"],
             "region":    p["region"],
             "position":  p["positions"],
-            "titles":    any(re.search(r"playoff|finals", t, re.IGNORECASE)
-                             for t in p["titles"]["national"]),
-            "worlds":    any("play-in" not in t.lower() for t in p["titles"]["international"]),
+            "titles":    bool(p["titles"]),   # ha ganado una liga regional (tier 1 o 2)
+            "worlds":    bool(p["achievements"]["worlds"] or p["achievements"]["msi"]),
             "birthdate": p["birthdate"],
             "team":      p["game_team"],
             "free_agent": p["status"] == "free_agent",   # sigue con su último equipo
@@ -875,7 +997,7 @@ def main():
     with open(ROSTERS_PATH, encoding="utf-8") as f:
         rosters = json.load(f)
     roster_pages = {p["page"] for r in rosters for p in r["players"] if p.get("page")}
-    canonical = cached(REDIRECTS_CACHE_PATH, args.refresh, lambda: resolve_redirects(roster_pages))
+    canonical = cached_by_key(REDIRECTS_CACHE_PATH, args.refresh, roster_pages, resolve_redirects)
     rosters = assign_roster_pages(rosters, canonical)
     with open(CURATED_CARRERA_PATH, encoding="utf-8") as f:
         curated_carrera = json.load(f)
@@ -886,15 +1008,28 @@ def main():
                      for r in rosters for p in r["players"] if p.get("page")}
     extra_entries |= {(c["page"], c["page"], "") for c in curated_carrera + curated_grid}
     extra_entries = sorted(e for e in extra_entries if e[0] not in cargo_rows)
-    extra = cached(EXTRA_CARGO_CACHE_PATH, args.refresh, lambda: fetch_players(extra_entries))
+    extra = cached_by_key(EXTRA_CARGO_CACHE_PATH, args.refresh, [e[0] for e in extra_entries],
+                          lambda ks: fetch_players([e for e in extra_entries if e[0] in set(ks)]))
     cargo_rows = {**extra, **cargo_rows}
     extra_pages = [e[0] for e in extra_entries]
 
-    all_pages = [p for p in pages if p] + extra_pages
-    tenures = cached(TENURES_CACHE_PATH, args.refresh, lambda: fetch_tenures(all_pages))
+    # Página actual de cada jugador (la de main.py puede haberse renombrado)
+    all_pages = sorted({current_page(p, cargo_rows) for p in pages + extra_pages if p})
+    aliases_by_page = cached_by_key(ALIASES_CACHE_PATH, args.refresh, all_pages, fetch_aliases)
+    alias_page = alias_to_page(aliases_by_page)
+    tenures = group_by_page(
+        cached_by_key(TENURES_CACHE_PATH, args.refresh, alias_page, fetch_tenures), alias_page)
+    for ts in tenures.values():
+        ts.sort(key=lambda t: t["from"] or "")
+    won_titles = group_by_page(
+        cached_by_key(LEAGUE_TITLES_CACHE_PATH, args.refresh, alias_page, fetch_league_titles),
+        alias_page)
+    title_leagues = {league for ts in won_titles.values() for league, _, _ in ts}
+    league_info = cached_by_key(LEAGUE_INFO_CACHE_PATH, args.refresh, title_leagues,
+                                fetch_league_info)
     teams = sorted({row["Team"] for row in cargo_rows.values() if row.get("Team")}
                    | {t["team"] for ts in tenures.values() for t in ts if t["team"]})
-    team_regions = cached(TEAMS_CACHE_PATH, args.refresh, lambda: fetch_team_regions(teams))
+    team_regions = cached_by_key(TEAMS_CACHE_PATH, args.refresh, teams, fetch_team_regions)
 
     # Campeones de Worlds/MSI, con el enlace de cada jugador llevado a su página actual
     champions = cached(CHAMPIONS_CACHE_PATH, args.refresh, fetch_champions)
@@ -912,18 +1047,12 @@ def main():
     teams_needed = {row["Team"] for row in cargo_rows.values() if row.get("Team")}
     teams_needed |= {t["team"] for ts in tenures.values() for t in ts
                      if t["to"] and t["to"] >= cutoff and t["team"]}
-    team_tournaments = cached(TEAM_TOURNAMENTS_CACHE_PATH, args.refresh,
-                              lambda: fetch_team_tournaments(teams_needed))
-    missing_teams = teams_needed - set(team_tournaments)
-    if missing_teams:   # la caché es de antes de que hicieran falta estos equipos
-        team_tournaments.update(fetch_team_tournaments(missing_teams))
-        with open(TEAM_TOURNAMENTS_CACHE_PATH, encoding="utf-8") as f:
-            fetched_at = json.load(f)["fetched_at"]   # no alargar la caducidad
-        with open(TEAM_TOURNAMENTS_CACHE_PATH, "w", encoding="utf-8") as f:
-            json.dump({"fetched_at": fetched_at, "data": team_tournaments}, f, ensure_ascii=False)
+    team_tournaments = cached_by_key(TEAM_TOURNAMENTS_CACHE_PATH, args.refresh, teams_needed,
+                                     fetch_team_tournaments)
 
     ctx = {"tenures": tenures, "team_regions": team_regions,
-           "team_tournaments": team_tournaments, "achievements": achievements}
+           "team_tournaments": team_tournaments, "achievements": achievements,
+           "league_titles": won_titles, "league_info": league_info}
     master = build_master(scraped, pages, cargo_rows, extra_pages, ctx)
     missing = [m["id"] for m in master if m["status"] == "unknown"]
     print(f"{len(master) - len(missing)}/{len(master)} con datos de Cargo"
