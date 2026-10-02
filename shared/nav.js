@@ -1,18 +1,17 @@
 /**
- * nav.js — Barra superior de navegación para LOL Pro Games.
- * Crea una topbar fija que contiene el menú de juegos (izquierda)
- * y absorbe el lang-switcher existente (derecha), añadiendo
- * padding-top al body para que el contenido no quede tapado.
+ * nav.js — Cabecera compartida para LOL Pro Games.
+ * Fila 1: logo "LOL PRO GAMES" (link a inicio) + lang switcher (derecha)
+ * Fila 2: iconos circulares de cada juego
  */
 
 const GAMES = [
-  { id: 'dle',        href: '../dle/index.html',        icon: '🎯', name: 'Adivina el Pro',  tag: 'Wordle · Diario'    },
-  { id: 'rostergues', href: '../rostergues/index.html', icon: '🏆', name: 'Roster Guess',    tag: 'Roster · Histórico' },
-  { id: 'carrera',    href: '../carrera/index.html',    icon: '📋', name: 'Career Guess',    tag: 'Timeline · Carrera' },
+  { id: 'dle',        href: '../dle/index.html',        icon: '🎯', name: 'Adivina el Pro',  tag: 'Wordle'       },
+  { id: 'rostergues', href: '../rostergues/index.html', icon: '🏆', name: 'Roster Guess',    tag: 'Roster'       },
+  { id: 'carrera',    href: '../carrera/index.html',    icon: '📋', name: 'Career Guess',    tag: 'Career'       },
   { id: 'grid',       href: null,                       icon: '🔲', name: 'Pro Grid',        tag: 'Próximamente', disabled: true },
 ];
 
-const TOPBAR_H = 44; // px — altura de la barra
+const HEADER_H = 96; // px — altura total (fila 1 + fila 2)
 
 function getCurrentId() {
   const path = window.location.pathname;
@@ -24,98 +23,73 @@ export function mountGameNav() {
 
   const currentId = getCurrentId();
 
-  // ── Topbar ──────────────────────────────────────────────────
-  const topbar = document.createElement('div');
-  topbar.id = 'game-topbar';
+  // ── Contenedor principal ────────────────────────────────────
+  const header = document.createElement('div');
+  header.id = 'game-header';
 
-  // Lado izquierdo: botón + panel
-  const navWrap = document.createElement('div');
-  navWrap.id = 'game-nav';
-  navWrap.innerHTML = `
-    <button id="game-nav-btn" title="Cambiar de juego" aria-label="Menú de juegos">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="17" height="17">
-        <rect x="3" y="3" width="7" height="7" rx="1"/>
-        <rect x="14" y="3" width="7" height="7" rx="1"/>
-        <rect x="3" y="14" width="7" height="7" rx="1"/>
-        <rect x="14" y="14" width="7" height="7" rx="1"/>
-      </svg>
-    </button>
-    <div id="game-nav-panel" hidden>
-      <div class="gnav-header">
-        <span class="gnav-title">LOL PRO GAMES</span>
-        <a href="../index.html" class="gnav-home">Inicio ›</a>
-      </div>
-      <ul class="gnav-list">
-        ${GAMES.map(g => `
-          <li>
-            ${g.disabled || !g.href
-              ? `<span class="gnav-item gnav-disabled">`
-              : `<a href="${g.href}" class="gnav-item${g.id === currentId ? ' gnav-current' : ''}">`
-            }
-              <span class="gnav-icon">${g.icon}</span>
-              <span class="gnav-info">
-                <span class="gnav-name">${g.name}</span>
-                <span class="gnav-tag">${g.tag}</span>
-              </span>
-              ${g.id === currentId ? '<span class="gnav-dot"></span>' : ''}
-            ${g.disabled || !g.href ? '</span>' : '</a>'}
-          </li>
-        `).join('')}
-      </ul>
+  // ── Fila 1: marca + lang slot ───────────────────────────────
+  const brandRow = document.createElement('div');
+  brandRow.id = 'game-header-brand';
+
+  const brandLink = document.createElement('a');
+  brandLink.id   = 'game-brand-link';
+  brandLink.href = '../index.html';
+  brandLink.innerHTML = `
+    <div class="brand-rule">
+      <div class="brand-line brand-line-l"></div>
+      <span class="brand-star">✦</span>
+      <div class="brand-line brand-line-r"></div>
+    </div>
+    <div class="brand-title">LOL PRO GAMES</div>
+    <div class="brand-rule">
+      <div class="brand-line brand-line-l"></div>
+      <span class="brand-star">✦</span>
+      <div class="brand-line brand-line-r"></div>
     </div>
   `;
 
-  // Lado derecho: slot para el lang-switcher
   const langSlot = document.createElement('div');
   langSlot.id = 'game-topbar-right';
 
-  topbar.appendChild(navWrap);
-  topbar.appendChild(langSlot);
-  document.body.prepend(topbar);
+  brandRow.appendChild(brandLink);
+  brandRow.appendChild(langSlot);
 
-  // Mover #lang-switcher dentro de la topbar si ya existe,
-  // o esperar a que aparezca (lang.js lo crea justo después)
+
+  // ── Fila 2: iconos de juego ─────────────────────────────────
+  const iconsRow = document.createElement('div');
+  iconsRow.id = 'game-nav-icons';
+
+  GAMES.forEach(g => {
+    const el = g.disabled || !g.href
+      ? document.createElement('span')
+      : document.createElement('a');
+
+    if (!g.disabled && g.href) el.href = g.href;
+    el.className = 'gnav-icon-btn' +
+      (g.id === currentId ? ' gnav-current' : '') +
+      (g.disabled          ? ' gnav-disabled' : '');
+    el.title = g.name + (g.disabled ? ' · ' + g.tag : '');
+    el.innerHTML = `<span class="gnav-icon-emoji">${g.icon}</span>`;
+    iconsRow.appendChild(el);
+  });
+
+  header.appendChild(brandRow);
+  header.appendChild(iconsRow);
+  document.body.prepend(header);
+
+  // Mover #lang-switcher al slot
   _adoptLangSwitcher(langSlot);
 
-  // ── Padding-top al body ──────────────────────────────────────
-  document.body.style.paddingTop = TOPBAR_H + 'px';
-
-  // ── Eventos ──────────────────────────────────────────────────
-  const btn   = navWrap.querySelector('#game-nav-btn');
-  const panel = navWrap.querySelector('#game-nav-panel');
-
-  btn.addEventListener('click', e => {
-    e.stopPropagation();
-    const open = !panel.hidden;
-    panel.hidden = open;
-    btn.classList.toggle('gnav-open', !open);
-  });
-
-  document.addEventListener('click', e => {
-    if (!navWrap.contains(e.target)) {
-      panel.hidden = true;
-      btn.classList.remove('gnav-open');
-    }
-  });
-
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-      panel.hidden = true;
-      btn.classList.remove('gnav-open');
-    }
-  });
+  // Sin padding extra — el header es parte del flujo normal
 }
 
-/** Mueve #lang-switcher al slot de la topbar en cuanto esté disponible. */
 function _adoptLangSwitcher(slot) {
   const existing = document.getElementById('lang-switcher');
   if (existing) {
-    // Quita el posicionamiento fijo que le pone lang.js
     existing.style.cssText = '';
     slot.appendChild(existing);
     return;
   }
-  // Todavía no existe: observar hasta que aparezca
   const mo = new MutationObserver(() => {
     const el = document.getElementById('lang-switcher');
     if (el) {
@@ -132,120 +106,127 @@ function _injectStyles() {
   const s = document.createElement('style');
   s.id = 'game-nav-styles';
   s.textContent = `
-    /* ── Topbar ── */
-    #game-topbar {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: ${TOPBAR_H}px;
-      z-index: 9998;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 10px;
-      background: rgba(1,10,19,0.92);
-      border-bottom: 1px solid #1e3a5f;
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
+    /* ── Header contenedor ── */
+    #game-header {
+      position: relative;
+      z-index: 10;
+      max-width: 580px;
+      margin: 20px auto 0;
+      background: rgba(1,10,19,0.82);
+      border: 1px solid rgba(30,58,95,0.6);
       font-family: 'Rajdhani', sans-serif;
     }
 
-    /* Empujar el contenido que esté fixed justo arriba del topbar */
-    #ck-reopener { bottom: 16px !important; left: 16px !important; }
-
-    /* ── Nav wrap (izquierda) ── */
-    #game-nav {
+    /* ── Fila 1: marca ── */
+    #game-header-brand {
       position: relative;
-      display: flex;
-      align-items: center;
+      border-bottom: 1px solid rgba(30,58,95,0.5);
     }
 
-    /* ── Toggle button ── */
-    #game-nav-btn {
-      width: 36px; height: 36px;
-      display: flex; align-items: center; justify-content: center;
-      background: transparent;
-      border: 1px solid #1e3a5f;
-      color: #4a6080;
-      cursor: pointer;
-      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    #game-brand-link {
+      display: block;
+      padding: 10px 20px 8px;
+      text-decoration: none;
+      transition: opacity 0.2s;
     }
-    #game-nav-btn:hover,
-    #game-nav-btn.gnav-open {
-      border-color: #c89b3c;
+    #game-brand-link:hover { opacity: 0.82; }
+
+    /* Líneas decorativas */
+    .brand-rule {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 5px;
+    }
+    .brand-rule:last-child { margin-bottom: 0; margin-top: 5px; }
+    .brand-line { flex: 1; height: 1px; }
+    .brand-line-l { background: linear-gradient(to right, transparent, #c89b3c); }
+    .brand-line-r { background: linear-gradient(to left,  transparent, #c89b3c); }
+    .brand-star {
       color: #c89b3c;
-      background: rgba(200,155,60,0.06);
+      font-size: 0.42rem; letter-spacing: 3px; font-weight: 700;
+      font-family: 'Rajdhani', sans-serif;
     }
 
-    /* ── Dropdown panel ── */
-    #game-nav-panel {
-      position: absolute;
-      top: calc(100% + 6px);
-      left: 0;
-      width: 230px;
-      background: #0a1428;
-      border: 1px solid #1e3a5f;
-      border-top: 2px solid #785a28;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-      animation: gnavDrop 0.16s ease;
-    }
-    @keyframes gnavDrop {
-      from { opacity: 0; transform: translateY(-6px); }
-      to   { opacity: 1; transform: translateY(0); }
+    /* Título */
+    .brand-title {
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: clamp(1.05rem, 3.5vw, 1.45rem);
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      color: #c89b3c;
+      text-align: center;
+      text-shadow: 0 0 22px rgba(200,155,60,0.4), 0 2px 5px rgba(0,0,0,0.7);
+      line-height: 1.1;
+      margin-bottom: 3px;
     }
 
-    /* ── Panel header ── */
-    .gnav-header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 8px 12px;
-      border-bottom: 1px solid #1e3a5f;
+    /* Separador medio */
+    .brand-sep {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 3px;
     }
-    .gnav-title {
-      font-size: 0.56rem; font-weight: 700; letter-spacing: 3px;
-      text-transform: uppercase; color: #785a28;
-    }
-    .gnav-home {
-      font-size: 0.58rem; font-weight: 600; letter-spacing: 1px;
-      color: #4a6080; text-decoration: none; transition: color 0.15s;
-    }
-    .gnav-home:hover { color: #c89b3c; }
-
-    /* ── Game list ── */
-    .gnav-list { list-style: none; padding: 4px 0; }
-
-    .gnav-item {
-      display: flex; align-items: center; gap: 10px;
-      padding: 9px 12px;
-      text-decoration: none; color: #c8d4e8;
-      transition: background 0.12s, color 0.12s;
-      cursor: pointer; position: relative;
-    }
-    a.gnav-item:hover {
-      background: rgba(200,155,60,0.07); color: #c89b3c;
-    }
-    .gnav-current { background: rgba(200,155,60,0.06); color: #c89b3c; }
-    .gnav-disabled { opacity: 0.32; cursor: not-allowed; }
-
-    .gnav-icon  { font-size: 1rem; flex-shrink: 0; line-height: 1; }
-    .gnav-info  { display: flex; flex-direction: column; gap: 1px; flex: 1; }
-    .gnav-name  { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.03em; }
-    .gnav-tag   { font-size: 0.56rem; font-weight: 600; letter-spacing: 0.08em;
-                  text-transform: uppercase; color: #4a6080; }
-    .gnav-current .gnav-tag { color: #785a28; }
-
-    .gnav-dot {
-      width: 5px; height: 5px; background: #c89b3c;
-      border-radius: 50%; flex-shrink: 0;
-      box-shadow: 0 0 6px rgba(200,155,60,0.6);
+    .brand-sep-line { flex: 1; height: 1px; background: #785a28; opacity: 0.5; }
+    .brand-diamonds {
+      color: #785a28;
+      font-size: 0.38rem; letter-spacing: 2px;
+      font-family: 'Rajdhani', sans-serif;
     }
 
-    /* ── Lang slot (derecha) ── */
+    /* Subtítulo */
+    .brand-sub {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(0.48rem, 1.6vw, 0.6rem);
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      color: #785a28;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
     #game-topbar-right {
+      position: absolute;
+      right: 10px; top: 50%; transform: translateY(-50%);
       display: flex; align-items: center;
     }
-    /* Anular el posicionamiento fijo que inyecta lang.js */
-    #game-topbar-right #lang-switcher {
-      position: static !important;
+    #game-topbar-right #lang-switcher { position: static !important; }
+
+    /* ── Fila 2: iconos ── */
+    #game-nav-icons {
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
     }
+
+    .gnav-icon-btn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      background: #0f1e36;
+      border: 2px solid #1e3a5f;
+      text-decoration: none;
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+      position: relative;
+    }
+    .gnav-icon-btn:not(.gnav-disabled):hover {
+      border-color: #c89b3c;
+      box-shadow: 0 0 12px rgba(200,155,60,0.25);
+      transform: scale(1.12);
+    }
+    .gnav-icon-btn.gnav-current {
+      border-color: #c89b3c;
+      background: rgba(200,155,60,0.1);
+      box-shadow: 0 0 10px rgba(200,155,60,0.2);
+    }
+    .gnav-icon-btn.gnav-disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+    .gnav-icon-emoji { font-size: 1.15rem; line-height: 1; }
+
+    /* ── Cookie reopener ── */
+    #ck-reopener { bottom: 16px !important; left: 16px !important; }
   `;
   document.head.appendChild(s);
 }

@@ -69,37 +69,11 @@
 
 <div class="app">
 
-  <!-- ── HEADER — banner dorado estilo DLE ──────────── -->
-  <header>
-    <div class="header-banner">
-      <!-- línea superior decorativa -->
-      <div class="header-deco">
-        <div class="header-deco-line left"></div>
-        <span class="header-deco-star">✦</span>
-        <div class="header-deco-line right"></div>
-      </div>
-
-      <!-- título principal -->
-      <div class="header-title">LoL Career Guess</div>
-
-      <!-- separador central con rombos -->
-      <div class="header-sep">
-        <div class="header-sep-line left"></div>
-        <span class="header-sep-diamonds">◆ ◆ ◆</span>
-        <div class="header-sep-line right"></div>
-      </div>
-
-      <!-- subtítulo -->
-      <div class="header-subtitle" data-i18n="subtitle">Adivina al jugador por su trayectoria</div>
-
-      <!-- línea inferior decorativa -->
-      <div class="header-deco">
-        <div class="header-deco-line left"></div>
-        <span class="header-deco-star">✦</span>
-        <div class="header-deco-line right"></div>
-      </div>
-    </div>
-  </header>
+  <!-- Título del juego + instrucciones -->
+  <div class="game-title-row">
+    <h1 class="game-title-text">LoL Career Guess</h1>
+    <button class="game-instr-btn" id="instructions-btn" title="Instrucciones">?</button>
+  </div>
 
   <!-- ── STATS ──────────────────────────────────────── -->
   <div class="stats-bar">
@@ -186,6 +160,33 @@
     <button class="modal-btn" id="modal-btn" data-i18n="modalBtn">▶ Siguiente Jugador</button>
   </div>
 </div>
+
+<!-- Modal instrucciones -->
+<style>
+  #instructions-modal{display:none;position:fixed;inset:0;background:rgba(1,10,19,0.88);z-index:9999;align-items:center;justify-content:center}
+  #instructions-modal.open{display:flex}
+  .instr-card{background:#0a1428;border:1px solid #785a28;max-width:400px;width:92%;padding:28px 24px;position:relative}
+  .instr-card h3{font-family:'Cinzel',serif;color:#c89b3c;font-size:1rem;letter-spacing:2px;margin-bottom:16px;text-align:center}
+  .instr-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-family:'Rajdhani',sans-serif;font-size:0.82rem;color:#c8d4e8;line-height:1.4}
+  .instr-close{position:absolute;top:10px;right:12px;background:none;border:none;cursor:pointer;color:#4a6080;font-size:1.2rem;transition:color 0.15s}
+  .instr-close:hover{color:#c89b3c}
+  .instr-pip{flex-shrink:0;width:8px;height:8px;background:#785a28;border-radius:50%;margin-top:5px}
+</style>
+<div id="instructions-modal">
+  <div class="instr-card">
+    <button class="instr-close" id="instructions-close">✕</button>
+    <h3>CÓMO JUGAR</h3>
+    <div class="instr-row"><div class="instr-pip"></div><span>Se muestra la trayectoria de un pro player (equipos y años)</span></div>
+    <div class="instr-row"><div class="instr-pip"></div><span>Cada paso revela más información de su carrera</span></div>
+    <div class="instr-row"><div class="instr-pip"></div><span>Adivina el jugador cuanto antes para mejor puntuación</span></div>
+    <div class="instr-row"><div class="instr-pip"></div><span>Cuantos menos pasos necesites, mayor es tu puntuación</span></div>
+  </div>
+</div>
+<script>
+  document.getElementById('instructions-btn')?.addEventListener('click',()=>document.getElementById('instructions-modal').classList.add('open'));
+  document.getElementById('instructions-close')?.addEventListener('click',()=>document.getElementById('instructions-modal').classList.remove('open'));
+  document.getElementById('instructions-modal')?.addEventListener('click',e=>{if(e.target===e.currentTarget)e.currentTarget.classList.remove('open')});
+</script>
 
 <!-- ES Module entry point -->
 <script type="module" src="js/main.js"></script>
