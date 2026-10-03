@@ -3092,7 +3092,7 @@
       "worlds": false,
       "birthdate": "1999-02-21",
       "team": "MT1 Esports",
-      "free_agent": true
+      "free_agent": false
     },
     {
       "name": "Zicssi",
@@ -8566,6 +8566,23 @@
       "worlds": false,
       "birthdate": "2005-07-17",
       "team": "Xi Lai Gaming",
+      "free_agent": false
+    },
+    {
+      "name": "pqy",
+      "real": "Peng Qiao-Yu",
+      "country": "China",
+      "flag": "🇨🇳",
+      "league": "Arabian League 2nd Division",
+      "tier": 3,
+      "region": "EMEA",
+      "position": [
+        "ADC"
+      ],
+      "titles": true,
+      "worlds": false,
+      "birthdate": null,
+      "team": "Victorious Demons",
       "free_agent": false
     },
     {
