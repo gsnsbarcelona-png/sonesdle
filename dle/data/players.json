@@ -1328,7 +1328,7 @@
     },
     {
       "name": "Ivama",
-      "real": "Ivan Torn Cubero",
+      "real": "Iván Torn Cubero",
       "country": "Spain",
       "flag": "🇪🇸",
       "league": "LES",
@@ -3857,23 +3857,6 @@
       "worlds": false,
       "birthdate": "2002-11-10",
       "team": "Arneb",
-      "free_agent": true
-    },
-    {
-      "name": "Dahlia",
-      "real": "Hwang In-jun",
-      "country": "South Korea",
-      "flag": "🇰🇷",
-      "league": "LCK Academy Series",
-      "tier": 3,
-      "region": "KR",
-      "position": [
-        "Support"
-      ],
-      "titles": false,
-      "worlds": false,
-      "birthdate": "2004-06-19",
-      "team": "HANJIN BRION Academy",
       "free_agent": true
     },
     {
@@ -6614,23 +6597,6 @@
       "free_agent": false
     },
     {
-      "name": "Tobe",
-      "real": "Kim Do-hun",
-      "country": "South Korea",
-      "flag": "🇰🇷",
-      "league": "LCK Academy Series",
-      "tier": 3,
-      "region": "KR",
-      "position": [
-        "Mid"
-      ],
-      "titles": false,
-      "worlds": false,
-      "birthdate": "2009-01-15",
-      "team": "HANJIN BRION Academy",
-      "free_agent": true
-    },
-    {
       "name": "TpoN",
       "real": "Lee Tae-yoon",
       "country": "South Korea",
@@ -8600,7 +8566,7 @@
       "worlds": false,
       "birthdate": "2002-02-28",
       "team": "ZSK (Chinese Team)",
-      "free_agent": false
+      "free_agent": true
     },
     {
       "name": "sorrow",
@@ -8617,7 +8583,7 @@
       "worlds": false,
       "birthdate": "2004-09-20",
       "team": "ZSK (Chinese Team)",
-      "free_agent": false
+      "free_agent": true
     },
     {
       "name": "Weiwei",
@@ -8702,7 +8668,7 @@
       "worlds": false,
       "birthdate": "2002-03-19",
       "team": "ZSK (Chinese Team)",
-      "free_agent": false
+      "free_agent": true
     },
     {
       "name": "1116",
@@ -11405,23 +11371,6 @@
       "worlds": false,
       "birthdate": null,
       "team": "Night Cap",
-      "free_agent": false
-    },
-    {
-      "name": "TLong",
-      "real": "Đặng Thành Long",
-      "country": "Vietnam",
-      "flag": "🇻🇳",
-      "league": "Battle of S.E.A",
-      "tier": 3,
-      "region": "PAC",
-      "position": [
-        "Mid"
-      ],
-      "titles": false,
-      "worlds": false,
-      "birthdate": "2003-12-23",
-      "team": "Original Gaming",
       "free_agent": false
     },
     {
