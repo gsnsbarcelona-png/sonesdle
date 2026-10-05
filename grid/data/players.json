@@ -260,7 +260,7 @@
   {"key": "lucid", "name": "Lucid", "pos": ["jungle"], "nat": "korean", "teams": ["damwon"], "comps": ["league_title", "lck"]},
   {"key": "luon", "name": "Luon", "pos": ["support"], "nat": "korean", "teams": [], "comps": ["league_title", "lec"]},
   {"key": "moham", "name": "Moham", "pos": ["support"], "nat": "korean", "teams": ["damwon"], "comps": ["league_title", "lck", "lpl"]},
-  {"key": "morgan", "name": "Morgan", "pos": ["top"], "nat": "korean", "teams": ["tl"], "comps": ["lck", "lcs", "lpl"]},
+  {"key": "morgan", "name": "Morgan", "pos": ["top"], "nat": "korean", "teams": ["tl"], "comps": ["league_title", "lck", "lcs", "lpl"]},
   {"key": "namgung", "name": "Namgung", "pos": ["support"], "nat": "korean", "teams": [], "comps": ["league_title", "lck"]},
   {"key": "noah", "name": "Noah", "pos": ["adc"], "nat": "korean", "teams": ["fnatic", "kt"], "comps": ["league_title", "lec"]},
   {"key": "paduck", "name": "Paduck", "pos": ["adc"], "nat": "korean", "teams": ["drx"], "comps": ["league_title", "lck", "lec"]},

@@ -90,7 +90,7 @@
       "real": "Alonso Hernández Ballesteros",
       "country": "Spain",
       "flag": "🇪🇸",
-      "league": "Road to LES",
+      "league": "HS",
       "tier": 3,
       "region": "EMEA",
       "position": [
@@ -617,7 +617,7 @@
       "real": "Bryan Bruno Ataei Santana",
       "country": "Spain",
       "flag": "🇪🇸",
-      "league": "Road to LES",
+      "league": "HS",
       "tier": 3,
       "region": "EMEA",
       "position": [
@@ -838,7 +838,7 @@
       "real": "Asier Sánchez Monge",
       "country": "Spain",
       "flag": "🇪🇸",
-      "league": "Hextech Series 2nd Division",
+      "league": "HS",
       "tier": 3,
       "region": "EMEA",
       "position": [
@@ -906,7 +906,7 @@
       "real": "Arturo González Santana",
       "country": "Spain",
       "flag": "🇪🇸",
-      "league": "Road to LES",
+      "league": "HS",
       "tier": 3,
       "region": "EMEA",
       "position": [
@@ -923,7 +923,7 @@
       "real": "Mario Rodríguez Rivero",
       "country": "Spain",
       "flag": "🇪🇸",
-      "league": "Road to LES",
+      "league": "HS",
       "tier": 3,
       "region": "EMEA",
       "position": [
@@ -940,8 +940,8 @@
       "real": "Ryan Selaimia",
       "country": "France",
       "flag": "🇫🇷",
-      "league": "LFL",
-      "tier": 2,
+      "league": "Arabian League 2nd Division",
+      "tier": 3,
       "region": "EMEA",
       "position": [
         "ADC"
@@ -949,8 +949,8 @@
       "titles": false,
       "worlds": false,
       "birthdate": "2000-12-26",
-      "team": "Joblife",
-      "free_agent": true
+      "team": "Void Walkers",
+      "free_agent": false
     },
     {
       "name": "Milica",
@@ -1008,7 +1008,7 @@
       "real": "Pablo Torres Frías",
       "country": "Spain",
       "flag": "🇪🇸",
-      "league": "Road to LES",
+      "league": "HS",
       "tier": 3,
       "region": "EMEA",
       "position": [
@@ -1072,6 +1072,23 @@
       "free_agent": false
     },
     {
+      "name": "Ventair",
+      "real": "Simon Tschammer",
+      "country": "Germany",
+      "flag": "🇩🇪",
+      "league": "Prime League 1st Division",
+      "tier": 3,
+      "region": "EMEA",
+      "position": [
+        "Top"
+      ],
+      "titles": false,
+      "worlds": false,
+      "birthdate": "1999-12-05",
+      "team": "Spongecord prime",
+      "free_agent": false
+    },
+    {
       "name": "Vetheo",
       "real": "Vincent Berrié",
       "country": "France",
@@ -1127,7 +1144,7 @@
       "real": "Javier Rubio-Quintanilla Simón",
       "country": "Spain",
       "flag": "🇪🇸",
-      "league": "Road to LES",
+      "league": "HS",
       "tier": 3,
       "region": "EMEA",
       "position": [
@@ -2062,7 +2079,7 @@
       "real": "Néstor Martí Serrano",
       "country": "Spain",
       "flag": "🇪🇸",
-      "league": "BACK ON TRACK",
+      "league": "HS",
       "tier": 3,
       "region": "EMEA",
       "position": [
@@ -2368,7 +2385,7 @@
       "real": "Manuel Olmo Carreño",
       "country": "Spain",
       "flag": "🇪🇸",
-      "league": "Road to LES",
+      "league": "HS",
       "tier": 3,
       "region": "EMEA",
       "position": [
@@ -5536,7 +5553,7 @@
       "position": [
         "Top"
       ],
-      "titles": false,
+      "titles": true,
       "worlds": false,
       "birthdate": "2001-09-26",
       "team": "Team Liquid",
@@ -13547,23 +13564,6 @@
       "worlds": false,
       "birthdate": "2005-06-30",
       "team": "RMD Gaming",
-      "free_agent": true
-    },
-    {
-      "name": "Cristal",
-      "real": "Cristal Marcelos Casela",
-      "country": "Brazil",
-      "flag": "🇧🇷",
-      "league": "Liga Galactica",
-      "tier": 3,
-      "region": "BR",
-      "position": [
-        "Mid"
-      ],
-      "titles": false,
-      "worlds": false,
-      "birthdate": "2005-11-06",
-      "team": "Creed Gaming",
       "free_agent": true
     },
     {
