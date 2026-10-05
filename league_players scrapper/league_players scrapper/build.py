@@ -169,6 +169,8 @@ WORDLE_LEAGUES = {
 WORDLE_DAILY_LEAGUES = ["LCK", "LPL", "LEC", "LCS", "CBLOL", "LCP"]
 WORDLE_SCHEDULE_DAYS = 60   # días del calendario diario que se dejan asignados por delante
 WORD_RE = re.compile(r"[A-Za-z]{5}")
+# Clasificatorios, promociones y descensos no cuentan como haber jugado la liga
+WORDLE_SKIP_RE = re.compile(r"promotion|qualif|relegation|regional", re.IGNORECASE)
 DISAMBIG_RE = re.compile(r"\s*\(.*\)$")   # "Clear (Song Hyeon-min)" -> "Clear"
 MIN_TENURE_DAYS = 60   # carrera ignora pruebas y cesiones muy cortas
 # Fases de un torneo de liga que no dan título (si no son playoffs)
@@ -1074,11 +1076,25 @@ def build_grid(curated, master):
     return players, missing
 
 
+def tournament_order(page):
+    """Clave para ordenar torneos en el tiempo: (año, split)."""
+    year = re.search(r"(?:19|20)\d\d", page)
+    low = page.lower()
+    split = re.search(r"split (\d)", low)
+    order = (int(split.group(1)) if split else
+             0 if "winter" in low else 1 if "spring" in low else 3 if "summer" in low else
+             4 if "fall" in low or "autumn" in low else 2)
+    return (int(year.group()) if year else 0, order, page)
+
+
 def build_wordle(history, master):
-    """Respuestas (jugadores con nombre de 5 letras y ≥3 torneos en alguna liga tier 1)
-    e intentos válidos (cualquier pro player con nombre de 5 letras)."""
+    """Respuestas: jugadores con nombre de 5 letras y ≥3 torneos sumando las ligas tier 1
+    (sin clasificatorios ni promociones), o que juegan ahora en una de ellas.
+    Intentos válidos: cualquier pro player con nombre de 5 letras."""
+    # En la wiki la primera letra del título no distingue mayúsculas ("uZent" = "UZent")
+    page_key = lambda link: link[:1].upper() + link[1:]
     players = defaultdict(lambda: {"tournaments": defaultdict(set), "roles": Counter(),
-                                   "teams": Counter(), "years": set()})
+                                   "stints": set(), "names": Counter()})
     guesses = set()
     for code, rows in history.items():
         for link, page, role, team in rows:
@@ -1086,34 +1102,42 @@ def build_wordle(history, master):
             if WORD_RE.fullmatch(name):
                 guesses.add(name.upper())
             roles = {x.strip().lower() for x in role.split(",")} & PLAYER_ROLES
-            if not roles:
+            if not roles or WORDLE_SKIP_RE.search(page):
                 continue
-            p = players[link]
+            p = players[page_key(link)]
+            p["names"][name] += 1
             p["tournaments"][code].add(page)
             p["roles"].update(roles)
-            if team:
-                p["teams"][team] += 1
-            year = re.search(r"(?:19|20)\d\d", page)
-            if year:
-                p["years"].add(int(year.group()))
+            p["stints"].add((tournament_order(page), team, code))
     for m in master:
         if WORD_RE.fullmatch(m["id"] or ""):
             guesses.add(m["id"].upper())
+    # En activo (o agente libre reciente) en una liga tier 1
+    active = {page_key(m["page"]) for m in master
+              if m["tier"] == 1 and m["status"] in ("player", "free_agent")}
+    master_id = {page_key(m["page"]): m["id"] for m in master if m["page"] and m["id"]}
 
     answers = []
-    for link, p in players.items():
-        name = DISAMBIG_RE.sub("", link).strip()
-        leagues = [c for c in WORDLE_LEAGUES if len(p["tournaments"][c]) >= MIN_MAJOR_TOURNAMENTS]
-        if not WORD_RE.fullmatch(name) or not leagues:
+    for key, p in players.items():
+        # Como lo escribe hoy el jugador ("ZekaS", "zynts"); si no está en el maestro, como en la wiki
+        name = master_id.get(key) or p["names"].most_common(1)[0][0]
+        n = sum(len(t) for t in p["tournaments"].values())
+        if not WORD_RE.fullmatch(name) or (n < MIN_MAJOR_TOURNAMENTS and key not in active):
             continue
+        # Recorrido: equipos en orden, sin repetir el mismo equipo seguido
+        path = []
+        for _, team, code in sorted(p["stints"]):
+            if team and (not path or path[-1][0] != team):
+                path.append([team, code])
+        years = [k[0][0] for k in p["stints"] if k[0][0]]
         role = p["roles"].most_common(1)[0][0]
         answers.append({
             "w": name.upper(), "name": name,
             "role": "ADC" if role == "bot" else role.capitalize(),
-            "team": p["teams"].most_common(1)[0][0] if p["teams"] else None,
-            "years": [min(p["years"]), max(p["years"])] if p["years"] else None,
-            "leagues": leagues,
-            "n": sum(len(t) for t in p["tournaments"].values()),
+            "path": path,
+            "years": [min(years), max(years)] if years else None,
+            "leagues": [c for c in WORDLE_LEAGUES if p["tournaments"][c]],
+            "n": n,
         })
     # El más conocido primero cuando dos jugadores comparten nombre
     answers.sort(key=lambda a: (a["w"], -a["n"]))
@@ -1121,14 +1145,16 @@ def build_wordle(history, master):
 
 
 def update_wordle_schedule(answers, path):
-    """Calendario del reto diario {fecha: palabra}. Lo ya asignado no cambia (aunque
-    cambien los datos) y no se repite ninguna palabra hasta haberlas usado todas."""
+    """Calendario del reto diario {fecha: palabra}. Hoy y los días pasados no cambian;
+    un día futuro solo se reasigna si su palabra ha dejado de ser respuesta válida.
+    No se repite ninguna palabra hasta haberlas usado todas."""
     pool = sorted({a["w"] for a in answers if set(a["leagues"]) & set(WORDLE_DAILY_LEAGUES)})
     schedule = {}
     if os.path.exists(path):
         with open(path, encoding="utf-8") as f:
             schedule = json.load(f)
     today = datetime.datetime.now(datetime.timezone.utc).date()
+    schedule = {day: w for day, w in schedule.items() if day <= today.isoformat() or w in pool}
     for i in range(WORDLE_SCHEDULE_DAYS + 1):
         day = (today + datetime.timedelta(days=i)).isoformat()
         if day in schedule:

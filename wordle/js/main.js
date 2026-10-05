@@ -198,7 +198,16 @@ function reject(msg) {
 // ── Resultado ──────────────────────────────────────────────────
 
 const esc = v => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const leagueLabel = l => l === 'PCS' ? 'PCS/LMS' : l;
+const MAX_PATH = 5;
 let countdown;
+
+/** Recorrido de equipos con su liga: "Dignitas (LCS) → Misfits Gaming (LEC)". Solo los últimos si es largo. */
+function pathHtml(path) {
+  const shown = path.slice(-MAX_PATH).map(([team, league]) =>
+    `${esc(team)} <span class="path-league">${leagueLabel(league)}</span>`);
+  return (path.length > MAX_PATH ? '… → ' : '') + shown.join(' → ');
+}
 
 function showEnd() {
   const players = byWord.get(state.word) ?? [];
@@ -206,9 +215,9 @@ function showEnd() {
   $('endTitle').textContent = state.won ? t('won', state.rows.length) : t('lost');
   $('endWord').textContent  = state.word;
   $('endPlayer').innerHTML = !p ? '' : `
-    <div><b>${esc(p.name)}</b> · ${esc(p.role)}${p.team ? ` · ${esc(p.team)}` : ''}</div>
-    ${p.years ? `<div>${t('years')}: ${p.years[0]}${p.years[1] !== p.years[0] ? `–${p.years[1]}` : ''}</div>` : ''}
-    <div class="tags">${p.leagues.map(l => `<span class="tag">${l === 'PCS' ? 'PCS/LMS' : l}</span>`).join('')}</div>
+    <div><b>${esc(p.name)}</b> · ${esc(p.role)}${p.years ? ` · ${p.years[0]}${p.years[1] !== p.years[0] ? `–${p.years[1]}` : ''}` : ''}</div>
+    ${p.path?.length ? `<div class="path">${pathHtml(p.path)}</div>` : ''}
+    <div class="tags">${p.leagues.map(l => `<span class="tag">${leagueLabel(l)}</span>`).join('')}</div>
     ${others.length ? `<div class="also">${t('also', others.map(o => `${esc(o.name)} (${o.leagues.join(', ')})`).join(' · '))}</div>` : ''}`;
   $('endPlayer').classList.toggle('hidden', !p);
   $('btnShare').classList.toggle('hidden', state.mode !== 'daily');

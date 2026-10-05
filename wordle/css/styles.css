@@ -126,6 +126,8 @@ h1 {
 .end-player b { color:var(--gold); font-weight:700; }
 .end-player .tags { display:flex; flex-wrap:wrap; gap:5px; margin-top:6px; }
 .end-player .tag { font-size:.68rem; font-weight:700; letter-spacing:1px; padding:2px 7px; border-radius:4px; border:1px solid var(--border); color:var(--text); }
+.end-player .path { font-size:.8rem; color:var(--text); line-height:1.5; margin-top:4px; }
+.end-player .path-league { font-size:.62rem; font-weight:700; letter-spacing:1px; color:var(--dim); }
 .end-player .also { color:var(--dim); font-size:.78rem; margin-top:6px; }
 .end-actions { display:flex; gap:8px; }
 .end-next { margin-top:12px; font-size:.76rem; color:var(--dim); letter-spacing:1px; min-height:1em; }
