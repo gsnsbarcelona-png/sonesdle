@@ -78,6 +78,9 @@ h1 {
 .cell-emoji { font-size:1.4rem; }
 /* Banderas como imagen (ver emojiHtml en i18n.js): mismo alto que un emoji */
 .flag-img { height:.85em; width:auto; vertical-align:-.08em; border-radius:2px; }
+/* Logos de liga, equipo y posición (grid/img/) */
+.cat-logo { width:1.5em; height:1.5em; object-fit:contain; vertical-align:middle; }
+.cell-context-icons { display:flex; align-items:center; gap:4px; }
 .cell-name { font-family:'Cinzel',serif; font-size:.48rem; font-weight:600; color:var(--green-text); text-transform:uppercase; letter-spacing:.5px; line-height:1.25; word-break:break-word; max-width:86px; }
 
 /* Progress pips */

@@ -60,6 +60,11 @@ export function emojiHtml(text) {
   });
 }
 
+/** Icono de una categoría: su logo (grid/img/) si lo tiene, si no su emoji. */
+export function catIconHtml(cat) {
+  return cat.img ? `<img class="cat-logo" src="./img/${cat.img}.webp" alt="">` : emojiHtml(cat.icon);
+}
+
 /** Texto de una categoría en el idioma actual: `cat.en.main` en inglés, `cat.main` en español. */
 export function catText(cat, field) {
   return (getLang() === 'en' && cat.en?.[field]) || cat[field];
