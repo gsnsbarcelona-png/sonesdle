@@ -28,6 +28,7 @@ import datetime
 import html
 import json
 import os
+import random
 import re
 import time
 import unicodedata
@@ -60,6 +61,9 @@ CURATED_GRID_PATH      = os.path.join(SCRIPT_DIR, "curated", "grid.json")
 ROSTERGUES_PATH  = os.path.join(ROOT, "rostergues", "js", "data", "rosters.js")
 CARRERA_PATH     = os.path.join(ROOT, "carrera", "js", "data", "players.js")
 GRID_PATH        = os.path.join(ROOT, "grid", "data", "players.json")
+WORDLE_WORDS_PATH    = os.path.join(ROOT, "wordle", "data", "words.json")
+WORDLE_SCHEDULE_PATH = os.path.join(ROOT, "wordle", "data", "schedule.json")
+LEAGUE_HISTORY_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_league_history.json")
 
 CARGO_URL   = "https://lol.fandom.com/wiki/Special:CargoExport"
 API_URL     = "https://lol.fandom.com/api.php"
@@ -148,6 +152,24 @@ MAJOR_LEAGUES = {
             "League of Legends Championship of The Americas North"],
 }
 MIN_MAJOR_TOURNAMENTS = 3
+
+# Wordle: todos los que han jugado cada liga tier 1 (con sus nombres antiguos).
+# "PCS" (PCS + LMS, antecesoras de la LCP) solo sale en el modo libre, con la LCP.
+WORDLE_LEAGUES = {
+    "LCK":   ["LoL Champions Korea", "LoL The Champions"],
+    "LPL":   ["Tencent LoL Pro League"],
+    "LEC":   ["LoL EMEA Championship", "Europe League Championship Series"],
+    "LCS":   ["League of Legends Championship Series", "North America League Championship Series",
+              "League of Legends Championship of The Americas North"],
+    "CBLOL": ["Circuit Brazilian League of Legends",
+              "League of Legends Championship of The Americas South"],
+    "LCP":   ["League of Legends Championship Pacific"],
+    "PCS":   ["Pacific Championship Series", "LoL Master Series"],
+}
+WORDLE_DAILY_LEAGUES = ["LCK", "LPL", "LEC", "LCS", "CBLOL", "LCP"]
+WORDLE_SCHEDULE_DAYS = 60   # días del calendario diario que se dejan asignados por delante
+WORD_RE = re.compile(r"[A-Za-z]{5}")
+DISAMBIG_RE = re.compile(r"\s*\(.*\)$")   # "Clear (Song Hyeon-min)" -> "Clear"
 MIN_TENURE_DAYS = 60   # carrera ignora pruebas y cesiones muy cortas
 # Fases de un torneo de liga que no dan título (si no son playoffs)
 REGULAR_STAGE_RE = re.compile(r"season|preseason|group|stage|qualifier|regional|opening",
@@ -551,6 +573,36 @@ def fetch_major_leagues(aliases):
                 result[str(t["Link"]).lower()].append([by_name[t["League"]], str(t["Page"])])
     print()
     return dict(result)
+
+
+def fetch_league_history():
+    """{liga del Wordle: [[jugador, torneo, rol, equipo]]}: todos los que han jugado
+    cada liga tier 1, sin filtrar por jugador (paginado de 5000 en 5000)."""
+    session = requests.Session()
+    result = {}
+    for code, names in WORDLE_LEAGUES.items():
+        rows, offset = [], 0
+        while True:
+            print(f"\r  Histórico {code} [{len(rows)}]", end="", flush=True)
+            time.sleep(CARGO_DELAY)
+            r = session.get(CARGO_URL, headers=HEADERS, timeout=90, params={
+                "tables": "TournamentPlayers=TP,Tournaments=T",
+                "join_on": "TP.OverviewPage=T.OverviewPage",
+                "fields": "TP.Link=Link,TP.OverviewPage=Page,TP.Role=Role,TP.Team=Team",
+                "where": "T.League IN (%s)" % ",".join(cargo_quote(n) for n in names),
+                "format": "json", "limit": 5000, "offset": offset,
+            })
+            r.raise_for_status()
+            batch = r.json()
+            rows += batch
+            offset += 5000
+            if len(batch) < 5000:
+                break
+        result[code] = [[html.unescape(str(t["Link"])), str(t["Page"]), t.get("Role") or "",
+                         html.unescape(str(t.get("Team") or ""))]
+                        for t in rows if t.get("Link")]
+        print()
+    return result
 
 
 def fetch_league_info(names):
@@ -1022,6 +1074,72 @@ def build_grid(curated, master):
     return players, missing
 
 
+def build_wordle(history, master):
+    """Respuestas (jugadores con nombre de 5 letras y ≥3 torneos en alguna liga tier 1)
+    e intentos válidos (cualquier pro player con nombre de 5 letras)."""
+    players = defaultdict(lambda: {"tournaments": defaultdict(set), "roles": Counter(),
+                                   "teams": Counter(), "years": set()})
+    guesses = set()
+    for code, rows in history.items():
+        for link, page, role, team in rows:
+            name = DISAMBIG_RE.sub("", link).strip()
+            if WORD_RE.fullmatch(name):
+                guesses.add(name.upper())
+            roles = {x.strip().lower() for x in role.split(",")} & PLAYER_ROLES
+            if not roles:
+                continue
+            p = players[link]
+            p["tournaments"][code].add(page)
+            p["roles"].update(roles)
+            if team:
+                p["teams"][team] += 1
+            year = re.search(r"(?:19|20)\d\d", page)
+            if year:
+                p["years"].add(int(year.group()))
+    for m in master:
+        if WORD_RE.fullmatch(m["id"] or ""):
+            guesses.add(m["id"].upper())
+
+    answers = []
+    for link, p in players.items():
+        name = DISAMBIG_RE.sub("", link).strip()
+        leagues = [c for c in WORDLE_LEAGUES if len(p["tournaments"][c]) >= MIN_MAJOR_TOURNAMENTS]
+        if not WORD_RE.fullmatch(name) or not leagues:
+            continue
+        role = p["roles"].most_common(1)[0][0]
+        answers.append({
+            "w": name.upper(), "name": name,
+            "role": "ADC" if role == "bot" else role.capitalize(),
+            "team": p["teams"].most_common(1)[0][0] if p["teams"] else None,
+            "years": [min(p["years"]), max(p["years"])] if p["years"] else None,
+            "leagues": leagues,
+            "n": sum(len(t) for t in p["tournaments"].values()),
+        })
+    # El más conocido primero cuando dos jugadores comparten nombre
+    answers.sort(key=lambda a: (a["w"], -a["n"]))
+    return answers, sorted(guesses)
+
+
+def update_wordle_schedule(answers, path):
+    """Calendario del reto diario {fecha: palabra}. Lo ya asignado no cambia (aunque
+    cambien los datos) y no se repite ninguna palabra hasta haberlas usado todas."""
+    pool = sorted({a["w"] for a in answers if set(a["leagues"]) & set(WORDLE_DAILY_LEAGUES)})
+    schedule = {}
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as f:
+            schedule = json.load(f)
+    today = datetime.datetime.now(datetime.timezone.utc).date()
+    for i in range(WORDLE_SCHEDULE_DAYS + 1):
+        day = (today + datetime.timedelta(days=i)).isoformat()
+        if day in schedule:
+            continue
+        used = list(schedule.values())
+        # Ronda actual: lo usado desde la última vez que se agotaron las palabras
+        cycle = set(used[len(used) - len(used) % len(pool):])
+        schedule[day] = random.Random(day).choice([w for w in pool if w not in cycle])
+    return dict(sorted(schedule.items()))
+
+
 def write_json(path, data):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
@@ -1144,6 +1262,18 @@ def main():
         f.write("[\n" + ",\n".join("  " + json.dumps(p, ensure_ascii=False) for p in grid) + "\n]\n")
     print(f"grid -> {GRID_PATH} ({len(grid)} jugadores"
           + (f", sin datos: {', '.join(missing)}" if missing else "") + ")")
+
+    history = cached(LEAGUE_HISTORY_CACHE_PATH, args.refresh, fetch_league_history)
+    answers, guesses = build_wordle(history, master)
+    schedule = update_wordle_schedule(answers, WORDLE_SCHEDULE_PATH)
+    os.makedirs(os.path.dirname(WORDLE_WORDS_PATH), exist_ok=True)
+    with open(WORDLE_WORDS_PATH, "w", encoding="utf-8") as f:
+        f.write('{"answers": [\n' + ",\n".join(json.dumps(a, ensure_ascii=False) for a in answers)
+                + '\n],\n"guesses": ' + json.dumps(guesses) + "}\n")
+    write_json(WORDLE_SCHEDULE_PATH, schedule)
+    daily = len({a["w"] for a in answers if set(a["leagues"]) & set(WORDLE_DAILY_LEAGUES)})
+    print(f"wordle -> {WORDLE_WORDS_PATH} ({len(answers)} respuestas, {daily} palabras para "
+          f"el diario, {len(guesses)} intentos válidos; calendario hasta {max(schedule)})")
 
 
 if __name__ == "__main__":

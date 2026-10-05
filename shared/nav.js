@@ -9,7 +9,8 @@ const GAMES = [
   { id: 'dle',        href: '../dle/index.html',        icon: '🎯', name: 'Adivina el Pro',  tag: 'Wordle'       },
   { id: 'rostergues', href: '../rostergues/index.html', icon: '🏆', name: 'Roster Guess',    tag: 'Roster'       },
   { id: 'carrera',    href: '../carrera/index.html',    icon: '📋', name: 'Career Guess',    tag: 'Career'       },
-  { id: 'grid',       href: '../grid/index.html',       icon: '🔲', name: 'Pro Grid',        tag: 'Grid'         },   // en pruebas: pide contraseña (grid/js/gate.js)
+  { id: 'grid',       href: '../grid/index.html',       icon: '🔲', name: 'Pro Grid',        tag: 'Grid'         },   // en pruebas: pide código beta (shared/js/beta.js)
+  { id: 'wordle',     href: '../wordle/index.html',     icon: '🔤', name: 'Pro Wordle',      tag: 'Wordle'       },   // en pruebas: pide código beta
 ];
 
 const HEADER_H = 96; // px — altura total (fila 1 + fila 2)

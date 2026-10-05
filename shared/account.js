@@ -15,7 +15,7 @@ const TEXT = {
     played: 'Jugadas', winPct: '% victorias', streak: 'Racha', maxStreak: 'Mejor racha',
     distribution: 'Victorias por intentos', empty: 'Aún no hay partidas de este juego.',
     privacy: 'Privacidad', error: 'No se ha podido completar. Inténtalo de nuevo.',
-    games: { dle: 'Adivina el Pro', rostergues: 'Roster Guess', carrera: 'Career Guess', grid: 'Pro Grid' },
+    games: { dle: 'Adivina el Pro', rostergues: 'Roster Guess', carrera: 'Career Guess', grid: 'Pro Grid', wordle: 'Pro Wordle' },
   },
   en: {
     account: 'My account', signIn: 'Sign in with Google', signOut: 'Sign out',
@@ -25,7 +25,7 @@ const TEXT = {
     played: 'Played', winPct: 'Win %', streak: 'Streak', maxStreak: 'Best streak',
     distribution: 'Wins by attempts', empty: 'No games played yet.',
     privacy: 'Privacy', error: 'Something went wrong. Please try again.',
-    games: { dle: 'Guess the Pro', rostergues: 'Roster Guess', carrera: 'Career Guess', grid: 'Pro Grid' },
+    games: { dle: 'Guess the Pro', rostergues: 'Roster Guess', carrera: 'Career Guess', grid: 'Pro Grid', wordle: 'Pro Wordle' },
   },
 };
 const t = key => (TEXT[getLang()] ?? TEXT.es)[key];

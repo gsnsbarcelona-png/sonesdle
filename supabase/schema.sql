@@ -5,7 +5,7 @@
 create table if not exists public.results (
   id          bigint generated always as identity primary key,
   user_id     uuid not null default auth.uid() references auth.users (id) on delete cascade,
-  game        text not null check (game in ('dle', 'rostergues', 'carrera', 'grid')),
+  game        text not null,
   mode        text not null check (mode in ('daily', 'free')),
   played_on   date not null,                 -- día UTC, el mismo que usa el reto diario
   won         boolean not null,
@@ -13,6 +13,11 @@ create table if not exists public.results (
   details     jsonb not null default '{}',   -- específico de cada juego (jugador, plantilla...)
   created_at  timestamptz not null default now()
 );
+
+-- Juegos válidos (aparte, para poder añadir juegos a una tabla ya creada)
+alter table public.results drop constraint if exists results_game_check;
+alter table public.results add constraint results_game_check
+  check (game in ('dle', 'rostergues', 'carrera', 'grid', 'wordle'));
 
 -- Una sola partida diaria por usuario, juego y día
 create unique index if not exists results_one_daily

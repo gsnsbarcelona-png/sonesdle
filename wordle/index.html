@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LoL Pro Wordle · LOL Pro Games</title>
+
+<!-- SEO -->
+<meta name="description" content="Adivina el nombre de 5 letras de un pro player de LoL en 6 intentos. Reto diario con jugadores de LCK, LPL, LEC, LCS, CBLOL y LCP.">
+<meta name="keywords" content="lol, league of legends, pro player, wordle, esports, adivina, lolprogames">
+<meta name="author" content="LOL Pro Games">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://lolprogames.com/wordle/">
+
+<!-- Open Graph -->
+<meta property="og:type"        content="website">
+<meta property="og:url"         content="https://lolprogames.com/wordle/">
+<meta property="og:title"       content="LoL Pro Wordle · LOL Pro Games">
+<meta property="og:description" content="Adivina el pro player de 5 letras en 6 intentos.">
+<meta property="og:image"       content="https://lolprogames.com/og-image.jpg">
+
+<!-- Twitter Card -->
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:title"       content="LoL Pro Wordle · LOL Pro Games">
+<meta name="twitter:description" content="Adivina el pro player de 5 letras en 6 intentos.">
+<meta name="twitter:image"       content="https://lolprogames.com/og-image.jpg">
+
+<!-- PWA / App -->
+<meta name="theme-color" content="#010a13">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LOL Pro Games">
+<link rel="manifest" href="../manifest.json">
+
+<!-- Favicon (raíz global) -->
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png"     href="../favicon.png" sizes="32x32">
+<link rel="apple-touch-icon"          href="../apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../shared/css/variables.css">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+
+<main class="page">
+  <header class="header">
+    <div class="header-title-row">
+      <div class="header-line"></div>
+      <h1>Pro Wordle</h1>
+      <div class="header-line"></div>
+    </div>
+    <p class="header-sub" data-i18n="headerSub">Adivina el pro player de 5 letras · 6 intentos</p>
+  </header>
+
+  <div class="modes">
+    <button class="mode-btn" data-mode="daily" data-i18n="daily">Reto diario</button>
+    <button class="mode-btn" data-mode="free"  data-i18n="free">Modo libre</button>
+  </div>
+
+  <div class="leagues hidden" id="leagues"></div>
+
+  <div class="board" id="board" aria-live="polite"></div>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <div class="keyboard" id="keyboard"></div>
+</main>
+
+<!-- Resultado -->
+<div class="overlay hidden" id="endOverlay">
+  <div class="modal-card">
+    <div class="modal-body end-body">
+      <p class="end-title" id="endTitle"></p>
+      <p class="end-word" id="endWord"></p>
+      <div class="end-player" id="endPlayer"></div>
+      <div class="end-actions">
+        <button class="btn btn-confirm" id="btnShare"  data-i18n="share">Compartir</button>
+        <button class="btn btn-confirm" id="btnAgain"  data-i18n="again">Otra palabra</button>
+        <button class="btn btn-cancel"  id="btnClose"  data-i18n="close">Cerrar</button>
+      </div>
+      <p class="end-next" id="endNext"></p>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="./js/main.js"></script>
+</body>
+</html>

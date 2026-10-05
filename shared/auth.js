@@ -15,7 +15,7 @@ const SUPABASE_KEY = 'sb_publishable_zXMAkTT5AM9PeC8l68OWlA_h8c3Kvup';
 const SUPABASE_JS  = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/+esm';
 
 const LOCAL_KEY = 'lolpg_results';
-export const GAMES = ['dle', 'rostergues', 'carrera', 'grid'];
+export const GAMES = ['dle', 'rostergues', 'carrera', 'grid', 'wordle'];
 
 let clientPromise = null;
 

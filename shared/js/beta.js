@@ -1,12 +1,13 @@
-import { getLang } from '../../shared/lang.js';
+import { getLang } from '../lang.js';
 
 /**
- * Acceso con código beta mientras el grid está en pruebas.
+ * Acceso con código beta para los juegos en pruebas (grid, wordle).
  * No es seguridad real (todo se ejecuta en el navegador); solo evita que se juegue sin querer.
- * Para abrirlo al público: quitar `await unlockGate()` de main.js y borrar este archivo.
+ * Para abrir un juego al público: quitar `await unlockGate()` de su main.js.
+ * Necesita los estilos .overlay / .modal-card / .modal-input / .btn-confirm del juego.
  */
 const HASH = 'e9d43f9b0fa32e205d74f2f047d6b3188bdafa2d4cfbe28ecf38ca8e1f22cf96';   // SHA-256
-const KEY  = 'grid_unlocked';
+const KEY  = 'grid_unlocked';   // nombre antiguo: así sigue valiendo el código ya introducido
 
 const TEXT = {
   es: { title: 'Acceso beta', sub: 'Introduce tu código beta para jugar', ph: 'Código beta', btn: 'Entrar', err: 'Código no válido' },
