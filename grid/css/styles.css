@@ -76,6 +76,8 @@ h1 {
 @keyframes flipReveal { 0%{opacity:0;transform:rotateY(90deg)} 100%{opacity:1;transform:rotateY(0)} }
 .cell-content { display:flex; flex-direction:column; align-items:center; gap:3px; padding:6px; text-align:center; }
 .cell-emoji { font-size:1.4rem; }
+/* Banderas como imagen (ver emojiHtml en i18n.js): mismo alto que un emoji */
+.flag-img { height:.85em; width:auto; vertical-align:-.08em; border-radius:2px; }
 .cell-name { font-family:'Cinzel',serif; font-size:.48rem; font-weight:600; color:var(--green-text); text-transform:uppercase; letter-spacing:.5px; line-height:1.25; word-break:break-word; max-width:86px; }
 
 /* Progress pips */

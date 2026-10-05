@@ -1,5 +1,5 @@
 import { EVENTS } from '../events.js';
-import { esc, catText } from '../i18n.js';
+import { esc, catText, emojiHtml } from '../i18n.js';
 
 export class GridRenderer {
   constructor(bus, containerEl) {
@@ -48,7 +48,7 @@ export class GridRenderer {
   }
 
   _labelHtml(cat) {
-    return `<span class="lbl-icon">${cat.icon}</span>
+    return `<span class="lbl-icon">${emojiHtml(cat.icon)}</span>
             <span class="lbl-main">${catText(cat, 'main')}</span>
             <span class="lbl-sub">${catText(cat, 'sub')}</span>`;
   }
@@ -67,7 +67,7 @@ export class GridRenderer {
     const el = this._getCell(r, c);
     if (!el) return;
     el.innerHTML = `<div class="cell-content">
-      <span class="cell-emoji">${emoji}</span>
+      <span class="cell-emoji">${emojiHtml(emoji)}</span>
       <span class="cell-name">${esc(name)}</span>
     </div>`;
     el.classList.add('filled');

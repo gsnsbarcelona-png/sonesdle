@@ -49,6 +49,17 @@ export function t(key, ...args) {
 /** Escapa HTML (los nombres vienen de Leaguepedia). */
 export const esc = v => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
+/**
+ * Emoji como HTML, con las banderas como imagen: Windows no tiene emojis de bandera
+ * y los pinta como letras ("CN", "KR").
+ */
+export function emojiHtml(text) {
+  return esc(text ?? '').replace(/[\u{1F1E6}-\u{1F1FF}]{2}/gu, flag => {
+    const code = [...flag].map(c => String.fromCharCode(c.codePointAt(0) - 0x1F1E6 + 97)).join('');
+    return `<img class="flag-img" src="https://flagcdn.com/w40/${code}.png" alt="${flag}">`;
+  });
+}
+
 /** Texto de una categoría en el idioma actual: `cat.en.main` en inglés, `cat.main` en español. */
 export function catText(cat, field) {
   return (getLang() === 'en' && cat.en?.[field]) || cat[field];

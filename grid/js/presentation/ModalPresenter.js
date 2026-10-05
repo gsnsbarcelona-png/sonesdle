@@ -1,5 +1,5 @@
 import { EVENTS } from '../events.js';
-import { t, catText } from '../i18n.js';
+import { t, catText, emojiHtml } from '../i18n.js';
 
 export class ModalPresenter {
   constructor(bus, overlayEl, inputEl) {
@@ -13,7 +13,7 @@ export class ModalPresenter {
   }
 
   _open(rowCat, colCat) {
-    document.getElementById('modalIcons').textContent = `${rowCat.icon} × ${colCat.icon}`;
+    document.getElementById('modalIcons').innerHTML = `${emojiHtml(rowCat.icon)} × ${emojiHtml(colCat.icon)}`;
     document.getElementById('modalDesc').innerHTML = t('modalDesc', catText(rowCat, 'desc'), catText(colCat, 'desc'));
     this._input.value = '';
     this._clearErr();
