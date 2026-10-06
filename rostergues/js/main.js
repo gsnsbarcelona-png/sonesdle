@@ -4,6 +4,7 @@ import { getHintTarget, getMaskedName, nextRevealIn } from './services/HintServi
 import { mountSwitcher, applyStaticTranslations, getLang } from '../../shared/lang.js';
 import { mountGameNav } from '../../shared/nav.js';
 import { recordResult, getTodayDaily } from '../../shared/auth.js';
+import { hideKeyboard } from '../../shared/js/keyboard.js';
 import { ParticlesComponent } from '../../shared/js/ParticlesComponent.js';
 import * as AC from '../../shared/js/autocomplete.js';
 
@@ -315,6 +316,7 @@ function submitGuess(inputName) {
   }
 
   $('guess-input').value = '';
+  hideKeyboard($('guess-input'));   // móvil: ver la plantilla sin el teclado encima
   AC.close($('autocomplete-list'));
   renderSlots();
   renderHistory();

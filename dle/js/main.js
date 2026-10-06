@@ -10,6 +10,7 @@ import { mountSwitcher } from '../../shared/lang.js';
 import { CookieBanner } from './ui/CookieBanner.js';
 import { mountGameNav } from '../../shared/nav.js';
 import { recordResult, getTodayDaily } from '../../shared/auth.js';
+import { hideKeyboard } from '../../shared/js/keyboard.js';
 
 async function boot() {
   applyStaticTranslations();
@@ -295,6 +296,7 @@ async function boot() {
     pendingRows.unshift(row); // las más recientes primero (igual que el grid)
 
     search.clearInput();
+    hideKeyboard(document.activeElement);   // móvil: ver la fila nueva sin el teclado encima
     countEl.textContent = game.attempts;
     grid.addRow(outcome.player, outcome.result);
 

@@ -12,6 +12,7 @@ import * as Modal        from './ui/modal.js';
 import { ParticlesComponent }              from './ui/particles.js';
 import { mountSwitcher, applyStaticTranslations } from '../../shared/lang.js';
 import { mountGameNav } from '../../shared/nav.js';
+import { hideKeyboard, focusIfDesktop } from '../../shared/js/keyboard.js';
 
 const STATIC = {
   es: {
@@ -53,6 +54,7 @@ function submitGuess() {
   if (!result) return;
 
   inputEl().value = '';
+  hideKeyboard(inputEl());   // móvil: ver la carrera sin el teclado encima
   Autocomplete.close(listEl());
   Renderer.update(State.getState());
 
@@ -86,7 +88,7 @@ function nextRound() {
   State.nextPlayer();
   Renderer.update(State.getState());
   inputEl().value = '';
-  inputEl().focus();
+  focusIfDesktop(inputEl());
   document.getElementById('hints-log').innerHTML = '';
 }
 
