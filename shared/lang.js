@@ -52,23 +52,15 @@ export function mountSwitcher(container = null) {
   const wrapper = document.createElement('div');
   wrapper.id = 'lang-switcher';
 
+  // Dos idiomas: un selector ES | EN de un clic (un desplegable taparía los iconos de juego)
   const cur = getLang();
-  wrapper.innerHTML = `
-    <button id="lang-btn" type="button" aria-label="Cambiar idioma / Change language">
-      <img id="lang-flag" src="${FLAGS[cur].src}" width="20" height="14" alt="">
-      <span id="lang-code">${FLAGS[cur].code}</span>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="10">
-        <polyline points="6 9 12 15 18 9"/>
-      </svg>
-    </button>
-    <div id="lang-menu" hidden>
-      <button class="lang-option" data-lang="es" type="button">
-        <img src="${FLAGS.es.src}" width="20" height="14" alt=""> ES — Español
-      </button>
-      <button class="lang-option" data-lang="en" type="button">
-        <img src="${FLAGS.en.src}" width="20" height="14" alt=""> EN — English
-      </button>
-    </div>`;
+  wrapper.setAttribute('role', 'group');
+  wrapper.setAttribute('aria-label', 'Idioma / Language');
+  wrapper.innerHTML = Object.entries(FLAGS).map(([lang, f]) => `
+    <button class="lang-option${lang === cur ? ' active' : ''}" data-lang="${lang}" type="button"
+            aria-pressed="${lang === cur}" title="${lang === 'es' ? 'Español' : 'English'}">
+      <img src="${f.src}" width="18" height="12" alt="${f.code}"><span class="lang-code">${f.code}</span>
+    </button>`).join('');
 
   if (container) {
     container.appendChild(wrapper);
@@ -86,53 +78,44 @@ function _injectStyles() {
   const s = document.createElement('style');
   s.id = 'lang-switcher-styles';
   s.textContent = `
-    #lang-switcher { position: relative; font-family: 'Rajdhani', sans-serif; }
-    #lang-btn {
-      display: flex; align-items: center; gap: 6px;
-      padding: 6px 12px; cursor: pointer;
-      background: #0a1428; border: 1px solid #1e3a5f; color: #c8d4e8;
-      font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
-      transition: border-color 0.2s, color 0.2s;
-    }
-    #lang-btn:hover { border-color: #c89b3c; color: #c89b3c; }
-    #lang-menu {
-      position: absolute; right: 0; top: calc(100% + 4px);
+    #lang-switcher {
+      display: flex; font-family: 'Rajdhani', sans-serif;
       background: #0a1428; border: 1px solid #1e3a5f;
-      min-width: 140px; z-index: 10000;
     }
     .lang-option {
-      display: flex; align-items: center; gap: 8px;
-      width: 100%; padding: 8px 12px; cursor: pointer;
-      background: none; border: none; color: #c8d4e8;
-      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.5px;
+      display: flex; align-items: center; gap: 5px;
+      padding: 5px 9px; cursor: pointer;
+      background: none; border: none; color: #4a6080;
       font-family: 'Rajdhani', sans-serif;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
       transition: background 0.15s, color 0.15s;
     }
-    .lang-option:hover { background: rgba(200,155,60,0.1); color: #c89b3c; }
+    .lang-option + .lang-option { border-left: 1px solid #1e3a5f; }
+    .lang-option img { opacity: 0.45; transition: opacity 0.15s; }
+    .lang-option:hover { color: #c8d4e8; }
+    .lang-option:hover img { opacity: 0.8; }
+    .lang-option.active { color: #c89b3c; background: rgba(200,155,60,0.1); cursor: default; }
+    .lang-option.active img { opacity: 1; }
+    /* Móvil: solo banderas, para no pisar el título de la cabecera */
+    @media (max-width: 480px) {
+      .lang-option { padding: 6px 7px; }
+      .lang-code { display: none; }
+    }
   `;
   document.head.appendChild(s);
 }
 
 function _bindEvents(wrapper) {
-  const menu = wrapper.querySelector('#lang-menu');
-  const btn  = wrapper.querySelector('#lang-btn');
-  const flag = wrapper.querySelector('#lang-flag');
-  const code = wrapper.querySelector('#lang-code');
-
-  btn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    menu.hidden = !menu.hidden;
-  });
-
-  wrapper.querySelectorAll('.lang-option').forEach(opt => {
+  const options = wrapper.querySelectorAll('.lang-option');
+  options.forEach(opt => {
     opt.addEventListener('click', () => {
       const lang = opt.dataset.lang;
+      if (lang === getLang()) return;
       setLang(lang);
-      flag.src         = FLAGS[lang].src;
-      code.textContent = FLAGS[lang].code;
-      menu.hidden      = true;
+      options.forEach(o => {
+        o.classList.toggle('active', o === opt);
+        o.setAttribute('aria-pressed', String(o === opt));
+      });
     });
   });
-
-  document.addEventListener('click', () => { menu.hidden = true; });
 }
