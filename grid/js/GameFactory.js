@@ -42,7 +42,10 @@ export class GameFactory {
     new ModalPresenter(bus, document.getElementById('modalOverlay'), document.getElementById('playerInput'));
     new ParticleSystem(bus, document.getElementById('bgCanvas'), document.getElementById('confettiCanvas'));
     new EndScreenPresenter(bus, document.getElementById('victoryOverlay'),  document.getElementById('btnVictoryReplay'),  EVENTS.GAME_WON);
-    new EndScreenPresenter(bus, document.getElementById('gameoverOverlay'), document.getElementById('btnGameoverReplay'), EVENTS.GAME_LOST);
+    new EndScreenPresenter(bus, document.getElementById('gameoverOverlay'), document.getElementById('btnGameoverReplay'), EVENTS.GAME_LOST, {
+      viewBtn:        document.getElementById('btnGameoverView'),
+      boardReplayBtn: document.getElementById('btnBoardReplay'),
+    });
 
     // Application — InputCoordinator holds acPresenter ref for confirmFocused()
     new InputCoordinator(bus, {

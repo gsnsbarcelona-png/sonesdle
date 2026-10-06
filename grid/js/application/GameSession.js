@@ -17,8 +17,12 @@ export class GameSession {
     this._active   = null;
     this._tried    = new Map();   // "r,c" → claves ya falladas en esa casilla
     this._lastRaw  = '';
-    // Índice de búsqueda: nombre normalizado (sin tildes) → jugador
-    this._index    = playerRepository.getAll().map(p => ({ norm: normalizer.normalize(p.name), p }));
+    // Índice de búsqueda: nombre normalizado (sin tildes) → jugador. `base` sin la
+    // desambiguación: "Hybrid (Glenn Doornenbal)" → "hybrid"
+    this._index    = playerRepository.getAll().map(p => {
+      const norm = normalizer.normalize(p.name);
+      return { norm, base: norm.replace(/\s*\(.*\)$/, ''), p };
+    });
     this._subscribe();
   }
 
@@ -47,7 +51,7 @@ export class GameSession {
   }
 
   _onCellClicked({ r, c }) {
-    if (this._board.isFilled(r, c)) return;
+    if (this._lives <= 0 || this._board.isFilled(r, c)) return;
     this._active = { r, c };
     this._bus.emit(EVENTS.MODAL_OPEN, {
       r, c,
@@ -75,7 +79,11 @@ export class GameSession {
     if (!this._active || !raw.trim()) return;
     const norm = this._norm.normalize(raw);
     const hit  = this._index.find(e => e.norm === norm);
-    this._guess(hit?.p ?? null, raw.trim());
+    if (hit) return this._guess(hit.p, raw.trim());
+    // Sin la desambiguación: vale si solo hay un jugador con ese nombre
+    const same = this._index.filter(e => e.base === norm);
+    if (same.length > 1) return this._bus.emit(EVENTS.GUESS_REJECTED, { raw: raw.trim(), reason: 'ambiguous' });
+    this._guess(same[0]?.p ?? null, raw.trim());
   }
 
   _onAcSelected({ key }) {
@@ -102,7 +110,7 @@ export class GameSession {
         this._record(false);
         setTimeout(() => {
           this._bus.emit(EVENTS.MODAL_CLOSE);
-          this._bus.emit(EVENTS.GAME_LOST);
+          this._bus.emit(EVENTS.GAME_LOST, { reveal: this._solutions() });
         }, 900);
       }
     }
@@ -115,6 +123,24 @@ export class GameSession {
   }
 
   _usedKeys() { return new Set(this._board.snapshot().flat().filter(Boolean)); }
+
+  /**
+   * Una respuesta posible para cada casilla vacía, sin repetir jugador. Primero los
+   * más conocidos (los que tienen emoji propio) y las casillas con menos opciones.
+   */
+  _solutions() {
+    const used  = this._usedKeys();
+    const empty = [];
+    for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) if (!this._board.isFilled(r, c)) empty.push({ r, c });
+    empty.sort((a, b) => this._config.valid[a.r][a.c].length - this._config.valid[b.r][b.c].length);
+    return empty.map(({ r, c }) => {
+      const options = this._config.valid[r][c].map(k => this._players.get(k)).filter(p => p && !used.has(p.key));
+      const p = options.find(o => o.em) ?? options[0];
+      if (!p) return null;
+      used.add(p.key);
+      return { r, c, name: p.name, emoji: p.em || '🎮' };
+    }).filter(Boolean);
+  }
 
   _doPlace(r, c, player) {
     this._board.place(r, c, player.key);

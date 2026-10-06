@@ -14,6 +14,7 @@ const STATIC = {
     confirm: 'Confirmar', cancel: 'Cancelar',
     victory: '¡Victoria!', victorySub: 'Todas las casillas completadas', playAgain: 'Jugar de nuevo',
     gameOver: 'Game Over', gameOverSub: 'Se acabaron las vidas', tryAgain: 'Intentar de nuevo',
+    seeSolutions: 'Ver soluciones',
   },
   en: {
     headerSub: 'Fill all 9 cells · Pro Players',
@@ -21,6 +22,7 @@ const STATIC = {
     confirm: 'Confirm', cancel: 'Cancel',
     victory: 'Victory!', victorySub: 'All cells completed', playAgain: 'Play again',
     gameOver: 'Game Over', gameOverSub: 'Out of lives', tryAgain: 'Try again',
+    seeSolutions: 'See solutions',
   },
 };
 

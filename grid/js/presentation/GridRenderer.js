@@ -16,6 +16,9 @@ export class GridRenderer {
       const rect = this._getCell(r, c)?.getBoundingClientRect();
       if (rect) bus.emit(EVENTS.CELL_RENDERED, { rect });
     });
+    // Al perder: una respuesta posible en cada casilla vacía
+    bus.on(EVENTS.GAME_LOST, ({ reveal = [] } = {}) =>
+      reveal.forEach(({ r, c, name, emoji }) => this._fillCell(r, c, name, emoji, 'revealed')));
     document.addEventListener('langchange', () => this._relabel());
   }
 
@@ -63,14 +66,15 @@ export class GridRenderer {
     return d;
   }
 
-  _fillCell(r, c, name, emoji) {
+  /** `kind`: 'filled' (acierto) o 'revealed' (solución mostrada al perder). */
+  _fillCell(r, c, name, emoji, kind = 'filled') {
     const el = this._getCell(r, c);
     if (!el) return;
     el.innerHTML = `<div class="cell-content">
       <span class="cell-emoji">${emojiHtml(emoji)}</span>
       <span class="cell-name">${esc(name)}</span>
     </div>`;
-    el.classList.add('filled');
+    el.classList.add(kind);
   }
 
   _getCell(r, c) { return this._el.querySelector(`.cell[data-r="${r}"][data-c="${c}"]`); }

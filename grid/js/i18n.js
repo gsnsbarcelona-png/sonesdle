@@ -19,6 +19,7 @@ const T = {
     unknownPlayer: raw => `No encontramos a "${raw}" · elige uno de la lista`,
     usedPlayer:    raw => `${raw} ya está en otra casilla`,
     triedPlayer:   raw => `${raw} ya lo has probado aquí`,
+    ambiguousPlayer: raw => `Hay varios "${raw}" · elige uno de la lista`,
   },
   en: {
     headerSub:     'Fill all 9 cells · Pro Players',
@@ -38,6 +39,7 @@ const T = {
     unknownPlayer: raw => `"${raw}" not found · pick one from the list`,
     usedPlayer:    raw => `${raw} is already in another cell`,
     triedPlayer:   raw => `You already tried ${raw} here`,
+    ambiguousPlayer: raw => `There are several "${raw}" · pick one from the list`,
   },
 };
 

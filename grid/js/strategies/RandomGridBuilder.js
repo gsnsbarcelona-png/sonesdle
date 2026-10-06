@@ -2,14 +2,23 @@ import { GridBuilderStrategy } from '../abstracts.js';
 
 // Cruzar dos posiciones (Mid × Jungle) o dos nacionalidades no tiene sentido como pregunta
 const NO_SELF_CROSS = new Set(['pos', 'nat']);
+// Cruce regalado: casi todo el grupo pequeño cumple el otro (T1 × LCK, Coreano × Gen.G...)
+const MAX_OVERLAP = 0.9;
 
 export class RandomGridBuilder extends GridBuilderStrategy {
   build(players, categories) {
+    const members = new Map(categories.map(c => [c.id, new Set(players.filter(c.match).map(p => p.key))]));
+    const trivial = (a, b) => {
+      const [small, big] = [members.get(a.id), members.get(b.id)].sort((x, y) => x.size - y.size);
+      let both = 0;
+      for (const k of small) if (big.has(k)) both++;
+      return both >= MAX_OVERLAP * small.size;
+    };
     for (let i = 0; i < 300; i++) {
       const shuffled = this._shuffle(categories);
       const cols = shuffled.slice(0, 3);
       const rows = shuffled.slice(3, 6);
-      if (rows.some(r => cols.some(c => r.type === c.type && NO_SELF_CROSS.has(r.type)))) continue;
+      if (rows.some(r => cols.some(c => (r.type === c.type && NO_SELF_CROSS.has(r.type)) || trivial(r, c)))) continue;
       const valid = this._computeValid(cols, rows, players);
       if (valid.every(row => row.every(cell => cell.length >= 3)))
         return { cols, rows, valid };

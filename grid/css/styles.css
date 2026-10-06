@@ -65,7 +65,7 @@ h1 {
   display:flex; align-items:center; justify-content:center;
   cursor:pointer; transition:border-color .18s, box-shadow .18s; overflow:hidden;
 }
-.cell:hover:not(.filled) { border-color:var(--gold); box-shadow:0 0 16px rgba(200,155,60,.22); }
+.cell:hover:not(.filled):not(.revealed) { border-color:var(--gold); box-shadow:0 0 16px rgba(200,155,60,.22); }
 .cell-plus { font-size:1.3rem; color:var(--dim); transition:color .18s; }
 .cell:hover .cell-plus { color:var(--gold); }
 .cell.filled {
@@ -73,6 +73,13 @@ h1 {
   box-shadow:0 0 12px rgba(0,204,102,.2); cursor:default;
   animation:flipReveal .38s ease forwards;
 }
+/* Solución mostrada al perder: se distingue de los aciertos */
+.cell.revealed {
+  background:rgba(204,34,34,.08); border-color:rgba(204,34,34,.45); border-style:dashed;
+  cursor:default; animation:flipReveal .38s ease forwards;
+}
+.cell.revealed .cell-name { color:#e8a0a0; }
+.cell.revealed .cell-emoji { opacity:.8; }
 @keyframes flipReveal { 0%{opacity:0;transform:rotateY(90deg)} 100%{opacity:1;transform:rotateY(0)} }
 .cell-content { display:flex; flex-direction:column; align-items:center; gap:3px; padding:6px; text-align:center; }
 .cell-emoji { font-size:1.4rem; }
@@ -146,4 +153,18 @@ h1 {
 .end-sub.teal { color:var(--teal); }
 .end-sub.red  { color:var(--red); }
 .btn-replay { padding:11px 44px; background:transparent; border:1px solid var(--gold); border-radius:6px; font-family:'Cinzel',serif; font-size:.65rem; font-weight:700; color:var(--gold); letter-spacing:2px; text-transform:uppercase; cursor:pointer; transition:background .18s,color .18s,box-shadow .18s; }
+.btn-link { display:block; margin:14px auto 0; background:none; border:none; color:var(--dim); font-family:'Rajdhani',sans-serif; font-size:.8rem; font-weight:600; letter-spacing:1px; text-decoration:underline; cursor:pointer; }
+.btn-link:hover { color:var(--text); }
 .btn-replay:hover { background:var(--gold); color:var(--bg); box-shadow:0 0 22px rgba(200,155,60,.28); }
+
+/* Móvil: las 4 columnas (etiquetas + 3 casillas) caben en el ancho de la pantalla */
+@media (max-width: 480px) {
+  :root { --cell: calc((100vw - 32px - 9px) / 4); --label: var(--cell); }
+  .grid-outer { transform: none; }
+  .col-label, .row-label { padding: 4px 3px; gap: 3px; }
+  .col-label .lbl-icon, .row-label .lbl-icon { font-size: 1.05rem; }
+  .col-label .lbl-main, .row-label .lbl-main { font-size: .46rem; letter-spacing: .6px; }
+  .col-label .lbl-sub,  .row-label .lbl-sub  { font-size: .48rem; }
+  .cell-emoji { font-size: 1.1rem; }
+  .cell-name { font-size: .42rem; max-width: 100%; }
+}
