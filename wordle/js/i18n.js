@@ -2,7 +2,7 @@ import { getLang } from '../../shared/lang.js';
 
 export const T = {
   es: {
-    headerSub: 'Adivina el pro player de 5 letras · 6 intentos',
+    headerSub: 'Adivina el nombre del pro player · 6 intentos',
     daily: 'Reto diario', free: 'Modo libre',
     share: 'Compartir', again: 'Otra palabra', close: 'Cerrar',
     allLeagues: 'Todas',
@@ -16,9 +16,11 @@ export const T = {
     copied: 'Resultado copiado',
     also: names => `También: ${names}`,
     enter: 'Enviar',
+    letters: n => `${n} letras`,
+    todayLetters: n => `Hoy: ${n} letras`,
   },
   en: {
-    headerSub: 'Guess the 5-letter pro player · 6 tries',
+    headerSub: 'Guess the pro player’s name · 6 tries',
     daily: 'Daily', free: 'Free play',
     share: 'Share', again: 'New word', close: 'Close',
     allLeagues: 'All',
@@ -32,6 +34,8 @@ export const T = {
     copied: 'Result copied',
     also: names => `Also: ${names}`,
     enter: 'Enter',
+    letters: n => `${n} letters`,
+    todayLetters: n => `Today: ${n} letters`,
   },
 };
 

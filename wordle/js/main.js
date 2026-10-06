@@ -5,13 +5,14 @@ import { unlockGate } from '../../shared/js/beta.js';
 import { T, t } from './i18n.js';
 
 const ROWS = 6;
-const LEN  = 5;
+// El largo de la palabra varía: el diario rota entre 4, 5 y 6 letras; en el libre se elige
+const LENGTHS = [4, 5, 6];
 // Modo libre: "LCP" incluye a sus antecesoras (PCS y LMS, que en los datos van como "PCS")
 const LEAGUES = [null, 'LCK', 'LPL', 'LEC', 'LCS', 'CBLOL', 'LCP'];
 const LEAGUE_ALIASES = { LCP: ['LCP', 'PCS'] };
-const DAILY_LEAGUES = ['LCK', 'LPL', 'LEC', 'LCS', 'CBLOL', 'LCP'];
 const DAILY_KEY  = 'wordle_daily';
 const LEAGUE_KEY = 'wordle_league';
+const LENGTH_KEY = 'wordle_length';
 const KB_ROWS = ['QWERTYUIOP', 'ASDFGHJKL', '⏎ZXCVBNM⌫'];
 const EMOJI = { hit: '🟩', near: '🟨', miss: '⬛' };
 
@@ -39,8 +40,10 @@ const valid = new Set([...guesses, ...byWord.keys()]);
 
 const state = {
   mode: 'daily', league: store.get(LEAGUE_KEY) ?? null,
+  length: LENGTHS.includes(store.get(LENGTH_KEY)) ? store.get(LENGTH_KEY) : 5,   // modo libre
   word: '', rows: [], current: '', over: false, won: false, busy: false,
 };
+const len = () => state.word.length;
 
 // ── Palabras ───────────────────────────────────────────────────
 
@@ -50,26 +53,27 @@ const inLeague = (a, league) =>
 function dailyWord() {
   if (schedule[today()]) return schedule[today()];
   // Sin calendario (no debería pasar): palabra fija por fecha
-  const pool = [...byWord.keys()].filter(w => byWord.get(w).some(a => a.leagues.some(l => DAILY_LEAGUES.includes(l)))).sort();
+  const pool = [...byWord.keys()].filter(w => byWord.get(w).some(a => a.daily)).sort();
   let h = 0;
   for (const c of today()) h = (Math.imul(31, h) + c.charCodeAt(0)) >>> 0;
   return pool[h % pool.length];
 }
 
 function freeWord() {
-  const pool = [...byWord.keys()].filter(w => byWord.get(w).some(a => inLeague(a, state.league)) && w !== state.word);
+  const pool = [...byWord.keys()].filter(w =>
+    w.length === state.length && w !== state.word && byWord.get(w).some(a => inLeague(a, state.league)));
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
 /** Colores de un intento, con letras repetidas bien contadas (como el Wordle original). */
 function evaluate(guess, word) {
-  const res  = Array(LEN).fill('miss');
+  const res  = Array(word.length).fill('miss');
   const left = {};
-  for (let i = 0; i < LEN; i++) {
+  for (let i = 0; i < word.length; i++) {
     if (guess[i] === word[i]) res[i] = 'hit';
     else left[word[i]] = (left[word[i]] ?? 0) + 1;
   }
-  for (let i = 0; i < LEN; i++) {
+  for (let i = 0; i < word.length; i++) {
     if (res[i] !== 'hit' && left[guess[i]]) { res[i] = 'near'; left[guess[i]]--; }
   }
   return res;
@@ -107,7 +111,7 @@ function saveDaily() {
 }
 
 function submit() {
-  if (state.current.length < LEN) return reject(t('tooShort'));
+  if (state.current.length < len()) return reject(t('tooShort'));
   if (!valid.has(state.current))   return reject(t('notPlayer'));
   state.rows.push(state.current);
   state.won  = state.current === state.word;
@@ -127,7 +131,7 @@ function press(key) {
   if (state.over || state.busy) return;
   if (key === 'ENTER') return submit();
   if (key === 'BACK')  state.current = state.current.slice(0, -1);
-  else if (/^[A-Z]$/.test(key) && state.current.length < LEN) state.current += key;
+  else if (/^[A-Z]$/.test(key) && state.current.length < len()) state.current += key;
   renderRow(state.rows.length);
 }
 
@@ -138,7 +142,8 @@ function render(restored = false) {
   for (let r = 0; r < ROWS; r++) {
     const row = document.createElement('div');
     row.className = 'row' + (restored ? ' restored' : '');
-    row.innerHTML = '<div class="tile"></div>'.repeat(LEN);
+    row.style.gridTemplateColumns = `repeat(${len()}, var(--tile))`;
+    row.innerHTML = '<div class="tile"></div>'.repeat(len());
     $('board').appendChild(row);
     renderRow(r);
   }
@@ -174,9 +179,13 @@ function renderKeyboard() {
 function renderControls() {
   document.querySelectorAll('.mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === state.mode));
   $('leagues').classList.toggle('hidden', state.mode !== 'free');
+  $('lengths').classList.toggle('hidden', state.mode !== 'free');
   $('leagues').innerHTML = LEAGUES.map(l =>
     `<button class="league-btn${l === state.league ? ' active' : ''}" data-league="${l ?? ''}" type="button"
              ${l === 'LCP' ? `title="${t('lcpTip')}"` : ''}>${l ?? t('allLeagues')}</button>`).join('');
+  $('lengths').innerHTML = LENGTHS.map(n =>
+    `<button class="league-btn${n === state.length ? ' active' : ''}" data-length="${n}" type="button">${t('letters', n)}</button>`).join('');
+  $('dayInfo').textContent = state.mode === 'daily' ? t('todayLetters', len()) : '';
 }
 
 let toastTimer;
@@ -249,7 +258,7 @@ async function share() {
   const date = today().split('-').reverse().join('/');
   const score = state.won ? state.rows.length : 'X';
   const grid = state.rows.map(g => evaluate(g, state.word).map(m => EMOJI[m]).join('')).join('\n');
-  const text = `LoL Pro Wordle ${date} ${score}/6\n\n${grid}\n\nlolprogames.com/wordle`;
+  const text = `LoL Pro Wordle ${date} · ${t('letters', len())} · ${score}/6\n\n${grid}\n\nlolprogames.com/wordle`;
   try { await navigator.clipboard.writeText(text); toast(t('copied')); }
   catch { prompt('', text); }
 }
@@ -284,6 +293,14 @@ $('leagues').addEventListener('click', e => {
   if (!btn) return;
   state.league = btn.dataset.league || null;
   store.set(LEAGUE_KEY, state.league);
+  startFree();
+});
+
+$('lengths').addEventListener('click', e => {
+  const btn = e.target.closest('.league-btn');
+  if (!btn) return;
+  state.length = Number(btn.dataset.length);
+  store.set(LENGTH_KEY, state.length);
   startFree();
 });
 

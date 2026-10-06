@@ -6,7 +6,7 @@
 <title>LoL Pro Wordle · LOL Pro Games</title>
 
 <!-- SEO -->
-<meta name="description" content="Adivina el nombre de 5 letras de un pro player de LoL en 6 intentos. Reto diario con jugadores de LCK, LPL, LEC, LCS, CBLOL y LCP.">
+<meta name="description" content="Adivina el nombre de un pro player de LoL en 6 intentos. Reto diario de 4, 5 o 6 letras con jugadores de LCK, LPL, LEC, LCS, CBLOL y LCP.">
 <meta name="keywords" content="lol, league of legends, pro player, wordle, esports, adivina, lolprogames">
 <meta name="author" content="LOL Pro Games">
 <meta name="robots" content="index, follow">
@@ -16,13 +16,13 @@
 <meta property="og:type"        content="website">
 <meta property="og:url"         content="https://lolprogames.com/wordle/">
 <meta property="og:title"       content="LoL Pro Wordle · LOL Pro Games">
-<meta property="og:description" content="Adivina el pro player de 5 letras en 6 intentos.">
+<meta property="og:description" content="Adivina el nombre del pro player en 6 intentos.">
 <meta property="og:image"       content="https://lolprogames.com/og-image.jpg">
 
 <!-- Twitter Card -->
 <meta name="twitter:card"        content="summary_large_image">
 <meta name="twitter:title"       content="LoL Pro Wordle · LOL Pro Games">
-<meta name="twitter:description" content="Adivina el pro player de 5 letras en 6 intentos.">
+<meta name="twitter:description" content="Adivina el nombre del pro player en 6 intentos.">
 <meta name="twitter:image"       content="https://lolprogames.com/og-image.jpg">
 
 <!-- PWA / App -->
@@ -53,7 +53,7 @@
       <h1>Pro Wordle</h1>
       <div class="header-line"></div>
     </div>
-    <p class="header-sub" data-i18n="headerSub">Adivina el pro player de 5 letras · 6 intentos</p>
+    <p class="header-sub" data-i18n="headerSub">Adivina el nombre del pro player · 6 intentos</p>
   </header>
 
   <div class="modes">
@@ -61,7 +61,9 @@
     <button class="mode-btn" data-mode="free"  data-i18n="free">Modo libre</button>
   </div>
 
+  <div class="leagues hidden" id="lengths"></div>
   <div class="leagues hidden" id="leagues"></div>
+  <p class="day-info" id="dayInfo"></p>
 
   <div class="board" id="board" aria-live="polite"></div>
 

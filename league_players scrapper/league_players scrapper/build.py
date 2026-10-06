@@ -174,7 +174,12 @@ WORDLE_LEAGUES = {
 }
 WORDLE_DAILY_LEAGUES = ["LCK", "LPL", "LEC", "LCS", "CBLOL", "LCP"]
 WORDLE_SCHEDULE_DAYS = 60   # días del calendario diario que se dejan asignados por delante
-WORD_RE = re.compile(r"[A-Za-z]{5}")
+WORD_RE = re.compile(r"[A-Za-z]{4,6}")
+# El reto diario va rotando de largo (5, 6, 4, 5...) y solo usa jugadores conocidos:
+# en activo en una liga tier 1, o con al menos este número de torneos en ellas
+WORDLE_DAILY_LENGTHS = [5, 6, 4]
+WORDLE_DAILY_MIN_TOURNAMENTS = 8
+WORDLE_EPOCH = datetime.date(2026, 1, 1)
 # Clasificatorios, promociones y descensos no cuentan como haber jugado la liga
 WORDLE_SKIP_RE = re.compile(r"promotion|qualif|relegation|regional", re.IGNORECASE)
 DISAMBIG_RE = re.compile(r"\s*\(.*\)$")   # "Clear (Song Hyeon-min)" -> "Clear"
@@ -1138,36 +1143,49 @@ def build_wordle(history, master):
                 path.append([team, code])
         years = [k[0][0] for k in p["stints"] if k[0][0]]
         role = p["roles"].most_common(1)[0][0]
+        leagues = [c for c in WORDLE_LEAGUES if p["tournaments"][c]]
         answers.append({
             "w": name.upper(), "name": name,
             "role": "ADC" if role == "bot" else role.capitalize(),
             "path": path,
             "years": [min(years), max(years)] if years else None,
-            "leagues": [c for c in WORDLE_LEAGUES if p["tournaments"][c]],
+            "leagues": leagues,
             "n": n,
+            # Puede salir en el reto diario: conocido y de una liga tier 1 actual
+            "daily": bool(set(leagues) & set(WORDLE_DAILY_LEAGUES))
+                     and (n >= WORDLE_DAILY_MIN_TOURNAMENTS or key in active),
         })
     # El más conocido primero cuando dos jugadores comparten nombre
     answers.sort(key=lambda a: (a["w"], -a["n"]))
     return answers, sorted(guesses)
 
 
+def wordle_day_length(day):
+    """Largo de la palabra del reto diario de ese día (va rotando)."""
+    days = (datetime.date.fromisoformat(day) - WORDLE_EPOCH).days
+    return WORDLE_DAILY_LENGTHS[days % len(WORDLE_DAILY_LENGTHS)]
+
+
 def update_wordle_schedule(answers, path):
     """Calendario del reto diario {fecha: palabra}. Hoy y los días pasados no cambian;
-    un día futuro solo se reasigna si su palabra ha dejado de ser respuesta válida.
-    No se repite ninguna palabra hasta haberlas usado todas."""
-    pool = sorted({a["w"] for a in answers if set(a["leagues"]) & set(WORDLE_DAILY_LEAGUES)})
+    un día futuro se reasigna si su palabra ya no vale o no tiene el largo que toca.
+    No se repite ninguna palabra hasta haber usado todas las de su largo."""
+    pools = {n: sorted({a["w"] for a in answers if a["daily"] and len(a["w"]) == n})
+             for n in WORDLE_DAILY_LENGTHS}
     schedule = {}
     if os.path.exists(path):
         with open(path, encoding="utf-8") as f:
             schedule = json.load(f)
     today = datetime.datetime.now(datetime.timezone.utc).date()
-    schedule = {day: w for day, w in schedule.items() if day <= today.isoformat() or w in pool}
+    schedule = {day: w for day, w in schedule.items()
+                if day <= today.isoformat() or w in pools[wordle_day_length(day)]}
     for i in range(WORDLE_SCHEDULE_DAYS + 1):
         day = (today + datetime.timedelta(days=i)).isoformat()
         if day in schedule:
             continue
-        used = list(schedule.values())
-        # Ronda actual: lo usado desde la última vez que se agotaron las palabras
+        pool = pools[wordle_day_length(day)]
+        used = [w for w in schedule.values() if len(w) == len(pool[0])]
+        # Ronda actual: lo usado desde la última vez que se agotaron las palabras de ese largo
         cycle = set(used[len(used) - len(used) % len(pool):])
         schedule[day] = random.Random(day).choice([w for w in pool if w not in cycle])
     return dict(sorted(schedule.items()))
@@ -1362,9 +1380,10 @@ def main():
         f.write('{"answers": [\n' + ",\n".join(json.dumps(a, ensure_ascii=False) for a in answers)
                 + '\n],\n"guesses": ' + json.dumps(guesses) + "}\n")
     write_json(WORDLE_SCHEDULE_PATH, schedule)
-    daily = len({a["w"] for a in answers if set(a["leagues"]) & set(WORDLE_DAILY_LEAGUES)})
-    print(f"wordle -> {WORDLE_WORDS_PATH} ({len(answers)} respuestas, {daily} palabras para "
-          f"el diario, {len(guesses)} intentos válidos; calendario hasta {max(schedule)})")
+    daily = Counter(len(w) for w in {a["w"] for a in answers if a["daily"]})
+    print(f"wordle -> {WORDLE_WORDS_PATH} ({len(answers)} respuestas, para el diario "
+          f"{dict(sorted(daily.items()))} por largo, {len(guesses)} intentos válidos; "
+          f"calendario hasta {max(schedule)})")
 
 
 if __name__ == "__main__":

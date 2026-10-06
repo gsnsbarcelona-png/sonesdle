@@ -39,6 +39,8 @@ h1 {
 .mode-btn:hover, .league-btn:hover { color:var(--text); border-color:var(--dim); }
 .mode-btn.active, .league-btn.active { color:var(--gold); border-color:var(--gold); background:rgba(200,155,60,.08); }
 .leagues { display:flex; flex-wrap:wrap; justify-content:center; gap:6px; max-width:420px; }
+.day-info { font-size:.7rem; font-weight:600; color:var(--dim); letter-spacing:3px; text-transform:uppercase; min-height:1em; margin:-6px 0 -4px; }
+.day-info:empty { display:none; }
 
 /* Tablero */
 .board { display:grid; grid-template-rows:repeat(6, var(--tile)); gap:6px; }
