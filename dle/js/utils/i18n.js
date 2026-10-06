@@ -1,7 +1,7 @@
 const TRANSLATIONS = {
   es: {
     subtitle:      'Adivina el Pro Player',
-    placeholder:   'Escribe el nombre de un pro player...',
+    placeholder:   'Escribe un pro player...',
     guess:         'Adivinar',
     attempts:      'Intentos',
     giveup:        'Rendirse',
@@ -66,7 +66,7 @@ const TRANSLATIONS = {
   },
   en: {
     subtitle:      'Guess the Pro Player',
-    placeholder:   'Type a pro player name...',
+    placeholder:   'Type a pro player...',
     guess:         'Guess',
     attempts:      'Attempts',
     giveup:        'Give Up',

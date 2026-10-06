@@ -58,28 +58,29 @@
     /* ── Grid layout ────────────────────────────────────────── */
     .game-grid {
       display: grid;
-      grid-template-columns: 68px repeat(7, 1fr);
+      /* minmax(0, 1fr): columnas iguales en todas las filas aunque un texto sea largo */
+      grid-template-columns: 68px repeat(7, minmax(0, 1fr));
       gap: 2px;
     }
     @media (min-width: 400px) {
-      .game-grid { grid-template-columns: 80px repeat(7, 1fr); gap: 3px; }
+      .game-grid { grid-template-columns: 80px repeat(7, minmax(0, 1fr)); gap: 3px; }
     }
     @media (min-width: 540px) {
-      .game-grid { grid-template-columns: 100px repeat(7, 1fr); }
+      .game-grid { grid-template-columns: 100px repeat(7, minmax(0, 1fr)); }
     }
     @media (min-width: 768px) {
-      .game-grid { grid-template-columns: 130px repeat(7, 1fr); gap: 4px; }
+      .game-grid { grid-template-columns: 130px repeat(7, minmax(0, 1fr)); gap: 4px; }
     }
     /* Modo difícil: 5 columnas (sin Liga ni Equipo) */
-    .game-grid[data-hard] { grid-template-columns: 68px repeat(5, 1fr); }
+    .game-grid[data-hard] { grid-template-columns: 68px repeat(5, minmax(0, 1fr)); }
     @media (min-width: 400px) {
-      .game-grid[data-hard] { grid-template-columns: 80px repeat(5, 1fr); }
+      .game-grid[data-hard] { grid-template-columns: 80px repeat(5, minmax(0, 1fr)); }
     }
     @media (min-width: 540px) {
-      .game-grid[data-hard] { grid-template-columns: 100px repeat(5, 1fr); }
+      .game-grid[data-hard] { grid-template-columns: 100px repeat(5, minmax(0, 1fr)); }
     }
     @media (min-width: 768px) {
-      .game-grid[data-hard] { grid-template-columns: 130px repeat(5, 1fr); }
+      .game-grid[data-hard] { grid-template-columns: 130px repeat(5, minmax(0, 1fr)); }
     }
 
     /* ── Encabezados de columna ─────────────────────────────── */
@@ -99,6 +100,12 @@
       border-radius: 4px 4px 0 0;
     }
     .col-icon { font-size: 0.85rem; }
+    .col-header { min-width: 0; }
+    .col-label { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    /* Móvil: solo el icono (el nombre de la columna sigue en el tooltip) */
+    @media (max-width: 539px) {
+      .col-icon + .col-label { display: none; }
+    }
     @media (min-width: 400px) {
       .col-header { font-size: 0.54rem; padding: 5px 2px; }
       .col-icon   { font-size: 0.95rem; }
@@ -127,6 +134,8 @@
       font-size: 0.65rem;
       font-weight: 600;
       border-radius: 4px;
+      min-width: 0;
+      overflow-wrap: anywhere;
       /* estado inicial para la animacion */
       opacity: 0;
       transform: rotateY(90deg);
@@ -173,6 +182,10 @@
     /* Contenido de celda */
     .cell-flag  { font-size: 1rem;  margin-bottom: 1px; }
     .cell-text  { font-size: 0.6rem; line-height: 1.2; }
+    /* Móvil: el país solo con la bandera (el nombre no cabe en la columna) */
+    @media (max-width: 539px) {
+      .cell-flag + .cell-text { display: none; }
+    }
     .cell-main  { font-size: 0.75rem; font-weight: 700; }
     .cell-arrow { font-size: 0.85rem; margin-left: 2px; }
     .cell-tag   { font-size: 0.55rem; font-weight: 700; letter-spacing: 0.08em; opacity: 0.7; margin-top: 1px; }
@@ -279,7 +292,10 @@
       font-weight: 500;
       letter-spacing: 0.5px;
       padding: 5px 9px;
-      white-space: nowrap;
+      white-space: normal;
+      width: max-content;
+      max-width: 160px;
+      text-align: center;
       z-index: 200;
       pointer-events: none;
       opacity: 0;
@@ -300,6 +316,12 @@
     }
     .col-tip:hover::after,
     .col-tip:hover::before { opacity: 1; }
+    /* Tooltips de las últimas columnas hacia dentro, para no salirse de la pantalla */
+    .col-tip:nth-last-child(-n+2)::after { left: auto; right: 0; transform: none; }
+    .col-tip:nth-child(-n+2)::after { left: 0; transform: none; }
+    /* Ocultos no ocupan sitio: si no, ensanchan la página y se puede deslizar de lado */
+    .col-tip::after { display: none; }
+    .col-tip:hover::after { display: block; }
 
   </style>
   <!-- Tailwind compilado (tools/tailwind): después de <style>, como lo inyectaba el CDN -->
@@ -359,7 +381,7 @@
           <input
             id="search-input"
             type="text"
-            placeholder="Escribe el nombre de un pro player..."
+            placeholder="Escribe un pro player..."
             data-i18n-ph="placeholder"
             autocomplete="off"
             class="w-full bg-lol-surface border border-gold-dark text-lol-text font-rajdhani

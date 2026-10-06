@@ -76,7 +76,7 @@ export class GridComponent {
     this.#headerEl.innerHTML = cols.map(col => `
       <div class="col-header col-tip" data-tip="${t(col.tip)}">
         ${col.icon ? `<span class="col-icon">${col.icon}</span>` : ''}
-        <span>${t(col.key)}</span>
+        <span class="col-label">${t(col.key)}</span>
       </div>
     `).join('');
   }
