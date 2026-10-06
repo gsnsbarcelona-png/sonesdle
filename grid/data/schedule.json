@@ -37,14 +37,14 @@
   },
   "2026-10-09": {
     "cols": [
-      "msi",
-      "lcs",
-      "champ"
+      "tsm",
+      "g2",
+      "lec"
     ],
     "rows": [
-      "support",
-      "lec",
-      "t1"
+      "jungle",
+      "lcs",
+      "support"
     ]
   },
   "2026-10-10": {
@@ -61,14 +61,14 @@
   },
   "2026-10-11": {
     "cols": [
-      "mid",
-      "top",
-      "support"
+      "t1",
+      "lcs",
+      "msi"
     ],
     "rows": [
-      "lck",
-      "msi",
-      "g2"
+      "geng",
+      "support",
+      "lec"
     ]
   },
   "2026-10-12": {
@@ -97,14 +97,14 @@
   },
   "2026-10-14": {
     "cols": [
-      "lcs",
-      "msi",
-      "champ"
+      "korean",
+      "jungle",
+      "mid"
     ],
     "rows": [
+      "tl",
       "g2",
-      "top",
-      "kt"
+      "worlds"
     ]
   },
   "2026-10-15": {
@@ -121,38 +121,38 @@
   },
   "2026-10-16": {
     "cols": [
-      "lpl",
       "lcs",
-      "msi"
+      "msi",
+      "jungle"
     ],
     "rows": [
-      "support",
-      "adc",
-      "jungle"
+      "lpl",
+      "fnatic",
+      "geng"
     ]
   },
   "2026-10-17": {
     "cols": [
-      "msi",
-      "champ",
-      "lck"
+      "korean",
+      "mid",
+      "adc"
     ],
     "rows": [
-      "top",
-      "support",
-      "fnatic"
+      "c9",
+      "champ",
+      "lec"
     ]
   },
   "2026-10-18": {
     "cols": [
-      "fnatic",
-      "chinese",
-      "kt"
+      "worlds",
+      "mid",
+      "champ"
     ],
     "rows": [
-      "jungle",
-      "support",
-      "mid"
+      "tl",
+      "drx",
+      "korean"
     ]
   },
   "2026-10-19": {
@@ -181,14 +181,14 @@
   },
   "2026-10-21": {
     "cols": [
-      "lcs",
-      "adc",
-      "msi"
+      "lck",
+      "top",
+      "jungle"
     ],
     "rows": [
-      "fnatic",
-      "g2",
-      "t1"
+      "champ",
+      "lcs",
+      "edg"
     ]
   },
   "2026-10-22": {
@@ -205,14 +205,14 @@
   },
   "2026-10-23": {
     "cols": [
-      "support",
-      "adc",
-      "mid"
+      "t1",
+      "kt",
+      "lpl"
     ],
     "rows": [
       "drx",
-      "edg",
-      "worlds"
+      "worlds",
+      "lcs"
     ]
   },
   "2026-10-24": {
@@ -277,14 +277,14 @@
   },
   "2026-10-29": {
     "cols": [
-      "champ",
-      "mid",
-      "adc"
+      "drx",
+      "korean",
+      "lpl"
     ],
     "rows": [
-      "t1",
-      "geng",
-      "c9"
+      "champ",
+      "top",
+      "msi"
     ]
   },
   "2026-10-30": {
@@ -469,26 +469,26 @@
   },
   "2026-11-14": {
     "cols": [
-      "chinese",
-      "lpl",
-      "damwon"
+      "drx",
+      "adc",
+      "jungle"
     ],
     "rows": [
-      "top",
-      "adc",
-      "support"
+      "t1",
+      "lec",
+      "worlds"
     ]
   },
   "2026-11-15": {
     "cols": [
-      "champ",
+      "adc",
       "support",
-      "top"
+      "champ"
     ],
     "rows": [
+      "korean",
       "tl",
-      "kt",
-      "c9"
+      "lpl"
     ]
   },
   "2026-11-16": {
@@ -565,14 +565,14 @@
   },
   "2026-11-22": {
     "cols": [
-      "adc",
-      "mid",
+      "support",
+      "lcs",
       "jungle"
     ],
     "rows": [
-      "geng",
-      "tl",
-      "lec"
+      "drx",
+      "tsm",
+      "worlds"
     ]
   },
   "2026-11-23": {
@@ -589,26 +589,26 @@
   },
   "2026-11-24": {
     "cols": [
-      "adc",
-      "jungle",
-      "mid"
+      "c9",
+      "tsm",
+      "european"
     ],
     "rows": [
+      "jungle",
       "champ",
-      "msi",
-      "tl"
+      "mid"
     ]
   },
   "2026-11-25": {
     "cols": [
-      "top",
-      "support",
-      "mid"
+      "chinese",
+      "tsm",
+      "g2"
     ],
     "rows": [
-      "tsm",
-      "edg",
-      "lpl"
+      "lcs",
+      "mid",
+      "jungle"
     ]
   },
   "2026-11-26": {
@@ -625,14 +625,14 @@
   },
   "2026-11-27": {
     "cols": [
-      "champ",
+      "lpl",
       "lec",
-      "worlds"
+      "top"
     ],
     "rows": [
-      "damwon",
-      "support",
-      "jungle"
+      "t1",
+      "lcs",
+      "damwon"
     ]
   },
   "2026-11-28": {
@@ -649,12 +649,12 @@
   },
   "2026-11-29": {
     "cols": [
-      "drx",
-      "european",
-      "fnatic"
+      "kt",
+      "lpl",
+      "european"
     ],
     "rows": [
-      "mid",
+      "msi",
       "adc",
       "jungle"
     ]
@@ -709,25 +709,25 @@
   },
   "2026-12-04": {
     "cols": [
-      "edg",
-      "damwon",
-      "geng"
+      "drx",
+      "mid",
+      "jungle"
     ],
     "rows": [
-      "worlds",
-      "top",
-      "adc"
+      "lpl",
+      "lcs",
+      "kt"
     ]
   },
   "2026-12-05": {
     "cols": [
-      "adc",
-      "champ",
+      "mid",
+      "msi",
       "jungle"
     ],
     "rows": [
-      "kt",
-      "c9",
+      "drx",
+      "lck",
       "t1"
     ]
   }

@@ -1194,6 +1194,7 @@ def update_wordle_schedule(answers, path):
 GRID_DAILY_MIN = 4          # respuestas mínimas por casilla en el reto diario
 GRID_MAX_OVERLAP = 0.9      # cruce regalado (igual que RandomGridBuilder.js)
 GRID_NO_SELF_CROSS = {"pos", "nat"}
+GRID_MAX_SAME_TYPE = 2      # categorías del mismo tipo en un lado (no tres competiciones)
 
 
 def grid_matches(cat, p):
@@ -1220,8 +1221,12 @@ def update_grid_schedule(grid, categories, path):
         small = min(len(members[a]), len(members[b]))
         return GRID_DAILY_MIN <= cell(a, b) < GRID_MAX_OVERLAP * small
 
+    def varied(side):
+        return max(Counter(by_id[c]["type"] for c in side).values()) <= GRID_MAX_SAME_TYPE
+
     def valid(board):
         return all(c in by_id for c in board["cols"] + board["rows"]) and \
+            varied(board["cols"]) and varied(board["rows"]) and \
             all(ok(r, c) for r in board["rows"] for c in board["cols"])
 
     schedule = {}

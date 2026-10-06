@@ -4,6 +4,12 @@ import { GridBuilderStrategy } from '../abstracts.js';
 const NO_SELF_CROSS = new Set(['pos', 'nat']);
 // Cruce regalado: casi todo el grupo pequeño cumple el otro (T1 × LCK, Coreano × Gen.G...)
 const MAX_OVERLAP = 0.9;
+// Variedad: como mucho 2 categorías del mismo tipo en un lado (no Campeón, Worlds y MSI)
+const MAX_SAME_TYPE = 2;
+const varied = side => {
+  const n = {};
+  return side.every(c => (n[c.type] = (n[c.type] ?? 0) + 1) <= MAX_SAME_TYPE);
+};
 
 export class RandomGridBuilder extends GridBuilderStrategy {
   build(players, categories) {
@@ -18,6 +24,7 @@ export class RandomGridBuilder extends GridBuilderStrategy {
       const shuffled = this._shuffle(categories);
       const cols = shuffled.slice(0, 3);
       const rows = shuffled.slice(3, 6);
+      if (!varied(cols) || !varied(rows)) continue;
       if (rows.some(r => cols.some(c => (r.type === c.type && NO_SELF_CROSS.has(r.type)) || trivial(r, c)))) continue;
       const valid = this._computeValid(cols, rows, players);
       if (valid.every(row => row.every(cell => cell.length >= 3)))
