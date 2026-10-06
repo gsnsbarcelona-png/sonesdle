@@ -168,3 +168,15 @@ h1 {
   .cell-emoji { font-size: 1.1rem; }
   .cell-name { font-size: .42rem; max-width: 100%; }
 }
+
+/* Modo diario / libre */
+.modes { display:flex; gap:8px; }
+.mode-btn {
+  background:transparent; border:1px solid var(--border); color:var(--dim);
+  font-family:'Cinzel',serif; font-size:.62rem; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+  border-radius:6px; padding:8px 16px; cursor:pointer; transition:border-color .15s, color .15s, background .15s;
+}
+.mode-btn:hover:not(:disabled) { color:var(--text); border-color:var(--dim); }
+.mode-btn.active { color:var(--gold); border-color:var(--gold); background:rgba(200,155,60,.08); }
+.mode-btn:disabled { opacity:.4; cursor:not-allowed; }
+.end-body .btn-replay { margin:4px; }

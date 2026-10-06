@@ -1,0 +1,734 @@
+{
+  "2026-10-06": {
+    "cols": [
+      "champ",
+      "worlds",
+      "msi"
+    ],
+    "rows": [
+      "lck",
+      "lpl",
+      "korean"
+    ]
+  },
+  "2026-10-07": {
+    "cols": [
+      "adc",
+      "champ",
+      "worlds"
+    ],
+    "rows": [
+      "drx",
+      "kt",
+      "korean"
+    ]
+  },
+  "2026-10-08": {
+    "cols": [
+      "support",
+      "adc",
+      "champ"
+    ],
+    "rows": [
+      "lec",
+      "t1",
+      "g2"
+    ]
+  },
+  "2026-10-09": {
+    "cols": [
+      "msi",
+      "lcs",
+      "champ"
+    ],
+    "rows": [
+      "support",
+      "lec",
+      "t1"
+    ]
+  },
+  "2026-10-10": {
+    "cols": [
+      "chinese",
+      "fnatic",
+      "edg"
+    ],
+    "rows": [
+      "msi",
+      "support",
+      "adc"
+    ]
+  },
+  "2026-10-11": {
+    "cols": [
+      "mid",
+      "top",
+      "support"
+    ],
+    "rows": [
+      "lck",
+      "msi",
+      "g2"
+    ]
+  },
+  "2026-10-12": {
+    "cols": [
+      "lpl",
+      "drx",
+      "worlds"
+    ],
+    "rows": [
+      "adc",
+      "t1",
+      "msi"
+    ]
+  },
+  "2026-10-13": {
+    "cols": [
+      "msi",
+      "support",
+      "mid"
+    ],
+    "rows": [
+      "geng",
+      "lec",
+      "t1"
+    ]
+  },
+  "2026-10-14": {
+    "cols": [
+      "lcs",
+      "msi",
+      "champ"
+    ],
+    "rows": [
+      "g2",
+      "top",
+      "kt"
+    ]
+  },
+  "2026-10-15": {
+    "cols": [
+      "lcs",
+      "mid",
+      "adc"
+    ],
+    "rows": [
+      "geng",
+      "worlds",
+      "lck"
+    ]
+  },
+  "2026-10-16": {
+    "cols": [
+      "lpl",
+      "lcs",
+      "msi"
+    ],
+    "rows": [
+      "support",
+      "adc",
+      "jungle"
+    ]
+  },
+  "2026-10-17": {
+    "cols": [
+      "msi",
+      "champ",
+      "lck"
+    ],
+    "rows": [
+      "top",
+      "support",
+      "fnatic"
+    ]
+  },
+  "2026-10-18": {
+    "cols": [
+      "fnatic",
+      "chinese",
+      "kt"
+    ],
+    "rows": [
+      "jungle",
+      "support",
+      "mid"
+    ]
+  },
+  "2026-10-19": {
+    "cols": [
+      "geng",
+      "msi",
+      "worlds"
+    ],
+    "rows": [
+      "adc",
+      "kt",
+      "jungle"
+    ]
+  },
+  "2026-10-20": {
+    "cols": [
+      "mid",
+      "jungle",
+      "lck"
+    ],
+    "rows": [
+      "fnatic",
+      "msi",
+      "c9"
+    ]
+  },
+  "2026-10-21": {
+    "cols": [
+      "lcs",
+      "adc",
+      "msi"
+    ],
+    "rows": [
+      "fnatic",
+      "g2",
+      "t1"
+    ]
+  },
+  "2026-10-22": {
+    "cols": [
+      "tl",
+      "korean",
+      "geng"
+    ],
+    "rows": [
+      "mid",
+      "worlds",
+      "top"
+    ]
+  },
+  "2026-10-23": {
+    "cols": [
+      "support",
+      "adc",
+      "mid"
+    ],
+    "rows": [
+      "drx",
+      "edg",
+      "worlds"
+    ]
+  },
+  "2026-10-24": {
+    "cols": [
+      "msi",
+      "lcs",
+      "top"
+    ],
+    "rows": [
+      "t1",
+      "worlds",
+      "fnatic"
+    ]
+  },
+  "2026-10-25": {
+    "cols": [
+      "msi",
+      "jungle",
+      "champ"
+    ],
+    "rows": [
+      "fnatic",
+      "chinese",
+      "drx"
+    ]
+  },
+  "2026-10-26": {
+    "cols": [
+      "chinese",
+      "champ",
+      "kt"
+    ],
+    "rows": [
+      "mid",
+      "top",
+      "worlds"
+    ]
+  },
+  "2026-10-27": {
+    "cols": [
+      "geng",
+      "adc",
+      "mid"
+    ],
+    "rows": [
+      "fnatic",
+      "lec",
+      "kt"
+    ]
+  },
+  "2026-10-28": {
+    "cols": [
+      "lpl",
+      "t1",
+      "champ"
+    ],
+    "rows": [
+      "kt",
+      "drx",
+      "worlds"
+    ]
+  },
+  "2026-10-29": {
+    "cols": [
+      "champ",
+      "mid",
+      "adc"
+    ],
+    "rows": [
+      "t1",
+      "geng",
+      "c9"
+    ]
+  },
+  "2026-10-30": {
+    "cols": [
+      "msi",
+      "edg",
+      "korean"
+    ],
+    "rows": [
+      "worlds",
+      "mid",
+      "adc"
+    ]
+  },
+  "2026-10-31": {
+    "cols": [
+      "jungle",
+      "tl",
+      "mid"
+    ],
+    "rows": [
+      "c9",
+      "na",
+      "lck"
+    ]
+  },
+  "2026-11-01": {
+    "cols": [
+      "adc",
+      "champ",
+      "jungle"
+    ],
+    "rows": [
+      "worlds",
+      "lpl",
+      "korean"
+    ]
+  },
+  "2026-11-02": {
+    "cols": [
+      "msi",
+      "lck",
+      "chinese"
+    ],
+    "rows": [
+      "mid",
+      "top",
+      "edg"
+    ]
+  },
+  "2026-11-03": {
+    "cols": [
+      "champ",
+      "korean",
+      "geng"
+    ],
+    "rows": [
+      "lcs",
+      "jungle",
+      "lec"
+    ]
+  },
+  "2026-11-04": {
+    "cols": [
+      "fnatic",
+      "lec",
+      "kt"
+    ],
+    "rows": [
+      "support",
+      "msi",
+      "top"
+    ]
+  },
+  "2026-11-05": {
+    "cols": [
+      "fnatic",
+      "support",
+      "mid"
+    ],
+    "rows": [
+      "champ",
+      "lck",
+      "european"
+    ]
+  },
+  "2026-11-06": {
+    "cols": [
+      "drx",
+      "kt",
+      "lcs"
+    ],
+    "rows": [
+      "adc",
+      "mid",
+      "lpl"
+    ]
+  },
+  "2026-11-07": {
+    "cols": [
+      "tsm",
+      "lck",
+      "msi"
+    ],
+    "rows": [
+      "adc",
+      "lec",
+      "jungle"
+    ]
+  },
+  "2026-11-08": {
+    "cols": [
+      "fnatic",
+      "lpl",
+      "t1"
+    ],
+    "rows": [
+      "mid",
+      "support",
+      "champ"
+    ]
+  },
+  "2026-11-09": {
+    "cols": [
+      "support",
+      "champ",
+      "mid"
+    ],
+    "rows": [
+      "tl",
+      "european",
+      "lcs"
+    ]
+  },
+  "2026-11-10": {
+    "cols": [
+      "korean",
+      "mid",
+      "support"
+    ],
+    "rows": [
+      "tsm",
+      "msi",
+      "tl"
+    ]
+  },
+  "2026-11-11": {
+    "cols": [
+      "na",
+      "lec",
+      "lck"
+    ],
+    "rows": [
+      "jungle",
+      "adc",
+      "champ"
+    ]
+  },
+  "2026-11-12": {
+    "cols": [
+      "lec",
+      "t1",
+      "geng"
+    ],
+    "rows": [
+      "champ",
+      "top",
+      "mid"
+    ]
+  },
+  "2026-11-13": {
+    "cols": [
+      "drx",
+      "lcs",
+      "lec"
+    ],
+    "rows": [
+      "champ",
+      "jungle",
+      "mid"
+    ]
+  },
+  "2026-11-14": {
+    "cols": [
+      "chinese",
+      "lpl",
+      "damwon"
+    ],
+    "rows": [
+      "top",
+      "adc",
+      "support"
+    ]
+  },
+  "2026-11-15": {
+    "cols": [
+      "champ",
+      "support",
+      "top"
+    ],
+    "rows": [
+      "tl",
+      "kt",
+      "c9"
+    ]
+  },
+  "2026-11-16": {
+    "cols": [
+      "damwon",
+      "lpl",
+      "lcs"
+    ],
+    "rows": [
+      "champ",
+      "top",
+      "adc"
+    ]
+  },
+  "2026-11-17": {
+    "cols": [
+      "na",
+      "damwon",
+      "g2"
+    ],
+    "rows": [
+      "support",
+      "champ",
+      "top"
+    ]
+  },
+  "2026-11-18": {
+    "cols": [
+      "top",
+      "lcs",
+      "champ"
+    ],
+    "rows": [
+      "lec",
+      "t1",
+      "drx"
+    ]
+  },
+  "2026-11-19": {
+    "cols": [
+      "lec",
+      "fnatic",
+      "t1"
+    ],
+    "rows": [
+      "msi",
+      "top",
+      "jungle"
+    ]
+  },
+  "2026-11-20": {
+    "cols": [
+      "worlds",
+      "mid",
+      "support"
+    ],
+    "rows": [
+      "tl",
+      "chinese",
+      "drx"
+    ]
+  },
+  "2026-11-21": {
+    "cols": [
+      "lcs",
+      "champ",
+      "mid"
+    ],
+    "rows": [
+      "drx",
+      "european",
+      "t1"
+    ]
+  },
+  "2026-11-22": {
+    "cols": [
+      "adc",
+      "mid",
+      "jungle"
+    ],
+    "rows": [
+      "geng",
+      "tl",
+      "lec"
+    ]
+  },
+  "2026-11-23": {
+    "cols": [
+      "fnatic",
+      "european",
+      "t1"
+    ],
+    "rows": [
+      "adc",
+      "msi",
+      "lcs"
+    ]
+  },
+  "2026-11-24": {
+    "cols": [
+      "adc",
+      "jungle",
+      "mid"
+    ],
+    "rows": [
+      "champ",
+      "msi",
+      "tl"
+    ]
+  },
+  "2026-11-25": {
+    "cols": [
+      "top",
+      "support",
+      "mid"
+    ],
+    "rows": [
+      "tsm",
+      "edg",
+      "lpl"
+    ]
+  },
+  "2026-11-26": {
+    "cols": [
+      "champ",
+      "geng",
+      "msi"
+    ],
+    "rows": [
+      "support",
+      "fnatic",
+      "adc"
+    ]
+  },
+  "2026-11-27": {
+    "cols": [
+      "champ",
+      "lec",
+      "worlds"
+    ],
+    "rows": [
+      "damwon",
+      "support",
+      "jungle"
+    ]
+  },
+  "2026-11-28": {
+    "cols": [
+      "drx",
+      "msi",
+      "adc"
+    ],
+    "rows": [
+      "lpl",
+      "worlds",
+      "kt"
+    ]
+  },
+  "2026-11-29": {
+    "cols": [
+      "drx",
+      "european",
+      "fnatic"
+    ],
+    "rows": [
+      "mid",
+      "adc",
+      "jungle"
+    ]
+  },
+  "2026-11-30": {
+    "cols": [
+      "korean",
+      "na",
+      "tl"
+    ],
+    "rows": [
+      "mid",
+      "support",
+      "tsm"
+    ]
+  },
+  "2026-12-01": {
+    "cols": [
+      "drx",
+      "chinese",
+      "na"
+    ],
+    "rows": [
+      "top",
+      "champ",
+      "support"
+    ]
+  },
+  "2026-12-02": {
+    "cols": [
+      "champ",
+      "geng",
+      "lec"
+    ],
+    "rows": [
+      "adc",
+      "drx",
+      "mid"
+    ]
+  },
+  "2026-12-03": {
+    "cols": [
+      "adc",
+      "jungle",
+      "t1"
+    ],
+    "rows": [
+      "kt",
+      "worlds",
+      "lec"
+    ]
+  },
+  "2026-12-04": {
+    "cols": [
+      "edg",
+      "damwon",
+      "geng"
+    ],
+    "rows": [
+      "worlds",
+      "top",
+      "adc"
+    ]
+  },
+  "2026-12-05": {
+    "cols": [
+      "adc",
+      "champ",
+      "jungle"
+    ],
+    "rows": [
+      "kt",
+      "c9",
+      "t1"
+    ]
+  }
+}

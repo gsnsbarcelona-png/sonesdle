@@ -29,6 +29,14 @@ export class RandomGridBuilder extends GridBuilderStrategy {
     return { cols, rows, valid: this._computeValid(cols, rows, players) };
   }
 
+  /** Tablero con categorías ya elegidas (reto diario de schedule.json). */
+  fromIds(players, categories, colIds, rowIds) {
+    const byId = new Map(categories.map(c => [c.id, c]));
+    const cols = colIds.map(id => byId.get(id));
+    const rows = rowIds.map(id => byId.get(id));
+    return { cols, rows, valid: this._computeValid(cols, rows, players) };
+  }
+
   _shuffle(arr) {
     const a = [...arr];
     for (let i = a.length - 1; i > 0; i--) {

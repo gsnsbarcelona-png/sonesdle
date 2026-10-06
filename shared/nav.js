@@ -6,7 +6,7 @@
 import { mountAccount } from './account.js';
 
 const GAMES = [
-  { id: 'dle',        href: '../dle/index.html',        icon: '🎯', name: 'Adivina el Pro',  tag: 'Wordle'       },
+  { id: 'dle',        href: '../dle/index.html',        icon: '🎯', name: 'Adivina el Pro',  tag: 'Pistas'       },
   { id: 'rostergues', href: '../rostergues/index.html', icon: '🏆', name: 'Roster Guess',    tag: 'Roster'       },
   { id: 'carrera',    href: '../carrera/index.html',    icon: '📋', name: 'Career Guess',    tag: 'Career'       },
   { id: 'grid',       href: '../grid/index.html',       icon: '🔲', name: 'Pro Grid',        tag: 'Grid'         },   // en pruebas: pide código beta (shared/js/beta.js)

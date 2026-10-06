@@ -61,6 +61,8 @@ CURATED_GRID_PATH      = os.path.join(SCRIPT_DIR, "curated", "grid.json")
 ROSTERGUES_PATH  = os.path.join(ROOT, "rostergues", "js", "data", "rosters.js")
 CARRERA_PATH     = os.path.join(ROOT, "carrera", "js", "data", "players.js")
 GRID_PATH        = os.path.join(ROOT, "grid", "data", "players.json")
+GRID_CATEGORIES_PATH = os.path.join(ROOT, "grid", "data", "categories.json")
+GRID_SCHEDULE_PATH   = os.path.join(ROOT, "grid", "data", "schedule.json")
 WORDLE_WORDS_PATH    = os.path.join(ROOT, "wordle", "data", "words.json")
 WORDLE_SCHEDULE_PATH = os.path.join(ROOT, "wordle", "data", "schedule.json")
 LEAGUE_HISTORY_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_league_history.json")
@@ -87,6 +89,10 @@ PLAYER_FIELDS = ("OverviewPage,ID,Name,Country,Nationality,NationalityPrimary,"
 LEAGUE_YEARS = ("2025", "2026")
 TIER1_LEAGUES = {"LCK": "LCK", "LPL": "LPL", "LEC": "LEC", "LCP": "LCP", "LCS": "LCS",
                  "CBLOL": "CBLOL", "LTA N": "LCS", "LTA S": "CBLOL"}
+# Grid "Campeón de liga": títulos de una liga tier 1, con sus nombres antiguos
+# (LTC = Champions, LPLOL = LPL, PCS y LMS antes de la LCP)
+TIER1_TITLE_LEAGUES = {"LCK", "LTC", "LPL", "LPLOL", "LEC", "EU LCS", "LCS", "NA LCS",
+                       "LTA", "LTA N", "LTA S", "CBLOL", "LCP", "PCS", "LMS"}
 # No son la liga de un equipo: internacionales, copas entre ligas, exhibiciones
 NOT_A_LEAGUE = {"EM", "KeSPA Cup", "AM", "AME", "AG", "AC", "EWC", "WSCI", "WLRQ"}
 NOT_A_LEAGUE_RE = re.compile(r"cup|showmatch|invitational|all-?star|nations|games\b|retirement",
@@ -1055,7 +1061,8 @@ def grid_entry(p, name, emoji=None):
     teams = {t["team"].lower() for t in p["history"]}
     groups = [g for g, rx in GRID_TEAMS.items() if any(re.fullmatch(rx, t) for t in teams)]
     comps = ([k for k in ("worlds", "msi") if p["achievements"][k]]
-             + (["league_title"] if p["titles"] else []) + p["major_leagues"])
+             + (["league_title"] if any(t["league"] in TIER1_TITLE_LEAGUES for t in p["titles"]) else [])
+             + p["major_leagues"])
     entry = {"key": name.lower(), "name": name, "pos": [x.lower() for x in p["roles"] or p["positions"]],
              "nat": grid_nat(p["country"]), "teams": groups, "comps": comps}
     return {**entry, "em": emoji} if emoji else entry
@@ -1163,6 +1170,60 @@ def update_wordle_schedule(answers, path):
         # Ronda actual: lo usado desde la última vez que se agotaron las palabras
         cycle = set(used[len(used) - len(used) % len(pool):])
         schedule[day] = random.Random(day).choice([w for w in pool if w not in cycle])
+    return dict(sorted(schedule.items()))
+
+
+GRID_DAILY_MIN = 4          # respuestas mínimas por casilla en el reto diario
+GRID_MAX_OVERLAP = 0.9      # cruce regalado (igual que RandomGridBuilder.js)
+GRID_NO_SELF_CROSS = {"pos", "nat"}
+
+
+def grid_matches(cat, p):
+    """Igual que LoLCategoryRepository.js."""
+    return {"pos": lambda: cat["value"] in p["pos"], "nat": lambda: p["nat"] == cat["value"],
+            "team": lambda: cat["value"] in p["teams"],
+            "comp": lambda: cat["value"] in p["comps"]}[cat["type"]]()
+
+
+def update_grid_schedule(grid, categories, path):
+    """Calendario del reto diario del grid {fecha: {"cols": [ids], "rows": [ids]}}, con las
+    mismas reglas que el modo libre. Hoy y los días pasados no cambian; un día futuro
+    se recalcula si alguna casilla se ha quedado con menos de GRID_DAILY_MIN respuestas."""
+    members = {c["id"]: {p["key"] for p in grid if grid_matches(c, p)} for c in categories}
+    by_id = {c["id"]: c for c in categories}
+
+    def cell(a, b):
+        return len(members[a] & members[b])
+
+    def ok(a, b):
+        ca, cb = by_id[a], by_id[b]
+        if ca["type"] == cb["type"] and ca["type"] in GRID_NO_SELF_CROSS:
+            return False
+        small = min(len(members[a]), len(members[b]))
+        return GRID_DAILY_MIN <= cell(a, b) < GRID_MAX_OVERLAP * small
+
+    def valid(board):
+        return all(c in by_id for c in board["cols"] + board["rows"]) and \
+            all(ok(r, c) for r in board["rows"] for c in board["cols"])
+
+    schedule = {}
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as f:
+            schedule = json.load(f)
+    today = datetime.datetime.now(datetime.timezone.utc).date()
+    schedule = {d: b for d, b in schedule.items() if d <= today.isoformat() or valid(b)}
+    ids = [c["id"] for c in categories]
+    for i in range(WORDLE_SCHEDULE_DAYS + 1):
+        day = (today + datetime.timedelta(days=i)).isoformat()
+        if day in schedule:
+            continue
+        rng = random.Random("grid" + day)
+        for _ in range(2000):
+            pick = rng.sample(ids, 6)
+            board = {"cols": pick[:3], "rows": pick[3:]}
+            if valid(board):
+                schedule[day] = board
+                break
     return dict(sorted(schedule.items()))
 
 
@@ -1288,6 +1349,10 @@ def main():
         f.write("[\n" + ",\n".join("  " + json.dumps(p, ensure_ascii=False) for p in grid) + "\n]\n")
     print(f"grid -> {GRID_PATH} ({len(grid)} jugadores"
           + (f", sin datos: {', '.join(missing)}" if missing else "") + ")")
+    with open(GRID_CATEGORIES_PATH, encoding="utf-8") as f:
+        grid_schedule = update_grid_schedule(grid, json.load(f), GRID_SCHEDULE_PATH)
+    write_json(GRID_SCHEDULE_PATH, grid_schedule)
+    print(f"grid -> {GRID_SCHEDULE_PATH} (reto diario hasta {max(grid_schedule)})")
 
     history = cached(LEAGUE_HISTORY_CACHE_PATH, args.refresh, fetch_league_history)
     answers, guesses = build_wordle(history, master)

@@ -1,9 +1,22 @@
 import { EVENTS } from '../events.js';
 import { BoardState } from '../domain/BoardState.js';
-import { recordResult } from '../../../shared/auth.js';
+import { recordResult, getTodayDaily, today } from '../../../shared/auth.js';
 
+const DAILY_KEY = 'grid_daily';
+
+const store = {
+  get(k)    { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* modo privado */ } },
+};
+
+/**
+ * Partida del grid. Dos modos:
+ * - 'daily': el tablero del día (schedule.json), igual para todos. Se guarda tras cada
+ *   jugada y se recupera al volver; con cuenta, también si se jugó en otro dispositivo.
+ * - 'free':  tablero aleatorio, tantas partidas como se quiera.
+ */
 export class GameSession {
-  constructor({ bus, playerRepository, categoryRepository, winCondition, gridBuilder, normalizer, maxLives }) {
+  constructor({ bus, playerRepository, categoryRepository, winCondition, gridBuilder, normalizer, maxLives, schedule = {} }) {
     this._bus      = bus;
     this._players  = playerRepository;
     this._cats     = categoryRepository;
@@ -11,9 +24,12 @@ export class GameSession {
     this._builder  = gridBuilder;
     this._norm     = normalizer;
     this._maxLives = maxLives;
+    this._schedule = schedule;
+    this._mode     = 'daily';
     this._board    = new BoardState();
     this._config   = null;
     this._lives    = maxLives;
+    this._over     = false;
     this._active   = null;
     this._tried    = new Map();   // "r,c" → claves ya falladas en esa casilla
     this._lastRaw  = '';
@@ -26,7 +42,15 @@ export class GameSession {
     this._subscribe();
   }
 
-  start() { this._init(); }
+  get bus()  { return this._bus; }
+  get mode() { return this._mode; }
+  /** Hay tablero diario para hoy (si no, solo modo libre). */
+  get hasDaily() { return !!this._schedule[today()]; }
+
+  start(mode = this.hasDaily ? 'daily' : 'free') {
+    this._mode = mode === 'daily' && this.hasDaily ? 'daily' : 'free';
+    this._init();
+  }
 
   _subscribe() {
     this._bus.on(EVENTS.CELL_CLICKED,    p  => this._onCellClicked(p));
@@ -34,24 +58,76 @@ export class GameSession {
     this._bus.on(EVENTS.INPUT_SUBMITTED, p  => this._onInputSubmitted(p));
     this._bus.on(EVENTS.AC_SELECTED,     p  => this._onAcSelected(p));
     this._bus.on(EVENTS.MODAL_CLOSE,     () => { this._active = null; });
-    this._bus.on(EVENTS.GAME_RESET,      () => this._init());
+    // "Jugar de nuevo" tras el diario lleva al modo libre
+    this._bus.on(EVENTS.GAME_RESET,      () => this.start('free'));
   }
 
   _init() {
     const players    = this._players.getAll();
     const categories = this._cats.getPool();
-    this._config     = this._builder.build(players, categories);
+    const daily      = this._mode === 'daily' ? this._schedule[today()] : null;
+    this._config = daily
+      ? this._builder.fromIds(players, categories, daily.cols, daily.rows)
+      : this._builder.build(players, categories);
     this._board.reset();
     this._lives  = this._maxLives;
+    this._over   = false;
     this._active = null;
     this._tried.clear();
+
+    const saved = daily ? store.get(DAILY_KEY) : null;
+    if (saved?.date === today()) this._restore(saved);
+    this._emitStart();
+    if (daily && !this._over) this._syncFromAccount();
+  }
+
+  _emitStart() {
     this._bus.emit(EVENTS.GAME_STARTED, {
-      cols: this._config.cols, rows: this._config.rows, lives: this._lives,
+      cols: this._config.cols, rows: this._config.rows,
+      lives: this._lives, maxLives: this._maxLives, mode: this._mode,
+    });
+    for (const [r, c, key] of this._placed()) {
+      const p = this._players.get(key);
+      this._bus.emit(EVENTS.CELL_RESTORED, { r, c, name: p?.name ?? key, emoji: p?.em || '🎮' });
+    }
+    if (this._over) this._finish(this._won(), { restored: true });
+  }
+
+  /** Reto diario ya jugado en otro dispositivo con la misma cuenta. */
+  async _syncFromAccount() {
+    const remote = await getTodayDaily('grid');
+    if (!remote?.details?.placed || this._mode !== 'daily' || this._over) return;
+    this._board.reset();
+    this._restore({ ...remote.details, over: true });
+    this._save();
+    this._emitStart();
+  }
+
+  _restore({ placed = [], lives, tried = {}, over }) {
+    for (const [r, c, key] of placed) this._board.place(r, c, key);
+    this._lives = lives ?? this._maxLives;
+    this._tried = new Map(Object.entries(tried).map(([k, v]) => [k, new Set(v)]));
+    this._over  = !!over;
+  }
+
+  _save() {
+    if (this._mode !== 'daily') return;
+    store.set(DAILY_KEY, {
+      date: today(), placed: this._placed(), lives: this._lives, over: this._over,
+      tried: Object.fromEntries([...this._tried].map(([k, v]) => [k, [...v]])),
     });
   }
 
+  _placed() {
+    const out = [];
+    this._board.snapshot().forEach((row, r) => row.forEach((key, c) => { if (key) out.push([r, c, key]); }));
+    return out;
+  }
+
+  _won() { return this._winCond.check(this._board.snapshot()); }
+
   _onCellClicked({ r, c }) {
-    if (this._lives <= 0 || this._board.isFilled(r, c)) return;
+    if (this._over || this._board.isFilled(r, c)) return;
     this._active = { r, c };
     this._bus.emit(EVENTS.MODAL_OPEN, {
       r, c,
@@ -94,7 +170,7 @@ export class GameSession {
 
   /** Un nombre que no existe o un jugador ya colocado no cuestan vida. */
   _guess(player, raw) {
-    if (this._lives <= 0) return;
+    if (this._over) return;
     if (!player)                           return this._bus.emit(EVENTS.GUESS_REJECTED, { raw, reason: 'unknown' });
     if (this._usedKeys().has(player.key))  return this._bus.emit(EVENTS.GUESS_REJECTED, { raw: player.name, reason: 'used' });
     if (this._triedHere().has(player.key)) return this._bus.emit(EVENTS.GUESS_REJECTED, { raw: player.name, reason: 'tried' });
@@ -104,13 +180,15 @@ export class GameSession {
     } else {
       this._lives--;
       this._triedHere().add(player.key);
+      this._over = this._lives === 0;
+      this._save();
       this._bus.emit(EVENTS.GUESS_WRONG, { raw: player.name, livesLeft: this._lives });
       this._onInputChanged({ raw: this._lastRaw });   // la lista lo muestra ya como fallado
-      if (this._lives === 0) {
+      if (this._over) {
         this._record(false);
         setTimeout(() => {
           this._bus.emit(EVENTS.MODAL_CLOSE);
-          this._bus.emit(EVENTS.GAME_LOST, { reveal: this._solutions() });
+          this._finish(false);
         }, 900);
       }
     }
@@ -144,20 +222,36 @@ export class GameSession {
 
   _doPlace(r, c, player) {
     this._board.place(r, c, player.key);
+    const won = this._won();
+    this._over = won;
+    this._save();
     const count = this._board.filledCount();
     this._bus.emit(EVENTS.GUESS_CORRECT, { r, c, key: player.key, name: player.name, emoji: player.em || '🎮', filledCount: count });
     this._bus.emit(EVENTS.MODAL_CLOSE);
-    if (this._winCond.check(this._board.snapshot())) {
+    if (won) {
       this._record(true);
-      setTimeout(() => this._bus.emit(EVENTS.GAME_WON), 400);
+      setTimeout(() => this._finish(true), 400);
     }
+  }
+
+  _finish(won, extra = {}) {
+    this._bus.emit(won ? EVENTS.GAME_WON : EVENTS.GAME_LOST,
+                   { ...extra, mode: this._mode, reveal: won ? [] : this._solutions() });
+  }
+
+  /** Texto para compartir el reto diario: 🟩 acierto, ⬛ casilla vacía. */
+  shareText() {
+    const date  = today().split('-').reverse().join('/');
+    const board = this._board.snapshot().map(row => row.map(k => (k ? '🟩' : '⬛')).join('')).join('\n');
+    const lives = '❤️'.repeat(this._lives) + '🖤'.repeat(this._maxLives - this._lives);
+    return `LoL Pro Grid ${date} ${this._board.filledCount()}/9\n\n${board}\n${lives}\n\nlolprogames.com/grid`;
   }
 
   /** Historial del usuario (cuenta de Google o este navegador). Intentos = fallos. */
   _record(won) {
     recordResult({
-      game: 'grid', mode: 'free', won, attempts: this._maxLives - this._lives,
-      details: { filled: this._board.filledCount(),
+      game: 'grid', mode: this._mode, won, attempts: this._maxLives - this._lives,
+      details: { filled: this._board.filledCount(), placed: this._placed(), lives: this._lives,
                  cols: this._config.cols.map(c => c.id), rows: this._config.rows.map(c => c.id) },
     });
   }

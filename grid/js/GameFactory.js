@@ -24,10 +24,11 @@ import { ParticleSystem }          from './presentation/ParticleSystem.js';
  *     gridBuilder?,    // default: RandomGridBuilder
  *     normalizer?,     // default: LoLInputNormalizer
  *     lives?,          // default: 5
+ *     schedule?,       // reto diario {fecha: {cols, rows}} (data/schedule.json)
  *   }).start();
  */
 export class GameFactory {
-  static create({ playerRepository, categoryRepository, winCondition, gridBuilder, normalizer, lives }) {
+  static create({ playerRepository, categoryRepository, winCondition, gridBuilder, normalizer, lives, schedule }) {
     const bus = new EventBus();
 
     // Presentation — order matters only for event subscription timing (none here)
@@ -41,10 +42,13 @@ export class GameFactory {
     new LivesDisplay(bus, document.getElementById('livesRow'));
     new ModalPresenter(bus, document.getElementById('modalOverlay'), document.getElementById('playerInput'));
     new ParticleSystem(bus, document.getElementById('bgCanvas'), document.getElementById('confettiCanvas'));
-    new EndScreenPresenter(bus, document.getElementById('victoryOverlay'),  document.getElementById('btnVictoryReplay'),  EVENTS.GAME_WON);
+    const boardReplayBtn = document.getElementById('btnBoardReplay');
+    boardReplayBtn.addEventListener('click', () => bus.emit(EVENTS.GAME_RESET));
+    new EndScreenPresenter(bus, document.getElementById('victoryOverlay'), document.getElementById('btnVictoryReplay'), EVENTS.GAME_WON, {
+      viewBtn: document.getElementById('btnVictoryView'), boardReplayBtn,
+    });
     new EndScreenPresenter(bus, document.getElementById('gameoverOverlay'), document.getElementById('btnGameoverReplay'), EVENTS.GAME_LOST, {
-      viewBtn:        document.getElementById('btnGameoverView'),
-      boardReplayBtn: document.getElementById('btnBoardReplay'),
+      viewBtn: document.getElementById('btnGameoverView'), boardReplayBtn,
     });
 
     // Application — InputCoordinator holds acPresenter ref for confirmFocused()
@@ -64,6 +68,7 @@ export class GameFactory {
       gridBuilder:  gridBuilder  ?? new RandomGridBuilder(),
       normalizer:   normalizer   ?? new LoLInputNormalizer(),
       maxLives:     lives        ?? 5,
+      schedule:     schedule     ?? {},
     });
   }
 }

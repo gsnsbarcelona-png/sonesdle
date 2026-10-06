@@ -16,6 +16,7 @@ export class GridRenderer {
       const rect = this._getCell(r, c)?.getBoundingClientRect();
       if (rect) bus.emit(EVENTS.CELL_RENDERED, { rect });
     });
+    bus.on(EVENTS.CELL_RESTORED, ({ r, c, name, emoji }) => this._fillCell(r, c, name, emoji));
     // Al perder: una respuesta posible en cada casilla vacía
     bus.on(EVENTS.GAME_LOST, ({ reveal = [] } = {}) =>
       reveal.forEach(({ r, c, name, emoji }) => this._fillCell(r, c, name, emoji, 'revealed')));

@@ -6,6 +6,7 @@ export class ProgressRenderer {
     this._el = containerEl;
     bus.on(EVENTS.GAME_STARTED,  () => this._init());
     bus.on(EVENTS.GUESS_CORRECT, ({ filledCount }) => this._activate(filledCount - 1));
+    bus.on(EVENTS.CELL_RESTORED, () => this._activate(this._el.querySelectorAll('.pip.active').length));
     document.addEventListener('langchange', () => {
       const lbl = this._el.querySelector('.progress-label');
       if (lbl) lbl.textContent = t('cells');

@@ -15,7 +15,7 @@ export class ParticleSystem {
     bus.on(EVENTS.CELL_RENDERED, ({ rect }) =>
       this._cellBurst(rect.left + rect.width / 2, rect.top + rect.height / 2)
     );
-    bus.on(EVENTS.GAME_WON,   () => this._startRain());
+    bus.on(EVENTS.GAME_WON,   ({ restored } = {}) => { if (!restored) this._startRain(); });
     bus.on(EVENTS.GAME_RESET, () => this._stopRain());
     bus.on(EVENTS.GAME_LOST,  () => this._stopRain());
   }

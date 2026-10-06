@@ -11,6 +11,7 @@ export const EVENTS = Object.freeze({
   GUESS_WRONG:     'guess.wrong',
   GUESS_REJECTED:  'guess.rejected',
   CELL_RENDERED:   'cell.rendered',
+  CELL_RESTORED:   'cell.restored',   // casilla de un reto diario ya empezado (sin animación)
   GAME_STARTED:    'game.started',
   GAME_WON:        'game.won',
   GAME_LOST:       'game.lost',
