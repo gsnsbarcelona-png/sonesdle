@@ -322,6 +322,8 @@
     /* Ocultos no ocupan sitio: si no, ensanchan la página y se puede deslizar de lado */
     .col-tip::after { display: none; }
     .col-tip:hover::after { display: block; }
+    /* En una celda (edad "?" o "~"), por encima de las filas vecinas */
+    .cell.col-tip:hover { z-index: 300; }
 
   </style>
   <!-- Tailwind compilado (tools/tailwind): después de <style>, como lo inyectaba el CDN -->

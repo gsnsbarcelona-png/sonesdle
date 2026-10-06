@@ -123,6 +123,12 @@ export class GridComponent {
     const arrow = ageResult.arrow === 'up' ? '↑' : ageResult.arrow === 'down' ? '↓' : '';
     // Flecha a la derecha del número, en la misma línea
     const age = p.age == null ? '?' : `${p.ageApprox ? '~' : ''}${p.age}`;
+    // "?" (sin dato) y "~" (solo se sabe el año) se explican al pasar por encima
+    const tip = p.age == null ? t('ageUnknown') : p.ageApprox ? t('ageApprox') : null;
+    if (tip) {
+      d.classList.add('col-tip');
+      d.dataset.tip = tip;
+    }
     d.innerHTML = `<div class="cell-main">${age}${arrow ? `<span class="cell-arrow">${arrow}</span>` : ''}</div>`;
     return d;
   }
