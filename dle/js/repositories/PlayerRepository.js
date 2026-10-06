@@ -1,7 +1,11 @@
-/** Edad actual a partir de "YYYY-MM-DD" (así no se queda desfasada en el JSON). */
+/**
+ * Edad actual a partir de "YYYY-MM-DD" (así no se queda desfasada en el JSON).
+ * Con solo "YYYY" es aproximada: puede que aún no haya cumplido los de este año.
+ */
 function ageFrom(birthdate) {
   const [y, m, d] = birthdate.split('-').map(Number);
   const now = new Date();
+  if (!m) return now.getFullYear() - y;
   const hadBirthday = now.getMonth() + 1 > m || (now.getMonth() + 1 === m && now.getDate() >= d);
   return now.getFullYear() - y - (hadBirthday ? 0 : 1);
 }
@@ -19,6 +23,7 @@ class Player {
     this.titles   = data.titles;
     this.worlds   = data.worlds;
     this.age      = data.birthdate ? ageFrom(data.birthdate) : null;
+    this.ageApprox = data.birthdate?.length === 4;   // solo se sabe el año
     this.team     = data.team;
     this.freeAgent = data.free_agent ?? false;   // sin equipo hace poco: `team` es el último
     this.image    = data.image ?? null;

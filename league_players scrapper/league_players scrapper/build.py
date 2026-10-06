@@ -57,6 +57,7 @@ CHAMPIONS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_champions.json
 TEAM_TOURNAMENTS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_team_tournaments.json")
 CHAMPION_REDIRECTS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "champion_redirects.json")
 TIER2_PLAYERS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_tier2_players.json")
+BIRTH_YEARS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "birth_years.json")
 CURATED_CARRERA_PATH   = os.path.join(SCRIPT_DIR, "curated", "carrera.json")
 CURATED_GRID_PATH      = os.path.join(SCRIPT_DIR, "curated", "grid.json")
 ROSTERGUES_PATH  = os.path.join(ROOT, "rostergues", "js", "data", "rosters.js")
@@ -501,6 +502,32 @@ def fetch_tier2_players():
             players[row["OverviewPage"]] = row
     print()
     return players
+
+
+def fetch_birth_years(pages):
+    """{página: "2006"} de jugadores sin fecha completa en Cargo: algunas fichas solo
+    tienen el año (|birth_date_year=), que Cargo no guarda como Birthdate."""
+    session = requests.Session()
+    years = {}
+    pages = sorted(set(pages))
+    for i in range(0, len(pages), 50):
+        time.sleep(CARGO_DELAY)
+        r = session.get(API_URL, headers=HEADERS, timeout=60, params={
+            "action": "query", "prop": "revisions", "rvprop": "content", "rvslots": "main",
+            "titles": "|".join(pages[i:i + 50]), "redirects": 1, "format": "json",
+        })
+        r.raise_for_status()
+        query = r.json()["query"]
+        # La respuesta usa el título final: se vuelve al pedido (redirecciones y normalizaciones)
+        back = {}
+        for step in query.get("normalized", []) + query.get("redirects", []):
+            back[step["to"]] = back.get(step["from"], step["from"])
+        for pg in query["pages"].values():
+            text = (pg.get("revisions") or [{}])[0].get("slots", {}).get("main", {}).get("*", "")
+            m = re.search(r"^\|\s*birth_date_year\s*=\s*(\d{4})\s*$", text, re.MULTILINE)
+            if m:
+                years[back.get(pg["title"], pg["title"])] = m.group(1)
+    return years
 
 
 def fetch_aliases(pages):
@@ -959,7 +986,7 @@ def display_names(master):
             for p in master]
 
 
-def build_dle(master):
+def build_dle(master, birth_years):
     """Jugadores de main.py en activo o agentes libres desde hace menos de
     RECENT_FREE_AGENT_DAYS (con su último equipo): todos tienen equipo que comparar.
     `tier` dice si su liga actual es tier 1 (reto diario) o inferior (modo libre).
@@ -978,7 +1005,8 @@ def build_dle(master):
             "position":  p["positions"],
             "titles":    bool(p["titles"]),   # ha ganado una liga regional (tier 1 o 2)
             "worlds":    bool(p["achievements"]["worlds"] or p["achievements"]["msi"]),
-            "birthdate": p["birthdate"],
+            # "YYYY-MM-DD", o solo "YYYY" si la ficha no tiene más (edad aproximada)
+            "birthdate": p["birthdate"] or birth_years.get(p["page"]),
             "team":      p["game_team"],
             "free_agent": p["status"] == "free_agent",   # sigue con su último equipo
         })
@@ -1393,7 +1421,10 @@ def main():
                              "players": master})
     print(f"Maestro -> {MASTER_PATH}")
 
-    dle = build_dle(master)
+    no_birthdate = [m["page"] for m in master if m["game_team"] and not m["birthdate"] and m["page"]]
+    birth_years = cached_by_key(BIRTH_YEARS_CACHE_PATH, args.refresh, no_birthdate,
+                                fetch_birth_years)
+    dle = build_dle(master, birth_years)
     with open(DLE_PATH, "w", encoding="utf-8") as f:   # un jugador por línea: pesa menos
         f.write('{"players": [\n' + ",\n".join(json.dumps(p, ensure_ascii=False) for p in dle)
                 + "\n]}\n")

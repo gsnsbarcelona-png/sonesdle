@@ -122,7 +122,8 @@ export class GridComponent {
     const d = this.#baseCell(ageResult.status);
     const arrow = ageResult.arrow === 'up' ? '↑' : ageResult.arrow === 'down' ? '↓' : '';
     // Flecha a la derecha del número, en la misma línea
-    d.innerHTML = `<div class="cell-main">${p.age ?? '?'}${arrow ? `<span class="cell-arrow">${arrow}</span>` : ''}</div>`;
+    const age = p.age == null ? '?' : `${p.ageApprox ? '~' : ''}${p.age}`;
+    d.innerHTML = `<div class="cell-main">${age}${arrow ? `<span class="cell-arrow">${arrow}</span>` : ''}</div>`;
     return d;
   }
 
