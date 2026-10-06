@@ -7,7 +7,12 @@ on:
     # Justo después de medianoche UTC: el reto diario del dle depende de los
     # datos, así que conviene que cambien al empezar el día y no a mitad.
     - cron: "10 0 * * *"
-  workflow_dispatch: {}   # también se puede lanzar a mano desde la pestaña Actions
+  workflow_dispatch:      # también se puede lanzar a mano desde la pestaña Actions
+    inputs:
+      full:
+        description: "Descargarlo todo de nuevo (si no, solo lo que ha cambiado)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -19,7 +24,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 150   # una descarga completa tarda bastante más que la diaria
     steps:
       - uses: actions/checkout@v7
 
@@ -30,9 +35,19 @@ jobs:
       - name: Instalar dependencias
         run: pip install requests beautifulsoup4
 
+      # Caché de Leaguepedia entre ejecuciones: así cada día solo se descarga lo que
+      # ha cambiado. Si se pierde (GitHub la borra tras 7 días sin usarse), build.py
+      # lo descarga todo de nuevo.
+      - name: Recuperar caché de Leaguepedia
+        uses: actions/cache@v4
+        with:
+          path: league_players scrapper/league_players scrapper/cache
+          key: leaguepedia-${{ github.run_id }}
+          restore-keys: leaguepedia-
+
       - name: Generar datos
         working-directory: league_players scrapper/league_players scrapper
-        run: python build.py --refresh
+        run: python build.py ${{ inputs.full && '--refresh' || '' }}
 
       - name: Commit si hay cambios
         run: |

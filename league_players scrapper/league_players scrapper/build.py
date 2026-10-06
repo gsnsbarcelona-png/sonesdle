@@ -19,9 +19,18 @@ Lo único escrito a mano está en curated/: qué jugadores salen en carrera
 El dle recibe a los jugadores de main.py en activo, con la liga exacta de su
 equipo, su tier (1 = liga con plaza a Worlds) y su región.
 
+Lo único escrito a mano sobre los datos de un jugador está en curated/player_fixes.json
+(nombre real, país o fecha de nacimiento que falten o estén mal en Leaguepedia).
+
 Uso:
-    python build.py             # usa la caché de Cargo si tiene < 24 h
-    python build.py --refresh   # vuelve a descargar Cargo
+    python build.py             # solo descarga lo que ha cambiado desde la última vez
+    python build.py --refresh   # lo descarga todo de nuevo
+
+La actualización es incremental: cache/sync_state.json guarda cuándo fue la última, y
+fetch_changes() pregunta a Leaguepedia qué páginas se han editado desde entonces y qué
+fichajes ha habido; solo eso se vuelve a descargar. Además, cada dato caduca por su
+cuenta (REFRESH_DAYS, STABLE_REFRESH_DAYS), así que cada día se renueva una parte por
+si algún cambio no se detecta. Sin cache/ (o si hace > 80 días) se descarga todo.
 """
 import argparse
 import datetime
@@ -32,6 +41,7 @@ import random
 import re
 import time
 import unicodedata
+import zlib
 from collections import Counter, defaultdict
 from urllib.parse import unquote
 
@@ -58,6 +68,9 @@ TEAM_TOURNAMENTS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_team_tour
 CHAMPION_REDIRECTS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "champion_redirects.json")
 TIER2_PLAYERS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_tier2_players.json")
 BIRTH_YEARS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "birth_years.json")
+TIER2_TEAMS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_tier2_teams.json")
+SYNC_STATE_PATH          = os.path.join(SCRIPT_DIR, "cache", "sync_state.json")
+PLAYER_FIXES_PATH        = os.path.join(SCRIPT_DIR, "curated", "player_fixes.json")
 CURATED_CARRERA_PATH   = os.path.join(SCRIPT_DIR, "curated", "carrera.json")
 CURATED_GRID_PATH      = os.path.join(SCRIPT_DIR, "curated", "grid.json")
 ROSTERGUES_PATH  = os.path.join(ROOT, "rostergues", "js", "data", "rosters.js")
@@ -73,7 +86,13 @@ CARGO_URL   = "https://lol.fandom.com/wiki/Special:CargoExport"
 API_URL     = "https://lol.fandom.com/api.php"
 CARGO_BATCH = 100
 CARGO_DELAY = 1.5
-CACHE_TTL   = 24 * 3600
+# Actualización incremental: cada día se mira qué ha cambiado en Leaguepedia
+# (fetch_changes) y solo se descarga eso; además, cada dato se renueva por tandas
+# como mucho cada REFRESH_DAYS, por si algún cambio no se detecta.
+REFRESH_DAYS        = 7    # equipos, torneos, títulos, etapas
+STABLE_REFRESH_DAYS = 30   # datos propios del jugador (nombre, país, nacimiento)
+ROSTER_CHANGES_DAYS = 30   # fichajes que se miran (a veces se apuntan con fecha pasada)
+RECENT_CHANGES_MAX_DAYS = 80   # la wiki guarda ~90 días de cambios: si no, todo de nuevo
 HEADERS     = {"User-Agent": "sonesdle-scraper (build)"}
 
 FREE_AGENT   = "Free Agent"
@@ -314,25 +333,40 @@ def cargo_query(session, field, values, table="Players", fields=PLAYER_FIELDS):
     return rows
 
 
-def cached_by_key(path, refresh, keys, fetch):
-    """Como `cached`, pero por claves: `fetch(claves)` devuelve {clave: datos} y
-    solo se descargan las claves que no estaban en la caché (p. ej. al añadir
-    un jugador a curated/). Las claves sin datos también se recuerdan."""
+def expired(key, fetched_at, max_days):
+    """Cada clave caduca entre max_days/2 y max_days según su hash, para que no
+    se renueven todas el mismo día (cada día se descarga solo una parte)."""
+    spread = 0.5 + (zlib.crc32(key.encode("utf-8")) % 1000) / 2000
+    return time.time() - fetched_at > max_days * 86400 * spread
+
+
+def cached_by_key(path, refresh, keys, fetch, max_days=REFRESH_DAYS, stale=()):
+    """Como `cached`, pero por claves: `fetch(claves)` devuelve {clave: datos}.
+    Se descargan solo las claves nuevas, las que han caducado (`expired`) y las de
+    `stale` (han cambiado en Leaguepedia; sin distinguir mayúsculas). Las claves
+    sin datos también se recuerdan."""
     keys = {str(k) for k in keys}
-    cache = {"fetched_at": time.time(), "keys": [], "data": {}}
+    cache = {"keys": {}, "data": {}}
     if not refresh and os.path.exists(path):
         with open(path, encoding="utf-8") as f:
             stored = json.load(f)
-        if "keys" in stored and time.time() - stored["fetched_at"] < CACHE_TTL:
+        if isinstance(stored.get("keys"), list):   # formato antiguo: una fecha para todas
+            stored["keys"] = dict.fromkeys(stored["keys"], stored["fetched_at"])
+        if isinstance(stored.get("keys"), dict):
             cache = stored
-    missing = keys - set(cache["keys"])
-    if missing:
-        cache["data"].update(fetch(sorted(missing)))
-        cache["keys"] = sorted(set(cache["keys"]) | missing)
+    stale = {s.lower() for s in stale}
+    todo = sorted(k for k in keys if k not in cache["keys"] or k.lower() in stale
+                  or expired(k, cache["keys"][k], max_days))
+    if todo:
+        fresh = fetch(todo)
+        for k in todo:   # lo que ya no está en Leaguepedia se borra
+            cache["data"].pop(k, None)
+        cache["data"].update(fresh)
+        cache["keys"].update(dict.fromkeys(todo, time.time()))
         os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, "w", encoding="utf-8") as f:
             json.dump(cache, f, ensure_ascii=False)
-    return cache["data"]
+    return {k: cache["data"][k] for k in keys if k in cache["data"]}
 
 
 def group_by_page(by_alias, alias_page):
@@ -345,12 +379,12 @@ def group_by_page(by_alias, alias_page):
     return {page: list(rows.values()) for page, rows in grouped.items()}
 
 
-def cached(path, refresh, fn):
-    """Resultado de fn(), guardado en `path` durante CACHE_TTL."""
+def cached(path, refresh, fn, max_days=1):
+    """Resultado de fn(), guardado en `path` durante `max_days` días."""
     if not refresh and os.path.exists(path):
         with open(path, encoding="utf-8") as f:
             cache = json.load(f)
-        if time.time() - cache["fetched_at"] < CACHE_TTL:
+        if time.time() - cache["fetched_at"] < max_days * 86400 - 3600:   # margen: el cron no cae a la misma hora exacta
             return cache["data"]
     data = fn()
     os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -466,10 +500,10 @@ def fetch_team_tournaments(teams):
             for team in teams}
 
 
-def fetch_tier2_players():
-    """{página: fila de Players} de los jugadores actuales de equipos que han jugado
-    una liga tier 2 en LEAGUE_YEARS (LFL, NACL, LCK CL...). main.py solo trae a
-    quien ha pasado por una liga tier 1; estos completan el modo libre del dle."""
+def fetch_tier2_teams():
+    """Equipos que han jugado una liga tier 2 en LEAGUE_YEARS (LFL, NACL, LCK CL...).
+    main.py solo trae a quien ha pasado por una liga tier 1; sus jugadores actuales
+    completan el modo libre del dle."""
     session = requests.Session()
     years = ",".join(cargo_quote(y) for y in LEAGUE_YEARS)
     rows, offset = [], 0
@@ -489,19 +523,104 @@ def fetch_tier2_players():
         offset += 5000
         if len(batch) < 5000:
             break
-    teams = sorted({str(row["Team"]) for row in rows if row.get("Team")
-                    and (league := classify_league(
-                        html.unescape(row["Name"]),
-                        {"League Short": row.get("League Short"), "Region": row.get("Region"),
-                         "IsOfficial": row.get("IsOfficial")}))
-                    and league[1] == 2})
-    players = {}
-    for i in range(0, len(teams), 30):   # ~10 filas por equipo (con staff): < 500 por consulta
-        print(f"\r  Tier 2 [{min(i + 30, len(teams))}/{len(teams)} equipos]", end="", flush=True)
+    return sorted({str(row["Team"]) for row in rows if row.get("Team")
+                   and (league := classify_league(
+                       html.unescape(row["Name"]),
+                       {"League Short": row.get("League Short"), "Region": row.get("Region"),
+                        "IsOfficial": row.get("IsOfficial")}))
+                   and league[1] == 2})
+
+
+def fetch_team_players(teams):
+    """{equipo: [filas de Players]} de quien está ahora en cada equipo (staff incluido)."""
+    session = requests.Session()
+    players = {team: [] for team in teams}
+    for i in range(0, len(teams), 30):   # ~10 filas por equipo: < 500 por consulta
+        print(f"\r  Plantillas [{min(i + 30, len(teams))}/{len(teams)} equipos]", end="", flush=True)
         for row in cargo_query(session, "Team", teams[i:i + 30]):
-            players[row["OverviewPage"]] = row
+            if row.get("Team") in players:
+                players[row["Team"]].append(row)
     print()
     return players
+
+
+def fetch_roster_changes():
+    """[[id, jugador, equipo]] de los fichajes de los últimos ROSTER_CHANGES_DAYS."""
+    time.sleep(CARGO_DELAY)
+    since = (datetime.date.today() - datetime.timedelta(days=ROSTER_CHANGES_DAYS)).isoformat()
+    r = requests.get(CARGO_URL, headers=HEADERS, timeout=60, params={
+        "tables": "RosterChanges", "fields": "RosterChangeId,Player,Team",
+        "where": f'Date_Sort >= "{since}"', "format": "json", "limit": 5000,
+    })
+    r.raise_for_status()
+    return [[str(m["RosterChangeId"]), html.unescape(str(m.get("Player") or "")),
+             html.unescape(str(m.get("Team") or ""))] for m in r.json()]
+
+
+def fetch_changes(since, moves):
+    """Qué ha cambiado en Leaguepedia desde `since` (ISO, UTC):
+      pages:    páginas editadas, creadas o trasladadas (fichas de jugador, equipos...)
+      players:  jugadores de los fichajes nuevos (`moves`: los que aún no se habían visto)
+      teams:    equipos de esos fichajes, y los de los torneos editados
+      majors:   jugadores de torneos editados de LCK, LPL, LEC o LCS
+      winners:  jugadores de los equipos ganadores de los torneos editados"""
+    session = requests.Session()
+    pages, params = set(), {
+        "action": "query", "list": "recentchanges", "rcnamespace": "0", "rcend": since,
+        "rcprop": "title|loginfo", "rctype": "edit|new|log", "rclimit": "500", "format": "json",
+    }
+    while True:
+        time.sleep(CARGO_DELAY)
+        r = session.get(API_URL, headers=HEADERS, timeout=60, params=params)
+        r.raise_for_status()
+        data = r.json()
+        for rc in data.get("query", {}).get("recentchanges", []):
+            pages.add(rc["title"])
+            target = (rc.get("logparams") or {}).get("target_title")
+            if target:   # traslado: también la página nueva
+                pages.add(target)
+        if "continue" not in data:
+            break
+        params.update(data["continue"])
+
+    players = {player for _, player, _ in moves if player}
+    teams = {team for _, _, team in moves if team}
+
+    # Torneos editados: de "LFL/2026 Season/Summer Playoffs/Scoreboards/Week 1" se
+    # prueban todos los prefijos ("LFL/2026 Season/Summer Playoffs" es el torneo)
+    prefixes = sorted({t.rsplit("/", n)[0] for t in pages if "/" in t
+                       for n in range(1, t.count("/") + 1)} | {t for t in pages if "/" in t})
+    major_names = {n for names in MAJOR_LEAGUES.values() for n in names}
+    majors, winners = set(), set()
+    for i in range(0, len(prefixes), 40):
+        batch = ",".join(cargo_quote(p) for p in prefixes[i:i + 40])
+        time.sleep(CARGO_DELAY)
+        r = session.get(CARGO_URL, headers=HEADERS, timeout=60, params={
+            "tables": "TournamentPlayers=TP,Tournaments=T",
+            "join_on": "TP.OverviewPage=T.OverviewPage",
+            "fields": "TP.Link=Link,TP.Team=Team,T.League=League",
+            "where": f"TP.OverviewPage IN ({batch})", "format": "json", "limit": 5000,
+        })
+        r.raise_for_status()
+        for row in r.json():
+            if row.get("Team"):
+                teams.add(html.unescape(str(row["Team"])))
+            if row.get("Link") and row.get("League") in major_names:
+                majors.add(html.unescape(str(row["Link"])))
+        time.sleep(CARGO_DELAY)
+        r = session.get(CARGO_URL, headers=HEADERS, timeout=60, params={
+            "tables": "TournamentResults=TR,TournamentPlayers=TP",
+            "join_on": "TR.OverviewPage=TP.OverviewPage,TR.Team=TP.Team",
+            "fields": "TP.Link=Link",
+            "where": f'TR.Place = "1" AND TR.OverviewPage IN ({batch})',
+            "format": "json", "limit": 5000,
+        })
+        r.raise_for_status()
+        winners |= {html.unescape(str(row["Link"])) for row in r.json() if row.get("Link")}
+    print(f"  Cambios: {len(pages)} páginas editadas, {len(moves)} fichajes, "
+          f"{len(teams)} equipos, {len(winners)} jugadores de equipos campeones")
+    return {"pages": pages, "players": players, "teams": teams,
+            "majors": majors, "winners": winners}
 
 
 def fetch_birth_years(pages):
@@ -959,6 +1078,28 @@ def master_entry(page, cargo, scraped, ctx):
     }
 
 
+FIXABLE_FIELDS = ("real", "country", "birthdate")
+
+
+def apply_player_fixes(master):
+    """Datos corregidos a mano en curated/player_fixes.json ({página: {campo: valor}}):
+    ganan siempre a Leaguepedia, así no se pierden al actualizar."""
+    if not os.path.exists(PLAYER_FIXES_PATH):
+        return
+    with open(PLAYER_FIXES_PATH, encoding="utf-8") as f:
+        fixes = json.load(f)["players"]
+    by_page = {m["page"]: m for m in master if m["page"]}
+    for page, fields in fixes.items():
+        if page not in by_page:
+            print(f"  ! player_fixes: no hay ningún jugador con la página {page!r}")
+            continue
+        for field, value in fields.items():
+            if field in FIXABLE_FIELDS:
+                by_page[page][field] = value
+            else:
+                print(f"  ! player_fixes: {page}: el campo {field!r} no se puede corregir")
+
+
 def current_page(page, cargo_rows):
     """Página actual del jugador según Cargo (main.py guarda la de cuando scrapeó)."""
     row = cargo_rows.get(page) if page else None
@@ -1327,8 +1468,32 @@ def write_json(path, data):
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--refresh", action="store_true", help="vuelve a descargar Cargo")
+    ap.add_argument("--refresh", action="store_true",
+                    help="lo descarga todo de nuevo (sin --refresh, solo lo que ha cambiado)")
     args = ap.parse_args()
+
+    # ¿Qué ha cambiado desde la última vez? Sin estado (primera vez, caché perdida)
+    # o si hace demasiado, se descarga todo.
+    started = datetime.datetime.now(datetime.timezone.utc)
+    state = {}
+    if os.path.exists(SYNC_STATE_PATH):
+        with open(SYNC_STATE_PATH, encoding="utf-8") as f:
+            state = json.load(f)
+    last_sync = state.get("last_sync")
+    refresh = args.refresh or not last_sync or (
+        started - datetime.datetime.fromisoformat(last_sync.replace("Z", "+00:00"))
+        > datetime.timedelta(days=RECENT_CHANGES_MAX_DAYS))
+    # Fichajes: se recuerdan los ya vistos (la ventana de días se solapa de un día a otro)
+    moves = fetch_roster_changes()
+    seen_moves = set(state.get("roster_changes", []))
+    if refresh:
+        print("Descarga completa")
+        changes = {"pages": set(), "players": set(), "teams": set(),
+                   "majors": set(), "winners": set()}
+    else:
+        print(f"Cambios desde {last_sync}")
+        changes = fetch_changes(last_sync, [m for m in moves if m[0] not in seen_moves])
+    changed_pages = changes["pages"] | changes["players"]
 
     with open(SCRAPED_PATH, encoding="utf-8") as f:
         scraped = json.load(f)["players"]
@@ -1340,13 +1505,17 @@ def main():
     print(f"{sum(p is not None for p in pages)}/{len(pages)} jugadores asociados a su página")
 
     entries = [(page, r["id"], r.get("nombre_real", "")) for r, page in zip(scraped, pages) if page]
-    cargo_rows = cached(CARGO_CACHE_PATH, args.refresh, lambda: fetch_players(entries))
+    cargo_rows = cached_by_key(
+        CARGO_CACHE_PATH, refresh, [e[0] for e in entries],
+        lambda ks: fetch_players([e for e in entries if e[0] in set(ks)]),
+        STABLE_REFRESH_DAYS, changed_pages)
 
     # Jugadores de rostergues, carrera y grid que no son tier 1
     with open(ROSTERS_PATH, encoding="utf-8") as f:
         rosters = json.load(f)
     roster_pages = {p["page"] for r in rosters for p in r["players"] if p.get("page")}
-    canonical = cached_by_key(REDIRECTS_CACHE_PATH, args.refresh, roster_pages, resolve_redirects)
+    canonical = cached_by_key(REDIRECTS_CACHE_PATH, refresh, roster_pages, resolve_redirects,
+                              STABLE_REFRESH_DAYS, changes["pages"])
     rosters = assign_roster_pages(rosters, canonical)
     with open(CURATED_CARRERA_PATH, encoding="utf-8") as f:
         curated_carrera = json.load(f)
@@ -1357,40 +1526,51 @@ def main():
                      for r in rosters for p in r["players"] if p.get("page")}
     extra_entries |= {(c["page"], c["page"], "") for c in curated_carrera + curated_grid}
     extra_entries = sorted(e for e in extra_entries if e[0] not in cargo_rows)
-    extra = cached_by_key(EXTRA_CARGO_CACHE_PATH, args.refresh, [e[0] for e in extra_entries],
-                          lambda ks: fetch_players([e for e in extra_entries if e[0] in set(ks)]))
+    extra = cached_by_key(EXTRA_CARGO_CACHE_PATH, refresh, [e[0] for e in extra_entries],
+                          lambda ks: fetch_players([e for e in extra_entries if e[0] in set(ks)]),
+                          STABLE_REFRESH_DAYS, changed_pages)
     cargo_rows = {**extra, **cargo_rows}
     extra_pages = [e[0] for e in extra_entries]
     # Plantillas actuales de las ligas tier 2, para el modo libre del dle
-    tier2 = cached(TIER2_PLAYERS_CACHE_PATH, args.refresh, fetch_tier2_players)
+    tier2_teams = cached(TIER2_TEAMS_CACHE_PATH, refresh, fetch_tier2_teams)
+    team_players = cached_by_key(TIER2_PLAYERS_CACHE_PATH, refresh, tier2_teams,
+                                 fetch_team_players, REFRESH_DAYS, changes["teams"])
+    tier2 = {row["OverviewPage"]: row for rows in team_players.values() for row in rows}
     cargo_rows = {**tier2, **cargo_rows}
     extra_pages += [p for p in tier2 if p not in extra_pages]
 
     # Página actual de cada jugador (la de main.py puede haberse renombrado)
     all_pages = sorted({current_page(p, cargo_rows) for p in pages + extra_pages if p})
-    aliases_by_page = cached_by_key(ALIASES_CACHE_PATH, args.refresh, all_pages, fetch_aliases)
+    aliases_by_page = cached_by_key(ALIASES_CACHE_PATH, refresh, all_pages, fetch_aliases,
+                                    STABLE_REFRESH_DAYS, changed_pages)
     alias_page = alias_to_page(aliases_by_page)
+    # Alias de los jugadores que han cambiado (las tablas de torneos usan alias)
+    changed_lower = {p.lower() for p in changed_pages}
+    changed_aliases = {a for page, aliases in aliases_by_page.items()
+                       if page.lower() in changed_lower for a in aliases} | changed_lower
     tenures = group_by_page(
-        cached_by_key(TENURES_CACHE_PATH, args.refresh, alias_page, fetch_tenures), alias_page)
+        cached_by_key(TENURES_CACHE_PATH, refresh, alias_page, fetch_tenures,
+                      REFRESH_DAYS, changed_aliases), alias_page)
     for ts in tenures.values():
         ts.sort(key=lambda t: t["from"] or "")
     won_titles = group_by_page(
-        cached_by_key(LEAGUE_TITLES_CACHE_PATH, args.refresh, alias_page, fetch_league_titles),
-        alias_page)
+        cached_by_key(LEAGUE_TITLES_CACHE_PATH, refresh, alias_page, fetch_league_titles,
+                      REFRESH_DAYS, changes["winners"]), alias_page)
     major_leagues = group_by_page(
-        cached_by_key(MAJOR_LEAGUES_CACHE_PATH, args.refresh, alias_page, fetch_major_leagues),
-        alias_page)
+        cached_by_key(MAJOR_LEAGUES_CACHE_PATH, refresh, alias_page, fetch_major_leagues,
+                      REFRESH_DAYS, changes["majors"]), alias_page)
     title_leagues = {league for ts in won_titles.values() for league, _, _ in ts}
-    league_info = cached_by_key(LEAGUE_INFO_CACHE_PATH, args.refresh, title_leagues,
-                                fetch_league_info)
+    league_info = cached_by_key(LEAGUE_INFO_CACHE_PATH, refresh, title_leagues,
+                                fetch_league_info, STABLE_REFRESH_DAYS)
     teams = sorted({row["Team"] for row in cargo_rows.values() if row.get("Team")}
                    | {t["team"] for ts in tenures.values() for t in ts if t["team"]})
-    team_regions = cached_by_key(TEAMS_CACHE_PATH, args.refresh, teams, fetch_team_regions)
+    team_regions = cached_by_key(TEAMS_CACHE_PATH, refresh, teams, fetch_team_regions,
+                                 STABLE_REFRESH_DAYS, changes["pages"])
 
     # Campeones de Worlds/MSI, con el enlace de cada jugador llevado a su página actual
-    champions = cached(CHAMPIONS_CACHE_PATH, args.refresh, fetch_champions)
-    champion_pages = cached(CHAMPION_REDIRECTS_CACHE_PATH, args.refresh,
-                            lambda: resolve_redirects(champions))
+    champions = cached(CHAMPIONS_CACHE_PATH, refresh, fetch_champions, REFRESH_DAYS)
+    champion_pages = cached_by_key(CHAMPION_REDIRECTS_CACHE_PATH, refresh, champions,
+                                   resolve_redirects, STABLE_REFRESH_DAYS, changes["pages"])
     achievements = {}
     for link, won in champions.items():
         page = champion_pages.get(link, link)
@@ -1403,14 +1583,15 @@ def main():
     teams_needed = {row["Team"] for row in cargo_rows.values() if row.get("Team")}
     teams_needed |= {t["team"] for ts in tenures.values() for t in ts
                      if t["to"] and t["to"] >= cutoff and t["team"]}
-    team_tournaments = cached_by_key(TEAM_TOURNAMENTS_CACHE_PATH, args.refresh, teams_needed,
-                                     fetch_team_tournaments)
+    team_tournaments = cached_by_key(TEAM_TOURNAMENTS_CACHE_PATH, refresh, teams_needed,
+                                     fetch_team_tournaments, REFRESH_DAYS, changes["teams"])
 
     ctx = {"tenures": tenures, "team_regions": team_regions,
            "team_tournaments": team_tournaments, "achievements": achievements,
            "league_titles": won_titles, "league_info": league_info,
            "major_leagues": major_leagues}
     master = build_master(scraped, pages, cargo_rows, extra_pages, ctx)
+    apply_player_fixes(master)
     missing = [m["id"] for m in master if m["status"] == "unknown"]
     print(f"{len(master) - len(missing)}/{len(master)} con datos de Cargo"
           + (f" (sin datos: {', '.join(missing[:10])})" if missing else ""))
@@ -1422,8 +1603,8 @@ def main():
     print(f"Maestro -> {MASTER_PATH}")
 
     no_birthdate = [m["page"] for m in master if m["game_team"] and not m["birthdate"] and m["page"]]
-    birth_years = cached_by_key(BIRTH_YEARS_CACHE_PATH, args.refresh, no_birthdate,
-                                fetch_birth_years)
+    birth_years = cached_by_key(BIRTH_YEARS_CACHE_PATH, refresh, no_birthdate,
+                                fetch_birth_years, STABLE_REFRESH_DAYS, changes["pages"])
     dle = build_dle(master, birth_years)
     with open(DLE_PATH, "w", encoding="utf-8") as f:   # un jugador por línea: pesa menos
         f.write('{"players": [\n' + ",\n".join(json.dumps(p, ensure_ascii=False) for p in dle)
@@ -1454,7 +1635,7 @@ def main():
     write_json(GRID_SCHEDULE_PATH, grid_schedule)
     print(f"grid -> {GRID_SCHEDULE_PATH} (reto diario hasta {max(grid_schedule)})")
 
-    history = cached(LEAGUE_HISTORY_CACHE_PATH, args.refresh, fetch_league_history)
+    history = cached(LEAGUE_HISTORY_CACHE_PATH, refresh, fetch_league_history, REFRESH_DAYS)
     answers, guesses = build_wordle(history, master)
     schedule = update_wordle_schedule(answers, WORDLE_SCHEDULE_PATH)
     os.makedirs(os.path.dirname(WORDLE_WORDS_PATH), exist_ok=True)
@@ -1466,6 +1647,11 @@ def main():
     print(f"wordle -> {WORDLE_WORDS_PATH} ({len(answers)} respuestas, para el diario "
           f"{dict(sorted(daily.items()))} por largo, {len(guesses)} intentos válidos; "
           f"calendario hasta {max(schedule)})")
+
+    # Solo si todo ha ido bien: la próxima vez se miran los cambios desde aquí
+    write_json(SYNC_STATE_PATH, {"last_sync": started.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                                 "full": bool(refresh),
+                                 "roster_changes": sorted(m[0] for m in moves)})
 
 
 if __name__ == "__main__":

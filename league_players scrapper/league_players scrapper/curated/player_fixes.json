@@ -1,0 +1,5 @@
+{
+  "_info": "Datos de jugadores corregidos a mano. Ganan siempre a Leaguepedia y no se pierden al actualizar. Clave: la página del jugador en Leaguepedia (como en la URL, con espacios). Campos: real (nombre real), country (en inglés, como Leaguepedia: 'Spain', 'South Korea'), birthdate ('YYYY-MM-DD', o solo 'YYYY' si solo se sabe el año). Ejemplo: \"Deleted\": {\"birthdate\": \"2004\"}",
+  "players": {
+  }
+}
