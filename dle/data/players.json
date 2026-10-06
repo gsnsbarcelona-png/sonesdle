@@ -2160,23 +2160,6 @@
       "free_agent": false
     },
     {
-      "name": "Oscure",
-      "real": "Víctor Guzmán Fernández",
-      "country": "Spain",
-      "flag": "🇪🇸",
-      "league": "LES",
-      "tier": 2,
-      "region": "EMEA",
-      "position": [
-        "Support"
-      ],
-      "titles": false,
-      "worlds": false,
-      "birthdate": "2000-04-30",
-      "team": "Barça eSports",
-      "free_agent": false
-    },
-    {
       "name": "Owpi",
       "real": "Mimi Effraimidi",
       "country": "Greece",
@@ -3008,23 +2991,6 @@
       "birthdate": "2005-08-12",
       "team": "Fnatic",
       "free_agent": false
-    },
-    {
-      "name": "Void",
-      "real": "Mark Legrand",
-      "country": "Belgium",
-      "flag": "🇧🇪",
-      "league": "ROL",
-      "tier": 2,
-      "region": "EMEA",
-      "position": [
-        "ADC"
-      ],
-      "titles": false,
-      "worlds": false,
-      "birthdate": "2003-03-06",
-      "team": "Dynasty",
-      "free_agent": true
     },
     {
       "name": "Woolite",
