@@ -4,7 +4,6 @@ import { LoLCategoryRepository }  from './repositories/LoLCategoryRepository.js'
 import { EVENTS }                 from './events.js';
 import { mountSwitcher, applyStaticTranslations, getLang } from '../../shared/lang.js';
 import { mountGameNav } from '../../shared/nav.js';
-import { unlockGate } from '../../shared/js/beta.js';
 
 // ── Traducciones estáticas del HTML ─────────────────────────
 const STATIC = {
@@ -36,8 +35,6 @@ mountGameNav();
 applyStaticTranslations(STATIC);
 
 // ── Carga de datos e inicio del juego ────────────────────────
-await unlockGate();   // en pruebas: ver shared/js/beta.js
-
 const [players, categories, schedule] = await Promise.all([
   fetch('./data/players.json').then(r => r.json()),
   fetch('./data/categories.json').then(r => r.json()),

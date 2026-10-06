@@ -1,7 +1,7 @@
 import { getLang } from '../lang.js';
 
 /**
- * Acceso con código beta para los juegos en pruebas (grid, wordle).
+ * Acceso con código beta para los juegos en pruebas (ahora solo el wordle).
  * No es seguridad real (todo se ejecuta en el navegador); solo evita que se juegue sin querer.
  * Para abrir un juego al público: quitar `await unlockGate()` de su main.js.
  * Necesita los estilos .overlay / .modal-card / .modal-input / .btn-confirm del juego.
