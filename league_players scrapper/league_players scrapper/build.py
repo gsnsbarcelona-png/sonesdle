@@ -56,6 +56,7 @@ MAJOR_LEAGUES_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_major_league
 CHAMPIONS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_champions.json")
 TEAM_TOURNAMENTS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_team_tournaments.json")
 CHAMPION_REDIRECTS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "champion_redirects.json")
+TIER2_PLAYERS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_tier2_players.json")
 CURATED_CARRERA_PATH   = os.path.join(SCRIPT_DIR, "curated", "carrera.json")
 CURATED_GRID_PATH      = os.path.join(SCRIPT_DIR, "curated", "grid.json")
 ROSTERGUES_PATH  = os.path.join(ROOT, "rostergues", "js", "data", "rosters.js")
@@ -462,6 +463,44 @@ def fetch_team_tournaments(teams):
     # Todos los equipos pedidos, aunque no tengan torneos (así la caché sabe que ya se miraron)
     return {team: [[league, info.get(league), date] for league, date in result.get(team, [])]
             for team in teams}
+
+
+def fetch_tier2_players():
+    """{página: fila de Players} de los jugadores actuales de equipos que han jugado
+    una liga tier 2 en LEAGUE_YEARS (LFL, NACL, LCK CL...). main.py solo trae a
+    quien ha pasado por una liga tier 1; estos completan el modo libre del dle."""
+    session = requests.Session()
+    years = ",".join(cargo_quote(y) for y in LEAGUE_YEARS)
+    rows, offset = [], 0
+    while True:
+        time.sleep(CARGO_DELAY)
+        r = session.get(CARGO_URL, headers=HEADERS, timeout=90, params={
+            "tables": "TournamentRosters=TR,Tournaments=T,Leagues=L",
+            "join_on": "TR.OverviewPage=T.OverviewPage,T.League=L.League",
+            "fields": "TR.Team=Team,T.League=League,T.Name=Name,L.League_Short=League_Short,"
+                      "L.Region=Region,L.IsOfficial=IsOfficial",
+            "where": f'T.Year IN ({years}) AND L.IsOfficial="Yes"',
+            "format": "json", "limit": 5000, "offset": offset,
+        })
+        r.raise_for_status()
+        batch = r.json()
+        rows += batch
+        offset += 5000
+        if len(batch) < 5000:
+            break
+    teams = sorted({str(row["Team"]) for row in rows if row.get("Team")
+                    and (league := classify_league(
+                        html.unescape(row["Name"]),
+                        {"League Short": row.get("League Short"), "Region": row.get("Region"),
+                         "IsOfficial": row.get("IsOfficial")}))
+                    and league[1] == 2})
+    players = {}
+    for i in range(0, len(teams), 30):   # ~10 filas por equipo (con staff): < 500 por consulta
+        print(f"\r  Tier 2 [{min(i + 30, len(teams))}/{len(teams)} equipos]", end="", flush=True)
+        for row in cargo_query(session, "Team", teams[i:i + 30]):
+            players[row["OverviewPage"]] = row
+    print()
+    return players
 
 
 def fetch_aliases(pages):
@@ -923,8 +962,9 @@ def display_names(master):
 def build_dle(master):
     """Jugadores de main.py en activo o agentes libres desde hace menos de
     RECENT_FREE_AGENT_DAYS (con su último equipo): todos tienen equipo que comparar.
-    `tier` dice si su liga actual es tier 1 (reto diario) o inferior (modo libre)."""
-    active = [p for p in master if p["scraped"] and p["game_team"]]
+    `tier` dice si su liga actual es tier 1 (reto diario) o inferior (modo libre).
+    Los que no vienen de main.py solo entran si su equipo es tier 2 (no tocan el reto diario)."""
+    active = [p for p in master if p["game_team"] and (p["scraped"] or p["tier"] == 2)]
     players = []
     for p, name in zip(active, display_names(active)):
         players.append({
@@ -1293,6 +1333,10 @@ def main():
                           lambda ks: fetch_players([e for e in extra_entries if e[0] in set(ks)]))
     cargo_rows = {**extra, **cargo_rows}
     extra_pages = [e[0] for e in extra_entries]
+    # Plantillas actuales de las ligas tier 2, para el modo libre del dle
+    tier2 = cached(TIER2_PLAYERS_CACHE_PATH, args.refresh, fetch_tier2_players)
+    cargo_rows = {**tier2, **cargo_rows}
+    extra_pages += [p for p in tier2 if p not in extra_pages]
 
     # Página actual de cada jugador (la de main.py puede haberse renombrado)
     all_pages = sorted({current_page(p, cargo_rows) for p in pages + extra_pages if p})
@@ -1350,7 +1394,9 @@ def main():
     print(f"Maestro -> {MASTER_PATH}")
 
     dle = build_dle(master)
-    write_json(DLE_PATH, {"players": dle})
+    with open(DLE_PATH, "w", encoding="utf-8") as f:   # un jugador por línea: pesa menos
+        f.write('{"players": [\n' + ",\n".join(json.dumps(p, ensure_ascii=False) for p in dle)
+                + "\n]}\n")
     print(f"dle -> {DLE_PATH} ({len(dle)} jugadores)")
 
     js, roster_players = build_rostergues_js(rosters, cargo_rows)
