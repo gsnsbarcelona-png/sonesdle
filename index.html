@@ -296,6 +296,12 @@
       font-size: 0.6rem; color: var(--dim);
       letter-spacing: 2px; text-transform: uppercase;
     }
+    .footer-links {
+      margin-top: 10px; font-size: 0.7rem; color: var(--dim);
+      display: flex; justify-content: center; gap: 8px;
+    }
+    .footer-links a { color: var(--dim); text-decoration: none; letter-spacing: 1px; }
+    .footer-links a:hover { color: var(--gold); text-decoration: underline; }
 
     /* ── Responsive ────────────────────────────────────────── */
     @media (max-width: 480px) {
@@ -401,6 +407,11 @@
   <footer class="footer">
     <div class="footer-logo">LOL PRO GAMES</div>
     <div class="footer-copy">lolprogames.com · Un homenaje a los pro players de League of Legends</div>
+    <nav class="footer-links">
+      <a href="./aviso-legal.html" data-i18n="legal">Aviso legal</a>
+      <span>·</span>
+      <a href="./privacidad.html" data-i18n="privacy">Política de privacidad</a>
+    </nav>
   </footer>
 
 </div>
@@ -416,7 +427,7 @@
       c4tag:'Timeline · Carrera',                                       c4desc:'Adivina al jugador por su carrera',
       c2tag:'Grid · Conexiones',                                        c2desc:'Rellena la cuadrícula 3×3 de pro players',
       c5tag:'Wordle · Diario',                                          c5desc:'El nombre del pro player en 6 intentos',
-      soon:'Beta',
+      soon:'Beta', legal:'Aviso legal', privacy:'Política de privacidad',
     },
     en: {
       heroSub:   'LoL Esports Games',
@@ -425,7 +436,7 @@
       c4tag:'Timeline · Career',                                        c4desc:'Guess the player from their career',
       c2tag:'Grid · Connections',                                       c2desc:'Fill the 3×3 pro player grid',
       c5tag:'Wordle · Daily',                                           c5desc:'The pro player’s name in 6 tries',
-      soon:'Beta',
+      soon:'Beta', legal:'Legal notice', privacy:'Privacy policy',
     },
   };
 
