@@ -19,6 +19,23 @@ export const GAMES = ['dle', 'rostergues', 'carrera', 'grid', 'wordle'];
 
 let clientPromise = null;
 
+// Clave donde supabase-js guarda la sesión (sb-<proyecto>-auth-token[-code-verifier])
+const SESSION_KEY = `sb-${new URL(SUPABASE_URL).hostname.split('.')[0]}-auth-token`;
+
+/**
+ * ¿Puede haber una sesión? Si no hay nada guardado ni se vuelve del login de Google
+ * (?code=), no hace falta descargar supabase-js (~100 KB) para saber que no la hay.
+ */
+export function mayHaveSession() {
+  if (new URLSearchParams(location.search).has('code')) return true;
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      if (localStorage.key(i)?.startsWith(SESSION_KEY)) return true;
+    }
+  } catch { /* modo privado */ }
+  return false;
+}
+
 /** Cliente de Supabase, o null si no se ha podido cargar. */
 export function getClient() {
   clientPromise ??= import(SUPABASE_JS)
@@ -30,6 +47,7 @@ export function getClient() {
 }
 
 export async function getUser() {
+  if (!mayHaveSession()) return null;
   const sb = await getClient();
   if (!sb) return null;
   const { data } = await sb.auth.getSession();
@@ -38,6 +56,7 @@ export async function getUser() {
 
 /** Llama a `cb(user|null)` ahora y cada vez que cambie la sesión. */
 export async function onAuthChange(cb) {
+  if (!mayHaveSession()) return cb(null);   // al iniciar sesión se recarga la página
   const sb = await getClient();
   if (!sb) return cb(null);
   sb.auth.onAuthStateChange((event, session) => {
@@ -96,8 +115,8 @@ export async function recordResult({ game, mode, won, attempts = null, details =
 
 /** Sube los resultados de este navegador que aún no están en la cuenta. */
 export async function syncPending() {
+  if (!(await getUser())) return;
   const sb = await getClient();
-  if (!sb || !(await getUser())) return;
   const local = loadLocal();
   for (const row of local.filter(r => !r.synced)) {
     const { synced, ...data } = row;
@@ -113,8 +132,8 @@ export async function syncPending() {
  * o null si no hay sesión o no lo ha jugado.
  */
 export async function getTodayDaily(game) {
+  if (!(await getUser())) return null;
   const sb = await getClient();
-  if (!sb || !(await getUser())) return null;
   const { data, error } = await sb.from('results')
     .select('won, attempts, details')
     .eq('game', game).eq('mode', 'daily').eq('played_on', today())
@@ -124,8 +143,8 @@ export async function getTodayDaily(game) {
 
 /** Resultados de un juego: de la cuenta si hay sesión, si no de este navegador. */
 export async function getResults(game) {
-  const sb = await getClient();
-  if (sb && (await getUser())) {
+  if (await getUser()) {
+    const sb = await getClient();
     const { data, error } = await sb.from('results')
       .select('game, mode, played_on, won, attempts, details')
       .eq('game', game).order('played_on').order('created_at');

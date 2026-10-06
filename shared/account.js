@@ -3,7 +3,7 @@
  * Google y las estadísticas de cada juego.
  */
 import { getLang } from './lang.js';
-import { getClient, onAuthChange, signIn, signOut, deleteAccount,
+import { getClient, mayHaveSession, onAuthChange, signIn, signOut, deleteAccount,
          getResults, computeStats, GAMES } from './auth.js';
 
 const TEXT = {
@@ -50,8 +50,9 @@ export function mountAccount(container, gameId) {
   button.addEventListener('click', openModal);
   container.appendChild(button);
 
-  // Iniciar el cliente también completa el login al volver de Google (?code=)
-  getClient().then(sb => { if (!sb) button.remove(); });
+  // Iniciar el cliente también completa el login al volver de Google (?code=). Sin
+  // sesión no se descarga supabase-js: se carga al pulsar "Entrar con Google"
+  if (mayHaveSession()) getClient().then(sb => { if (!sb) button.remove(); });
   onAuthChange(u => { user = u; renderButton(); });
 }
 

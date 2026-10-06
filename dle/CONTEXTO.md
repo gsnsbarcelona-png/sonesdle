@@ -113,3 +113,23 @@ La aplicación incluye un banner de consentimiento de cookies (GDPR) con:
 - Se sirve como archivos estáticos (HTML + JS modules + JSON). No requiere backend.
 - Necesita un servidor local para funcionar en desarrollo (no funciona abriéndolo directamente como archivo).
 - Compatible con móvil, tablet y escritorio.
+
+---
+
+## Estilos (Tailwind compilado)
+
+El dle usa clases de Tailwind, pero **no** carga Tailwind desde su CDN: usa un CSS ya generado,
+`dle/css/tailwind.css` (14 KB en lugar de 124 KB de JavaScript que bloqueaba la carga).
+
+Ese CSS solo contiene las clases que aparecen en `dle/index.html` y `dle/js/`. **Si añades o cambias
+clases de Tailwind en el dle, hay que regenerarlo**, o las clases nuevas no tendrán estilo. Desde la
+raíz del repositorio:
+
+```
+npx tailwindcss@3.4.17 -c tools/tailwind/tailwind.config.cjs -i tools/tailwind/input.css -o dle/css/tailwind.css --minify
+```
+
+- La configuración (colores `gold` y `lol`, fuentes `cinzel` y `rajdhani`) está en `tools/tailwind/tailwind.config.cjs`.
+- Las clases tienen que aparecer escritas completas en el código: una clase montada por partes
+  (por ejemplo `'text-' + color`) no se detecta y no se genera.
+- `tools/` no se publica en la web (está en `.vercelignore`).
