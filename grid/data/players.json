@@ -882,7 +882,6 @@
   {"key": "mystic", "name": "Mystic", "pos": ["adc"], "nat": "korean", "teams": [], "comps": ["league_title", "lck", "lpl"]},
   {"key": "noname", "name": "NONAME", "pos": ["jungle"], "nat": "chinese", "teams": [], "comps": ["lcs"]},
   {"key": "naehyun", "name": "Naehyun", "pos": ["mid"], "nat": "korean", "teams": ["drx"], "comps": ["lck"]},
-  {"key": "naruterador", "name": "Naruterador", "pos": ["jungle"], "nat": "european", "teams": [], "comps": ["lec"]},
   {"key": "nova (park chan-ho)", "name": "Nova (Park Chan-ho)", "pos": ["support"], "nat": "korean", "teams": [], "comps": ["lck"]},
   {"key": "nuclear", "name": "Nuclear", "pos": ["adc"], "nat": "korean", "teams": ["damwon", "h2k"], "comps": ["lck", "lec"]},
   {"key": "nukeduck", "name": "Nukeduck", "pos": ["mid"], "nat": "european", "teams": ["h2k"], "comps": ["lec"]},
