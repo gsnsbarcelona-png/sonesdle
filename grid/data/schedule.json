@@ -742,5 +742,17 @@
       "lpl",
       "drx"
     ]
+  },
+  "2026-12-07": {
+    "cols": [
+      "lpl",
+      "tsm",
+      "drx"
+    ],
+    "rows": [
+      "jungle",
+      "support",
+      "champ"
+    ]
   }
 }
