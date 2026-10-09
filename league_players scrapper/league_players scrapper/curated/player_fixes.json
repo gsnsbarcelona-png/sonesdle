@@ -1,5 +1,53 @@
 {
-  "_info": "Datos de jugadores corregidos a mano. Ganan siempre a Leaguepedia y no se pierden al actualizar. Clave: la página del jugador en Leaguepedia (como en la URL, con espacios). Campos: real (nombre real), country (en inglés, como Leaguepedia: 'Spain', 'South Korea'), birthdate ('YYYY-MM-DD', o solo 'YYYY' si solo se sabe el año). Ejemplo: \"Deleted\": {\"birthdate\": \"2004\"}",
+  "_info": "Datos de jugadores corregidos a mano. Ganan siempre a Leaguepedia y no se pierden al actualizar. Clave: la página del jugador en Leaguepedia (como en la URL, con espacios). Campos: real (nombre real), country (en inglés, como Leaguepedia: 'Spain', 'South Korea'), birthdate ('YYYY-MM-DD', o solo 'YYYY' si solo se sabe el año). Ejemplo: \"Deleted\": {\"birthdate\": \"2004\"} Las fechas que hay ahora salen de Liquipedia (CC BY-SA 3.0), comprobando que el nombre real coincide.",
   "players": {
+    "Asilah": {
+      "birthdate": "2004-08-29"
+    },
+    "Blueboar": {
+      "birthdate": "2005-02-02"
+    },
+    "Guvez": {
+      "birthdate": "1998-12-10"
+    },
+    "Hatred (Veselin Popov)": {
+      "birthdate": "1997-12-10"
+    },
+    "Kiki (Killian Gauchey)": {
+      "birthdate": "2003-02-03"
+    },
+    "Kyte": {
+      "birthdate": "2005"
+    },
+    "Pesho": {
+      "birthdate": "2002-05-13"
+    },
+    "Sayn (Tarek Djoghlaf)": {
+      "birthdate": "2005"
+    },
+    "Send0o": {
+      "birthdate": "1996-07-12"
+    },
+    "Shogo": {
+      "birthdate": "1999-12-21"
+    },
+    "Speedy1": {
+      "birthdate": "1999-09-21"
+    },
+    "Stefan": {
+      "birthdate": "1998-10-15"
+    },
+    "Tao (Xu Hongtao Alessandro)": {
+      "birthdate": "2005-11-17"
+    },
+    "VAEII": {
+      "birthdate": "2006-08-16"
+    },
+    "Vlaren": {
+      "birthdate": "2000-06-11"
+    },
+    "Young (Young Choi)": {
+      "birthdate": "2001-01-16"
+    }
   }
 }
