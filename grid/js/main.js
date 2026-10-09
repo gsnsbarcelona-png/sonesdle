@@ -4,6 +4,7 @@ import { LoLCategoryRepository }  from './repositories/LoLCategoryRepository.js'
 import { EVENTS }                 from './events.js';
 import { mountSwitcher, applyStaticTranslations, getLang } from '../../shared/lang.js';
 import { mountGameNav } from '../../shared/nav.js';
+import { getResults, computeStats, today } from '../../shared/auth.js';
 
 // ── Traducciones estáticas del HTML ─────────────────────────
 const STATIC = {
@@ -15,7 +16,7 @@ const STATIC = {
     victory: '¡Victoria!', victorySub: 'Todas las casillas completadas', playAgain: 'Jugar de nuevo',
     gameOver: 'Game Over', gameOverSub: 'Se acabaron las vidas', tryAgain: 'Intentar de nuevo',
     seeSolutions: 'Ver soluciones', seeBoard: 'Ver tablero', share: 'Compartir',
-    freePlay: 'Jugar modo libre', copied: '¡Copiado!',
+    freePlay: 'Jugar modo libre', copied: '¡Copiado!', streak: 'Racha', best: 'Mejor',
   },
   en: {
     headerSub: 'Fill all 9 cells · Pro Players',
@@ -25,7 +26,7 @@ const STATIC = {
     victory: 'Victory!', victorySub: 'All cells completed', playAgain: 'Play again',
     gameOver: 'Game Over', gameOverSub: 'Out of lives', tryAgain: 'Try again',
     seeSolutions: 'See solutions', seeBoard: 'See board', share: 'Share',
-    freePlay: 'Play free mode', copied: 'Copied!',
+    freePlay: 'Play free mode', copied: 'Copied!', streak: 'Streak', best: 'Best',
   },
 };
 const tx = key => STATIC[getLang()]?.[key] ?? STATIC.es[key];
@@ -76,7 +77,30 @@ shareButtons.forEach(b => b.addEventListener('click', async () => {
   } catch { prompt('', session.shareText()); }
 }));
 
-session.bus.on(EVENTS.GAME_STARTED, renderMode);
-document.addEventListener('langchange', () => { applyStaticTranslations(STATIC); renderMode(); });
+// ── Racha del reto diario (pantalla final) ───────────────────
+const streakEls = document.querySelectorAll('.end-streak');
+let streak = null;
+
+function renderStreak() {
+  streakEls.forEach(el => {
+    el.classList.toggle('hidden', !streak);
+    if (streak) el.textContent = `🔥 ${tx('streak')} ${streak.currentStreak} · ${tx('best')} ${streak.maxStreak}`;
+  });
+}
+
+/** Con la cuenta, el reto de hoy puede no haberse subido aún: se cuenta aquí. */
+async function showStreak({ mode }, won) {
+  if (mode !== 'daily') return;
+  const results = (await getResults('grid'))
+    .filter(r => !(r.mode === 'daily' && r.played_on === today()));
+  results.push({ mode: 'daily', played_on: today(), won });
+  streak = computeStats(results);
+  renderStreak();
+}
+
+session.bus.on(EVENTS.GAME_WON,  p => showStreak(p, true));
+session.bus.on(EVENTS.GAME_LOST, p => showStreak(p, false));
+session.bus.on(EVENTS.GAME_STARTED, () => { streak = null; renderStreak(); renderMode(); });
+document.addEventListener('langchange', () => { applyStaticTranslations(STATIC); renderMode(); renderStreak(); });
 
 session.start();

@@ -168,8 +168,10 @@ export function computeStats(results) {
     best = Math.max(best, run);
     prev = day;
   }
-  // La racha actual sigue viva si el último reto ganado es de hoy o de ayer
-  const current = prev && dayDiff(prev, today()) <= 1 ? run : 0;
+  // La racha actual sigue viva si el último reto ganado es de hoy, o de ayer y el
+  // de hoy aún no se ha perdido
+  const lostToday = prev !== today() && results.some(r => r.mode === 'daily' && r.played_on === today() && !r.won);
+  const current = prev && dayDiff(prev, today()) <= 1 && !lostToday ? run : 0;
 
   const distribution = {};
   for (const r of results) {

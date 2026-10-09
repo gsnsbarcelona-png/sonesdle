@@ -152,6 +152,8 @@ h1 {
 .end-sub { font-size:.82rem; font-weight:500; letter-spacing:3px; text-transform:uppercase; margin-bottom:28px; }
 .end-sub.teal { color:var(--teal); }
 .end-sub.red  { color:var(--red); }
+/* Racha del reto diario: va justo debajo del subtítulo, que deja su margen para ella */
+.end-streak { font-family:'Cinzel',serif; font-size:.72rem; font-weight:700; color:var(--gold); letter-spacing:2px; text-transform:uppercase; margin:-16px 0 22px; }
 .btn-replay { padding:11px 44px; background:transparent; border:1px solid var(--gold); border-radius:6px; font-family:'Cinzel',serif; font-size:.65rem; font-weight:700; color:var(--gold); letter-spacing:2px; text-transform:uppercase; cursor:pointer; transition:background .18s,color .18s,box-shadow .18s; }
 .btn-link { display:block; margin:14px auto 0; background:none; border:none; color:var(--dim); font-family:'Rajdhani',sans-serif; font-size:.8rem; font-weight:600; letter-spacing:1px; text-decoration:underline; cursor:pointer; }
 .btn-link:hover { color:var(--text); }

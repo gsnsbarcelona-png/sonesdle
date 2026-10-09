@@ -14,6 +14,7 @@ const TEXT = {
     guestInfo: 'Sin cuenta, tu historial solo se guarda en este navegador. Entra con Google para no perderlo y verlo en cualquier dispositivo.',
     played: 'Jugadas', winPct: '% victorias', streak: 'Racha', maxStreak: 'Mejor racha',
     distribution: 'Victorias por intentos', empty: 'Aún no hay partidas de este juego.',
+    allLengths: 'Todas', letters: 'letras',
     privacy: 'Privacidad', error: 'No se ha podido completar. Inténtalo de nuevo.',
     games: { dle: 'Adivina el Pro', rostergues: 'Roster Guess', carrera: 'Career Guess', grid: 'Pro Grid', wordle: 'Pro Wordle' },
   },
@@ -24,6 +25,7 @@ const TEXT = {
     guestInfo: 'Without an account, your history is only saved in this browser. Sign in with Google to keep it and see it on any device.',
     played: 'Played', winPct: 'Win %', streak: 'Streak', maxStreak: 'Best streak',
     distribution: 'Wins by attempts', empty: 'No games played yet.',
+    allLengths: 'All', letters: 'letters',
     privacy: 'Privacy', error: 'Something went wrong. Please try again.',
     games: { dle: 'Guess the Pro', rostergues: 'Roster Guess', carrera: 'Career Guess', grid: 'Pro Grid', wordle: 'Pro Wordle' },
   },
@@ -36,6 +38,7 @@ const esc = s => String(s ?? '').replace(/[&<>"']/g, c =>
 let user = null;
 let button = null;
 let currentGame = null;
+let wordleLength = null;   // Pro Wordle: estadísticas de una sola longitud (4, 5, 6)
 
 /** Añade el botón de cuenta al final de `container` (la fila de iconos). */
 export function mountAccount(container, gameId) {
@@ -138,10 +141,20 @@ async function renderModal() {
 }
 
 async function renderStats(el, game) {
-  const s = computeStats(await getResults(game));
+  const results = await getResults(game);
   if (!el.isConnected) return;
+  // En el wordle se puede ver una sola longitud. La racha es siempre la de todos los
+  // retos diarios: el diario cambia de longitud cada día.
+  const byLength = game === 'wordle' && wordleLength
+    ? results.filter(r => r.details?.word?.length === wordleLength) : results;
+  const s = computeStats(byLength);
+  const all = computeStats(results);
+  const chips = game === 'wordle' && all.played ? `<div class="acc-tabs acc-lengths">${
+    [null, 4, 5, 6].map(n => `<button class="acc-tab${n === wordleLength ? ' active' : ''}" data-acc-length="${n ?? ''}">${
+      n ? `${n} ${t('letters')}` : t('allLengths')}</button>`).join('')}</div>` : '';
   if (!s.played) {
-    el.innerHTML = `<p class="acc-empty">${t('empty')}</p>`;
+    el.innerHTML = chips + `<p class="acc-empty">${t('empty')}</p>`;
+    bindLengths(el, game);
     return;
   }
   const maxCount = Math.max(1, ...Object.values(s.distribution));
@@ -150,14 +163,22 @@ async function renderStats(el, game) {
     .map(([tries, n]) => `<div class="acc-bar-row"><span>${tries}</span>
         <div class="acc-bar" style="width:${Math.max(8, 100 * n / maxCount)}%">${n}</div></div>`)
     .join('');
-  el.innerHTML = `
+  el.innerHTML = `${chips}
     <div class="acc-nums">
       ${[[s.played, t('played')], [s.winPct, t('winPct')],
-         [s.currentStreak, t('streak')], [s.maxStreak, t('maxStreak')]]
+         [all.currentStreak, t('streak')], [all.maxStreak, t('maxStreak')]]
         .map(([n, label]) => `<div><div class="acc-num">${n}</div><div class="acc-label">${label}</div></div>`)
         .join('')}
     </div>
     ${bars ? `<div class="acc-label acc-dist-title">${t('distribution')}</div>${bars}` : ''}`;
+  bindLengths(el, game);
+}
+
+function bindLengths(el, game) {
+  el.querySelectorAll('[data-acc-length]').forEach(b => b.addEventListener('click', () => {
+    wordleLength = Number(b.dataset.accLength) || null;
+    renderStats(el, game);
+  }));
 }
 
 function googleIcon() {
