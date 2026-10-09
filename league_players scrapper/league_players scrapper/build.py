@@ -946,8 +946,11 @@ def team_league(entries, team_region):
     # Solo el último año con liga: un equipo que ha bajado no conserva la del año anterior
     last_year = max(c[3][:4] for c in candidates)
     candidates = [c for c in candidates if c[3][:4] == last_year]
-    best_tier = min(c[1] for c in candidates)
-    best = max((c for c in candidates if c[1] == best_tier), key=lambda c: c[3])
+    # La liga oficial (tier 1-2) más reciente, no la mejor: una invitación puntual
+    # (Karmine Corp Blue en el LEC Versus) no convierte a un equipo de LFL en LEC.
+    # Los torneos tier 3 (exhibiciones, ligas menores) solo cuentan si no hay otra.
+    official = [c for c in candidates if c[1] <= 2] or candidates
+    best = max(official, key=lambda c: c[3])
     return {"league": best[0], "tier": best[1], "region": best[2] or fallback}
 
 
