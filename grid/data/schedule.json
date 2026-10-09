@@ -754,5 +754,17 @@
       "support",
       "champ"
     ]
+  },
+  "2026-12-08": {
+    "cols": [
+      "tsm",
+      "lec",
+      "korean"
+    ],
+    "rows": [
+      "support",
+      "c9",
+      "lcs"
+    ]
   }
 }
