@@ -1,7 +1,6 @@
 import { mountSwitcher, applyStaticTranslations } from '../../shared/lang.js';
 import { mountGameNav } from '../../shared/nav.js';
 import { recordResult, getTodayDaily, today } from '../../shared/auth.js';
-import { unlockGate } from '../../shared/js/beta.js';
 import { T, t } from './i18n.js';
 
 const ROWS = 6;
@@ -25,8 +24,6 @@ const store = {
   get(k)    { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* modo privado */ } },
 };
-
-await unlockGate();   // en pruebas: ver shared/js/beta.js
 
 const [{ answers, guesses }, schedule] = await Promise.all([
   fetch('./data/words.json').then(r => r.json()),
