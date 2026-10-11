@@ -778,5 +778,17 @@
       "tsm",
       "worlds"
     ]
+  },
+  "2026-12-10": {
+    "cols": [
+      "msi",
+      "fnatic",
+      "drx"
+    ],
+    "rows": [
+      "top",
+      "geng",
+      "support"
+    ]
   }
 }
