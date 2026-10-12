@@ -790,5 +790,17 @@
       "geng",
       "support"
     ]
+  },
+  "2026-12-11": {
+    "cols": [
+      "mid",
+      "worlds",
+      "lcs"
+    ],
+    "rows": [
+      "korean",
+      "kt",
+      "lpl"
+    ]
   }
 }
