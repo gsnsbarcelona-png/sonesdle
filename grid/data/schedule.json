@@ -802,5 +802,29 @@
       "kt",
       "lpl"
     ]
+  },
+  "2026-12-12": {
+    "cols": [
+      "european",
+      "c9",
+      "kt"
+    ],
+    "rows": [
+      "champ",
+      "top",
+      "jungle"
+    ]
+  },
+  "2026-12-13": {
+    "cols": [
+      "top",
+      "adc",
+      "lcs"
+    ],
+    "rows": [
+      "fnatic",
+      "lec",
+      "t1"
+    ]
   }
 }
