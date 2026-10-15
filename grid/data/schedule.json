@@ -826,5 +826,17 @@
       "lec",
       "t1"
     ]
+  },
+  "2026-12-14": {
+    "cols": [
+      "champ",
+      "geng",
+      "lck"
+    ],
+    "rows": [
+      "top",
+      "worlds",
+      "lcs"
+    ]
   }
 }
