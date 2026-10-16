@@ -252,7 +252,7 @@ const PLAYERS = {
   "Lehends": {"real": "Son Si-woo", "country": "South Korea", "flag": "🇰🇷"},
   "LemonNation": {"real": "Daerek Hart", "country": "United States", "flag": "🇺🇸"},
   "Letme": {"real": "Yan Jun-Ze", "country": "China", "flag": "🇨🇳"},
-  "Levi": {"real": "", "country": "Vietnam", "flag": "🇻🇳"},
+  "Levi": {"real": "Đỗ Duy Khánh", "country": "Vietnam", "flag": "🇻🇳"},
   "Leyan": {"real": "Lu Jue", "country": "China", "flag": "🇨🇳"},
   "Liang": {"real": "Wu Liang-Te", "country": "Taiwan", "flag": "🇹🇼"},
   "Licorice": {"real": "Eric Ritchie", "country": "Canada", "flag": "🇨🇦"},

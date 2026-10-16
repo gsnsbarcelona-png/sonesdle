@@ -838,5 +838,17 @@
       "worlds",
       "lcs"
     ]
+  },
+  "2026-12-15": {
+    "cols": [
+      "jungle",
+      "lec",
+      "mid"
+    ],
+    "rows": [
+      "msi",
+      "tsm",
+      "geng"
+    ]
   }
 }
