@@ -862,5 +862,17 @@
       "mid",
       "damwon"
     ]
+  },
+  "2026-12-17": {
+    "cols": [
+      "kt",
+      "champ",
+      "drx"
+    ],
+    "rows": [
+      "lcs",
+      "lpl",
+      "geng"
+    ]
   }
 }
