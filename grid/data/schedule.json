@@ -874,5 +874,17 @@
       "lpl",
       "geng"
     ]
+  },
+  "2026-12-18": {
+    "cols": [
+      "tl",
+      "support",
+      "tsm"
+    ],
+    "rows": [
+      "european",
+      "c9",
+      "na"
+    ]
   }
 }
