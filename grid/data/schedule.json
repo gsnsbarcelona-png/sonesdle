@@ -886,5 +886,17 @@
       "c9",
       "na"
     ]
+  },
+  "2026-12-19": {
+    "cols": [
+      "support",
+      "msi",
+      "mid"
+    ],
+    "rows": [
+      "korean",
+      "european",
+      "edg"
+    ]
   }
 }

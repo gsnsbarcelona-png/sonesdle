@@ -812,7 +812,6 @@
   {"key": "alvaro", "name": "Alvaro", "pos": ["support"], "nat": "european", "teams": ["mad"], "comps": ["league_title", "lec"]},
   {"key": "amazing", "name": "Amazing", "pos": ["jungle"], "nat": "european", "teams": ["fnatic", "tsm"], "comps": ["league_title", "lcs", "lec"]},
   {"key": "amazo", "name": "Amazo", "pos": ["jungle"], "nat": "na", "teams": [], "comps": ["lcs"]},
-  {"key": "aod", "name": "AoD", "pos": ["support"], "nat": "european", "teams": ["h2k"], "comps": ["lec"]},
   {"key": "apollo", "name": "Apollo", "pos": ["adc"], "nat": "na", "teams": [], "comps": ["lcs"]},
   {"key": "ben", "name": "Ben", "pos": ["support"], "nat": "korean", "teams": [], "comps": ["league_title", "lck", "lpl"]},
   {"key": "bon0", "name": "bon0", "pos": ["jungle"], "nat": "korean", "teams": ["kt"], "comps": ["lck"]},
