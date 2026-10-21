@@ -898,5 +898,17 @@
       "european",
       "edg"
     ]
+  },
+  "2026-12-20": {
+    "cols": [
+      "chinese",
+      "fnatic",
+      "european"
+    ],
+    "rows": [
+      "support",
+      "adc",
+      "champ"
+    ]
   }
 }
