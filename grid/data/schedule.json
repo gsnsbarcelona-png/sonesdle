@@ -910,5 +910,17 @@
       "adc",
       "champ"
     ]
+  },
+  "2026-12-21": {
+    "cols": [
+      "lcs",
+      "msi",
+      "european"
+    ],
+    "rows": [
+      "g2",
+      "fnatic",
+      "adc"
+    ]
   }
 }
