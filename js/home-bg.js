@@ -36,4 +36,7 @@ function draw() {
 }
 
 window.addEventListener('resize', resize);
-resize(); init(); draw();
+resize(); init();
+// Quien pide menos movimiento ve las partículas quietas
+if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { pts.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fillStyle = p.c; ctx.fill(); }); }
+else draw();

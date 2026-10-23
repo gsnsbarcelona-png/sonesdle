@@ -1,4 +1,5 @@
 import { EVENTS } from '../events.js';
+import { prefersReducedMotion } from '../../../shared/js/a11y.js';
 
 export class ParticleSystem {
   constructor(bus, bgEl, confettiEl) {
@@ -9,8 +10,8 @@ export class ParticleSystem {
 
     this._resize();
     window.addEventListener('resize', () => this._resize());
-    this._bgLoop();
-    this._confLoop();
+    this._still = prefersReducedMotion();   // sin movimiento: ni fondo animado ni confeti
+    if (!this._still) { this._bgLoop(); this._confLoop(); }
 
     bus.on(EVENTS.CELL_RENDERED, ({ rect }) =>
       this._cellBurst(rect.left + rect.width / 2, rect.top + rect.height / 2)
@@ -21,6 +22,7 @@ export class ParticleSystem {
   }
 
   _cellBurst(x, y) {
+    if (this._still) return;
     const colors = ['#c89b3c','#f0e6d3','#0bc4c4','#00ff88','#fff'];
     for (let i = 0; i < 16; i++) {
       const a = Math.random() * Math.PI * 2, s = Math.random() * 5 + 2;
@@ -34,6 +36,7 @@ export class ParticleSystem {
   }
 
   _startRain() {
+    if (this._still) return;
     this._rainActive = true;
     this._rainTimer = setInterval(() => {
       if (!this._rainActive) { clearInterval(this._rainTimer); return; }

@@ -13,6 +13,7 @@ import { ParticlesComponent }              from './ui/particles.js';
 import { mountSwitcher, applyStaticTranslations } from '../../shared/lang.js';
 import { mountGameNav } from '../../shared/nav.js';
 import { hideKeyboard, focusIfDesktop } from '../../shared/js/keyboard.js';
+import { setupCombobox, setupDialog } from '../../shared/js/a11y.js';
 
 const STATIC = {
   es: {
@@ -175,6 +176,13 @@ document.addEventListener('DOMContentLoaded', () => {
     confettiCanvas: document.getElementById('canvas-confetti'),
   });
   Modal.setParticles(particles);
+
+  setupCombobox({
+    input: document.getElementById('guess-input'), list: document.getElementById('autocomplete-list'),
+    optionSelector: '.autocomplete-item', activeClass: 'active',
+  });
+  setupDialog(document.getElementById('modal-overlay'));   // fin de ronda: se sale con su botón
+  setupDialog(document.getElementById('instructions-modal'), { closeSelector: '#instructions-close' });
 
   bindEvents();
   Renderer.update(State.getState());

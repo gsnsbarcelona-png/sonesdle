@@ -54,6 +54,7 @@
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/modal.css">
   <link rel="stylesheet" href="css/animations.css">
+<link rel="stylesheet" href="../shared/css/a11y.css">
 </head>
 <body>
 
@@ -71,7 +72,7 @@
   <!-- Título del juego + instrucciones -->
   <div class="game-title-row">
     <h1 class="game-title-text">LoL Career Guess</h1>
-    <button class="game-instr-btn" id="instructions-btn" title="Instrucciones">?</button>
+    <button class="game-instr-btn" id="instructions-btn" title="Instrucciones" data-aria="help">?</button>
   </div>
 
   <!-- ── STATS ──────────────────────────────────────── -->
@@ -103,6 +104,7 @@
       <span class="position-badge hidden" id="position-badge"></span>
     </div>
     <div class="timeline" id="timeline"></div>
+  <p class="sr-only" id="sr-status" role="status" aria-live="polite"></p>
   </div>
 
   <hr class="divider">
@@ -114,7 +116,7 @@
         <input
           type="text"
           class="guess-input"
-          id="guess-input"
+          id="guess-input" data-aria="player"
           data-i18n-ph="placeholder" placeholder="Escribe el nombre del jugador…"
           autocomplete="off"
           spellcheck="false"
@@ -173,7 +175,7 @@
 </style>
 <div id="instructions-modal">
   <div class="instr-card">
-    <button class="instr-close" id="instructions-close">✕</button>
+    <button class="instr-close" id="instructions-close" data-aria="close">✕</button>
     <h3>CÓMO JUGAR</h3>
     <div class="instr-row"><div class="instr-pip"></div><span>Se muestra la trayectoria de un pro player (equipos y años)</span></div>
     <div class="instr-row"><div class="instr-pip"></div><span>Cada paso revela más información de su carrera</span></div>

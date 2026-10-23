@@ -12,6 +12,7 @@ import { ModalPresenter }          from './presentation/ModalPresenter.js';
 import { AutocompletePresenter }   from './presentation/AutocompletePresenter.js';
 import { EndScreenPresenter }      from './presentation/EndScreenPresenter.js';
 import { ParticleSystem }          from './presentation/ParticleSystem.js';
+import { setupCombobox, setupDialog } from '../../shared/js/a11y.js';
 
 /**
  * Composition root.
@@ -41,6 +42,13 @@ export class GameFactory {
     new ProgressRenderer(bus, document.getElementById('progressRow'));
     new LivesDisplay(bus, document.getElementById('livesRow'));
     new ModalPresenter(bus, document.getElementById('modalOverlay'), document.getElementById('playerInput'));
+    setupCombobox({
+      input: document.getElementById('playerInput'), list: document.getElementById('acList'),
+      optionSelector: '.ac-item', activeClass: 'focused',
+    });
+    setupDialog(document.getElementById('modalOverlay'), { closeSelector: '#btnCancel' });
+    setupDialog(document.getElementById('victoryOverlay'), { closeSelector: '#btnVictoryView' });
+    setupDialog(document.getElementById('gameoverOverlay'), { closeSelector: '#btnGameoverView' });
     new ParticleSystem(bus, document.getElementById('bgCanvas'), document.getElementById('confettiCanvas'));
     const boardReplayBtn = document.getElementById('btnBoardReplay');
     boardReplayBtn.addEventListener('click', () => bus.emit(EVENTS.GAME_RESET));

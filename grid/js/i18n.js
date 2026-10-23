@@ -49,8 +49,9 @@ export function t(key, ...args) {
 }
 
 /** Escapa HTML (los nombres vienen de Leaguepedia). */
-export { esc } from '../../shared/js/escape.js';
+import { esc } from '../../shared/js/escape.js';
 import { flagUrl } from '../../shared/js/flags.js';
+export { esc };
 
 /**
  * Emoji como HTML, con las banderas como imagen: Windows no tiene emojis de bandera

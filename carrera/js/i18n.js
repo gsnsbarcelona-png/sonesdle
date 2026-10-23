@@ -3,6 +3,7 @@ import { getLang } from '../../shared/lang.js';
 const T = {
   es: {
     subtitle:    'Adivina al jugador por su trayectoria',
+    attemptsAria: (n, max) => `Intentos: ${n} de ${max}`,
     wins:        'Victorias',
     played:      'Jugados',
     streak:      'Racha',
@@ -22,6 +23,7 @@ const T = {
   },
   en: {
     subtitle:    'Guess the player by their career',
+    attemptsAria: (n, max) => `Attempts: ${n} of ${max}`,
     wins:        'Wins',
     played:      'Played',
     streak:      'Streak',

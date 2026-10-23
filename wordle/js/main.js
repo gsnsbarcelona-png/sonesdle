@@ -4,6 +4,7 @@ import { recordResult, getTodayDaily, today } from '../../shared/auth.js';
 import { T, t } from './i18n.js';
 import { esc } from '../../shared/js/escape.js';
 import { loadJson, showLoadError } from '../../shared/js/data.js';
+import { setupDialog } from '../../shared/js/a11y.js';
 
 const ROWS = 6;
 // El largo de la palabra varía: el diario rota entre 4, 5 y 6 letras; en el libre se elige
@@ -29,6 +30,8 @@ const store = {
 
 // Día del reto con el que se cargó la página: no cambia si se cruza la medianoche UTC
 const DAY = today();
+
+setupDialog($('endOverlay'), { closeSelector: '#btnClose' });
 
 const [{ answers, guesses }, schedule] = await Promise.all([
   loadJson('./data/words.json'),
@@ -116,6 +119,7 @@ function submit() {
   if (state.current.length < len()) return reject(t('tooShort'));
   if (!valid.has(state.current))   return reject(t('notPlayer'));
   state.rows.push(state.current);
+  announce(state.rows.length, state.current);
   state.won  = state.current === state.word;
   state.over = state.won || state.rows.length === ROWS;
   state.current = '';
@@ -127,6 +131,12 @@ function submit() {
     state.busy = true;
     setTimeout(() => { state.busy = false; showEnd(); }, 900);
   }
+}
+
+/** Resultado del intento en un texto para lectores de pantalla (el color no se lee). */
+function announce(n, guess) {
+  const marks = evaluate(guess, state.word);
+  $('srStatus').textContent = `${n}/${ROWS}: ` + [...guess].map((c, i) => `${c} ${t(marks[i])}`).join(', ');
 }
 
 function press(key) {
@@ -162,6 +172,9 @@ function renderRow(r) {
   [...row.children].forEach((tile, i) => {
     tile.textContent = text[i] ?? '';
     tile.className = 'tile' + (done ? ' ' + marks[i] : text[i] ? ' filled' : '');
+    // El color no basta para un lector de pantalla: letra y estado en la etiqueta
+    tile.setAttribute('role', 'img');
+    tile.setAttribute('aria-label', text[i] ? (done ? `${text[i]}, ${t(marks[i])}` : text[i]) : t('emptyTile'));
   });
 }
 
@@ -174,19 +187,23 @@ function renderKeyboard() {
   $('keyboard').innerHTML = KB_ROWS.map(row => `<div class="kb-row">${[...row].map(k => {
     const id = k === '⏎' ? 'ENTER' : k === '⌫' ? 'BACK' : k;
     const label = k === '⏎' ? t('enter') : k;
-    return `<button class="key${k === '⏎' || k === '⌫' ? ' wide' : ''} ${best[k] ?? ''}" data-key="${id}" type="button">${label}</button>`;
+    const name  = k === '⌫' ? t('backspace') : k === '⏎' ? t('enter') : best[k] ? `${k}, ${t(best[k])}` : k;
+    return `<button class="key${k === '⏎' || k === '⌫' ? ' wide' : ''} ${best[k] ?? ''}" data-key="${id}" type="button" aria-label="${esc(name)}">${label}</button>`;
   }).join('')}</div>`).join('');
 }
 
 function renderControls() {
-  document.querySelectorAll('.mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === state.mode));
+  document.querySelectorAll('.mode-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.mode === state.mode);
+    b.setAttribute('aria-pressed', String(b.dataset.mode === state.mode));
+  });
   $('leagues').classList.toggle('hidden', state.mode !== 'free');
   $('lengths').classList.toggle('hidden', state.mode !== 'free');
   $('leagues').innerHTML = LEAGUES.map(l =>
-    `<button class="league-btn${l === state.league ? ' active' : ''}" data-league="${l ?? ''}" type="button"
+    `<button class="league-btn${l === state.league ? ' active' : ''}" data-league="${l ?? ''}" type="button" aria-pressed="${l === state.league}"
              ${l === 'LCP' ? `title="${t('lcpTip')}"` : ''}>${l ?? t('allLeagues')}</button>`).join('');
   $('lengths').innerHTML = LENGTHS.map(n =>
-    `<button class="league-btn${n === state.length ? ' active' : ''}" data-length="${n}" type="button">${t('letters', n)}</button>`).join('');
+    `<button class="league-btn${n === state.length ? ' active' : ''}" data-length="${n}" type="button" aria-pressed="${n === state.length}">${t('letters', n)}</button>`).join('');
   $('dayInfo').textContent = state.mode === 'daily' ? t('todayLetters', len()) : '';
 }
 

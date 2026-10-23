@@ -9,6 +9,7 @@ import { hideKeyboard } from '../../shared/js/keyboard.js';
 import { ParticlesComponent } from '../../shared/js/ParticlesComponent.js';
 import * as AC from '../../shared/js/autocomplete.js';
 import { esc } from '../../shared/js/escape.js';
+import { setupCombobox, setupDialog } from '../../shared/js/a11y.js';
 
 /* ─── Constants ──────────────────────────────────────────── */
 const POSITION_ORDER   = ['Top', 'Jungle', 'Mid', 'ADC', 'Support'];
@@ -103,9 +104,11 @@ function getRosterPool() {
 function renderDiffButtons() {
   document.querySelectorAll('[data-diff]').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.diff === difficulty);
+    btn.setAttribute('aria-pressed', String(btn.dataset.diff === difficulty));
   });
   document.querySelectorAll('[data-region]').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.region === region);
+    btn.setAttribute('aria-pressed', String(btn.dataset.region === region));
   });
 }
 
@@ -282,9 +285,15 @@ function renderHintProgress() {
 }
 
 /* ─── History ────────────────────────────────────────────── */
+let announcedGuesses = 0;
 function renderHistory() {
   const container = $('guess-history');
   container.innerHTML = '';
+  // Lectores de pantalla: solo el último intento (la lista se repinta entera)
+  const last = state.guesses[state.guesses.length - 1];
+  $('sr-status').textContent = last && state.guesses.length > announcedGuesses
+    ? `${last.name}: ${last.correct ? '✓' : '✗'}` : '';
+  announcedGuesses = state.guesses.length;
 
   const list = [...state.guesses].reverse();
   for (const g of list) {
@@ -534,6 +543,12 @@ document.addEventListener('DOMContentLoaded', () => {
     particleCanvas: $('canvas-particles'),
     confettiCanvas: $('canvas-confetti'),
   });
+  setupCombobox({
+    input: $('guess-input'), list: $('autocomplete-list'),
+    optionSelector: '.autocomplete-item', activeClass: 'active',
+  });
+  setupDialog($('result-overlay'));   // fin de partida: se sale con sus botones
+  setupDialog($('instructions-modal'), { closeSelector: '#instructions-close' });
   bindEvents();
   if (isDailyDone()) showDiffRow();
   renderDiffButtons();

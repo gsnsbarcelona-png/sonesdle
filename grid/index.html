@@ -50,6 +50,7 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./css/styles.css">
+<link rel="stylesheet" href="../shared/css/a11y.css">
 </head>
 <body>
 
@@ -95,9 +96,9 @@
         <span class="cell-context-icons" id="modalIcons">🎯×🇰🇷</span>
         <span class="cell-context-text" id="modalDesc"></span>
       </div>
-      <p class="error-msg" id="errorMsg"></p>
+      <p class="error-msg" id="errorMsg" role="alert"></p>
       <div class="input-wrap">
-        <input class="modal-input" id="playerInput" type="text"
+        <input class="modal-input" id="playerInput" data-aria="player" type="text"
                data-i18n-ph="placeholder" placeholder="Nombre del pro player…" autocomplete="off" spellcheck="false">
         <div class="ac-list" id="acList"></div>
       </div>

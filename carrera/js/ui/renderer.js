@@ -77,6 +77,8 @@ function renderTimeline(player, revealedCount) {
  */
 function renderDots(attempts) {
   const { dots } = getDOM();
+  dots.setAttribute('role', 'img');
+  dots.setAttribute('aria-label', t('attemptsAria', attempts.length, MAX_ATTEMPTS));
   dots.innerHTML = Array.from({ length: MAX_ATTEMPTS }, (_, i) => {
     const a = attempts[i];
     let cls = 'dot';
@@ -94,8 +96,19 @@ function renderDots(attempts) {
 /**
  * @param {{ type: string, text: string, detail?: string }[]} hintsLog
  */
+let announcedHints = 0;
 function renderHintsLog(hintsLog) {
   const { hintsLog: el } = getDOM();
+  // Lectores de pantalla: solo la pista nueva (el registro se repinta entero)
+  const status = document.getElementById('sr-status');
+  const newest = hintsLog[hintsLog.length - 1];
+  if (status) {
+    const plain = newest
+      ? new DOMParser().parseFromString(`${newest.text} ${newest.detail ?? ''}`, 'text/html').body.textContent
+      : '';
+    status.textContent = newest && hintsLog.length > announcedHints ? plain : '';
+  }
+  announcedHints = hintsLog.length;
   el.innerHTML = hintsLog
     .map((h) => {
       if (h.type === 'wrong') {

@@ -11,6 +11,7 @@ import { CookieBanner } from './ui/CookieBanner.js';
 import { mountGameNav } from '../../shared/nav.js';
 import { recordResult, getTodayDaily } from '../../shared/auth.js';
 import { hideKeyboard } from '../../shared/js/keyboard.js';
+import { setupCombobox, setupDialog } from '../../shared/js/a11y.js';
 
 async function boot() {
   applyStaticTranslations();
@@ -58,6 +59,13 @@ async function boot() {
     getResults: q => game.searchPlayers(q),
     onGuess:    handleGuess,
   });
+
+  setupCombobox({
+    input: document.getElementById('search-input'), list: document.getElementById('search-dropdown'),
+    optionSelector: '.dd-item', activeClass: 'dd-active',
+  });
+  setupDialog(document.getElementById('victory-overlay'));   // fin de partida: sin Escape, se sale con sus botones
+  setupDialog(document.getElementById('instructions-modal'), { closeSelector: '#instructions-close' });
 
   const guessBtn         = document.getElementById('guess-btn');
   const giveupBtn        = document.getElementById('giveup-btn');
