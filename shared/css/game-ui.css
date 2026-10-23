@@ -1,0 +1,44 @@
+/* Estilos comunes de carrera y rostergues (cabecera, estadísticas, buscador...).
+   Cada juego los importa desde su components.css y añade o sobreescribe lo suyo. */
+
+.game-title-row{display:flex;align-items:center;justify-content:center;gap:10px;padding:20px 0 12px}
+.game-title-text{font-family:'Cinzel',serif;font-size:clamp(1.3rem,5vw,2rem);font-weight:700;letter-spacing:0.18em;color:#c89b3c;text-shadow:0 0 20px rgba(200,155,60,0.3)}
+.game-instr-btn{width:26px;height:26px;border-radius:50%;background:transparent;border:1px solid #1e3a5f;color:#4a6080;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.8rem;cursor:pointer;transition:border-color 0.2s,color 0.2s;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.game-instr-btn:hover{border-color:#c89b3c;color:#c89b3c}
+header{text-align:center;padding:20px 0 28px;animation:fadeDown 0.6s ease}
+.header-deco{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.header-deco-line{flex:1;height:1px}
+.header-deco-line.left{background:linear-gradient(to right,transparent,#c89b3c)}
+.header-deco-line.right{background:linear-gradient(to left,transparent,#c89b3c)}
+.header-deco-star{color:#c89b3c;font-size:0.55rem;letter-spacing:4px;font-weight:700}
+.header-sep{display:flex;align-items:center;gap:10px;margin:8px 0}
+.header-sep-line{flex:1;height:1px}
+.header-sep-line.left{background:linear-gradient(to right,transparent,#785a28)}
+.header-sep-line.right{background:linear-gradient(to left,transparent,#785a28)}
+.header-sep-diamonds{color:#785a28;font-size:0.5rem;letter-spacing:3px}
+.header-subtitle{font-family:'Rajdhani',sans-serif;font-size:clamp(0.6rem,2.5vw,0.8rem);font-weight:600;letter-spacing:0.35em;color:#785a28;text-transform:uppercase}
+.stats-bar{display:flex;justify-content:center;gap:0;margin-bottom:20px;animation:fadeUp 0.6s ease 0.1s both}
+.stat{text-align:center;padding:12px 28px;border:1px solid var(--border);background:var(--surface)}
+.stat+.stat{border-left:none}
+.stat-value{font-family:'Cinzel',serif;font-size:1.6rem;font-weight:700;color:var(--gold);line-height:1}
+.stat-label{font-size:0.65rem;color:var(--text-dim);letter-spacing:0.12em;text-transform:uppercase;margin-top:3px;font-weight:600}
+.input-row{display:flex;gap:8px}
+.input-wrapper{position:relative;flex:1}
+.guess-input{width:100%;background:var(--surface);border:1px solid var(--gold-dark);padding:12px 16px;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:600;color:var(--text);outline:none;letter-spacing:0.03em;transition:border-color 0.2s,box-shadow 0.2s}
+.guess-input:focus{border-color:var(--gold);box-shadow:0 0 18px rgba(200,155,60,0.18)}
+.guess-input::placeholder{color:var(--text-dim);font-weight:400}
+.guess-input:disabled{opacity:0.4;cursor:not-allowed}
+.autocomplete-list{position:absolute;top:calc(100% + 3px);left:0;right:0;background:var(--surface);border:1px solid var(--gold-dark);max-height:220px;overflow-y:auto;z-index:100;display:none}
+.autocomplete-list.open{display:block}
+.autocomplete-item{display:flex;align-items:center;gap:8px;padding:9px 14px;cursor:pointer;font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;color:var(--text);border-bottom:1px solid rgba(30,58,95,0.4);transition:background 0.12s}
+.autocomplete-item:last-child{border-bottom:none}
+.autocomplete-item:hover,.autocomplete-item.active{background:rgba(200,155,60,0.1);color:var(--gold)}
+.autocomplete-name{flex:1}
+.autocomplete-pos{font-size:0.65rem;color:var(--text-dim);letter-spacing:0.1em;text-transform:uppercase;flex-shrink:0}
+.autocomplete-list::-webkit-scrollbar{width:4px}
+.autocomplete-list::-webkit-scrollbar-track{background:transparent}
+.autocomplete-list::-webkit-scrollbar-thumb{background:#785a28}
+.btn{padding:11px 20px;border:none;font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap}
+.btn:disabled{opacity:0.3;cursor:not-allowed;pointer-events:none}
+.btn-submit{flex:0 0 auto;padding:11px 18px;background:transparent;border:1px solid var(--gold);color:var(--gold)}
+.btn-submit:hover{background:var(--gold);color:var(--bg);box-shadow:0 0 22px rgba(200,155,60,0.28)}

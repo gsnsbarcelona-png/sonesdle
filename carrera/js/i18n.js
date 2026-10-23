@@ -1,6 +1,6 @@
 import { getLang } from '../../shared/lang.js';
 
-const T = {
+export const T = {
   es: {
     subtitle:    'Adivina al jugador por su trayectoria',
     attemptsAria: (n, max) => `Intentos: ${n} de ${max}`,
@@ -19,6 +19,7 @@ const T = {
     modalLose:   'Ronda perdida',
     modalWinSub: (pos, n) => `${pos} · Adivinado en ${n} intento${n !== 1 ? 's' : ''}`,
     modalLoseSub:(pos, yr) => `Era ${pos} · ${yr} – presente`,
+    modalWins:   'Victorias', modalPlayed: 'Jugados', modalStreak: 'Racha',
     modalBtn:    '▶ Siguiente Jugador',
   },
   en: {
@@ -39,6 +40,7 @@ const T = {
     modalLose:   'Round lost',
     modalWinSub: (pos, n) => `${pos} · Guessed in ${n} attempt${n !== 1 ? 's' : ''}`,
     modalLoseSub:(pos, yr) => `Was ${pos} · ${yr} – present`,
+    modalWins:   'Wins', modalPlayed: 'Played', modalStreak: 'Streak',
     modalBtn:    '▶ Next Player',
   },
 };

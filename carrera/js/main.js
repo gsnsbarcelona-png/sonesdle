@@ -9,36 +9,12 @@ import * as State        from './core/state.js';
 import * as Autocomplete from './ui/autocomplete.js';
 import * as Renderer     from './ui/renderer.js';
 import * as Modal        from './ui/modal.js';
-import { ParticlesComponent }              from './ui/particles.js';
+import { T }             from './i18n.js';
+import { ParticlesComponent }              from '../../shared/js/ParticlesComponent.js';
 import { mountSwitcher, applyStaticTranslations } from '../../shared/lang.js';
 import { mountGameNav } from '../../shared/nav.js';
 import { hideKeyboard, focusIfDesktop } from '../../shared/js/keyboard.js';
 import { setupCombobox, setupDialog } from '../../shared/js/a11y.js';
-
-const STATIC = {
-  es: {
-    subtitle:    'Adivina al jugador por su trayectoria',
-    wins:        'Victorias', played: 'Jugados', streak: 'Racha',
-    attempts:    '⚡ Intentos',
-    pathTitle:   'Trayectoria Revelada',
-    placeholder: 'Escribe el nombre del jugador…',
-    btnGuess:    '⚔ Adivinar', btnHint: '💡 Pista',
-    btnSkip:     '⚑ Rendirse', btnNext: '▶ Siguiente Jugador',
-    modalBtn:    '▶ Siguiente Jugador',
-    modalWins:   'Victorias', modalPlayed: 'Jugados', modalStreak: 'Racha',
-  },
-  en: {
-    subtitle:    'Guess the player by their career',
-    wins:        'Wins', played: 'Played', streak: 'Streak',
-    attempts:    '⚡ Attempts',
-    pathTitle:   'Revealed Career',
-    placeholder: 'Type the player name…',
-    btnGuess:    '⚔ Guess', btnHint: '💡 Hint',
-    btnSkip:     '⚑ Give Up', btnNext: '▶ Next Player',
-    modalBtn:    '▶ Next Player',
-    modalWins:   'Wins', modalPlayed: 'Played', modalStreak: 'Streak',
-  },
-};
 
 // ─── Element shortcuts ────────────────────────────────────────────────────────
 
@@ -164,9 +140,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Idioma global
   mountSwitcher();
   mountGameNav();
-  applyStaticTranslations(STATIC);
+  applyStaticTranslations(T);
   document.addEventListener('langchange', () => {
-    applyStaticTranslations(STATIC);
+    applyStaticTranslations(T);
     Renderer.update(State.getState()); // re-render timeline con nuevo idioma
   });
 

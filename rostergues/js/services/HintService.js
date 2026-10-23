@@ -1,4 +1,4 @@
-const POSITION_ORDER = ['Top', 'Jungle', 'Mid', 'ADC', 'Support'];
+export const POSITION_ORDER = ['Top', 'Jungle', 'Mid', 'ADC', 'Support'];
 
 export function getHintTarget(players, solvedSlots) {
   return players

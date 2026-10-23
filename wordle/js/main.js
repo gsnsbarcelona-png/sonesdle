@@ -5,6 +5,7 @@ import { T, t } from './i18n.js';
 import { esc } from '../../shared/js/escape.js';
 import { loadJson, showLoadError } from '../../shared/js/data.js';
 import { setupDialog } from '../../shared/js/a11y.js';
+import { store } from '../../shared/js/storage.js';
 
 const ROWS = 6;
 // El largo de la palabra varía: el diario rota entre 4, 5 y 6 letras; en el libre se elige
@@ -23,10 +24,6 @@ mountGameNav();
 applyStaticTranslations(T);
 
 const $ = id => document.getElementById(id);
-const store = {
-  get(k)    { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
-  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* modo privado */ } },
-};
 
 // Día del reto con el que se cargó la página: no cambia si se cruza la medianoche UTC
 const DAY = today();

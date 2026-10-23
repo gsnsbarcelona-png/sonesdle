@@ -1,7 +1,7 @@
 import { storageService as store } from './services/StorageService.js';
 import { ROSTERS }                             from './data/rosters.js';
 import { pickRoster }                           from './services/RosterPickerService.js';
-import { getHintTarget, getMaskedName, nextRevealIn } from './services/HintService.js';
+import { getHintTarget, getMaskedName, nextRevealIn, POSITION_ORDER } from './services/HintService.js';
 import { mountSwitcher, applyStaticTranslations, getLang } from '../../shared/lang.js';
 import { mountGameNav } from '../../shared/nav.js';
 import { recordResult, getTodayDaily, today } from '../../shared/auth.js';
@@ -12,7 +12,6 @@ import { esc } from '../../shared/js/escape.js';
 import { setupCombobox, setupDialog } from '../../shared/js/a11y.js';
 
 /* ─── Constants ──────────────────────────────────────────── */
-const POSITION_ORDER   = ['Top', 'Jungle', 'Mid', 'ADC', 'Support'];
 const HINTS_EVERY_N_WRONGS = 5;
 
 const DIFF_KEY   = 'rostergues_difficulty';

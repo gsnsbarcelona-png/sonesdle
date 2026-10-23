@@ -17,7 +17,7 @@ const STORAGE_KEY = 'lolguess_stats';
 
 let currentPlayer  = null;
 let attempts       = [];   // { name: string, correct: boolean, isHint?: boolean }[]
-let hintsLog       = [];   // { type: 'wrong'|'manual', text: string, detail?: string }[]
+let hintsLog       = [];   // { type: 'wrong', text: string, detail?: string }[]
 let revealedCount  = INITIAL_REVEAL;
 let hintsGiven     = 0;      // total manual hints used this round (>=1 means position revealed)
 let roundOver      = false;
@@ -79,11 +79,6 @@ export function getState() {
 /** Names already guessed this round (lower-cased). */
 export function getAttemptedNames() {
   return attempts.map((a) => a.name.toLowerCase());
-}
-
-/** How many guesses remain. */
-export function getRemainingAttempts() {
-  return MAX_ATTEMPTS - attempts.length;
 }
 
 /** Load the next player from the queue, resetting round state. */

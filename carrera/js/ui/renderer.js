@@ -121,13 +121,6 @@ function renderHintsLog(hintsLog) {
             </div>
           </div>`;
       }
-      if (h.type === 'manual') {
-        return `
-          <div class="hint-item manual">
-            <span class="hint-icon">💡</span>
-            <span class="hint-text">${h.text}</span>
-          </div>`;
-      }
       return '';
     })
     .join('');

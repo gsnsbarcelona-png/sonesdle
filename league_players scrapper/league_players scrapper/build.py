@@ -1289,7 +1289,7 @@ def build_carrera_js(curated, by_page):
             continue
         main_role = (p["roles"] or p["positions"] or [""])[0]
         position = {"ADC": "Bot"}.get(main_role, main_role)
-        players.append({"name": p["id"], "position": position, "hint": c["hint"],
+        players.append({"name": p["id"], "position": position,
                         "career": career_from_history(p["history"])})
     J = lambda v: json.dumps(v, ensure_ascii=False)
     lines = ["// Generado por build.py (curated/carrera.json + Leaguepedia). No editar a mano.",
@@ -1297,7 +1297,7 @@ def build_carrera_js(curated, by_page):
              "",
              "/**",
              " * @typedef {{ year: string, team: string, region: string }} CareerEntry",
-             " * @typedef {{ name: string, position: string, hint: string, career: CareerEntry[] }} Player",
+             " * @typedef {{ name: string, position: string, career: CareerEntry[] }} Player",
              " * Regions: LCK | LPL | LEC | LCS | OTHER",
              " */",
              "",
