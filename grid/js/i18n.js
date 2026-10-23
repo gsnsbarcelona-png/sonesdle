@@ -49,7 +49,7 @@ export function t(key, ...args) {
 }
 
 /** Escapa HTML (los nombres vienen de Leaguepedia). */
-export const esc = v => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+export { esc } from '../../shared/js/escape.js';
 
 /**
  * Emoji como HTML, con las banderas como imagen: Windows no tiene emojis de bandera

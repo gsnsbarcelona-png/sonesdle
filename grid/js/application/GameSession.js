@@ -62,7 +62,14 @@ export class GameSession {
     this._bus.on(EVENTS.GAME_RESET,      () => this.start('free'));
   }
 
+  /** Programa el cierre de partida; se cancela si se empieza otra antes de que dispare. */
+  _later(fn, ms) {
+    clearTimeout(this._endTimer);
+    this._endTimer = setTimeout(fn, ms);
+  }
+
   _init() {
+    clearTimeout(this._endTimer);
     const players    = this._players.getAll();
     const categories = this._cats.getPool();
     const daily      = this._mode === 'daily' ? this._schedule[today()] : null;
@@ -186,7 +193,7 @@ export class GameSession {
       this._onInputChanged({ raw: this._lastRaw });   // la lista lo muestra ya como fallado
       if (this._over) {
         this._record(false);
-        setTimeout(() => {
+        this._later(() => {
           this._bus.emit(EVENTS.MODAL_CLOSE);
           this._finish(false);
         }, 900);
@@ -230,7 +237,7 @@ export class GameSession {
     this._bus.emit(EVENTS.MODAL_CLOSE);
     if (won) {
       this._record(true);
-      setTimeout(() => this._finish(true), 400);
+      this._later(() => this._finish(true), 400);
     }
   }
 

@@ -13,17 +13,19 @@
  *   AC.close(listEl);
  */
 
+import { esc } from './escape.js';
+
 let _activeIndex = -1;
 
 /** Envuelve la coincidencia con <strong> en dorado. */
 export function highlight(name, query) {
   const q   = query.trim();
   const idx = name.toLowerCase().indexOf(q.toLowerCase());
-  if (!q || idx === -1) return name;
+  if (!q || idx === -1) return esc(name);
   return (
-    name.slice(0, idx) +
-    `<strong style="color:var(--gold)">${name.slice(idx, idx + q.length)}</strong>` +
-    name.slice(idx + q.length)
+    esc(name.slice(0, idx)) +
+    `<strong style="color:var(--gold)">${esc(name.slice(idx, idx + q.length))}</strong>` +
+    esc(name.slice(idx + q.length))
   );
 }
 
@@ -44,9 +46,9 @@ export function render(results, listEl, query = '') {
 
   listEl.innerHTML = results
     .map((p, i) =>
-      `<div class="autocomplete-item" data-index="${i}" data-name="${p.name}">
+      `<div class="autocomplete-item" data-index="${i}" data-name="${esc(p.name)}">
         <span class="autocomplete-name">${highlight(p.name, query)}</span>
-        ${p.position ? `<span class="autocomplete-pos">${p.position}</span>` : ''}
+        ${p.position ? `<span class="autocomplete-pos">${esc(p.position)}</span>` : ''}
       </div>`
     )
     .join('');

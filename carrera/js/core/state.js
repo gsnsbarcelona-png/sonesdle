@@ -2,7 +2,7 @@ import { PLAYERS }          from '../data/players.js';
 import { generateAutoHint } from './hintEngine.js';
 import { recordResult }     from '../../../shared/auth.js';
 
-const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+import { esc } from '../../../shared/js/escape.js';
 
 /** Maximum guesses per round. */
 export const MAX_ATTEMPTS = 6;

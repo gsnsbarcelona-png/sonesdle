@@ -1,5 +1,5 @@
 /** Escapa caracteres HTML para evitar XSS con datos externos. */
-export const esc = v => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+export { esc } from '../../../shared/js/escape.js';
 
 /**
  * Convierte un emoji de bandera a su código ISO 3166-1 alpha-2

@@ -5,6 +5,7 @@
 
 import { MAX_ATTEMPTS } from '../core/state.js';
 import { t } from '../i18n.js';
+import { esc } from '../../../shared/js/escape.js';
 
 // ─── Region badge helper ───────────────────────────────────────────────────────
 
@@ -53,9 +54,9 @@ function renderTimeline(player, revealedCount) {
       (c) => `
       <div class="timeline-item">
         <div class="timeline-dot"></div>
-        <span class="timeline-year">${c.year}</span>
-        <span class="timeline-team">${c.team}</span>
-        <span class="region-badge ${regionClass(c.region)}">${c.region}</span>
+        <span class="timeline-year">${esc(c.year)}</span>
+        <span class="timeline-team">${esc(c.team)}</span>
+        <span class="region-badge ${regionClass(c.region)}">${esc(c.region)}</span>
       </div>`
     )
     .join('');

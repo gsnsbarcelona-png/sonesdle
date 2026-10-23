@@ -2,6 +2,8 @@ import { mountSwitcher, applyStaticTranslations } from '../../shared/lang.js';
 import { mountGameNav } from '../../shared/nav.js';
 import { recordResult, getTodayDaily, today } from '../../shared/auth.js';
 import { T, t } from './i18n.js';
+import { esc } from '../../shared/js/escape.js';
+import { loadJson, showLoadError } from '../../shared/js/data.js';
 
 const ROWS = 6;
 // El largo de la palabra varía: el diario rota entre 4, 5 y 6 letras; en el libre se elige
@@ -26,9 +28,9 @@ const store = {
 };
 
 const [{ answers, guesses }, schedule] = await Promise.all([
-  fetch('./data/words.json').then(r => r.json()),
-  fetch('./data/schedule.json').then(r => r.json()).catch(() => ({})),
-]);
+  loadJson('./data/words.json'),
+  loadJson('./data/schedule.json').catch(() => ({})),
+]).catch(showLoadError);
 
 // Palabra → jugadores con ese nombre (el más conocido primero)
 const byWord = new Map();
@@ -203,7 +205,6 @@ function reject(msg) {
 
 // ── Resultado ──────────────────────────────────────────────────
 
-const esc = v => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const leagueLabel = l => l === 'PCS' ? 'PCS/LMS' : l;
 const MAX_PATH = 5;
 let countdown;
@@ -224,7 +225,7 @@ function showEnd() {
     <div><b>${esc(p.name)}</b> · ${esc(p.role)}${p.years ? ` · ${p.years[0]}${p.years[1] !== p.years[0] ? `–${p.years[1]}` : ''}` : ''}</div>
     ${p.path?.length ? `<div class="path">${pathHtml(p.path)}</div>` : ''}
     <div class="tags">${p.leagues.map(l => `<span class="tag">${leagueLabel(l)}</span>`).join('')}</div>
-    ${others.length ? `<div class="also">${t('also', others.map(o => `${esc(o.name)} (${o.leagues.join(', ')})`).join(' · '))}</div>` : ''}`;
+    ${others.length ? `<div class="also">${t('also', others.map(o => `${esc(o.name)} (${esc(o.leagues.join(', '))})`).join(' · '))}</div>` : ''}`;
   $('endPlayer').classList.toggle('hidden', !p);
   $('btnShare').classList.toggle('hidden', state.mode !== 'daily');
   $('btnAgain').classList.toggle('hidden', state.mode !== 'free');

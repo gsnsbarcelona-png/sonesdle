@@ -1,3 +1,4 @@
+import { storageService as store } from './services/StorageService.js';
 import { ROSTERS }                             from './data/rosters.js';
 import { pickRoster }                           from './services/RosterPickerService.js';
 import { getHintTarget, getMaskedName, nextRevealIn } from './services/HintService.js';
@@ -7,6 +8,7 @@ import { recordResult, getTodayDaily } from '../../shared/auth.js';
 import { hideKeyboard } from '../../shared/js/keyboard.js';
 import { ParticlesComponent } from '../../shared/js/ParticlesComponent.js';
 import * as AC from '../../shared/js/autocomplete.js';
+import { esc } from '../../shared/js/escape.js';
 
 /* ─── Constants ──────────────────────────────────────────── */
 const POSITION_ORDER   = ['Top', 'Jungle', 'Mid', 'ADC', 'Support'];
@@ -27,10 +29,10 @@ function todayStr() {
   return new Date().toISOString().slice(0, 10);
 }
 function isDailyDone() {
-  return localStorage.getItem(DAILY_KEY) === todayStr();
+  return store.get(DAILY_KEY) === todayStr();
 }
 function markDailyDone() {
-  localStorage.setItem(DAILY_KEY, todayStr());
+  store.set(DAILY_KEY, todayStr());
 }
 
 /* ─── i18n ───────────────────────────────────────────────── */
@@ -83,8 +85,10 @@ const state = {
 const $ = id => document.getElementById(id);
 
 /* ─── Difficulty ─────────────────────────────────────────── */
-let difficulty = localStorage.getItem(DIFF_KEY) ?? 'media';
-let region     = localStorage.getItem(REGION_KEY) ?? 'all';
+const storedDiff   = store.get(DIFF_KEY);
+const storedRegion = store.get(REGION_KEY);
+let difficulty = storedDiff in PLACEMENT_POOLS ? storedDiff : 'media';
+let region     = ['all', 'other', ...MAJOR_REGIONS].includes(storedRegion) ? storedRegion : 'all';
 
 const inRegion = (r, reg) =>
   reg === 'all' || (reg === 'other' ? !MAJOR_REGIONS.includes(r.region) : r.region === reg);
@@ -213,9 +217,9 @@ function renderSlots() {
     if (solved) {
       slot.innerHTML = `
         <div class="slot-position">${labels[pos] ?? pos}</div>
-        <div class="slot-name">${player.name}</div>
-        <div class="slot-real">${player.real}</div>
-        <div class="slot-flag">${player.flag}</div>
+        <div class="slot-name">${esc(player.name)}</div>
+        <div class="slot-real">${esc(player.real)}</div>
+        <div class="slot-flag">${esc(player.flag)}</div>
         <div class="slot-check">✓</div>
       `;
     } else if (hint) {
@@ -275,7 +279,7 @@ function renderHistory() {
 
     item.innerHTML = `
       <span class="guess-item-icon">${g.correct ? '✓' : '✗'}</span>
-      <span class="guess-item-name">${g.name}</span>
+      <span class="guess-item-name">${esc(g.name)}</span>
       <span class="guess-item-pos">${posLabel}</span>
     `;
     container.appendChild(item);
@@ -371,8 +375,8 @@ function showResult() {
     card.className = `result-player ${guessed ? 'guessed' : 'missed'}`;
     card.innerHTML = `
       <div class="result-player-pos">${labels[pos] ?? pos}</div>
-      <div class="result-player-flag">${player.flag}</div>
-      <div class="result-player-name">${player.name}</div>
+      <div class="result-player-flag">${esc(player.flag)}</div>
+      <div class="result-player-name">${esc(player.name)}</div>
     `;
     rosterEl.appendChild(card);
   }
@@ -473,7 +477,7 @@ function bindEvents() {
     btn.addEventListener('click', () => {
       if (!isDailyDone()) return;
       difficulty = btn.dataset.diff;
-      localStorage.setItem(DIFF_KEY, difficulty);
+      store.set(DIFF_KEY, difficulty);
       renderDiffButtons();
       initGame();
     });
@@ -483,7 +487,7 @@ function bindEvents() {
     btn.addEventListener('click', () => {
       if (!isDailyDone()) return;
       region = btn.dataset.region;
-      localStorage.setItem(REGION_KEY, region);
+      store.set(REGION_KEY, region);
       renderDiffButtons();
       initGame();
     });
