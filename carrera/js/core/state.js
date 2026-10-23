@@ -54,7 +54,12 @@ function endRound(didWin) {
 }
 
 function resetQueue() {
-  queue = [...Array(PLAYERS.length).keys()].sort(() => Math.random() - 0.5);
+  // Fisher-Yates: sort(() => Math.random() - 0.5) no baraja de forma uniforme
+  queue = [...Array(PLAYERS.length).keys()];
+  for (let i = queue.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [queue[i], queue[j]] = [queue[j], queue[i]];
+  }
 }
 
 // ─── Public API ───────────────────────────────────────────────────────────────
