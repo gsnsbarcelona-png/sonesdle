@@ -1,57 +1,29 @@
-import { PLAYERS } from '../data/players.js';
-import { esc }     from '../../../shared/js/escape.js';
-
 /**
- * Generates an automatic comparison hint between the guessed player
- * and the target player. Returns an HTML string.
+ * Compares a wrong guess with the target player. Returns plain data (no text),
+ * so the renderer can translate it. It only uses what the player can already
+ * see: the revealed career stages, and the position only once it was revealed.
  *
- * @param {string} guessedName
+ * @param {import('../data/players.js').Player} guessed
  * @param {import('../data/players.js').Player} target
- * @returns {string}
+ * @param {number} revealedCount  career stages of the target visible now
+ * @returns {{ sameRole: boolean, sharedTeam: string|null, debut: { cmp: 'later'|'earlier'|'same', year: number }|null }}
  */
-export function generateAutoHint(guessedName, target) {
-  const guessed = PLAYERS.find(
-    (p) => p.name.toLowerCase() === guessedName.trim().toLowerCase()
-  );
-
-  if (!guessed) {
-    return `"${esc(guessedName)}" no está en nuestra base de datos.`;
-  }
-
-  const hints = [];
-
-  // Role comparison
-  if (guessed.position === target.position) {
-    hints.push(`mismo rol (<strong>${esc(target.position)}</strong>)`);
-  } else {
-    hints.push(`distinto rol (${esc(guessed.position)} vs ${esc(target.position)})`);
-  }
-
-  // Shared team
-  const targetTeams  = target.career.map((c) => c.team.toLowerCase());
+export function compareGuess(guessed, target, revealedCount) {
+  const visible = target.career.slice(0, revealedCount);
   const guessedTeams = guessed.career.map((c) => c.team.toLowerCase());
-  const sharedKey    = targetTeams.find((t) => guessedTeams.includes(t));
+  const shared = visible.find((c) => guessedTeams.includes(c.team.toLowerCase()));
 
-  if (sharedKey) {
-    const original = target.career.find(
-      (c) => c.team.toLowerCase() === sharedKey
-    ).team;
-    hints.push(`ambos jugaron en <strong>${esc(original)}</strong>`);
-  }
-
-  // Debut year
   const targetDebut  = parseInt(target.career[0]?.year);
   const guessedDebut = parseInt(guessed.career[0]?.year);
-
+  let debut = null;
   if (!isNaN(targetDebut) && !isNaN(guessedDebut)) {
-    if (targetDebut > guessedDebut) {
-      hints.push(`el jugador buscado debutó más tarde (<strong>${targetDebut}</strong>)`);
-    } else if (targetDebut < guessedDebut) {
-      hints.push(`el jugador buscado debutó antes (<strong>${targetDebut}</strong>)`);
-    } else {
-      hints.push(`debutaron el mismo año (<strong>${targetDebut}</strong>)`);
-    }
+    const cmp = targetDebut > guessedDebut ? 'later' : targetDebut < guessedDebut ? 'earlier' : 'same';
+    debut = { cmp, year: targetDebut };
   }
 
-  return hints.join(' · ');
+  return {
+    sameRole:   guessed.position === target.position,
+    sharedTeam: shared ? shared.team : null,
+    debut,
+  };
 }
