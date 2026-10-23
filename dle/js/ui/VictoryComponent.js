@@ -39,6 +39,7 @@ export class VictoryComponent {
     if (secret.image && this.#imgEl) {
       this.#imgEl.classList.add('hidden');
       const preload = new Image();
+      preload.referrerPolicy = 'no-referrer';   // la foto es de un tercero: no se le dice qué página la pide
       preload.onload = () => {
         this.#imgEl.src = secret.image;
         this.#imgEl.alt = secret.name;

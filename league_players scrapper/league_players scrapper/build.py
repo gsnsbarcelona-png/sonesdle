@@ -44,7 +44,7 @@ import time
 import unicodedata
 import zlib
 from collections import Counter, defaultdict
-from urllib.parse import unquote
+from urllib.parse import unquote, urlparse
 
 import requests
 from requests.adapters import HTTPAdapter
@@ -71,6 +71,7 @@ TEAM_TOURNAMENTS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_team_tour
 CHAMPION_REDIRECTS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "champion_redirects.json")
 TIER2_PLAYERS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_tier2_players_v3.json")
 BIRTH_YEARS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "birth_years.json")
+IMAGES_CACHE_PATH        = os.path.join(SCRIPT_DIR, "cache", "player_images.json")
 TIER2_TEAMS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_tier2_teams.json")
 TIER1_PLAYERS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_tier1_players_v3.json")
 TIER1_TEAMS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_tier1_teams.json")
@@ -703,6 +704,51 @@ def fetch_birth_years(pages):
     return years
 
 
+IMAGE_WIDTH = 160   # px: la foto se enseña en un círculo de 96 px (el doble, para pantallas HiDPI)
+IMAGE_HOST  = "static.wikia.nocookie.net"   # el mismo host que permite img-src en vercel.json
+
+
+def fetch_images(pages):
+    """{página: URL de la foto más reciente} para los jugadores que tienen alguna.
+    Cargo (PlayerImages) dice qué fichero es y la API de la wiki da su URL final; la URL
+    es de miniatura (IMAGE_WIDTH), así que no se descarga la imagen original."""
+    session = new_session()
+    files = {}   # página (minúsculas, con espacios) -> (fecha, fichero)
+    pages = sorted(set(pages))
+    for i in range(0, len(pages), CARGO_BATCH):
+        time.sleep(CARGO_DELAY)
+        for row in cargo_query(session, "Link", [pg.replace("_", " ") for pg in pages[i:i + CARGO_BATCH]],
+                               table="PlayerImages", fields="Link,FileName,SortDate"):
+            key = str(row.get("Link", "")).replace("_", " ").lower()
+            date = str(row.get("SortDate") or "")
+            if row.get("FileName") and date >= files.get(key, ("",))[0]:
+                files[key] = (date, row["FileName"])
+    by_file = defaultdict(list)   # "File:X.png" -> páginas pedidas con esa foto
+    for pg in pages:
+        found = files.get(pg.replace("_", " ").lower())
+        if found:
+            by_file["File:" + html.unescape(found[1]).replace("_", " ")].append(pg)
+    titles = sorted(by_file)
+    images = {}
+    for i in range(0, len(titles), 50):
+        time.sleep(CARGO_DELAY)
+        r = session.get(API_URL, headers=HEADERS, timeout=60, params={
+            "action": "query", "prop": "imageinfo", "iiprop": "url", "iiurlwidth": IMAGE_WIDTH,
+            "titles": "|".join(titles[i:i + 50]), "format": "json",
+        })
+        r.raise_for_status()
+        query = r.json()["query"]
+        back = {step["to"]: step["from"] for step in query.get("normalized", [])}
+        for pg in query["pages"].values():
+            info = (pg.get("imageinfo") or [{}])[0]
+            url = info.get("thumburl") or info.get("url") or ""
+            if urlparse(url).hostname != IMAGE_HOST:   # solo el host que permite la CSP
+                continue
+            for page in by_file.get(back.get(pg["title"], pg["title"]), []):
+                images[page] = url
+    return images
+
+
 def fetch_aliases(pages):
     """{página: [alias en minúsculas]}. Las tablas de Leaguepedia a veces usan un
     alias en vez de la página ("Broken Blade" -> "BrokenBlade", "caPs" -> "Caps")."""
@@ -1214,7 +1260,13 @@ def display_names(master):
             for p in master]
 
 
-def build_dle(master, birth_years):
+def dle_pages(master):
+    """Páginas de los jugadores que acabarán en dle (activos o agentes libres recientes)."""
+    return [m["page"] for m in master if m["game_team"] and m["page"]
+            and (m["scraped"] or m["tier"] in (1, 2))]
+
+
+def build_dle(master, birth_years, images=None):
     """Jugadores de main.py en activo o agentes libres desde hace menos de
     RECENT_FREE_AGENT_DAYS (con su último equipo): todos tienen equipo que comparar.
     `tier` dice si su liga actual es tier 1 (reto diario) o inferior (modo libre).
@@ -1239,6 +1291,8 @@ def build_dle(master, birth_years):
             "team":      p["game_team"],
             "free_agent": p["status"] == "free_agent",   # sigue con su último equipo
         })
+        if (images or {}).get(p["page"]):   # sin clave si no hay foto: el juego la oculta
+            players[-1]["image"] = images[p["page"]]
     return players
 
 
@@ -1778,7 +1832,16 @@ def main():
     no_birthdate = [m["page"] for m in master if m["game_team"] and not m["birthdate"] and m["page"]]
     birth_years = cached_by_key(BIRTH_YEARS_CACHE_PATH, refresh, no_birthdate,
                                 fetch_birth_years, STABLE_REFRESH_DAYS, changes["pages"])
-    dle = build_dle(master, birth_years)
+    # La foto es un extra: si falla la descarga, el juego sigue sin ella (y sin cachear el fallo)
+    try:
+        images = cached_by_key(IMAGES_CACHE_PATH, refresh, dle_pages(master),
+                               fetch_images, STABLE_REFRESH_DAYS, changes["pages"])
+    except Exception as e:
+        print(f"::warning::Fotos de jugadores no actualizadas: {e}")
+        stored = read_cache(IMAGES_CACHE_PATH)
+        images = stored.get("data", {}) if isinstance(stored, dict) else {}
+    print(f"  {len(images)} jugadores con foto")
+    dle = build_dle(master, birth_years, images)
     check_dataset("dle", DLE_PATH, [p["name"] for p in dle], len(dle),
                   lambda t: len(json.loads(t)["players"]))
     # un jugador por línea: pesa menos
