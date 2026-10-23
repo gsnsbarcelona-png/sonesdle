@@ -93,9 +93,19 @@ function renderDots(attempts) {
   }).join('');
 }
 
-/**
- * @param {{ type: string, text: string, detail?: string }[]} hintsLog
- */
+/** Builds the (translated) text of one wrong-guess entry. Returns plain strings; callers escape. */
+function hintParts(h) {
+  const { info } = h;
+  const parts = [];
+  if (info.positionKnown) parts.push(t(info.sameRole ? 'hintSameRole' : 'hintOtherRole'));
+  if (info.sharedTeam) parts.push(t('hintShared', info.sharedTeam));
+  if (info.debut) {
+    const key = { later: 'hintLater', earlier: 'hintEarlier', same: 'hintSameYear' }[info.debut.cmp];
+    parts.push(t(key, info.debut.year));
+  }
+  return parts;
+}
+
 let announcedHints = 0;
 function renderHintsLog(hintsLog) {
   const { hintsLog: el } = getDOM();
@@ -103,26 +113,20 @@ function renderHintsLog(hintsLog) {
   const status = document.getElementById('sr-status');
   const newest = hintsLog[hintsLog.length - 1];
   if (status) {
-    const plain = newest
-      ? new DOMParser().parseFromString(`${newest.text} ${newest.detail ?? ''}`, 'text/html').body.textContent
+    status.textContent = newest && hintsLog.length > announcedHints
+      ? `${t('wrongGuess', newest.name)} ${hintParts(newest).join(', ')}`
       : '';
-    status.textContent = newest && hintsLog.length > announcedHints ? plain : '';
   }
   announcedHints = hintsLog.length;
   el.innerHTML = hintsLog
-    .map((h) => {
-      if (h.type === 'wrong') {
-        return `
-          <div class="hint-item wrong">
-            <span class="hint-icon">✗</span>
-            <div>
-              <span class="hint-player">${h.text}</span>
-              ${h.detail ? `<br><span class="hint-text">${h.detail}</span>` : ''}
-            </div>
-          </div>`;
-      }
-      return '';
-    })
+    .map((h) => `
+      <div class="hint-item wrong">
+        <span class="hint-icon">✗</span>
+        <div>
+          <span class="hint-player">${esc(t('wrongGuess', h.name))}</span>
+          <br><span class="hint-text">${hintParts(h).map(esc).join(' · ')}</span>
+        </div>
+      </div>`)
     .join('');
 }
 
@@ -158,7 +162,8 @@ function renderControls(state) {
 
     btnHint.classList.toggle('hidden', noMoreHints);
     btnSkip.classList.toggle('hidden', !noMoreHints);
-    btnHint.disabled = false;
+    // Una pista en el último intento solo haría perder la ronda
+    btnHint.disabled = state.attempts.length >= MAX_ATTEMPTS - 1;
     btnSkip.disabled = false;
   }
 }

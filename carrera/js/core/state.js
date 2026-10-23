@@ -1,8 +1,6 @@
 import { PLAYERS }          from '../data/players.js';
-import { generateAutoHint } from './hintEngine.js';
+import { compareGuess }     from './hintEngine.js';
 import { recordResult }     from '../../../shared/auth.js';
-
-import { esc } from '../../../shared/js/escape.js';
 
 /** Maximum guesses per round. */
 export const MAX_ATTEMPTS = 6;
@@ -17,7 +15,7 @@ const STORAGE_KEY = 'lolguess_stats';
 
 let currentPlayer  = null;
 let attempts       = [];   // { name: string, correct: boolean, isHint?: boolean }[]
-let hintsLog       = [];   // { type: 'wrong', text: string, detail?: string }[]
+let hintsLog       = [];   // { type: 'wrong', name: string, info: object }[]
 let revealedCount  = INITIAL_REVEAL;
 let hintsGiven     = 0;      // total manual hints used this round (>=1 means position revealed)
 let roundOver      = false;
@@ -95,29 +93,34 @@ export function nextPlayer() {
 }
 
 /**
- * Submit a guess.
+ * Submit a guess. Unknown or repeated names are rejected without using an attempt.
  * @param {string} name
- * @returns {{ correct: boolean, finished: boolean } | null} null if round is over
+ * @returns {{ correct: boolean, finished: boolean } | { invalid: true } | { duplicate: true } | null}
+ *          null if the round is over
  */
 export function guess(name) {
   if (roundOver) return null;
 
-  const correct =
-    name.trim().toLowerCase() === currentPlayer.name.toLowerCase();
+  const wanted = name.trim().toLowerCase();
+  const guessed = PLAYERS.find((p) => p.name.toLowerCase() === wanted);
+  if (!guessed) return { invalid: true };
+  if (getAttemptedNames().includes(wanted)) return { duplicate: true };
 
-  attempts.push({ name, correct });
+  const correct = guessed.name === currentPlayer.name;
+  attempts.push({ name: guessed.name, correct });
 
   if (correct) {
     endRound(true);
     return { correct: true, finished: true };
   }
 
-  // Auto hint on wrong answer
-  const detail = generateAutoHint(name, currentPlayer);
-  hintsLog.push({ type: 'wrong', text: `"${esc(name)}" es incorrecto.`, detail });
-
-  // Reveal one more career entry
+  // Reveal one more career entry, then compare against what is now visible
   if (revealedCount < currentPlayer.career.length) revealedCount++;
+  hintsLog.push({
+    type: 'wrong',
+    name: guessed.name,
+    info: { ...compareGuess(guessed, currentPlayer, revealedCount), positionKnown: hintsGiven >= 1 },
+  });
 
   if (attempts.length >= MAX_ATTEMPTS) {
     endRound(false);
@@ -139,6 +142,8 @@ export function useHint() {
   // Check there is something left to reveal
   const isFirstHint = hintsGiven === 0;
   if (!isFirstHint && revealedCount >= currentPlayer.career.length) return false;
+  // A hint on the last attempt would just lose the round
+  if (attempts.length >= MAX_ATTEMPTS - 1) return false;
 
   hintsGiven++;
   attempts.push({ name: `💡 Pista ${hintsGiven}`, correct: false, isHint: true });

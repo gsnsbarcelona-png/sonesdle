@@ -9,7 +9,7 @@ import * as State        from './core/state.js';
 import * as Autocomplete from './ui/autocomplete.js';
 import * as Renderer     from './ui/renderer.js';
 import * as Modal        from './ui/modal.js';
-import { T }             from './i18n.js';
+import { T, t }          from './i18n.js';
 import { ParticlesComponent }              from '../../shared/js/ParticlesComponent.js';
 import { mountSwitcher, applyStaticTranslations } from '../../shared/lang.js';
 import { mountGameNav } from '../../shared/nav.js';
@@ -29,6 +29,13 @@ function submitGuess() {
 
   const result = State.guess(name);
   if (!result) return;
+  if (result.invalid || result.duplicate) {
+    showError(t(result.invalid ? 'errNotFound' : 'errAlready'));
+    shakeInput();
+    Autocomplete.close(listEl());
+    return;
+  }
+  showError('');
 
   inputEl().value = '';
   hideKeyboard(inputEl());   // móvil: ver la carrera sin el teclado encima
@@ -39,6 +46,10 @@ function submitGuess() {
     const s = State.getState();
     setTimeout(() => Modal.showModal(s.won, s.currentPlayer, s.stats, s.attempts), 300);
   }
+}
+
+function showError(msg) {
+  document.getElementById('guess-error').textContent = msg;
 }
 
 function useHint() {
@@ -65,6 +76,7 @@ function nextRound() {
   State.nextPlayer();
   Renderer.update(State.getState());
   inputEl().value = '';
+  showError('');
   focusIfDesktop(inputEl());
   document.getElementById('hints-log').innerHTML = '';
 }
@@ -87,6 +99,7 @@ function bindEvents() {
   input.addEventListener('input', () => {
     const results = Autocomplete.filter(input.value);
     Autocomplete.render(results, input, list);
+    showError('');
   });
 
   // Keyboard navigation
