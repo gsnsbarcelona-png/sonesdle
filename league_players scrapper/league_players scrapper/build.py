@@ -1732,9 +1732,10 @@ def main():
           + (f" (sin datos: {', '.join(missing[:10])})" if missing else ""))
     costreamers = sorted(f"{row.get('ID')} ({row.get('Team')}: {'/'.join(map(str, row.get('RoleLast') or []))})"
                          for row in cargo_rows.values() if row.get("Team") and is_staff_now(row)
-                         and not row.get("IsRetired"))
-    print(f"  con equipo pero sin rol de jugador en él (RoleLast): {len(costreamers)}"
-          + (f" ({', '.join(costreamers[:25])}{'...' if len(costreamers) > 25 else ''})" if costreamers else ""))
+                         and not row.get("IsRetired")
+                         and (row.get("Role") or "").lower() in PLAYER_ROLES)   # solo los que esta regla añade
+    print(f"  con rol de jugador pero no en su equipo actual (RoleLast): {len(costreamers)}"
+          + (f" ({', '.join(costreamers[:60])}{'...' if len(costreamers) > 60 else ''})" if costreamers else ""))
     discovered = sorted(m["id"] for m in master
                         if not m["scraped"] and m["tier"] == 1 and m["game_team"] and m["id"])
     print(f"  tier 1 descubiertos fuera de main.py: {len(discovered)}"
@@ -1744,7 +1745,7 @@ def main():
         with open(summary, "a", encoding="utf-8") as f:
             f.write(f"### Jugadores tier 1 descubiertos fuera de main.py: {len(discovered)}\n\n"
                     + "\n".join(f"- {n}" for n in discovered)
-                    + f"\n\n### Con equipo pero sin rol de jugador en él (co-streamers, staff): {len(costreamers)}\n\n"
+                    + f"\n\n### Con rol de jugador pero no en su equipo actual (co-streamers, staff): {len(costreamers)}\n\n"
                     + "\n".join(f"- {n}" for n in costreamers) + "\n")
     print(f"  {sum(1 for m in master if m['history'])} con historial, "
           f"{sum(1 for m in master if not m['scraped'])} fuera de main.py")
