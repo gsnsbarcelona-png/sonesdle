@@ -54,12 +54,12 @@ SCRIPT_DIR       = os.path.dirname(os.path.abspath(__file__))
 ROOT             = os.path.join(SCRIPT_DIR, "..", "..")
 SCRAPED_PATH     = os.path.join(SCRIPT_DIR, "players.json")
 PLAYER_LIST_PATH = os.path.join(SCRIPT_DIR, "cache", "player_list.json")
-CARGO_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_players_v2.json")
+CARGO_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_players_v3.json")
 TEAMS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_teams.json")
 MASTER_PATH      = os.path.join(SCRIPT_DIR, "players_master.json")
 DLE_PATH         = os.path.join(ROOT, "dle", "data", "players.json")
 ROSTERS_PATH     = os.path.join(SCRIPT_DIR, "worlds_rosters.json")
-EXTRA_CARGO_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_extra_players_v2.json")
+EXTRA_CARGO_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_extra_players_v3.json")
 REDIRECTS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "roster_redirects.json")
 TENURES_CACHE_PATH     = os.path.join(SCRIPT_DIR, "cache", "cargo_tenures.json")
 ALIASES_CACHE_PATH     = os.path.join(SCRIPT_DIR, "cache", "cargo_aliases.json")
@@ -69,10 +69,10 @@ MAJOR_LEAGUES_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_major_league
 CHAMPIONS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_champions.json")
 TEAM_TOURNAMENTS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_team_tournaments.json")
 CHAMPION_REDIRECTS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "champion_redirects.json")
-TIER2_PLAYERS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_tier2_players_v2.json")
+TIER2_PLAYERS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_tier2_players_v3.json")
 BIRTH_YEARS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "birth_years.json")
 TIER2_TEAMS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_tier2_teams.json")
-TIER1_PLAYERS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_tier1_players_v2.json")
+TIER1_PLAYERS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_tier1_players_v3.json")
 TIER1_TEAMS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_tier1_teams.json")
 SYNC_STATE_PATH          = os.path.join(SCRIPT_DIR, "cache", "sync_state.json")
 PLAYER_FIXES_PATH        = os.path.join(SCRIPT_DIR, "curated", "player_fixes.json")
@@ -105,7 +105,7 @@ RETIRED      = "Retired"
 PLAYER_ROLES = {"top", "jungle", "mid", "bot", "support"}
 
 PLAYER_FIELDS = ("OverviewPage,ID,Name,Country,Nationality,NationalityPrimary,"
-                 "Birthdate,Team,Role,RoleLast,IsRetired,IsSubstitute")
+                 "Birthdate,Team,Team2,Role,RoleLast,IsRetired,IsSubstitute")
 
 # Liga actual de un equipo: la de mejor tier en la que ha jugado en el último año
 # de LEAGUE_YEARS con alguna liga (si empatan, la más reciente).
@@ -969,17 +969,31 @@ def is_staff_now(cargo):
     return bool(roles) and not roles & PLAYER_ROLES
 
 
+def playing_team(cargo):
+    """Equipo en el que juega ahora. Es `Team`, salvo que ahí solo sea staff o co-streamer
+    (`is_staff_now`) y tenga un segundo equipo (`Team2`) con rol de jugador: Obsess es
+    co-streamer de Fnatic pero juega en No Need Orga, y Sola de G2 pero juega en Eintracht
+    Spandau Zwei. Leaguepedia pone en `Role` la posición con la que juega en ese segundo equipo."""
+    team = cargo.get("Team")
+    if (team and is_staff_now(cargo) and cargo.get("Team2") and not cargo.get("IsRetired")
+            and (cargo.get("Role") or "").lower() in PLAYER_ROLES):
+        return cargo["Team2"]
+    return team
+
+
 def status_and_team(cargo, scraped):
     if not cargo:
         return "unknown", scraped.get("equipo_actual", "")
     role = (cargo.get("Role") or "").lower()
-    if cargo.get("IsRetired") or (role and role not in PLAYER_ROLES) or is_staff_now(cargo):
+    team = playing_team(cargo)
+    if (cargo.get("IsRetired") or (role and role not in PLAYER_ROLES)
+            or (is_staff_now(cargo) and team == cargo.get("Team"))):
         return "retired", RETIRED          # retirado o ahora es staff
-    if not cargo.get("Team"):
+    if not team:
         return "free_agent", FREE_AGENT
     if cargo.get("IsSubstitute"):
-        return "sub", cargo["Team"]
-    return "player", cargo["Team"]
+        return "sub", team
+    return "player", team
 
 
 def classify_league(name, info):
@@ -1697,7 +1711,7 @@ def main():
     title_leagues = {league for ts in won_titles.values() for league, _, _ in ts}
     league_info = cached_by_key(LEAGUE_INFO_CACHE_PATH, refresh, title_leagues,
                                 fetch_league_info, STABLE_REFRESH_DAYS)
-    teams = sorted({row["Team"] for row in cargo_rows.values() if row.get("Team")}
+    teams = sorted({t for row in cargo_rows.values() for t in (row.get("Team"), playing_team(row)) if t}
                    | {t["team"] for ts in tenures.values() for t in ts if t["team"]})
     team_regions = cached_by_key(TEAMS_CACHE_PATH, refresh, teams, fetch_team_regions,
                                  STABLE_REFRESH_DAYS, changes["pages"])
@@ -1715,7 +1729,7 @@ def main():
 
     # Equipos actuales y últimos equipos de quien lo ha dejado hace poco (agentes libres)
     cutoff = (datetime.date.today() - datetime.timedelta(days=RECENT_FREE_AGENT_DAYS)).isoformat()
-    teams_needed = {row["Team"] for row in cargo_rows.values() if row.get("Team")}
+    teams_needed = {t for row in cargo_rows.values() for t in (row.get("Team"), playing_team(row)) if t}
     teams_needed |= {t["team"] for ts in tenures.values() for t in ts
                      if t["to"] and t["to"] >= cutoff and t["team"]}
     team_tournaments = cached_by_key(TEAM_TOURNAMENTS_CACHE_PATH, refresh, teams_needed,
@@ -1730,7 +1744,8 @@ def main():
     missing = [m["id"] for m in master if m["status"] == "unknown"]
     print(f"{len(master) - len(missing)}/{len(master)} con datos de Cargo"
           + (f" (sin datos: {', '.join(missing[:10])})" if missing else ""))
-    costreamers = sorted(f"{row.get('ID')} ({row.get('Team')}: {'/'.join(map(str, row.get('RoleLast') or []))})"
+    costreamers = sorted(f"{row.get('ID')} ({row.get('Team')}: {'/'.join(map(str, row.get('RoleLast') or []))}"
+                         + (f" -> juega en {playing_team(row)}" if playing_team(row) != row.get("Team") else "") + ")"
                          for row in cargo_rows.values() if row.get("Team") and is_staff_now(row)
                          and not row.get("IsRetired")
                          and (row.get("Role") or "").lower() in PLAYER_ROLES)   # solo los que esta regla añade
