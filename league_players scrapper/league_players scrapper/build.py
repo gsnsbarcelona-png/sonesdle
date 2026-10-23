@@ -1748,7 +1748,10 @@ def main():
     print(f"dle -> {DLE_PATH} ({len(dle)} jugadores)")
 
     js, roster_players = build_rostergues_js(rosters, cargo_rows)
-    check_dataset("rostergues", ROSTERGUES_PATH, [r["id"] for r in rosters], len(rosters),
+    # Los ids que se publican son los del fichero generado (únicos: build_rostergues_js añade
+    # el evento cuando un equipo y año se repite), no los de `rosters`
+    roster_ids = re.findall(r'^  \{"id": "([^"]*)"', js, re.M)
+    check_dataset("rostergues", ROSTERGUES_PATH, roster_ids, len(roster_ids),
                   lambda t: len(re.findall(r'^  \{"id": ', t, re.M)))
     atomic_write(ROSTERGUES_PATH, js)
     no_real = sum(1 for p in roster_players.values() if not p["real"])
