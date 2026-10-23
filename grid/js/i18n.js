@@ -30,19 +30,10 @@ export function t(key, ...args) {
 
 /** Escapa HTML (los nombres vienen de Leaguepedia). */
 import { esc } from '../../shared/js/escape.js';
-import { flagUrl } from '../../shared/js/flags.js';
+import { flagEmojiHtml as emojiHtml } from '../../shared/js/flags.js';
 export { esc };
 
-/**
- * Emoji como HTML, con las banderas como imagen: Windows no tiene emojis de bandera
- * y los pinta como letras ("CN", "KR").
- */
-export function emojiHtml(text) {
-  return esc(text ?? '').replace(/[\u{1F1E6}-\u{1F1FF}]{2}/gu, flag => {
-    const code = [...flag].map(c => String.fromCharCode(c.codePointAt(0) - 0x1F1E6 + 97)).join('');
-    return `<img class="flag-img" src="${flagUrl(code)}" alt="${flag}">`;
-  });
-}
+export { emojiHtml };   // banderas como imagen (shared/js/flags.js)
 
 /** Icono de una categoría: su logo (grid/img/) si lo tiene, si no su emoji. */
 export function catIconHtml(cat) {

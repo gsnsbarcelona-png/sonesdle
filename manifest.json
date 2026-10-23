@@ -1,16 +1,111 @@
 {
+  "id": "/",
   "name": "LOL Pro Games",
   "short_name": "LolProGames",
-  "description": "Juegos de conocimiento sobre pro players de League of Legends. DLE Games, Pro Grid y Career Guess.",
+  "description": "Cinco juegos diarios sobre pro players de League of Legends: Pro Wordle, Adivina el Pro, Pro Grid, Roster Guess y Career Guess.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "any",
   "background_color": "#010a13",
   "theme_color": "#010a13",
   "lang": "es",
+  "dir": "ltr",
+  "categories": [
+    "games",
+    "entertainment"
+  ],
   "icons": [
-    { "src": "/favicon.png",          "sizes": "32x32",   "type": "image/png" },
-    { "src": "/icon-192.png",         "sizes": "192x192", "type": "image/png" },
-    { "src": "/icon-512.png",         "sizes": "512x512", "type": "image/png" },
-    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Pro Wordle",
+      "short_name": "Pro Wordle",
+      "description": "Adivina el nombre en 6 intentos",
+      "url": "/wordle/",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Adivina el Pro",
+      "short_name": "Adivina el Pro",
+      "description": "El reto diario de pistas",
+      "url": "/dle/",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Pro Grid",
+      "short_name": "Pro Grid",
+      "description": "La cuadrícula 3×3",
+      "url": "/grid/",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Roster Guess",
+      "short_name": "Roster Guess",
+      "description": "Rosters de Worlds y MSI",
+      "url": "/rostergues/",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Career Guess",
+      "short_name": "Career Guess",
+      "description": "Adivina por la carrera",
+      "url": "/carrera/",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
   ]
 }

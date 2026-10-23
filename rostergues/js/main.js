@@ -9,6 +9,7 @@ import { hideKeyboard } from '../../shared/js/keyboard.js';
 import { ParticlesComponent } from '../../shared/js/ParticlesComponent.js';
 import * as AC from '../../shared/js/autocomplete.js';
 import { esc } from '../../shared/js/escape.js';
+import { flagEmojiHtml } from '../../shared/js/flags.js';
 import { setupCombobox, setupDialog } from '../../shared/js/a11y.js';
 
 /* ─── Constants ──────────────────────────────────────────── */
@@ -239,7 +240,7 @@ function renderSlots() {
         <div class="slot-position">${labels[pos] ?? pos}</div>
         <div class="slot-name">${esc(player.name)}</div>
         <div class="slot-real">${esc(player.real)}</div>
-        <div class="slot-flag">${esc(player.flag)}</div>
+        <div class="slot-flag">${flagEmojiHtml(player.flag)}</div>
         <div class="slot-check">✓</div>
       `;
     } else if (hint) {
@@ -401,7 +402,7 @@ function showResult() {
     card.className = `result-player ${guessed ? 'guessed' : 'missed'}`;
     card.innerHTML = `
       <div class="result-player-pos">${labels[pos] ?? pos}</div>
-      <div class="result-player-flag">${esc(player.flag)}</div>
+      <div class="result-player-flag">${flagEmojiHtml(player.flag)}</div>
       <div class="result-player-name">${esc(player.name)}</div>
     `;
     rosterEl.appendChild(card);
