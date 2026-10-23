@@ -1,0 +1,2 @@
+# Dependencias de build.py (las que instala el workflow diario)
+requests>=2.32,<3
