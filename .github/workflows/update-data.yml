@@ -44,7 +44,7 @@ jobs:
       # lo descarga todo de nuevo. Se guarda también si build.py falla, para no
       # repetir una descarga larga ya hecha a medias.
       - name: Recuperar caché de Leaguepedia
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           path: league_players scrapper/league_players scrapper/cache
           key: leaguepedia-${{ github.run_id }}
@@ -56,7 +56,7 @@ jobs:
 
       - name: Guardar caché de Leaguepedia
         if: always()
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6
         with:
           path: league_players scrapper/league_players scrapper/cache
           key: leaguepedia-${{ github.run_id }}
