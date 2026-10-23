@@ -34,6 +34,7 @@ si algún cambio no se detecta. Sin cache/ (o si hace > 80 días) se descarga to
 """
 import argparse
 import datetime
+import functools
 import html
 import json
 import os
@@ -71,6 +72,8 @@ CHAMPION_REDIRECTS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "champion_redi
 TIER2_PLAYERS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_tier2_players.json")
 BIRTH_YEARS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "birth_years.json")
 TIER2_TEAMS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_tier2_teams.json")
+TIER1_PLAYERS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_tier1_players.json")
+TIER1_TEAMS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_tier1_teams.json")
 SYNC_STATE_PATH          = os.path.join(SCRIPT_DIR, "cache", "sync_state.json")
 PLAYER_FIXES_PATH        = os.path.join(SCRIPT_DIR, "curated", "player_fixes.json")
 CURATED_CARRERA_PATH   = os.path.join(SCRIPT_DIR, "curated", "carrera.json")
@@ -533,10 +536,10 @@ def fetch_team_tournaments(teams):
             for team in teams}
 
 
-def fetch_tier2_teams():
-    """Equipos que han jugado una liga tier 2 en LEAGUE_YEARS (LFL, NACL, LCK CL...).
-    main.py solo trae a quien ha pasado por una liga tier 1; sus jugadores actuales
-    completan el modo libre del dle."""
+@functools.lru_cache(maxsize=1)
+def _official_league_rows():
+    """Filas (equipo, torneo, liga) de las ligas oficiales de LEAGUE_YEARS. Una sola consulta
+    por ejecución: de ella salen los equipos de tier 1 y de tier 2."""
     session = new_session()
     years = ",".join(cargo_quote(y) for y in LEAGUE_YEARS)
     rows, offset = [], 0
@@ -552,16 +555,34 @@ def fetch_tier2_teams():
         })
         r.raise_for_status()
         batch = r.json()
+        if isinstance(batch, dict):   # Cargo responde {"error": ...} en vez de una lista
+            raise RuntimeError(f"Leaguepedia: {batch.get('error', batch)}")
         rows += batch
         offset += 5000
         if len(batch) < 5000:
             break
-    return sorted({str(row["Team"]) for row in rows if row.get("Team")
+    return rows
+
+
+def _teams_of_tier(tier):
+    return sorted({str(row["Team"]) for row in _official_league_rows() if row.get("Team")
                    and (league := classify_league(
                        html.unescape(row["Name"]),
                        {"League Short": row.get("League Short"), "Region": row.get("Region"),
                         "IsOfficial": row.get("IsOfficial")}))
-                   and league[1] == 2})
+                   and league[1] == tier})
+
+
+def fetch_tier1_teams():
+    """Equipos que han jugado una liga tier 1 en LEAGUE_YEARS. Sus jugadores actuales se
+    descubren solos, sin esperar a volver a ejecutar main.py."""
+    return _teams_of_tier(1)
+
+
+def fetch_tier2_teams():
+    """Equipos que han jugado una liga tier 2 en LEAGUE_YEARS (LFL, NACL, LCK CL...).
+    Sus jugadores actuales completan el modo libre del dle."""
+    return _teams_of_tier(2)
 
 
 def fetch_team_players(teams):
@@ -1167,8 +1188,9 @@ def build_dle(master, birth_years):
     """Jugadores de main.py en activo o agentes libres desde hace menos de
     RECENT_FREE_AGENT_DAYS (con su último equipo): todos tienen equipo que comparar.
     `tier` dice si su liga actual es tier 1 (reto diario) o inferior (modo libre).
-    Los que no vienen de main.py solo entran si su equipo es tier 2 (no tocan el reto diario)."""
-    active = [p for p in master if p["game_team"] and (p["scraped"] or p["tier"] == 2)]
+    Los que no vienen de main.py entran si su equipo es tier 1 o 2 (los de tier 1 se
+    descubren desde las plantillas de Cargo)."""
+    active = [p for p in master if p["game_team"] and (p["scraped"] or p["tier"] in (1, 2))]
     players = []
     for p, name in zip(active, display_names(active)):
         players.append({
@@ -1508,7 +1530,7 @@ def write_json(path, data):
 # Una respuesta parcial de Leaguepedia o una caché dañada no deben llegar a producción:
 # si algo falla aquí, build.py termina con error y el workflow no hace commit.
 
-SCRAPED_MAX_AGE_DAYS = 60   # antigüedad a partir de la cual se avisa de que main.py está desfasado
+SCRAPED_MAX_AGE_DAYS = 90   # antigüedad a partir de la cual se avisa de que main.py está desfasado
 MIN_KEPT_RATIO  = 0.9    # un dataset no puede encogerse más de un 10 % de golpe
 MIN_SCHEDULE_DAYS = 14   # días de reto diario por delante que deben quedar
 SUSPECT_CHARS   = re.compile(r'[<>"\\]')   # nombres con HTML o comillas: vandalismo o error de parseo
@@ -1588,9 +1610,10 @@ def main():
     except (KeyError, ValueError):
         age = None
     if age is not None and age > SCRAPED_MAX_AGE_DAYS:
-        # Los jugadores nuevos de tier 1 solo entran al ejecutar main.py a mano
-        print(f"::warning::players.json de main.py tiene {age} días: los jugadores que han "
-              f"llegado a una liga tier 1 desde entonces no están. Ejecuta main.py y vuelve a hacer commit.")
+        # Los jugadores actuales de tier 1 ya se descubren por Cargo; lo que este fichero
+        # sigue aportando son los agentes libres recientes y la grafía de los retirados
+        print(f"::notice::players.json de main.py tiene {age} días. Los jugadores actuales de tier 1 "
+              f"se descubren por Cargo; solo se pueden perder agentes libres recientes que no estén ya aquí.")
     if all(r.get("page") for r in scraped):
         pages = [r["page"] for r in scraped]
     else:   # players.json antiguo, sin página: se deduce de la lista de main.py
@@ -1632,6 +1655,14 @@ def main():
     tier2 = {row["OverviewPage"]: row for rows in team_players.values() for row in rows}
     cargo_rows = {**tier2, **cargo_rows}
     extra_pages += [p for p in tier2 if p not in extra_pages]
+    # Plantillas actuales de las ligas tier 1: así entran jugadores nuevos sin volver a
+    # ejecutar main.py. Lo que ya está en players.json conserva sus datos (van los últimos).
+    tier1_teams = cached(TIER1_TEAMS_CACHE_PATH, refresh, fetch_tier1_teams)
+    tier1_players = cached_by_key(TIER1_PLAYERS_CACHE_PATH, refresh, tier1_teams,
+                                  fetch_team_players, REFRESH_DAYS, changes["teams"])
+    tier1 = {row["OverviewPage"]: row for rows in tier1_players.values() for row in rows}
+    cargo_rows = {**tier1, **cargo_rows}
+    extra_pages += [p for p in tier1 if p not in extra_pages]
 
     # Página actual de cada jugador (la de main.py puede haberse renombrado)
     all_pages = sorted({current_page(p, cargo_rows) for p in pages + extra_pages if p})
@@ -1689,6 +1720,15 @@ def main():
     missing = [m["id"] for m in master if m["status"] == "unknown"]
     print(f"{len(master) - len(missing)}/{len(master)} con datos de Cargo"
           + (f" (sin datos: {', '.join(missing[:10])})" if missing else ""))
+    discovered = sorted(m["id"] for m in master
+                        if not m["scraped"] and m["tier"] == 1 and m["game_team"] and m["id"])
+    print(f"  tier 1 descubiertos fuera de main.py: {len(discovered)}"
+          + (f" ({', '.join(discovered[:25])}{'...' if len(discovered) > 25 else ''})" if discovered else ""))
+    summary = os.environ.get("GITHUB_STEP_SUMMARY")
+    if summary:   # visible en la pestaña del workflow, para revisar qué jugadores entran
+        with open(summary, "a", encoding="utf-8") as f:
+            f.write(f"### Jugadores tier 1 descubiertos fuera de main.py: {len(discovered)}\n\n"
+                    + "\n".join(f"- {n}" for n in discovered) + "\n")
     print(f"  {sum(1 for m in master if m['history'])} con historial, "
           f"{sum(1 for m in master if not m['scraped'])} fuera de main.py")
 
