@@ -3,11 +3,27 @@
  * Todas las subpáginas usan la clave 'app_lang' en localStorage.
  */
 
+import { flagUrl } from './js/flags.js';
+
 const LANG_KEY = 'app_lang';
 
+// Nombres accesibles de botones e inputs sin texto propio: <button data-aria="help">
+const ARIA = {
+  es: { help: 'Cómo jugar', close: 'Cerrar', player: 'Nombre del pro player' },
+  en: { help: 'How to play', close: 'Close', player: 'Pro player name' },
+};
+
+function applyAria() {
+  const dict = ARIA[getLang()] ?? ARIA.es;
+  document.querySelectorAll('[data-aria]').forEach(el => {
+    const v = dict[el.dataset.aria];
+    if (v) el.setAttribute('aria-label', v);
+  });
+}
+
 const FLAGS = {
-  es: { src: 'https://flagcdn.com/w20/es.png', code: 'ES' },
-  en: { src: 'https://flagcdn.com/w20/gb.png', code: 'EN' },
+  es: { src: flagUrl('es'), code: 'ES' },
+  en: { src: flagUrl('gb'), code: 'EN' },
 };
 
 /** Devuelve el idioma actual ('es' | 'en'). Migra la clave antigua 'dle_lang' si existe. */
@@ -24,6 +40,7 @@ export function getLang() {
 export function setLang(lang) {
   if (!FLAGS[lang]) return;
   localStorage.setItem(LANG_KEY, lang);
+  document.documentElement.lang = lang;
   document.dispatchEvent(new CustomEvent('langchange', { detail: { lang } }));
 }
 
@@ -32,6 +49,7 @@ export function setLang(lang) {
  * @param {{ es: Record<string,string>, en: Record<string,string> }} translations
  */
 export function applyStaticTranslations(translations) {
+  applyAria();
   const dict = translations[getLang()] ?? translations.es ?? {};
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const v = dict[el.dataset.i18n];
@@ -54,6 +72,9 @@ export function mountSwitcher(container = null) {
 
   // Dos idiomas: un selector ES | EN de un clic (un desplegable taparía los iconos de juego)
   const cur = getLang();
+  document.documentElement.lang = cur;
+  applyAria();
+  document.addEventListener('langchange', applyAria);
   wrapper.setAttribute('role', 'group');
   wrapper.setAttribute('aria-label', 'Idioma / Language');
   wrapper.innerHTML = Object.entries(FLAGS).map(([lang, f]) => `

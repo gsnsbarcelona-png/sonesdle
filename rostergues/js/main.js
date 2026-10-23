@@ -1,15 +1,17 @@
+import { storageService as store } from './services/StorageService.js';
 import { ROSTERS }                             from './data/rosters.js';
 import { pickRoster }                           from './services/RosterPickerService.js';
-import { getHintTarget, getMaskedName, nextRevealIn } from './services/HintService.js';
+import { getHintTarget, getMaskedName, nextRevealIn, POSITION_ORDER } from './services/HintService.js';
 import { mountSwitcher, applyStaticTranslations, getLang } from '../../shared/lang.js';
 import { mountGameNav } from '../../shared/nav.js';
-import { recordResult, getTodayDaily } from '../../shared/auth.js';
+import { recordResult, getTodayDaily, today } from '../../shared/auth.js';
 import { hideKeyboard } from '../../shared/js/keyboard.js';
 import { ParticlesComponent } from '../../shared/js/ParticlesComponent.js';
 import * as AC from '../../shared/js/autocomplete.js';
+import { esc } from '../../shared/js/escape.js';
+import { setupCombobox, setupDialog } from '../../shared/js/a11y.js';
 
 /* ─── Constants ──────────────────────────────────────────── */
-const POSITION_ORDER   = ['Top', 'Jungle', 'Mid', 'ADC', 'Support'];
 const HINTS_EVERY_N_WRONGS = 5;
 
 const DIFF_KEY   = 'rostergues_difficulty';
@@ -23,14 +25,12 @@ const PLACEMENT_POOLS = {
   dificil: ['champion', 'finalist', 'semifinalist', 'quarterfinalist', 'groups'],
 };
 
-function todayStr() {
-  return new Date().toISOString().slice(0, 10);
-}
+const todayStr = today;   // día del reto en UTC, igual que el resto de juegos
 function isDailyDone() {
-  return localStorage.getItem(DAILY_KEY) === todayStr();
+  return store.get(DAILY_KEY) === todayStr();
 }
 function markDailyDone() {
-  localStorage.setItem(DAILY_KEY, todayStr());
+  store.set(DAILY_KEY, todayStr());
 }
 
 /* ─── i18n ───────────────────────────────────────────────── */
@@ -83,8 +83,10 @@ const state = {
 const $ = id => document.getElementById(id);
 
 /* ─── Difficulty ─────────────────────────────────────────── */
-let difficulty = localStorage.getItem(DIFF_KEY) ?? 'media';
-let region     = localStorage.getItem(REGION_KEY) ?? 'all';
+const storedDiff   = store.get(DIFF_KEY);
+const storedRegion = store.get(REGION_KEY);
+let difficulty = storedDiff in PLACEMENT_POOLS ? storedDiff : 'media';
+let region     = ['all', 'other', ...MAJOR_REGIONS].includes(storedRegion) ? storedRegion : 'all';
 
 const inRegion = (r, reg) =>
   reg === 'all' || (reg === 'other' ? !MAJOR_REGIONS.includes(r.region) : r.region === reg);
@@ -101,9 +103,11 @@ function getRosterPool() {
 function renderDiffButtons() {
   document.querySelectorAll('[data-diff]').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.diff === difficulty);
+    btn.setAttribute('aria-pressed', String(btn.dataset.diff === difficulty));
   });
   document.querySelectorAll('[data-region]').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.region === region);
+    btn.setAttribute('aria-pressed', String(btn.dataset.region === region));
   });
 }
 
@@ -125,9 +129,29 @@ for (const roster of ROSTERS) {
   }
 }
 
+/* ─── Reto diario: mismo roster para todos ───────────────── */
+const DAILY_ROSTER_KEY = 'rostergues_daily_roster';
+
+function dailyRoster() {
+  const day = todayStr();
+  // Fijado el primer día que se abre, para que un cambio de rosters.js no lo mueva
+  const pinned = store.get(DAILY_ROSTER_KEY);
+  const known  = pinned?.date === day && ROSTERS.find(r => r.id === pinned.id);
+  if (known) return known;
+
+  const pool = ROSTERS
+    .filter(r => PLACEMENT_POOLS.media.includes(r.placement))
+    .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+  let h = 0;
+  for (const c of day) h = (Math.imul(31, h) + c.charCodeAt(0)) >>> 0;
+  const roster = pool[h % pool.length];
+  store.set(DAILY_ROSTER_KEY, { date: day, id: roster.id });
+  return roster;
+}
+
 /* ─── Init ───────────────────────────────────────────────── */
 function initGame() {
-  state.roster          = pickRoster(getRosterPool());
+  state.roster          = isDailyDone() ? pickRoster(getRosterPool()) : dailyRoster();
   state.solvedSlots     = new Set();
   state.guesses         = [];
   state.attempts        = 0;
@@ -213,9 +237,9 @@ function renderSlots() {
     if (solved) {
       slot.innerHTML = `
         <div class="slot-position">${labels[pos] ?? pos}</div>
-        <div class="slot-name">${player.name}</div>
-        <div class="slot-real">${player.real}</div>
-        <div class="slot-flag">${player.flag}</div>
+        <div class="slot-name">${esc(player.name)}</div>
+        <div class="slot-real">${esc(player.real)}</div>
+        <div class="slot-flag">${esc(player.flag)}</div>
         <div class="slot-check">✓</div>
       `;
     } else if (hint) {
@@ -260,9 +284,15 @@ function renderHintProgress() {
 }
 
 /* ─── History ────────────────────────────────────────────── */
+let announcedGuesses = 0;
 function renderHistory() {
   const container = $('guess-history');
   container.innerHTML = '';
+  // Lectores de pantalla: solo el último intento (la lista se repinta entera)
+  const last = state.guesses[state.guesses.length - 1];
+  $('sr-status').textContent = last && state.guesses.length > announcedGuesses
+    ? `${last.name}: ${last.correct ? '✓' : '✗'}` : '';
+  announcedGuesses = state.guesses.length;
 
   const list = [...state.guesses].reverse();
   for (const g of list) {
@@ -275,7 +305,7 @@ function renderHistory() {
 
     item.innerHTML = `
       <span class="guess-item-icon">${g.correct ? '✓' : '✗'}</span>
-      <span class="guess-item-name">${g.name}</span>
+      <span class="guess-item-name">${esc(g.name)}</span>
       <span class="guess-item-pos">${posLabel}</span>
     `;
     container.appendChild(item);
@@ -371,8 +401,8 @@ function showResult() {
     card.className = `result-player ${guessed ? 'guessed' : 'missed'}`;
     card.innerHTML = `
       <div class="result-player-pos">${labels[pos] ?? pos}</div>
-      <div class="result-player-flag">${player.flag}</div>
-      <div class="result-player-name">${player.name}</div>
+      <div class="result-player-flag">${esc(player.flag)}</div>
+      <div class="result-player-name">${esc(player.name)}</div>
     `;
     rosterEl.appendChild(card);
   }
@@ -464,7 +494,12 @@ function bindEvents() {
   btnSubmit.addEventListener('click', () => submitGuess(input.value));
 
   btnSurr.addEventListener('click', () => {
-    if (state.gameStatus === 'playing') surrender();
+    if (state.gameStatus !== 'playing') return;
+    // Rendirse en el reto diario lo da por jugado (como derrota)
+    if (!isDailyDone() && !confirm(getLang() === 'en'
+      ? 'Giving up counts as a loss for today\'s daily challenge. Are you sure?'
+      : 'Rendirse cuenta como derrota en el reto diario de hoy. ¿Seguro?')) return;
+    surrender();
   });
 
   btnResult.addEventListener('click', () => initGame());
@@ -473,7 +508,7 @@ function bindEvents() {
     btn.addEventListener('click', () => {
       if (!isDailyDone()) return;
       difficulty = btn.dataset.diff;
-      localStorage.setItem(DIFF_KEY, difficulty);
+      store.set(DIFF_KEY, difficulty);
       renderDiffButtons();
       initGame();
     });
@@ -483,7 +518,7 @@ function bindEvents() {
     btn.addEventListener('click', () => {
       if (!isDailyDone()) return;
       region = btn.dataset.region;
-      localStorage.setItem(REGION_KEY, region);
+      store.set(REGION_KEY, region);
       renderDiffButtons();
       initGame();
     });
@@ -507,6 +542,12 @@ document.addEventListener('DOMContentLoaded', () => {
     particleCanvas: $('canvas-particles'),
     confettiCanvas: $('canvas-confetti'),
   });
+  setupCombobox({
+    input: $('guess-input'), list: $('autocomplete-list'),
+    optionSelector: '.autocomplete-item', activeClass: 'active',
+  });
+  setupDialog($('result-overlay'));   // fin de partida: se sale con sus botones
+  setupDialog($('instructions-modal'), { closeSelector: '#instructions-close' });
   bindEvents();
   if (isDailyDone()) showDiffRow();
   renderDiffButtons();

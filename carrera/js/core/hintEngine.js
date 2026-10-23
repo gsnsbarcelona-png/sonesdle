@@ -1,4 +1,5 @@
 import { PLAYERS } from '../data/players.js';
+import { esc }     from '../../../shared/js/escape.js';
 
 /**
  * Generates an automatic comparison hint between the guessed player
@@ -14,16 +15,16 @@ export function generateAutoHint(guessedName, target) {
   );
 
   if (!guessed) {
-    return `"${guessedName}" no está en nuestra base de datos.`;
+    return `"${esc(guessedName)}" no está en nuestra base de datos.`;
   }
 
   const hints = [];
 
   // Role comparison
   if (guessed.position === target.position) {
-    hints.push(`mismo rol (<strong>${target.position}</strong>)`);
+    hints.push(`mismo rol (<strong>${esc(target.position)}</strong>)`);
   } else {
-    hints.push(`distinto rol (${guessed.position} vs ${target.position})`);
+    hints.push(`distinto rol (${esc(guessed.position)} vs ${esc(target.position)})`);
   }
 
   // Shared team
@@ -35,7 +36,7 @@ export function generateAutoHint(guessedName, target) {
     const original = target.career.find(
       (c) => c.team.toLowerCase() === sharedKey
     ).team;
-    hints.push(`ambos jugaron en <strong>${original}</strong>`);
+    hints.push(`ambos jugaron en <strong>${esc(original)}</strong>`);
   }
 
   // Debut year

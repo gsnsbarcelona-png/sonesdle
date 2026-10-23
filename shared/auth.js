@@ -5,14 +5,14 @@
  * - Con cuenta: también se suben a Supabase; al iniciar sesión se suben los
  *   que estaban pendientes en este navegador.
  *
- * La librería de Supabase se carga bajo demanda: si la CDN falla, los juegos
+ * La librería de Supabase se carga bajo demanda: si falla, los juegos
  * siguen funcionando y solo desaparece la cuenta.
  */
 
 const SUPABASE_URL = 'https://pvztcqmmobmuymopyfej.supabase.co';
 // Clave pública por diseño: la seguridad la dan las reglas RLS de supabase/schema.sql
 const SUPABASE_KEY = 'sb_publishable_zXMAkTT5AM9PeC8l68OWlA_h8c3Kvup';
-const SUPABASE_JS  = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/+esm';
+const SUPABASE_JS  = new URL('./vendor/supabase.js', import.meta.url).href;   // empaquetado en el repo (tools/vendor)
 
 const LOCAL_KEY = 'lolpg_results';
 export const GAMES = ['dle', 'rostergues', 'carrera', 'grid', 'wordle'];

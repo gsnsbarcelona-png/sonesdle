@@ -4,3 +4,8 @@ supabase
 .github
 CNAME
 tools
+
+# Documentación interna y configuración local: no publicar
+.claude
+*.md
+dle/INSTRUCCIONES.txt

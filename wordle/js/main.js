@@ -2,6 +2,10 @@ import { mountSwitcher, applyStaticTranslations } from '../../shared/lang.js';
 import { mountGameNav } from '../../shared/nav.js';
 import { recordResult, getTodayDaily, today } from '../../shared/auth.js';
 import { T, t } from './i18n.js';
+import { esc } from '../../shared/js/escape.js';
+import { loadJson, showLoadError } from '../../shared/js/data.js';
+import { setupDialog } from '../../shared/js/a11y.js';
+import { store } from '../../shared/js/storage.js';
 
 const ROWS = 6;
 // El largo de la palabra varía: el diario rota entre 4, 5 y 6 letras; en el libre se elige
@@ -20,15 +24,16 @@ mountGameNav();
 applyStaticTranslations(T);
 
 const $ = id => document.getElementById(id);
-const store = {
-  get(k)    { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
-  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* modo privado */ } },
-};
+
+// Día del reto con el que se cargó la página: no cambia si se cruza la medianoche UTC
+const DAY = today();
+
+setupDialog($('endOverlay'), { closeSelector: '#btnClose' });
 
 const [{ answers, guesses }, schedule] = await Promise.all([
-  fetch('./data/words.json').then(r => r.json()),
-  fetch('./data/schedule.json').then(r => r.json()).catch(() => ({})),
-]);
+  loadJson('./data/words.json'),
+  loadJson('./data/schedule.json').catch(() => ({})),
+]).catch(showLoadError);
 
 // Palabra → jugadores con ese nombre (el más conocido primero)
 const byWord = new Map();
@@ -48,11 +53,11 @@ const inLeague = (a, league) =>
   !league || a.leagues.some(l => (LEAGUE_ALIASES[league] ?? [league]).includes(l));
 
 function dailyWord() {
-  if (schedule[today()]) return schedule[today()];
+  if (schedule[DAY]) return schedule[DAY];
   // Sin calendario (no debería pasar): palabra fija por fecha
   const pool = [...byWord.keys()].filter(w => byWord.get(w).some(a => a.daily)).sort();
   let h = 0;
-  for (const c of today()) h = (Math.imul(31, h) + c.charCodeAt(0)) >>> 0;
+  for (const c of DAY) h = (Math.imul(31, h) + c.charCodeAt(0)) >>> 0;
   return pool[h % pool.length];
 }
 
@@ -81,7 +86,7 @@ function evaluate(guess, word) {
 async function startDaily() {
   Object.assign(state, { mode: 'daily', word: dailyWord(), rows: [], current: '', over: false, won: false });
   const saved = store.get(DAILY_KEY);
-  if (saved?.date === today() && saved.word === state.word) {
+  if (saved?.date === DAY && saved.word === state.word) {
     Object.assign(state, { rows: saved.rows, over: saved.over, won: saved.won });
   }
   render(true);
@@ -104,13 +109,14 @@ function startFree() {
 
 function saveDaily() {
   if (state.mode !== 'daily') return;
-  store.set(DAILY_KEY, { date: today(), word: state.word, rows: state.rows, over: state.over, won: state.won });
+  store.set(DAILY_KEY, { date: DAY, word: state.word, rows: state.rows, over: state.over, won: state.won });
 }
 
 function submit() {
   if (state.current.length < len()) return reject(t('tooShort'));
   if (!valid.has(state.current))   return reject(t('notPlayer'));
   state.rows.push(state.current);
+  announce(state.rows.length, state.current);
   state.won  = state.current === state.word;
   state.over = state.won || state.rows.length === ROWS;
   state.current = '';
@@ -122,6 +128,12 @@ function submit() {
     state.busy = true;
     setTimeout(() => { state.busy = false; showEnd(); }, 900);
   }
+}
+
+/** Resultado del intento en un texto para lectores de pantalla (el color no se lee). */
+function announce(n, guess) {
+  const marks = evaluate(guess, state.word);
+  $('srStatus').textContent = `${n}/${ROWS}: ` + [...guess].map((c, i) => `${c} ${t(marks[i])}`).join(', ');
 }
 
 function press(key) {
@@ -157,6 +169,9 @@ function renderRow(r) {
   [...row.children].forEach((tile, i) => {
     tile.textContent = text[i] ?? '';
     tile.className = 'tile' + (done ? ' ' + marks[i] : text[i] ? ' filled' : '');
+    // El color no basta para un lector de pantalla: letra y estado en la etiqueta
+    tile.setAttribute('role', 'img');
+    tile.setAttribute('aria-label', text[i] ? (done ? `${text[i]}, ${t(marks[i])}` : text[i]) : t('emptyTile'));
   });
 }
 
@@ -169,19 +184,23 @@ function renderKeyboard() {
   $('keyboard').innerHTML = KB_ROWS.map(row => `<div class="kb-row">${[...row].map(k => {
     const id = k === '⏎' ? 'ENTER' : k === '⌫' ? 'BACK' : k;
     const label = k === '⏎' ? t('enter') : k;
-    return `<button class="key${k === '⏎' || k === '⌫' ? ' wide' : ''} ${best[k] ?? ''}" data-key="${id}" type="button">${label}</button>`;
+    const name  = k === '⌫' ? t('backspace') : k === '⏎' ? t('enter') : best[k] ? `${k}, ${t(best[k])}` : k;
+    return `<button class="key${k === '⏎' || k === '⌫' ? ' wide' : ''} ${best[k] ?? ''}" data-key="${id}" type="button" aria-label="${esc(name)}">${label}</button>`;
   }).join('')}</div>`).join('');
 }
 
 function renderControls() {
-  document.querySelectorAll('.mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === state.mode));
+  document.querySelectorAll('.mode-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.mode === state.mode);
+    b.setAttribute('aria-pressed', String(b.dataset.mode === state.mode));
+  });
   $('leagues').classList.toggle('hidden', state.mode !== 'free');
   $('lengths').classList.toggle('hidden', state.mode !== 'free');
   $('leagues').innerHTML = LEAGUES.map(l =>
-    `<button class="league-btn${l === state.league ? ' active' : ''}" data-league="${l ?? ''}" type="button"
+    `<button class="league-btn${l === state.league ? ' active' : ''}" data-league="${l ?? ''}" type="button" aria-pressed="${l === state.league}"
              ${l === 'LCP' ? `title="${t('lcpTip')}"` : ''}>${l ?? t('allLeagues')}</button>`).join('');
   $('lengths').innerHTML = LENGTHS.map(n =>
-    `<button class="league-btn${n === state.length ? ' active' : ''}" data-length="${n}" type="button">${t('letters', n)}</button>`).join('');
+    `<button class="league-btn${n === state.length ? ' active' : ''}" data-length="${n}" type="button" aria-pressed="${n === state.length}">${t('letters', n)}</button>`).join('');
   $('dayInfo').textContent = state.mode === 'daily' ? t('todayLetters', len()) : '';
 }
 
@@ -203,7 +222,6 @@ function reject(msg) {
 
 // ── Resultado ──────────────────────────────────────────────────
 
-const esc = v => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const leagueLabel = l => l === 'PCS' ? 'PCS/LMS' : l;
 const MAX_PATH = 5;
 let countdown;
@@ -224,7 +242,7 @@ function showEnd() {
     <div><b>${esc(p.name)}</b> · ${esc(p.role)}${p.years ? ` · ${p.years[0]}${p.years[1] !== p.years[0] ? `–${p.years[1]}` : ''}` : ''}</div>
     ${p.path?.length ? `<div class="path">${pathHtml(p.path)}</div>` : ''}
     <div class="tags">${p.leagues.map(l => `<span class="tag">${leagueLabel(l)}</span>`).join('')}</div>
-    ${others.length ? `<div class="also">${t('also', others.map(o => `${esc(o.name)} (${o.leagues.join(', ')})`).join(' · '))}</div>` : ''}`;
+    ${others.length ? `<div class="also">${t('also', others.map(o => `${esc(o.name)} (${esc(o.leagues.join(', '))})`).join(' · '))}</div>` : ''}`;
   $('endPlayer').classList.toggle('hidden', !p);
   $('btnShare').classList.toggle('hidden', state.mode !== 'daily');
   $('btnAgain').classList.toggle('hidden', state.mode !== 'free');
@@ -252,7 +270,7 @@ function hideEnd() {
 }
 
 async function share() {
-  const date = today().split('-').reverse().join('/');
+  const date = DAY.split('-').reverse().join('/');
   const score = state.won ? state.rows.length : 'X';
   const grid = state.rows.map(g => evaluate(g, state.word).map(m => EMOJI[m]).join('')).join('\n');
   const text = `LoL Pro Wordle ${date} · ${t('letters', len())} · ${score}/6\n\n${grid}\n\nlolprogames.com/wordle`;

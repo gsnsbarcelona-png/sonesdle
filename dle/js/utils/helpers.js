@@ -1,5 +1,7 @@
+import { flagUrl } from '../../../shared/js/flags.js';
+
 /** Escapa caracteres HTML para evitar XSS con datos externos. */
-export const esc = v => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+export { esc } from '../../../shared/js/escape.js';
 
 /**
  * Convierte un emoji de bandera a su código ISO 3166-1 alpha-2
@@ -15,17 +17,20 @@ function emojiToIso(emoji) {
 }
 
 /**
- * Devuelve un `<img>` HTML con la bandera desde flagcdn.com.
+ * Devuelve un `<img>` HTML con la bandera (SVG propio).
  * @param {string} flagEmoji
  * @param {number} size — ancho en px con el que se muestra
  */
 export function flagImg(flagEmoji, size = 20) {
   const code = emojiToIso(flagEmoji);
   if (!code) return '';
-  // flagcdn solo tiene anchos fijos (w24 da un 404): se pide el siguiente y se escala
-  const cdnWidth = [20, 40, 80, 160].find(w => w >= size) ?? 160;
-  return `<img src="https://flagcdn.com/w${cdnWidth}/${code}.png"
+  return `<img data-flag src="${flagUrl(code)}"
               width="${size}" height="${Math.round(size * 0.75)}"
               style="vertical-align:middle;border-radius:2px;display:inline-block"
-              alt="" onerror="this.style.display='none'">`;
+              alt="">`;
 }
+
+// Sin bandera para ese país: se oculta la imagen (el error de carga no burbujea, de ahí la captura)
+document.addEventListener('error', e => {
+  if (e.target instanceof HTMLImageElement && e.target.hasAttribute('data-flag')) e.target.style.display = 'none';
+}, true);

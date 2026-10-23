@@ -50,7 +50,16 @@ export class GridComponent {
       this.#makeAgeCell(player,      result.age),
       ...(this.#hardMode ? [] : [this.#makeTeamCell(player, result.team)]),
     ];
-    dataCells.forEach(cell => row.appendChild(cell));
+    dataCells.forEach(cell => {
+      const status = /cell-(correct|partial|wrong)/.exec(cell.className)?.[1];
+      if (status) {   // el color no se lee con lector de pantalla: texto oculto con el estado
+        const sr = document.createElement('span');
+        sr.className = 'sr-only';
+        sr.textContent = t(`status_${status}`);
+        cell.appendChild(sr);
+      }
+      row.appendChild(cell);
+    });
 
     // Filas mas recientes arriba (igual que Wordle / DLE Games original)
     this.#listEl.insertBefore(row, this.#listEl.firstChild);

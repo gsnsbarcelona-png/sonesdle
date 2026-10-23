@@ -27,6 +27,7 @@ export class GridRenderer {
   _relabel() {
     const labels = this._el.querySelectorAll('.col-label, .row-label');
     [...this._cols, ...this._rows].forEach((cat, i) => { if (labels[i]) labels[i].innerHTML = this._labelHtml(cat); });
+    this._el.querySelectorAll('.cell[role="button"]').forEach(el => this._labelCell(el, +el.dataset.r, +el.dataset.c));
   }
 
   _render() {
@@ -63,8 +64,24 @@ export class GridRenderer {
     d.dataset.r = r;
     d.dataset.c = c;
     d.innerHTML = '<span class="cell-plus">+</span>';
-    d.addEventListener('click', () => this._bus.emit(EVENTS.CELL_CLICKED, { r, c }));
+    // Casilla operable con teclado: se anuncia con su fila y columna
+    d.setAttribute('role', 'button');
+    d.tabIndex = 0;
+    this._labelCell(d, r, c);
+    const open = () => this._bus.emit(EVENTS.CELL_CLICKED, { r, c });
+    d.addEventListener('click', open);
+    d.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+    });
     return d;
+  }
+
+  _plain(cat) { return `${catText(cat, 'main')} ${catText(cat, 'sub')}`.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim(); }
+
+  /** Nombre accesible: fila y columna, y el jugador si la casilla ya está rellena. */
+  _labelCell(el, r, c, name = null) {
+    const where = `${this._plain(this._rows[r])} × ${this._plain(this._cols[c])}`;
+    el.setAttribute('aria-label', name ? `${where}: ${name}` : where);
   }
 
   /** `kind`: 'filled' (acierto) o 'revealed' (solución mostrada al perder). */
@@ -76,6 +93,9 @@ export class GridRenderer {
       <span class="cell-name">${esc(name)}</span>
     </div>`;
     el.classList.add(kind);
+    this._labelCell(el, r, c, name);
+    el.setAttribute('role', 'img');   // rellena: ya no es un botón
+    el.tabIndex = -1;
   }
 
   _getCell(r, c) { return this._el.querySelector(`.cell[data-r="${r}"][data-c="${c}"]`); }

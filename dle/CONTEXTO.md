@@ -8,13 +8,21 @@ Con cada intento el juego revela pistas visuales sobre cuánto se parece el juga
 
 No hay límite de intentos. El objetivo es acertar con los menos posibles.
 
+Hay dos modos:
+- **Reto diario** — el mismo jugador para todos, solo entre jugadores de ligas tier 1. El día cambia a las 00:00 UTC.
+  El progreso se guarda tras cada intento (se puede recargar a mitad de partida) y, si hay sesión de Google,
+  el resultado se sincroniza con la cuenta. El secreto del día se fija en el navegador la primera vez que se calcula.
+- **Modo libre** — jugador aleatorio filtrado por tier (1, 2 o 3) y región, que se eligen al terminar el diario.
+
+Además existe el **modo difícil**, que oculta las columnas de liga y equipo.
+
 ---
 
 ## ¿Cómo se juega?
 
 1. El jugador escribe el nombre de un pro player en el buscador.
 2. Puede seleccionarlo del desplegable que aparece (al seleccionar, se envía automáticamente).
-3. El juego muestra una fila con 8 columnas de información comparada:
+3. El juego muestra una fila con 8 columnas de información comparada (7 en modo difícil, sin liga ni equipo):
    - **Nombre** — visible siempre, sin código de color.
    - **País** — muestra bandera + nombre del país.
    - **Liga** — la liga en la que juega actualmente.
@@ -32,7 +40,7 @@ No hay límite de intentos. El objetivo es acertar con los menos posibles.
 5. Si el jugador no quiere seguir, puede pulsar **Rendirse**. El juego revela entonces quién era el jugador secreto y muestra una animación de derrota.
 
 6. Al acertar aparece una pantalla de victoria con:
-   - Foto del jugador, nombre, nombre real y número de intentos.
+   - Nombre, nombre real y número de intentos (foto solo si el jugador tiene `image`).
    - Animación de confeti de celebración.
 
 ---
@@ -51,13 +59,16 @@ Cada jugador tiene los siguientes campos:
 | position  | Array con una o más posiciones                           |
 | titles    | Boolean — ha ganado algún título regional                |
 | worlds    | Boolean — ha ganado el Campeonato Mundial                |
-| age       | Edad como número entero                                  |
-| team      | Nombre del equipo actual                                 |
-| image     | URL de la foto del jugador (se obtiene de Leaguepedia)   |
+| tier      | 1 = liga con plaza a Worlds (reto diario), 2 = resto de ligas oficiales, 3 = el resto |
+| region    | KR, CN, EMEA, NA, BR, LATAM o PAC                        |
+| birthdate | `YYYY-MM-DD`, o solo `YYYY` si no se conoce más; la edad se calcula con ella |
+| team      | Nombre del equipo actual (o el último si es agente libre reciente) |
+| free_agent | Boolean — sigue con su último equipo sin contrato        |
 
-Los datos se guardan en `data/players.json` y se pueden editar manualmente.
-La aplicación también intenta cargar datos frescos desde la API de Leaguepedia en cada sesión,
-usando el archivo local como caché (estrategia stale-while-revalidate).
+`data/players.json` **lo genera `league_players scrapper/.../build.py`** desde Leaguepedia (lo ejecuta cada día
+el workflow `.github/workflows/update-data.yml`). No hay que editarlo a mano: las correcciones van en
+`league_players scrapper/.../curated/player_fixes.json`. El navegador solo lee ese fichero estático; no consulta
+Leaguepedia. Hoy no hay fotos de jugadores (`image` está vacío), así que la pantalla de victoria no las muestra.
 
 ---
 
@@ -91,7 +102,7 @@ El diseño está inspirado en la identidad visual de League of Legends:
 
 ### Pantalla de victoria / derrota
 - Overlay con animación de entrada.
-- Foto circular del jugador.
+- Foto circular del jugador, si la hay.
 - Nombre en el juego, nombre real y resumen del resultado.
 - Botón "Jugar de nuevo" para reiniciar.
 
@@ -113,6 +124,8 @@ La aplicación incluye un banner de consentimiento de cookies (GDPR) con:
 - Se sirve como archivos estáticos (HTML + JS modules + JSON). No requiere backend.
 - Necesita un servidor local para funcionar en desarrollo (no funciona abriéndolo directamente como archivo).
 - Compatible con móvil, tablet y escritorio.
+- Los módulos compartidos con el resto de juegos están en `../shared/` (idioma, cuentas, accesibilidad, partículas, banderas).
+- La CSP de `vercel.json` no permite scripts inline ni CDNs de terceros: todo lo que se cargue tiene que estar en el repositorio.
 
 ---
 

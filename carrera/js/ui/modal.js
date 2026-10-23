@@ -1,6 +1,6 @@
 import { t } from '../i18n.js';
 
-/** @type {import('./particles.js').ParticlesComponent | null} */
+/** @type {import('../../../shared/js/ParticlesComponent.js').ParticlesComponent | null} */
 let _particles = null;
 
 /** Inject the ParticlesComponent instance (called from main.js after boot). */

@@ -12,6 +12,8 @@
  *   fx.launchDefeat();     // derrota
  *   fx.stopConfetti();     // limpiar
  */
+import { prefersReducedMotion } from './a11y.js';
+
 export class ParticlesComponent {
   static #WIN_COLORS  = ['#c89b3c', '#f0e6d3', '#0bc4c4', '#00ff88', '#ffffff', '#ff8c55'];
   static #LOSE_COLORS = ['#ff2222', '#880000', '#444444', '#222222', '#661111', '#992222'];
@@ -41,7 +43,7 @@ export class ParticlesComponent {
 
     this.#resize();
     this.#initParticles();
-    this.#animParticles();
+    if (!prefersReducedMotion()) this.#animParticles();   // sin movimiento: fondo quieto
   }
 
   // ── Public ──────────────────────────────────────────────────────────────────
@@ -63,6 +65,7 @@ export class ParticlesComponent {
   // ── Private ─────────────────────────────────────────────────────────────────
 
   #spawnPieces(n, colors, vxRange, vyMax, vyMin) {
+    if (prefersReducedMotion()) return;
     const w = this.#cCanvas.width;
     const h = this.#cCanvas.height;
     this.#confetti = Array.from({ length: n }, () => ({

@@ -4,13 +4,14 @@ import { DailyService }       from './services/DailyService.js';
 import { SearchComponent }    from './ui/SearchComponent.js';
 import { GridComponent }      from './ui/GridComponent.js';
 import { VictoryComponent }   from './ui/VictoryComponent.js';
-import { ParticlesComponent } from './ui/ParticlesComponent.js';
-import { t, getLang, setLang, applyStaticTranslations } from './utils/i18n.js';
+import { ParticlesComponent } from '../../shared/js/ParticlesComponent.js';
+import { t, applyStaticTranslations } from './utils/i18n.js';
 import { mountSwitcher } from '../../shared/lang.js';
 import { CookieBanner } from './ui/CookieBanner.js';
 import { mountGameNav } from '../../shared/nav.js';
 import { recordResult, getTodayDaily } from '../../shared/auth.js';
 import { hideKeyboard } from '../../shared/js/keyboard.js';
+import { setupCombobox, setupDialog } from '../../shared/js/a11y.js';
 
 async function boot() {
   applyStaticTranslations();
@@ -58,6 +59,13 @@ async function boot() {
     getResults: q => game.searchPlayers(q),
     onGuess:    handleGuess,
   });
+
+  setupCombobox({
+    input: document.getElementById('search-input'), list: document.getElementById('search-dropdown'),
+    optionSelector: '.dd-item', activeClass: 'dd-active',
+  });
+  setupDialog(document.getElementById('victory-overlay'));   // fin de partida: sin Escape, se sale con sus botones
+  setupDialog(document.getElementById('instructions-modal'), { closeSelector: '#instructions-close' });
 
   const guessBtn         = document.getElementById('guess-btn');
   const giveupBtn        = document.getElementById('giveup-btn');
@@ -199,21 +207,35 @@ async function boot() {
 
 
   // ── Modo diario (solo jugadores de ligas tier 1) ──────────
+  let dailyDay     = DailyService.getTodayKey();   // día del reto en curso (UTC)
+  let dailyGuesses = [];                            // nombres de los intentos del reto diario
+
   function getDailyPlayer() {
-    return repo.getDaily(DailyService.getDailyIndex(repo.dailyCount));
+    const pinned = DailyService.getSecretName(dailyDay);
+    const known  = pinned && repo.findByName(pinned);
+    if (known) return known;
+    const player = repo.getDaily(DailyService.getDailyIndex(repo.dailyCount));
+    DailyService.pinSecret(player.name, dailyDay);
+    return player;
   }
 
   function startDaily() {
-    isDaily     = true;
-    pendingRows = [];
+    isDaily      = true;
+    pendingRows  = [];
+    dailyGuesses = [];
+    dailyDay     = DailyService.getTodayKey();
     updateDailyBadge();
     setFilterSelectsVisible(false);
 
     if (DailyService.hasPlayedToday()) {
       // Ya jugó hoy: reconstruir grid y mostrar resultado
-      const saved = DailyService.getTodayResult();
+      const saved  = DailyService.getTodayResult();
+      const secret = getDailyPlayer();
+      game.start(secret, DAILY_FILTER);
+      resetUI();
+      replayGuesses(DailyService.getGuesses(dailyDay));
       disableInput();
-      showVictory(getDailyPlayer(), saved.attempts, saved.won);
+      showVictory(secret, saved.attempts, saved.won);
       if (saved.won) particles.launchConfetti();
       else           particles.launchDefeat();
       showCountdown();
@@ -223,11 +245,22 @@ async function boot() {
 
     game.start(getDailyPlayer(), DAILY_FILTER);
     resetUI();
+    replayGuesses(DailyService.getGuesses(dailyDay));   // partida en curso recuperada tras recargar
     hideFreeModeBanner();
+  }
+
+  /** Vuelve a aplicar intentos ya hechos (en orden cronológico) sin efectos de entrada. */
+  function replayGuesses(names) {
+    for (const name of names) {
+      const outcome = game.guess(name);
+      if (outcome.error) continue;
+      addOutcomeRow(outcome);
+    }
   }
 
   function startFreePlay() {
     isDaily = false;
+    dailyGuesses = [];
     updateDailyBadge();
     game.start(null, freeFilter());
     resetUI();
@@ -244,7 +277,7 @@ async function boot() {
     disableInput();
 
     if (isDaily) {
-      DailyService.saveResult({ secret: game.secret, attempts: 0, won: false, rows: pendingRows });
+      DailyService.saveResult({ secret: game.secret, attempts: 0, won: false, rows: pendingRows, guesses: dailyGuesses, day: dailyDay });
       showCountdown();
       showShareBtn(DailyService.getTodayResult());
     }
@@ -266,7 +299,7 @@ async function boot() {
         shareBtn.textContent = t('dailyCopied');
         setTimeout(() => { shareBtn.textContent = t('dailyShare'); }, 2000);
       } catch {
-        shareBtn.textContent = t('dailyCopied');
+        window.prompt('', text);   // sin acceso al portapapeles: copiar a mano
       }
     });
   }
@@ -275,15 +308,9 @@ async function boot() {
     freeModeBtn.addEventListener('click', startFreePlay);
   }
 
-  function handleGuess(name) {
-    if (!name) { search.showError(t('errEmpty')); return; }
-
-    const outcome = game.guess(name);
-    if (outcome.error === 'not_found')       { search.showError(t('errNotFound')); return; }
-    if (outcome.error === 'already_guessed') { search.showError(t('errAlready'));  return; }
-    if (outcome.error === 'game_over') return;
-
-    // Acumula fila para share (7 columnas de datos, sin la de nombre)
+  /** Pinta el intento en el grid y acumula la fila para compartir. */
+  function addOutcomeRow(outcome) {
+    // 7 columnas de datos, sin la de nombre
     const row = [
       outcome.result.country,
       outcome.result.league,
@@ -294,17 +321,32 @@ async function boot() {
       outcome.result.team,
     ];
     pendingRows.unshift(row); // las más recientes primero (igual que el grid)
+    countEl.textContent = game.attempts;
+    grid.addRow(outcome.player, outcome.result);
+  }
+
+  function handleGuess(name) {
+    if (!name) { search.showError(t('errEmpty')); return; }
+
+    const outcome = game.guess(name);
+    if (outcome.error === 'not_found')       { search.showError(t('errNotFound')); return; }
+    if (outcome.error === 'already_guessed') { search.showError(t('errAlready'));  return; }
+    if (outcome.error === 'game_over') return;
 
     search.clearInput();
     hideKeyboard(document.activeElement);   // móvil: ver la fila nueva sin el teclado encima
-    countEl.textContent = game.attempts;
-    grid.addRow(outcome.player, outcome.result);
+    addOutcomeRow(outcome);
+
+    if (isDaily) {
+      dailyGuesses.push(outcome.player.name);
+      if (!outcome.won) DailyService.saveProgress(dailyGuesses, dailyDay);
+    }
 
     if (outcome.won) {
       disableInput();
 
       if (isDaily) {
-        DailyService.saveResult({ secret: game.secret, attempts: game.attempts, won: true, rows: pendingRows });
+        DailyService.saveResult({ secret: game.secret, attempts: game.attempts, won: true, rows: pendingRows, guesses: dailyGuesses, day: dailyDay });
         showCountdown();
         showShareBtn(DailyService.getTodayResult());
       }
@@ -382,11 +424,16 @@ async function boot() {
     if (!countdownEl) return;
     countdownEl.classList.remove('hidden');
     updateCountdown();
-    setInterval(updateCountdown, 1000);
+    clearInterval(countdownTimer);
+    countdownTimer = setInterval(updateCountdown, 1000);
   }
+
+  let countdownTimer = null;
 
   function updateCountdown() {
     if (!countdownEl) return;
+    // Pasada la medianoche UTC con el resultado en pantalla: cargar el reto nuevo
+    if (DailyService.getTodayKey() !== dailyDay) { location.reload(); return; }
     const secs = DailyService.secondsUntilNext();
     const h = String(Math.floor(secs / 3600)).padStart(2, '0');
     const m = String(Math.floor((secs % 3600) / 60)).padStart(2, '0');
@@ -422,9 +469,11 @@ async function boot() {
     const remote = await getTodayDaily('dle');
     // Solo si sigue en el reto diario y aún no ha empezado a jugarlo aquí
     if (!remote || !isDaily || game.attempts > 0 || DailyService.hasPlayedToday()) return;
+    // El jugador que adivinó en el otro dispositivo, no el que salga hoy del cálculo local
+    const remoteSecret = remote.details?.player && repo.findByName(remote.details.player);
     DailyService.saveResult({
-      secret: getDailyPlayer(), attempts: remote.attempts ?? 0,
-      won: remote.won, rows: remote.details?.rows ?? [],
+      secret: remoteSecret || getDailyPlayer(), attempts: remote.attempts ?? 0,
+      won: remote.won, rows: remote.details?.rows ?? [], day: dailyDay,
     });
     startDaily();
   }
@@ -439,9 +488,10 @@ boot().catch(err => {
                 padding:2rem;background:#010a13;">
       <h2 style="font-size:1.4rem;margin-bottom:1rem">Error al cargar el juego</h2>
       <p style="color:#aaa;margin-bottom:0.5rem">Inténtalo de nuevo en unos segundos.</p>
-      <button onclick="location.reload()" style="margin-top:1.5rem;padding:0.6rem 1.8rem;
+      <button id="reload-btn" style="margin-top:1.5rem;padding:0.6rem 1.8rem;
         background:transparent;border:1px solid #c89b3c;color:#c89b3c;
         font-family:monospace;font-size:0.85rem;cursor:pointer;">Recargar</button>
     </div>
   `;
+  document.getElementById('reload-btn').addEventListener('click', () => location.reload());
 });

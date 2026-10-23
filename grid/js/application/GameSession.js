@@ -62,10 +62,18 @@ export class GameSession {
     this._bus.on(EVENTS.GAME_RESET,      () => this.start('free'));
   }
 
+  /** Programa el cierre de partida; se cancela si se empieza otra antes de que dispare. */
+  _later(fn, ms) {
+    clearTimeout(this._endTimer);
+    this._endTimer = setTimeout(fn, ms);
+  }
+
   _init() {
+    clearTimeout(this._endTimer);
+    this._day = today();   // el día no cambia durante la partida aunque se cruce la medianoche UTC
     const players    = this._players.getAll();
     const categories = this._cats.getPool();
-    const daily      = this._mode === 'daily' ? this._schedule[today()] : null;
+    const daily      = this._mode === 'daily' ? this._schedule[this._day] : null;
     this._config = daily
       ? this._builder.fromIds(players, categories, daily.cols, daily.rows)
       : this._builder.build(players, categories);
@@ -76,7 +84,7 @@ export class GameSession {
     this._tried.clear();
 
     const saved = daily ? store.get(DAILY_KEY) : null;
-    if (saved?.date === today()) this._restore(saved);
+    if (saved?.date === this._day) this._restore(saved);
     this._emitStart();
     if (daily && !this._over) this._syncFromAccount();
   }
@@ -113,7 +121,7 @@ export class GameSession {
   _save() {
     if (this._mode !== 'daily') return;
     store.set(DAILY_KEY, {
-      date: today(), placed: this._placed(), lives: this._lives, over: this._over,
+      date: this._day, placed: this._placed(), lives: this._lives, over: this._over,
       tried: Object.fromEntries([...this._tried].map(([k, v]) => [k, [...v]])),
     });
   }
@@ -186,7 +194,7 @@ export class GameSession {
       this._onInputChanged({ raw: this._lastRaw });   // la lista lo muestra ya como fallado
       if (this._over) {
         this._record(false);
-        setTimeout(() => {
+        this._later(() => {
           this._bus.emit(EVENTS.MODAL_CLOSE);
           this._finish(false);
         }, 900);
@@ -230,7 +238,7 @@ export class GameSession {
     this._bus.emit(EVENTS.MODAL_CLOSE);
     if (won) {
       this._record(true);
-      setTimeout(() => this._finish(true), 400);
+      this._later(() => this._finish(true), 400);
     }
   }
 
@@ -241,7 +249,7 @@ export class GameSession {
 
   /** Texto para compartir el reto diario: 🟩 acierto, ⬛ casilla vacía. */
   shareText() {
-    const date  = today().split('-').reverse().join('/');
+    const date  = (this._day ?? today()).split('-').reverse().join('/');
     const board = this._board.snapshot().map(row => row.map(k => (k ? '🟩' : '⬛')).join('')).join('\n');
     const lives = '❤️'.repeat(this._lives) + '🖤'.repeat(this._maxLives - this._lives);
     return `LoL Pro Grid ${date} ${this._board.filledCount()}/9\n\n${board}\n${lives}\n\nlolprogames.com/grid`;

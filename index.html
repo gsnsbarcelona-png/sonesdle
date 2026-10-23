@@ -10,20 +10,20 @@
   <meta name="keywords" content="lol, league of legends, pro player, esports, wordle, adivina, juegos, lolprogames">
   <meta name="author" content="LOL Pro Games">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://lolprogames.com/">
+  <link rel="canonical" href="https://www.lolprogames.com/">
 
   <!-- Open Graph -->
   <meta property="og:type"        content="website">
-  <meta property="og:url"         content="https://lolprogames.com/">
+  <meta property="og:url"         content="https://www.lolprogames.com/">
   <meta property="og:title"       content="LOL Pro Games — Juegos de League of Legends">
   <meta property="og:description" content="Juegos de conocimiento sobre pro players de LoL esports. DLE Games, Pro Grid y Career Guess.">
-  <meta property="og:image"       content="https://lolprogames.com/og-image.jpg">
+  <meta property="og:image"       content="https://www.lolprogames.com/og-image.jpg">
 
   <!-- Twitter Card -->
   <meta name="twitter:card"        content="summary_large_image">
   <meta name="twitter:title"       content="LOL Pro Games — Juegos de League of Legends">
   <meta name="twitter:description" content="Juegos de conocimiento sobre pro players de LoL esports.">
-  <meta name="twitter:image"       content="https://lolprogames.com/og-image.jpg">
+  <meta name="twitter:image"       content="https://www.lolprogames.com/og-image.jpg">
 
   <!-- PWA / App -->
   <meta name="theme-color" content="#010a13">
@@ -310,6 +310,7 @@
       .menu-wrap::before { left: 29px; }
     }
   </style>
+<link rel="stylesheet" href="./shared/css/a11y.css">
 </head>
 <body>
 
@@ -414,75 +415,8 @@
 
 </div>
 
-<script type="module">
-  import { mountSwitcher, applyStaticTranslations } from './shared/lang.js';
+<script type="module" src="./js/home.js"></script>
 
-  const T = {
-    es: {
-      heroSub:   'Juegos de LoL Esports',
-      c1tag:'Pistas · Diario',        c1title:'Adivina el Pro',        c1desc:'Consigue pistas con cada intento',
-      c3tag:'Roster · Histórico',     c3title:'Roster Guess',          c3desc:'Adivina los rosters míticos de Worlds',
-      c4tag:'Timeline · Carrera',                                       c4desc:'Adivina al jugador por su carrera',
-      c2tag:'Grid · Conexiones',                                        c2desc:'Rellena la cuadrícula 3×3 de pro players',
-      c5tag:'Wordle · Diario',                                          c5desc:'El nombre del pro player en 6 intentos',
-      legal:'Aviso legal', privacy:'Política de privacidad',
-    },
-    en: {
-      heroSub:   'LoL Esports Games',
-      c1tag:'Clues · Daily',          c1title:'Guess the Pro',         c1desc:'Get clues with each attempt',
-      c3tag:'Roster · Historical',    c3title:'Roster Guess',          c3desc:'Guess the legendary Worlds rosters',
-      c4tag:'Timeline · Career',                                        c4desc:'Guess the player from their career',
-      c2tag:'Grid · Connections',                                       c2desc:'Fill the 3×3 pro player grid',
-      c5tag:'Wordle · Daily',                                           c5desc:'The pro player’s name in 6 tries',
-      legal:'Legal notice', privacy:'Privacy policy',
-    },
-  };
-
-  mountSwitcher();
-  applyStaticTranslations(T);
-  document.addEventListener('langchange', () => applyStaticTranslations(T));
-</script>
-
-<script>
-  // Partículas flotantes
-  const canvas = document.getElementById('bg-canvas');
-  const ctx    = canvas.getContext('2d');
-  const GOLD   = ['#c89b3c22','#785a2818','#0bc4c412','#1e3a5f30'];
-  let W, H, pts = [];
-
-  function resize() {
-    W = canvas.width  = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  }
-
-  function spawn() {
-    return {
-      x: Math.random() * W,
-      y: Math.random() * H,
-      r: Math.random() * 1.5 + 0.4,
-      vx: (Math.random() - 0.5) * 0.25,
-      vy: -Math.random() * 0.3 - 0.1,
-      c: GOLD[Math.floor(Math.random() * GOLD.length)],
-    };
-  }
-
-  function init() { pts = Array.from({ length: 55 }, spawn); }
-
-  function draw() {
-    ctx.clearRect(0, 0, W, H);
-    pts.forEach(p => {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = p.c;
-      ctx.fill();
-      p.x += p.vx; p.y += p.vy;
-      if (p.y < -5) { p.y = H + 5; p.x = Math.random() * W; }
-    });
-    requestAnimationFrame(draw);
-  }
-
-  window.addEventListener('resize', resize);
-  resize(); init(); draw();
-</script>
+<script src="./js/home-bg.js" defer></script>
 </body>
 </html>

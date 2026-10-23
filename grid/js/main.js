@@ -4,6 +4,7 @@ import { LoLCategoryRepository }  from './repositories/LoLCategoryRepository.js'
 import { EVENTS }                 from './events.js';
 import { mountSwitcher, applyStaticTranslations, getLang } from '../../shared/lang.js';
 import { mountGameNav } from '../../shared/nav.js';
+import { loadJson, showLoadError } from '../../shared/js/data.js';
 import { getResults, computeStats, today } from '../../shared/auth.js';
 
 // ── Traducciones estáticas del HTML ─────────────────────────
@@ -37,10 +38,10 @@ applyStaticTranslations(STATIC);
 
 // ── Carga de datos e inicio del juego ────────────────────────
 const [players, categories, schedule] = await Promise.all([
-  fetch('./data/players.json').then(r => r.json()),
-  fetch('./data/categories.json').then(r => r.json()),
-  fetch('./data/schedule.json').then(r => r.json()).catch(() => ({})),
-]);
+  loadJson('./data/players.json'),
+  loadJson('./data/categories.json'),
+  loadJson('./data/schedule.json').catch(() => ({})),
+]).catch(showLoadError);
 
 const session = GameFactory.create({
   playerRepository:   new LoLPlayerRepository(players),
