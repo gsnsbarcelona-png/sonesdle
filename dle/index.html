@@ -18,12 +18,19 @@
   <meta property="og:title"       content="DLE Games — Adivina el Pro Player · LOL Pro Games">
   <meta property="og:description" content="Wordle estilo para fans del LoL esports. ¿Cuántos intentos necesitas para adivinar el pro player?">
   <meta property="og:image"       content="https://www.lolprogames.com/og-image.jpg">
+  <meta property="og:image:width"  content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt"    content="DLE Games — Adivina el Pro Player · LOL Pro Games">
+  <meta property="og:site_name"      content="LOL Pro Games">
+  <meta property="og:locale"         content="es_ES">
+  <meta property="og:locale:alternate" content="en_GB">
 
   <!-- Twitter Card -->
   <meta name="twitter:card"        content="summary_large_image">
   <meta name="twitter:title"       content="DLE Games — Adivina el Pro Player · LOL Pro Games">
   <meta name="twitter:description" content="Wordle estilo para fans del LoL esports.">
   <meta name="twitter:image"       content="https://www.lolprogames.com/og-image.jpg">
+  <meta name="twitter:image:alt"   content="DLE Games — Adivina el Pro Player · LOL Pro Games">
 
   <!-- PWA / App -->
   <meta name="theme-color" content="#010a13">
@@ -491,7 +498,7 @@
 
       <div class="text-5xl mb-4">&#128081;</div>
       <h2 id="v-title" class="font-cinzel text-3xl text-gold mb-2">&#161;Acertaste!</h2>
-      <img id="v-img" src="" alt="" class="hidden w-24 h-24 rounded-full object-cover object-top border-2 border-gold mx-auto mb-3" />
+      <img id="v-img" alt="" class="hidden w-24 h-24 rounded-full object-cover object-top border-2 border-gold mx-auto mb-3" />
       <p id="v-player" class="text-3xl font-bold text-gold-light mb-1"></p>
       <p id="v-real"   class="text-base text-lol-dim tracking-wide mb-2"></p>
       <p id="v-tries"  class="text-base text-lol-dim tracking-widest mb-4"></p>
@@ -586,5 +593,6 @@
 
   <script type="module" src="./js/main.js"></script>
 
+<script type="module" src="../shared/js/pwa.js"></script>
 </body>
 </html>

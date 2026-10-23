@@ -6,11 +6,11 @@
 import { mountAccount } from './account.js';
 
 const GAMES = [
-  { id: 'dle',        href: '../dle/index.html',        icon: '🎯', name: 'Adivina el Pro',  tag: 'Pistas'       },
-  { id: 'rostergues', href: '../rostergues/index.html', icon: '🏆', name: 'Roster Guess',    tag: 'Roster'       },
-  { id: 'carrera',    href: '../carrera/index.html',    icon: '📋', name: 'Career Guess',    tag: 'Career'       },
-  { id: 'grid',       href: '../grid/index.html',       icon: '🔲', name: 'Pro Grid',        tag: 'Grid'         },
-  { id: 'wordle',     href: '../wordle/index.html',     icon: '🔤', name: 'Pro Wordle',      tag: 'Wordle'       },
+  { id: 'dle',        href: '../dle/',        icon: '🎯', name: 'Adivina el Pro',  tag: 'Pistas'       },
+  { id: 'rostergues', href: '../rostergues/', icon: '🏆', name: 'Roster Guess',    tag: 'Roster'       },
+  { id: 'carrera',    href: '../carrera/',    icon: '📋', name: 'Career Guess',    tag: 'Career'       },
+  { id: 'grid',       href: '../grid/',       icon: '🔲', name: 'Pro Grid',        tag: 'Grid'         },
+  { id: 'wordle',     href: '../wordle/',     icon: '🔤', name: 'Pro Wordle',      tag: 'Wordle'       },
 ];
 
 const HEADER_H = 96; // px — altura total (fila 1 + fila 2)
@@ -35,7 +35,7 @@ export function mountGameNav() {
 
   const brandLink = document.createElement('a');
   brandLink.id   = 'game-brand-link';
-  brandLink.href = '../index.html';
+  brandLink.href = '../';
   brandLink.innerHTML = `
     <div class="brand-rule">
       <div class="brand-line brand-line-l"></div>
