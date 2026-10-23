@@ -1,6 +1,6 @@
 # Dependencias propias (sin CDN)
 
-`shared/vendor/supabase.js` (supabase-js, empaquetado) y `shared/flags/*.svg` (banderas) se
+`shared/vendor/supabase.js` (supabase-js, empaquetado) y `shared/flags/*.svg` (banderas) y `shared/fonts/` (Cinzel y Rajdhani) se
 generan aquí para que la web no cargue nada de CDNs de terceros (privacidad y CSP).
 
     cd tools/vendor && npm install && npm run build

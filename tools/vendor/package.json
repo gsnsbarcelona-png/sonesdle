@@ -1,13 +1,15 @@
 {
   "name": "sonesdle-vendor",
   "private": true,
-  "description": "Genera shared/vendor/supabase.js y shared/flags/ para no cargar nada de CDNs de terceros",
+  "description": "Genera shared/vendor/supabase.js, shared/flags/ y shared/fonts/ para no cargar nada de CDNs de terceros",
   "scripts": {
-    "build": "esbuild entry.js --bundle --minify --format=esm --platform=browser --target=es2020 --legal-comments=none --outfile=../../shared/vendor/supabase.js && node flags.mjs"
+    "build": "esbuild entry.js --bundle --minify --format=esm --platform=browser --target=es2020 --legal-comments=none --outfile=../../shared/vendor/supabase.js && node assets.mjs"
   },
   "devDependencies": {
+    "@fontsource/cinzel": "5.3.0",
+    "@fontsource/rajdhani": "5.3.0",
     "@supabase/supabase-js": "2.117.2",
     "country-flag-icons": "1.6.20",
-    "esbuild": "^0.25.0"
+    "esbuild": "0.28.2"
   }
 }
