@@ -969,15 +969,21 @@ def is_staff_now(cargo):
     return bool(roles) and not roles & PLAYER_ROLES
 
 
+NATIONAL_TEAM_RE = re.compile(r"national team", re.IGNORECASE)
+
+
 def playing_team(cargo):
     """Equipo en el que juega ahora. Es `Team`, salvo que ahí solo sea staff o co-streamer
     (`is_staff_now`) y tenga un segundo equipo (`Team2`) con rol de jugador: Obsess es
     co-streamer de Fnatic pero juega en No Need Orga, y Sola de G2 pero juega en Eintracht
     Spandau Zwei. Leaguepedia pone en `Role` la posición con la que juega en ese segundo equipo."""
     team = cargo.get("Team")
-    if (team and is_staff_now(cargo) and cargo.get("Team2") and not cargo.get("IsRetired")
+    team2 = cargo.get("Team2")
+    # Una selección nacional ("Vietnam (National Team)") no es el equipo de un jugador de liga
+    if (team and is_staff_now(cargo) and team2 and not cargo.get("IsRetired")
+            and not NATIONAL_TEAM_RE.search(team2)
             and (cargo.get("Role") or "").lower() in PLAYER_ROLES):
-        return cargo["Team2"]
+        return team2
     return team
 
 
