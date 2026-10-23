@@ -42,7 +42,6 @@
   <!-- Preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://flagcdn.com">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -178,11 +177,7 @@
       <div class="instr-row"><div class="instr-pip"></div><span>Al completarlo desbloqueas el modo libre: ⭐ Fácil (top 2), ⚔️ Media (top 8) o 💀 Difícil (todos)</span></div>
     </div>
   </div>
-  <script>
-    document.getElementById('instructions-btn')?.addEventListener('click',()=>document.getElementById('instructions-modal').classList.add('open'));
-    document.getElementById('instructions-close')?.addEventListener('click',()=>document.getElementById('instructions-modal').classList.remove('open'));
-    document.getElementById('instructions-modal')?.addEventListener('click',e=>{if(e.target===e.currentTarget)e.currentTarget.classList.remove('open')});
-  </script>
+  <script type="module" src="../shared/js/instructions.js"></script>
 
   <script type="module" src="js/main.js"></script>
 </body>

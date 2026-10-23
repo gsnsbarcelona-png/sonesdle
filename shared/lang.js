@@ -3,11 +3,13 @@
  * Todas las subpáginas usan la clave 'app_lang' en localStorage.
  */
 
+import { flagUrl } from './js/flags.js';
+
 const LANG_KEY = 'app_lang';
 
 const FLAGS = {
-  es: { src: 'https://flagcdn.com/w20/es.png', code: 'ES' },
-  en: { src: 'https://flagcdn.com/w20/gb.png', code: 'EN' },
+  es: { src: flagUrl('es'), code: 'ES' },
+  en: { src: flagUrl('gb'), code: 'EN' },
 };
 
 /** Devuelve el idioma actual ('es' | 'en'). Migra la clave antigua 'dle_lang' si existe. */

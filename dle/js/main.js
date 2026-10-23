@@ -480,9 +480,10 @@ boot().catch(err => {
                 padding:2rem;background:#010a13;">
       <h2 style="font-size:1.4rem;margin-bottom:1rem">Error al cargar el juego</h2>
       <p style="color:#aaa;margin-bottom:0.5rem">Inténtalo de nuevo en unos segundos.</p>
-      <button onclick="location.reload()" style="margin-top:1.5rem;padding:0.6rem 1.8rem;
+      <button id="reload-btn" style="margin-top:1.5rem;padding:0.6rem 1.8rem;
         background:transparent;border:1px solid #c89b3c;color:#c89b3c;
         font-family:monospace;font-size:0.85rem;cursor:pointer;">Recargar</button>
     </div>
   `;
+  document.getElementById('reload-btn').addEventListener('click', () => location.reload());
 });

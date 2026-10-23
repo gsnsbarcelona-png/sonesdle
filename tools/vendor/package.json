@@ -1,0 +1,13 @@
+{
+  "name": "sonesdle-vendor",
+  "private": true,
+  "description": "Genera shared/vendor/supabase.js y shared/flags/ para no cargar nada de CDNs de terceros",
+  "scripts": {
+    "build": "esbuild entry.js --bundle --minify --format=esm --platform=browser --target=es2020 --legal-comments=none --outfile=../../shared/vendor/supabase.js && node flags.mjs"
+  },
+  "devDependencies": {
+    "@supabase/supabase-js": "2.117.2",
+    "country-flag-icons": "1.6.20",
+    "esbuild": "^0.25.0"
+  }
+}

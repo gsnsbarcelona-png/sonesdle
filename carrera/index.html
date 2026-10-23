@@ -44,7 +44,6 @@
   <!-- Preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://flagcdn.com">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -182,11 +181,7 @@
     <div class="instr-row"><div class="instr-pip"></div><span>Cuantos menos pasos necesites, mayor es tu puntuación</span></div>
   </div>
 </div>
-<script>
-  document.getElementById('instructions-btn')?.addEventListener('click',()=>document.getElementById('instructions-modal').classList.add('open'));
-  document.getElementById('instructions-close')?.addEventListener('click',()=>document.getElementById('instructions-modal').classList.remove('open'));
-  document.getElementById('instructions-modal')?.addEventListener('click',e=>{if(e.target===e.currentTarget)e.currentTarget.classList.remove('open')});
-</script>
+  <script type="module" src="../shared/js/instructions.js"></script>
 
 <!-- ES Module entry point -->
 <script type="module" src="js/main.js"></script>

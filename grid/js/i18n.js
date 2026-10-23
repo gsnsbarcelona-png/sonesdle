@@ -50,6 +50,7 @@ export function t(key, ...args) {
 
 /** Escapa HTML (los nombres vienen de Leaguepedia). */
 export { esc } from '../../shared/js/escape.js';
+import { flagUrl } from '../../shared/js/flags.js';
 
 /**
  * Emoji como HTML, con las banderas como imagen: Windows no tiene emojis de bandera
@@ -58,7 +59,7 @@ export { esc } from '../../shared/js/escape.js';
 export function emojiHtml(text) {
   return esc(text ?? '').replace(/[\u{1F1E6}-\u{1F1FF}]{2}/gu, flag => {
     const code = [...flag].map(c => String.fromCharCode(c.codePointAt(0) - 0x1F1E6 + 97)).join('');
-    return `<img class="flag-img" src="https://flagcdn.com/w40/${code}.png" alt="${flag}">`;
+    return `<img class="flag-img" src="${flagUrl(code)}" alt="${flag}">`;
   });
 }
 

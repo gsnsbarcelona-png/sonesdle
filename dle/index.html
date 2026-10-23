@@ -41,7 +41,6 @@
   <!-- Preconnect para recursos externos críticos -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://flagcdn.com">
   <link rel="dns-prefetch" href="https://lol.fandom.com">
 
   <!-- Preload del fondo (recurso más pesado de la página) -->
@@ -568,17 +567,7 @@
     </div>
   </div>
 
-  <script>
-    document.getElementById('instructions-btn')?.addEventListener('click', () => {
-      document.getElementById('instructions-modal').classList.add('open');
-    });
-    document.getElementById('instructions-close')?.addEventListener('click', () => {
-      document.getElementById('instructions-modal').classList.remove('open');
-    });
-    document.getElementById('instructions-modal')?.addEventListener('click', e => {
-      if (e.target === e.currentTarget) e.currentTarget.classList.remove('open');
-    });
-  </script>
+  <script type="module" src="../shared/js/instructions.js"></script>
 
   <!-- Modulepreload: el navegador descarga los módulos en paralelo antes de ejecutarlos -->
   <link rel="modulepreload" href="./js/main.js">
