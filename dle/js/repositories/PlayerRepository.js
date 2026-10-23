@@ -85,7 +85,9 @@ export class PlayerRepository {
 
   #setPlayers(data) {
     this.#players   = data.map(p => new Player(p));
-    this.#daily     = this.#players.filter(p => matches(p, DAILY_FILTER));
+    // Orden por nombre: el índice del día no depende del orden del JSON
+    this.#daily     = this.#players.filter(p => matches(p, DAILY_FILTER))
+      .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
     this.#playerMap = new Map(this.#players.map(p => [p.name.toLowerCase(), p]));
   }
 }

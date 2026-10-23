@@ -27,6 +27,9 @@ const store = {
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* modo privado */ } },
 };
 
+// Día del reto con el que se cargó la página: no cambia si se cruza la medianoche UTC
+const DAY = today();
+
 const [{ answers, guesses }, schedule] = await Promise.all([
   loadJson('./data/words.json'),
   loadJson('./data/schedule.json').catch(() => ({})),
@@ -50,11 +53,11 @@ const inLeague = (a, league) =>
   !league || a.leagues.some(l => (LEAGUE_ALIASES[league] ?? [league]).includes(l));
 
 function dailyWord() {
-  if (schedule[today()]) return schedule[today()];
+  if (schedule[DAY]) return schedule[DAY];
   // Sin calendario (no debería pasar): palabra fija por fecha
   const pool = [...byWord.keys()].filter(w => byWord.get(w).some(a => a.daily)).sort();
   let h = 0;
-  for (const c of today()) h = (Math.imul(31, h) + c.charCodeAt(0)) >>> 0;
+  for (const c of DAY) h = (Math.imul(31, h) + c.charCodeAt(0)) >>> 0;
   return pool[h % pool.length];
 }
 
@@ -83,7 +86,7 @@ function evaluate(guess, word) {
 async function startDaily() {
   Object.assign(state, { mode: 'daily', word: dailyWord(), rows: [], current: '', over: false, won: false });
   const saved = store.get(DAILY_KEY);
-  if (saved?.date === today() && saved.word === state.word) {
+  if (saved?.date === DAY && saved.word === state.word) {
     Object.assign(state, { rows: saved.rows, over: saved.over, won: saved.won });
   }
   render(true);
@@ -106,7 +109,7 @@ function startFree() {
 
 function saveDaily() {
   if (state.mode !== 'daily') return;
-  store.set(DAILY_KEY, { date: today(), word: state.word, rows: state.rows, over: state.over, won: state.won });
+  store.set(DAILY_KEY, { date: DAY, word: state.word, rows: state.rows, over: state.over, won: state.won });
 }
 
 function submit() {
@@ -253,7 +256,7 @@ function hideEnd() {
 }
 
 async function share() {
-  const date = today().split('-').reverse().join('/');
+  const date = DAY.split('-').reverse().join('/');
   const score = state.won ? state.rows.length : 'X';
   const grid = state.rows.map(g => evaluate(g, state.word).map(m => EMOJI[m]).join('')).join('\n');
   const text = `LoL Pro Wordle ${date} · ${t('letters', len())} · ${score}/6\n\n${grid}\n\nlolprogames.com/wordle`;

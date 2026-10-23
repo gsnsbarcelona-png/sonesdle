@@ -1188,6 +1188,11 @@ def build_rostergues_js(rosters, cargo_rows):
     Leaguepedia ("Hans sama", "HansSama" -> "Hans Sama"). Los jugadores sin
     página llevan sus datos en línea."""
     players, raw = {}, []
+    # Un mismo equipo y año puede estar en varios eventos (MSI y Worlds): el id
+    # incluye el evento en ese caso, para que sea único (cooldown e historial)
+    id_count = Counter(r["id"] for r in rosters)
+    unique_id = lambda r: (r["id"] if id_count[r["id"]] == 1
+                           else f'{r["id"]}-{re.sub(r"[^a-z0-9]+", "-", r["event"].lower()).strip("-")}')
     for r in rosters:
         entries = []
         for p in r["players"]:
@@ -1202,7 +1207,7 @@ def build_rostergues_js(rosters, cargo_rows):
             else:
                 entry.update({k: p.get(k, "") for k in ("real", "country", "flag")})
             entries.append(entry)
-        raw.append({k: r[k] for k in ("id", "team", "year", "event", "region")}
+        raw.append({"id": unique_id(r)} | {k: r[k] for k in ("team", "year", "event", "region")}
                    | {"placement": r.get("placement", "groups"), "players": entries})
 
     J = lambda v: json.dumps(v, ensure_ascii=False)

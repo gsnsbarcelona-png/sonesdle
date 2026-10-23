@@ -4,7 +4,7 @@ import { pickRoster }                           from './services/RosterPickerSer
 import { getHintTarget, getMaskedName, nextRevealIn } from './services/HintService.js';
 import { mountSwitcher, applyStaticTranslations, getLang } from '../../shared/lang.js';
 import { mountGameNav } from '../../shared/nav.js';
-import { recordResult, getTodayDaily } from '../../shared/auth.js';
+import { recordResult, getTodayDaily, today } from '../../shared/auth.js';
 import { hideKeyboard } from '../../shared/js/keyboard.js';
 import { ParticlesComponent } from '../../shared/js/ParticlesComponent.js';
 import * as AC from '../../shared/js/autocomplete.js';
@@ -25,9 +25,7 @@ const PLACEMENT_POOLS = {
   dificil: ['champion', 'finalist', 'semifinalist', 'quarterfinalist', 'groups'],
 };
 
-function todayStr() {
-  return new Date().toISOString().slice(0, 10);
-}
+const todayStr = today;   // día del reto en UTC, igual que el resto de juegos
 function isDailyDone() {
   return store.get(DAILY_KEY) === todayStr();
 }
@@ -129,9 +127,29 @@ for (const roster of ROSTERS) {
   }
 }
 
+/* ─── Reto diario: mismo roster para todos ───────────────── */
+const DAILY_ROSTER_KEY = 'rostergues_daily_roster';
+
+function dailyRoster() {
+  const day = todayStr();
+  // Fijado el primer día que se abre, para que un cambio de rosters.js no lo mueva
+  const pinned = store.get(DAILY_ROSTER_KEY);
+  const known  = pinned?.date === day && ROSTERS.find(r => r.id === pinned.id);
+  if (known) return known;
+
+  const pool = ROSTERS
+    .filter(r => PLACEMENT_POOLS.media.includes(r.placement))
+    .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+  let h = 0;
+  for (const c of day) h = (Math.imul(31, h) + c.charCodeAt(0)) >>> 0;
+  const roster = pool[h % pool.length];
+  store.set(DAILY_ROSTER_KEY, { date: day, id: roster.id });
+  return roster;
+}
+
 /* ─── Init ───────────────────────────────────────────────── */
 function initGame() {
-  state.roster          = pickRoster(getRosterPool());
+  state.roster          = isDailyDone() ? pickRoster(getRosterPool()) : dailyRoster();
   state.solvedSlots     = new Set();
   state.guesses         = [];
   state.attempts        = 0;
@@ -468,7 +486,12 @@ function bindEvents() {
   btnSubmit.addEventListener('click', () => submitGuess(input.value));
 
   btnSurr.addEventListener('click', () => {
-    if (state.gameStatus === 'playing') surrender();
+    if (state.gameStatus !== 'playing') return;
+    // Rendirse en el reto diario lo da por jugado (como derrota)
+    if (!isDailyDone() && !confirm(getLang() === 'en'
+      ? 'Giving up counts as a loss for today\'s daily challenge. Are you sure?'
+      : 'Rendirse cuenta como derrota en el reto diario de hoy. ¿Seguro?')) return;
+    surrender();
   });
 
   btnResult.addEventListener('click', () => initGame());
