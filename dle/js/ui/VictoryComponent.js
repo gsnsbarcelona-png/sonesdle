@@ -1,6 +1,8 @@
 import { flagImg, esc } from '../utils/helpers.js';
 import { t } from '../utils/i18n.js';
 
+const PLACEHOLDER = './img/player-placeholder.svg';   // jugadores sin foto en Leaguepedia
+
 export class VictoryComponent {
   #overlay;
   #titleEl;
@@ -36,19 +38,17 @@ export class VictoryComponent {
         ? t('triesFirst')
         : t('triesN', attempts);
 
-    if (secret.image && this.#imgEl) {
-      this.#imgEl.classList.add('hidden');
-      const preload = new Image();
-      preload.referrerPolicy = 'no-referrer';   // la foto es de un tercero: no se le dice qué página la pide
-      preload.onload = () => {
-        this.#imgEl.src = secret.image;
-        this.#imgEl.alt = secret.name;
-        this.#imgEl.classList.remove('hidden');
-      };
-      preload.onerror = () => this.#imgEl.classList.add('hidden');
-      preload.src = secret.image;
-    } else if (this.#imgEl) {
-      this.#imgEl.classList.add('hidden');
+    if (this.#imgEl) {
+      const img = this.#imgEl;
+      img.alt = secret.name;
+      img.classList.remove('hidden');
+      img.src = PLACEHOLDER;   // hasta que llegue la foto, o si no hay
+      if (secret.image) {
+        const preload = new Image();
+        preload.referrerPolicy = 'no-referrer';   // la foto es de un tercero: no se le dice qué página la pide
+        preload.onload = () => { img.src = secret.image; };
+        preload.src = secret.image;   // si falla, se queda el marcador
+      }
     }
 
     this.#overlay.classList.remove('hidden');
