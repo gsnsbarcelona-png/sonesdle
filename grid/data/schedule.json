@@ -934,5 +934,17 @@
       "support",
       "drx"
     ]
+  },
+  "2026-12-23": {
+    "cols": [
+      "na",
+      "worlds",
+      "c9"
+    ],
+    "rows": [
+      "support",
+      "tl",
+      "jungle"
+    ]
   }
 }
