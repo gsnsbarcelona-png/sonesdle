@@ -7,7 +7,6 @@ import { VictoryComponent }   from './ui/VictoryComponent.js';
 import { ParticlesComponent } from '../../shared/js/ParticlesComponent.js';
 import { t, applyStaticTranslations } from './utils/i18n.js';
 import { mountSwitcher } from '../../shared/lang.js';
-import { CookieBanner } from './ui/CookieBanner.js';
 import { mountGameNav } from '../../shared/nav.js';
 import { recordResult, getTodayDaily } from '../../shared/auth.js';
 import { hideKeyboard } from '../../shared/js/keyboard.js';
@@ -17,7 +16,6 @@ async function boot() {
   applyStaticTranslations();
   mountSwitcher();
   mountGameNav();
-  new CookieBanner().init();
 
   const repo = new PlayerRepository();
   await repo.load('./data/players.json');
