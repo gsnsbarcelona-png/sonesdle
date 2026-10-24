@@ -6,12 +6,12 @@ export class ParticleSystem {
     this._bg   = bgEl;       this._bctx = bgEl.getContext('2d');
     this._cc   = confettiEl; this._cctx = confettiEl.getContext('2d');
     this._conf = []; this._bgParts = null;
-    this._rainActive = false; this._rainTimer = null;
+    this._rainActive = false; this._rainTimer = null; this._confRunning = false;
 
     this._resize();
     window.addEventListener('resize', () => this._resize());
     this._still = prefersReducedMotion();   // sin movimiento: ni fondo animado ni confeti
-    if (!this._still) { this._bgLoop(); this._confLoop(); }
+    if (!this._still) this._bgLoop();
 
     bus.on(EVENTS.CELL_RENDERED, ({ rect }) =>
       this._cellBurst(rect.left + rect.width / 2, rect.top + rect.height / 2)
@@ -33,6 +33,7 @@ export class ParticleSystem {
         alpha: 1, decay: .025, gravity: .1,
       });
     }
+    this._startConfLoop();
   }
 
   _startRain() {
@@ -50,6 +51,7 @@ export class ParticleSystem {
           alpha: 1, decay: .006, gravity: .04,
         });
       }
+      this._startConfLoop();
     }, 60);
   }
 
@@ -74,6 +76,13 @@ export class ParticleSystem {
     requestAnimationFrame(() => this._bgLoop());
   }
 
+  /** El bucle del confeti solo corre mientras hay partículas. */
+  _startConfLoop() {
+    if (this._confRunning) return;
+    this._confRunning = true;
+    this._confLoop();
+  }
+
   _confLoop() {
     this._cctx.clearRect(0, 0, this._cc.width, this._cc.height);
     this._conf = this._conf.filter(p => p.alpha > 0);
@@ -92,7 +101,12 @@ export class ParticleSystem {
       if (p.rot !== undefined) p.rot += p.rotSpeed;
       if (p.y > this._cc.height * .65) p.alpha -= .018; else p.alpha -= p.decay;
     }
-    requestAnimationFrame(() => this._confLoop());
+    if (this._conf.length || this._rainActive) {
+      requestAnimationFrame(() => this._confLoop());
+    } else {
+      this._confRunning = false;
+      this._cctx.clearRect(0, 0, this._cc.width, this._cc.height);
+    }
   }
 
   _resize() {
