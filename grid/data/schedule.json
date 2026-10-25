@@ -946,5 +946,17 @@
       "tl",
       "jungle"
     ]
+  },
+  "2026-12-24": {
+    "cols": [
+      "champ",
+      "korean",
+      "top"
+    ],
+    "rows": [
+      "tsm",
+      "lec",
+      "edg"
+    ]
   }
 }
