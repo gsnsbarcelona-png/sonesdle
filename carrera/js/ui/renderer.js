@@ -121,7 +121,7 @@ function renderHintsLog(hintsLog) {
   el.innerHTML = hintsLog
     .map((h) => `
       <div class="hint-item wrong">
-        <span class="hint-icon">✗</span>
+        <svg class="hint-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
         <div>
           <span class="hint-player">${esc(t('wrongGuess', h.name))}</span>
           <br><span class="hint-text">${hintParts(h).map(esc).join(' · ')}</span>

@@ -151,7 +151,7 @@ export function useHint() {
   if (attempts.length >= MAX_ATTEMPTS - 1) return false;
 
   hintsGiven++;
-  attempts.push({ name: `💡 Pista ${hintsGiven}`, correct: false, isHint: true });
+  attempts.push({ name: `Pista ${hintsGiven}`, correct: false, isHint: true });
 
   if (!isFirstHint) {
     revealedCount++;
