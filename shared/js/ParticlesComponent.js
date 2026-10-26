@@ -5,7 +5,7 @@
  * Uso:
  *   import { ParticlesComponent } from '../../shared/js/ParticlesComponent.js';
  *   const fx = new ParticlesComponent({
- *     particleCanvas: document.getElementById('canvas-particles'),
+ *     particleCanvas: document.getElementById('canvas-particles'),   // opcional: sin él no hay partículas de fondo
  *     confettiCanvas: document.getElementById('canvas-confetti'),
  *   });
  *   fx.launchConfetti();   // victoria
