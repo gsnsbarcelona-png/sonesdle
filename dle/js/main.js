@@ -134,8 +134,8 @@ async function boot() {
       const btn = document.createElement('button');
       const active = isActive(item);
       btn.className = [
-        'font-body text-xs font-bold tracking-widest uppercase',
-        'px-3 py-1 border transition-all duration-200 hover:border-gold hover:text-gold',
+        'font-display text-sm font-bold tracking-widest uppercase',
+        'px-3 py-1 border rounded transition-colors duration-150 hover:border-gold hover:text-gold',
         active ? 'border-gold text-gold' : 'border-lol-border text-lol-dim',
       ].join(' ');
       btn.textContent = label(item);

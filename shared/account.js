@@ -209,46 +209,47 @@ function injectStyles() {
     }
     .acc-card {
       position: relative; width: 92%; max-width: 420px; max-height: 88vh; overflow-y: auto;
-      background: #12161b; border: 1px solid #a8832a; padding: 26px 22px 18px;
-      color: #e9edf1;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+      box-shadow: 0 24px 60px rgba(0,0,0,.6); padding: 32px 24px 20px;
+      color: var(--text);
     }
     .acc-close {
-      position: absolute; top: 8px; right: 12px; background: none; border: none;
-      color: #8b96a3; font-size: 1.4rem; cursor: pointer;
+      position: absolute; top: 8px; right: 8px; width: 40px; height: 40px; border-radius: 6px;
+      background: none; border: none; color: #8b96a3; font-size: 1.5rem; line-height: 1; cursor: pointer;
     }
-    .acc-close:hover { color: #e8b84a; }
+    .acc-close:hover { color: #e9edf1; background: var(--surface2); }
     .acc-title {
-      font-family: var(--font-display); color: #e8b84a; font-size: 1rem;
-      letter-spacing: 2px; text-align: center; margin: 0 0 16px;
+      font-family: var(--font-display); color: var(--text); font-size: 1.9rem; font-weight: 700;
+      text-transform: uppercase; line-height: 1; text-align: center; margin: 0 0 18px;
     }
-    .acc-info { font-size: 0.85rem; line-height: 1.45; color: #7a9cc0; margin: 0 0 14px; text-align: center; }
+    .acc-info { font-size: 0.85rem; line-height: 1.45; color: #8b96a3; margin: 0 0 14px; text-align: center; }
     .acc-google {
       display: flex; align-items: center; justify-content: center; gap: 10px;
-      width: 100%; padding: 10px; margin-bottom: 18px; cursor: pointer;
-      background: #fff; color: #1f1f1f; border: none; border-radius: 4px;
+      width: 100%; height: 48px; margin-bottom: 18px; cursor: pointer;
+      background: #fff; color: #1f1f1f; border: none; border-radius: 6px;
       font-family: var(--font-body); font-size: 0.95rem; font-weight: 700;
     }
     .acc-google:hover { background: #f0f0f0; }
     .acc-user { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
     .acc-user-avatar { width: 44px; height: 44px; border-radius: 50%; border: 1px solid #a8832a; }
-    .acc-name { font-weight: 700; color: #f0e6d2; }
+    .acc-name { font-weight: 700; color: var(--text); }
     .acc-email { font-size: 0.8rem; color: #8b96a3; }
     .acc-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
     .acc-tab {
-      flex: 1; padding: 6px 4px; cursor: pointer; background: transparent;
+      flex: 1; padding: 8px 4px; cursor: pointer; background: transparent; border-radius: 6px;
       border: 1px solid #232a33; color: #8b96a3;
-      font-family: var(--font-body); font-size: 0.72rem; font-weight: 700;
-      letter-spacing: 1px; text-transform: uppercase;
+      font-family: var(--font-display); font-size: 0.9rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
     }
     .acc-tab.active, .acc-tab:hover { border-color: #e8b84a; color: #e8b84a; }
     .acc-nums { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; text-align: center; margin-bottom: 14px; }
-    .acc-num { font-family: var(--font-display); font-size: 1.5rem; color: #f0e6d2; }
-    .acc-label { font-size: 0.68rem; letter-spacing: 1px; text-transform: uppercase; color: #8b96a3; }
+    .acc-num { font-family: var(--font-display); font-size: 1.9rem; font-weight: 700; color: var(--text); }
+    .acc-label { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase; color: #8b96a3; }
     .acc-dist-title { margin-bottom: 6px; }
     .acc-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; font-size: 0.8rem; }
-    .acc-bar-row > span { width: 18px; text-align: right; color: #7a9cc0; }
+    .acc-bar-row > span { width: 18px; text-align: right; color: #8b96a3; }
     .acc-bar {
-      background: #232a33; color: #f0e6d2; text-align: right; padding: 1px 6px;
+      background: #232a33; color: var(--text); text-align: right; padding: 1px 6px; border-radius: 3px;
       font-size: 0.75rem; font-weight: 700; min-width: 18px;
     }
     .acc-empty { text-align: center; color: #8b96a3; font-size: 0.85rem; margin: 18px 0; }
@@ -261,7 +262,7 @@ function injectStyles() {
       font-family: var(--font-body); font-size: 0.78rem; color: #8b96a3; text-decoration: underline;
     }
     .acc-link:hover { color: #e8b84a; }
-    .acc-delete:hover { color: #cc2222; }
+    .acc-delete:hover { color: #e0645c; }
   `;
   document.head.appendChild(s);
 }
