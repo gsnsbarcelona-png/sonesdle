@@ -1,12 +1,4 @@
 @import '../../shared/css/game-ui.css';
-/* GAME TITLE ROW */
-
-/* HEADER */
-
-.header-banner{display:inline-block;width:100%;max-width:560px;padding:1.2rem 2rem;background:rgba(11,13,16,0.82);border-top:1px solid rgba(232,184,74,0.2);border-bottom:1px solid rgba(232,184,74,0.2)}
-
-.header-title{font-family:var(--font-display);font-size:clamp(1.6rem,7vw,3rem);font-weight:700;letter-spacing:0.18em;color:#e8b84a;text-shadow:0 0 28px rgba(232,184,74,0.45),0 2px 6px rgba(0,0,0,0.8);line-height:1;text-transform:uppercase}
-
 /* STATS */
 
 /* LIVES BOX */
@@ -18,7 +10,7 @@
 .dot.correct{background:#0d3a1e;border-color:var(--green);box-shadow:0 0 8px rgba(0,204,102,0.5)}
 .dot.wrong{background:#3a0d0d;border-color:var(--red);box-shadow:0 0 8px rgba(204,34,34,0.5)}
 .dot.hint{background:#2a1e00;border-color:var(--gold);box-shadow:0 0 8px rgba(232,184,74,0.5)}
-.dot.current{border-color:var(--gold);animation:pulse 1.2s infinite}
+.dot.current{border-color:var(--gold);animation:none}
 /* TIMELINE */
 .timeline-card{background:var(--surface);border:1px solid var(--border);border-top:1px solid var(--gold-dark);padding:18px 22px;margin-bottom:16px;animation:fadeUp 0.4s ease}
 .timeline-title{font-family:var(--font-display);font-size:0.65rem;color:var(--text-dim);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px;font-weight:600}
@@ -67,3 +59,76 @@
 .btn-next:hover{background:var(--gold-light);box-shadow:0 0 24px rgba(232,184,74,0.4)}
 
 .guess-error{min-height:1.2em;margin:6px 2px 0;font-size:0.8rem;color:#ff5555}
+
+
+/* ═══ Rediseño: estilo común con dle, wordle y grid ═══
+   Sobrescribe lo heredado de shared/css/game-ui.css (compartido con rostergues). */
+
+/* Título centrado; el botón de ayuda cuelga a la derecha */
+.game-title-row{padding:20px 0 16px}
+.game-title-wrap{position:relative}
+.game-title-text{font-size:clamp(2.2rem,7vw,3.4rem);line-height:1;letter-spacing:.01em;color:var(--text);text-shadow:none;text-transform:uppercase}
+.game-instr-btn{position:absolute;left:100%;top:50%;transform:translateY(-50%);margin-left:12px;width:28px;height:28px;border-color:var(--border);color:var(--dim)}
+.game-instr-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+/* Estadísticas */
+.stat{border-radius:0}
+.stat:first-child{border-radius:6px 0 0 6px}
+.stat:last-child{border-radius:0 6px 6px 0}
+.stat-value{font-size:2rem;color:var(--gold)}
+.stat-label{font-family:var(--font-mono);font-size:.68rem;font-weight:400;letter-spacing:.1em;color:var(--dim)}
+
+/* Intentos */
+.lives-box{border-top:1px solid var(--border);border-radius:6px}
+.lives-label{font-family:var(--font-mono);font-size:.72rem;font-weight:400;letter-spacing:.1em;color:var(--dim)}
+.dot{border-radius:3px}
+.dot.correct{background:var(--green);border-color:var(--green);box-shadow:none}
+.dot.wrong{background:var(--red);border-color:var(--red);box-shadow:none}
+.dot.hint{background:var(--gold);border-color:var(--gold);box-shadow:none}
+.dot.current{border-color:var(--gold);animation:none}
+
+/* Trayectoria */
+.timeline-card{border-top:1px solid var(--border);border-radius:6px}
+.timeline-title{font-family:var(--font-mono);font-size:.72rem;font-weight:400;letter-spacing:.1em;color:var(--dim)}
+.timeline-title::before,.timeline-title::after{background:var(--border)}
+.timeline::before{background:var(--border)}
+.timeline-dot{background:var(--gold);box-shadow:none;border-radius:50%}
+.timeline-year{font-family:var(--font-mono);font-size:.78rem;color:var(--dim)}
+.timeline-team{font-size:1.05rem}
+.region-badge{font-family:var(--font-mono);font-size:.7rem;font-weight:600;letter-spacing:.04em;border-radius:4px;background:transparent!important}
+.region-badge.LCK{color:#3fc1c9;border-color:#3fc1c9}
+.region-badge.LPL{color:#ff8c00;border-color:#ff8c00}
+.region-badge.LEC{color:#bf8fd8;border-color:#bf8fd8}
+.region-badge.LCS{color:#e0645c;border-color:#e0645c}
+.region-badge.OTHER{color:#4fcf8a;border-color:#4fcf8a}
+.position-badge{font-family:var(--font-mono);font-size:.72rem;font-weight:600;letter-spacing:.04em;border-radius:4px;background:transparent;animation:none}
+.more-dots span{background:var(--gold);animation:none;opacity:.7}
+.timeline-more{font-size:.85rem}
+
+/* Pistas */
+.hint-item{background:var(--surface);border-radius:6px;font-size:.92rem}
+.hint-item.wrong{border-left-color:var(--red);background:var(--surface)}
+.hint-player{color:#e0645c}
+.hint-icon{color:#e0645c;margin-top:3px}
+.hint-text{font-size:.9rem;color:var(--text-dim)}
+
+/* Buscador y botones, como en dle */
+.input-row{align-items:stretch}
+.guess-input{height:48px;padding:0 16px;font-weight:500;letter-spacing:0;border:1px solid var(--border);border-radius:6px;box-shadow:none}
+.guess-input:hover:not(:disabled){border-color:var(--dim)}
+.guess-input:focus{border-color:var(--gold);box-shadow:none}
+.autocomplete-list{top:calc(100% + 4px);border:1px solid var(--border);border-radius:6px;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.autocomplete-item{font-weight:500}
+.autocomplete-item:hover,.autocomplete-item.active{background:var(--surface2);color:var(--gold)}
+.autocomplete-pos{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.04em}
+.btn{height:48px;padding:0 20px;border-radius:6px;font-family:var(--font-display);font-size:1rem;letter-spacing:.12em}
+.btn-submit{padding:0 22px;background:var(--gold);border:1px solid var(--gold);color:var(--bg)}
+.btn-submit:hover{background:var(--text);border-color:var(--text);color:var(--bg);box-shadow:none}
+.btn-hint{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-hint:hover{border-color:var(--gold);color:var(--gold);background:transparent}
+.btn-skip{padding:0 20px;font-size:1rem;background:transparent}
+.btn-skip:hover{background:transparent}
+.btn-next{height:52px;font-size:1.05rem;background:var(--gold);color:var(--bg)}
+.btn-next:hover{background:var(--text);box-shadow:none}
+.guess-error{font-size:.88rem;color:#e0645c}
+.divider{border-top-color:var(--border)}

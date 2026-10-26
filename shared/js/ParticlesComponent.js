@@ -28,8 +28,9 @@ export class ParticlesComponent {
   #rafConfetti;
 
   constructor({ particleCanvas, confettiCanvas }) {
-    this.#pCanvas = particleCanvas;
-    this.#pCtx    = particleCanvas.getContext('2d');
+    // particleCanvas es opcional: sin él no hay partículas de fondo y solo queda el confeti
+    this.#pCanvas = particleCanvas ?? null;
+    this.#pCtx    = particleCanvas?.getContext('2d') ?? null;
     this.#cCanvas = confettiCanvas;
     this.#cCtx    = confettiCanvas.getContext('2d');
 
@@ -38,12 +39,14 @@ export class ParticlesComponent {
 
     window.addEventListener('resize', () => {
       clearTimeout(this.#resizeTimer);
-      this.#resizeTimer = setTimeout(() => { this.#resize(); this.#initParticles(); }, 120);
+      this.#resizeTimer = setTimeout(() => { this.#resize(); if (this.#pCanvas) this.#initParticles(); }, 120);
     });
 
     this.#resize();
-    this.#initParticles();
-    if (!prefersReducedMotion()) this.#animParticles();   // sin movimiento: fondo quieto
+    if (this.#pCanvas) {
+      this.#initParticles();
+      if (!prefersReducedMotion()) this.#animParticles();   // sin movimiento: fondo quieto
+    }
   }
 
   // ── Public ──────────────────────────────────────────────────────────────────
@@ -85,8 +88,12 @@ export class ParticlesComponent {
   }
 
   #resize() {
-    this.#pCanvas.width  = this.#cCanvas.width  = window.innerWidth;
-    this.#pCanvas.height = this.#cCanvas.height = window.innerHeight;
+    this.#cCanvas.width  = window.innerWidth;
+    this.#cCanvas.height = window.innerHeight;
+    if (this.#pCanvas) {
+      this.#pCanvas.width  = window.innerWidth;
+      this.#pCanvas.height = window.innerHeight;
+    }
   }
 
   #initParticles() {
