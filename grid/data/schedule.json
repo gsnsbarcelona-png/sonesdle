@@ -958,5 +958,17 @@
       "lec",
       "edg"
     ]
+  },
+  "2026-12-25": {
+    "cols": [
+      "lcs",
+      "champ",
+      "support"
+    ],
+    "rows": [
+      "chinese",
+      "european",
+      "worlds"
+    ]
   }
 }
