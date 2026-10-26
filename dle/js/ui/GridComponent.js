@@ -23,6 +23,12 @@ const COLUMN_KEYS = [
   { key: 'colTeam',     icon: ICONS.shield, tip: 'tipTeam',     hard: false },
 ];
 
+/** Logos de rol (los mismos que usa grid). */
+const POSITION_ICONS = {
+  top: '../grid/img/top.webp', jungle: '../grid/img/jungle.webp', mid: '../grid/img/mid.webp',
+  adc: '../grid/img/adc.webp', support: '../grid/img/support.webp',
+};
+
 const REVEAL_DELAY_MS = 130;
 
 export class GridComponent {
@@ -122,7 +128,13 @@ export class GridComponent {
 
   #makePositionCell(p, status) {
     const d = this.#baseCell(status);
-    d.innerHTML = `<div class="cell-main">${esc(p.position.join('/'))}</div>`;
+    // En pantallas estrechas el texto se corta: se sustituye por el icono de la posición
+    const label = p.position.join('/');
+    const icons = p.position.map((pos) => POSITION_ICONS[pos.toLowerCase()])
+      .filter(Boolean).map((src) => `<img class="pos-icon" src="${src}" alt="" aria-hidden="true">`).join('');
+    d.innerHTML = `<div class="cell-main"><span class="pos-text">${esc(label)}</span>`
+      + (icons ? `<span class="pos-icons" title="${esc(label)}" aria-label="${esc(label)}" role="img">${icons}</span>` : '')
+      + `</div>`;
     return d;
   }
 

@@ -173,6 +173,17 @@
     .cell-partial { background: #c58a1d; border-color: #c58a1d; color: #1a1204; }
     .cell-wrong   { background: #232a33; border-color: #232a33; color: #8b96a3; }
 
+
+    /* Posición: texto en pantallas anchas, icono en las estrechas (el texto se cortaba) */
+    .pos-icons { display: none; align-items: center; justify-content: center; gap: 2px; }
+    .pos-icon { width: 1.5rem; height: 1.5rem; object-fit: contain; filter: brightness(0) invert(1); }
+    .cell-partial .pos-icon { filter: brightness(0); }
+    .cell-wrong .pos-icon { opacity: .75; }
+    @media (max-width: 539px) {
+      .pos-text { display: none; }
+      .pos-icons { display: inline-flex; }
+    }
+
     /* Animacion flip reveal */
     .cell-revealed {
       animation: flipReveal 0.38s ease forwards;
