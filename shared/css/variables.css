@@ -9,10 +9,10 @@
   --text:#e9edf1; --text-dim:#8b96a3; --dim:#8b96a3;
 
   /* Dorado (marca principal) */
-  --gold:#e8b84a; --gold-light:#e9edf1; --gold-dark:#8a6a1f;
+  --gold:#e8b84a; --gold-light:#e9edf1; --gold-dark:#a8832a;
 
   /* Colores de estado */
-  --teal:#3fc1c9; --green:#2e8b57; --green-bg:#2e8b57; --green-text:#ffffff; --red:#d6453d;
+  --teal:#3fc1c9; --green:#2a7d4f; --green-bg:#2a7d4f; --green-text:#ffffff; --red:#d6453d;
 
   /* Ligas */
   --lck:#0bc4c4; --lpl:#FF8C00; --lec:#9B59B6; --lcs:#cc2222; --other:#00cc66;

@@ -5,7 +5,12 @@
   outline: 2px solid #e8b84a !important;
   outline-offset: 2px;
 }
-input:focus-visible { outline-offset: 0 !important; }
+/* Campos de texto: el foco se marca con el borde ámbar y un halo suave, sin doble anillo */
+input:focus-visible {
+  outline: none !important;
+  border-color: #e8b84a !important;
+  box-shadow: 0 0 0 3px rgba(232,184,74,0.28);
+}
 
 /* Texto solo para lectores de pantalla */
 .sr-only {

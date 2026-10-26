@@ -40,7 +40,7 @@
 .slots-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px;animation:fadeUp 0.5s ease 0.12s both}
 .player-slot{min-height:110px;border:1px solid var(--border-gold);background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 6px;gap:4px;transition:all 0.3s ease;position:relative;overflow:hidden}
 .player-slot::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(232,184,74,0.03),transparent);pointer-events:none}
-.slot-empty .slot-name{font-size:2rem;color:rgba(74,96,128,0.35);font-family:monospace}
+.slot-empty .slot-name{font-size:2rem;color:rgba(139,150,163,0.7);font-family:monospace}
 .slot-hint{background:rgba(232,184,74,0.06);border-color:rgba(232,184,74,0.35)}
 .slot-solved{background:var(--green-bg);border-color:var(--green);box-shadow:0 0 12px rgba(0,204,102,0.2)}
 .slot-position{font-size:0.6rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-dim);margin-bottom:2px}
@@ -58,7 +58,7 @@
 
 /* BUTTONS */
 
-.btn-surrender{flex:0 0 auto;padding:11px 18px;background:transparent;border:1px solid #660000;color:#884444}
+.btn-surrender{flex:0 0 auto;padding:11px 18px;background:transparent;border:1px solid #6b2a27;color:#e0645c}
 .btn-surrender:hover{border-color:var(--red);color:var(--red);background:rgba(204,34,34,0.07)}
 
 /* INFO ROW (contadores + pista en una fila sobre el grid) */

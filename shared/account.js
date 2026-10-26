@@ -198,7 +198,7 @@ function injectStyles() {
   s.id = 'acc-styles';
   s.textContent = `
     .acc-btn { padding: 0; font: inherit; overflow: hidden; }
-    .acc-btn.acc-signed { border-color: #8a6a1f; }
+    .acc-btn.acc-signed { border-color: #a8832a; }
     .acc-avatar { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
 
     #acc-overlay {
@@ -209,7 +209,7 @@ function injectStyles() {
     }
     .acc-card {
       position: relative; width: 92%; max-width: 420px; max-height: 88vh; overflow-y: auto;
-      background: #12161b; border: 1px solid #8a6a1f; padding: 26px 22px 18px;
+      background: #12161b; border: 1px solid #a8832a; padding: 26px 22px 18px;
       color: #e9edf1;
     }
     .acc-close {
@@ -230,7 +230,7 @@ function injectStyles() {
     }
     .acc-google:hover { background: #f0f0f0; }
     .acc-user { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
-    .acc-user-avatar { width: 44px; height: 44px; border-radius: 50%; border: 1px solid #8a6a1f; }
+    .acc-user-avatar { width: 44px; height: 44px; border-radius: 50%; border: 1px solid #a8832a; }
     .acc-name { font-weight: 700; color: #f0e6d2; }
     .acc-email { font-size: 0.8rem; color: #8b96a3; }
     .acc-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }

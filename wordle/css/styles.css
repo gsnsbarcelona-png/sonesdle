@@ -2,7 +2,7 @@
 
 :root {
   --tile: 58px;
-  --hit:  #2e8b57;     /* letra en su sitio */
+  --hit:  #2a7d4f;     /* letra en su sitio */
   --near: #b8862d;     /* letra en otra posición */
   --miss: #1a2638;     /* letra que no está */
 }

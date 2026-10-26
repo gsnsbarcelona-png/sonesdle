@@ -36,7 +36,7 @@ function remember() {
 
 const CSS = `
 #storage-notice{position:fixed;left:0;right:0;bottom:0;z-index:9990;box-sizing:border-box;
-  background:var(--surface);border-top:1px solid #8a6a1f;box-shadow:0 -8px 40px rgba(0,0,0,.6);
+  background:var(--surface);border-top:1px solid #a8832a;box-shadow:0 -8px 40px rgba(0,0,0,.6);
   padding:12px 16px;font-family:var(--font-body)}
 #storage-notice .sn-wrap{max-width:960px;margin:0 auto;display:flex;align-items:center;gap:12px 16px;flex-wrap:wrap}
 #storage-notice p{flex:1;min-width:220px;margin:0;font-size:.85rem;line-height:1.45;color:#a9bfd8}

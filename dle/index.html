@@ -155,7 +155,7 @@
 
     /* Celda de nombre (visible desde el principio, sin animacion) */
     .cell-name {
-      border-color: #8a6a1f;
+      border-color: #a8832a;
       background: #181d24;
       color: #e9edf1;
       font-size: 0.72rem;
@@ -169,17 +169,9 @@
     @media (min-width: 768px)  { .cell-name { font-size: 0.9rem; letter-spacing: 0.5px; border-radius: 6px; } }
 
     /* Estados de celda */
-    .cell-correct { background: #2e8b57; border-color: #2e8b57; color: #fff; }
+    .cell-correct { background: #2a7d4f; border-color: #2a7d4f; color: #fff; }
     .cell-partial { background: #c58a1d; border-color: #c58a1d; color: #1a1204; }
     .cell-wrong   { background: #232a33; border-color: #232a33; color: #8b96a3; }
-    /* Marca además del color, para quien no distingue verde/naranja/rojo */
-    .cell-correct, .cell-partial, .cell-wrong { position: relative; }
-    .cell-correct::after, .cell-partial::after, .cell-wrong::after {
-      position: absolute; top: 1px; right: 3px; font-size: 0.6rem; font-weight: 700; line-height: 1;
-    }
-    .cell-correct::after { content: '✓'; }
-    .cell-partial::after { content: '≈'; }
-    .cell-wrong::after   { content: '✕'; }
 
     /* Animacion flip reveal */
     .cell-revealed {
@@ -254,7 +246,7 @@
     #instructions-modal.open { display: flex; }
     .instr-card {
       background: #12161b;
-      border: 1px solid #8a6a1f;
+      border: 1px solid #a8832a;
       max-width: 400px; width: 92%;
       padding: 28px 24px;
       position: relative;
@@ -296,7 +288,7 @@
       left: 50%;
       transform: translateX(-50%);
       background: #12161b;
-      border: 1px solid #8a6a1f;
+      border: 1px solid #a8832a;
       color: #e9edf1;
       font-family: var(--font-body);
       font-size: 0.62rem;
@@ -319,7 +311,7 @@
       left: 50%;
       transform: translateX(-50%);
       border: 5px solid transparent;
-      border-bottom-color: #8a6a1f;
+      border-bottom-color: #a8832a;
       opacity: 0;
       transition: opacity 0.15s ease;
       z-index: 201;
@@ -395,26 +387,26 @@
             placeholder="Escribe un pro player..."
             data-i18n-ph="placeholder"
             autocomplete="off"
-            class="w-full bg-lol-surface border border-gold-dark text-lol-text font-body
-                   text-base font-semibold px-4 py-3 outline-none tracking-wide
+            class="w-full h-12 bg-lol-surface border border-lol-border rounded-md text-lol-text font-body
+                   text-base font-medium px-4 outline-none
                    placeholder:text-lol-dim placeholder:font-normal
-                   focus:border-gold focus:shadow-[0_0_18px_rgba(232,184,74,.18)]
+                   hover:border-lol-dim focus:border-gold
                    disabled:opacity-40 disabled:cursor-not-allowed"
           >
           <div
             id="search-dropdown"
-            class="hidden absolute top-[calc(100%+3px)] left-0 right-0
-                   bg-lol-surface border border-gold-dark z-50"
+            class="hidden absolute top-[calc(100%+4px)] left-0 right-0 overflow-hidden
+                   bg-lol-surface border border-lol-border rounded-md shadow-lg z-50"
           ></div>
         </div>
 
         <!-- Boton -->
         <button
           id="guess-btn"
-          class="bg-transparent border border-gold text-gold font-body
-                 text-sm font-bold tracking-widest uppercase px-5 md:px-7
-                 transition-all duration-200 whitespace-nowrap
-                 hover:bg-gold hover:text-lol-bg hover:shadow-[0_0_22px_rgba(232,184,74,.28)]
+          class="h-12 bg-gold border border-gold rounded-md text-lol-bg font-display
+                 text-base font-bold tracking-widest uppercase px-5 md:px-7
+                 transition-colors duration-150 whitespace-nowrap
+                 hover:bg-lol-text hover:border-lol-text
                  disabled:opacity-40 disabled:cursor-not-allowed"
         ><span data-i18n="guess">Adivinar</span></button>
       </div>
@@ -431,8 +423,8 @@
         </div>
         <button
           id="giveup-btn"
-          class="flex flex-col items-center justify-center px-6 py-2 border border-red-900
-                 bg-lol-surface font-body text-xs tracking-widest uppercase text-red-800
+          class="flex flex-col items-center justify-center px-6 py-2 border border-[#6b2a27]
+                 bg-lol-surface font-body text-xs tracking-widest uppercase text-[#e0645c]
                  hover:border-red-500 hover:text-red-400 hover:bg-[#1a0505]
                  transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
           style="min-width: 110px;"

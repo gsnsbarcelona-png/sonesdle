@@ -24,7 +24,7 @@
 .timeline-title{font-family:var(--font-display);font-size:0.65rem;color:var(--text-dim);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px;font-weight:600}
 .timeline-title::before,.timeline-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
 .timeline{position:relative;padding-left:28px}
-.timeline::before{content:'';position:absolute;left:6px;top:8px;bottom:8px;width:2px;background:linear-gradient(to bottom,#8a6a1f,transparent)}
+.timeline::before{content:'';position:absolute;left:6px;top:8px;bottom:8px;width:2px;background:linear-gradient(to bottom,#a8832a,transparent)}
 .timeline-item{position:relative;display:flex;align-items:center;gap:12px;padding:7px 0;animation:slideIn 0.3s ease}
 .timeline-dot{position:absolute;left:-23px;width:9px;height:9px;background:#e8b84a;border:2px solid var(--surface);box-shadow:0 0 6px rgba(232,184,74,0.5)}
 .timeline-year{font-family:var(--font-display);font-size:0.7rem;color:var(--text-dim);min-width:60px;letter-spacing:0.05em}
@@ -38,7 +38,7 @@
 .position-badge{font-size:0.65rem;font-weight:700;letter-spacing:0.12em;padding:2px 8px;border:1px solid var(--gold);color:var(--gold);background:rgba(232,184,74,0.1);animation:iconPop 0.3s ease}
 .timeline-more{display:flex;align-items:center;gap:8px;padding:6px 0 0;color:var(--text-dim);font-size:0.75rem}
 .more-dots{display:flex;gap:4px}
-.more-dots span{width:4px;height:4px;background:#8a6a1f;animation:morePulse 1.5s infinite}
+.more-dots span{width:4px;height:4px;background:#a8832a;animation:morePulse 1.5s infinite}
 .more-dots span:nth-child(2){animation-delay:0.2s}
 .more-dots span:nth-child(3){animation-delay:0.4s}
 /* HINTS */
@@ -60,7 +60,7 @@
 
 .btn-hint{background:transparent;border:1px solid var(--gold-dark);color:var(--gold-dark)}
 .btn-hint:hover{border-color:var(--gold);color:var(--gold);background:rgba(232,184,74,0.07)}
-.btn-skip{background:transparent;border:1px solid #660000;color:#884444;padding:7px 16px;font-size:0.75rem;white-space:nowrap}
+.btn-skip{background:transparent;border:1px solid #6b2a27;color:#e0645c;padding:7px 16px;font-size:0.75rem;white-space:nowrap}
 .btn-skip:hover{border-color:var(--red);color:var(--red);background:rgba(204,34,34,0.07)}
 .btn-next{width:100%;background:var(--gold);color:var(--bg);justify-content:center;font-size:0.95rem;padding:13px;display:none;border:none}
 .btn-next.visible{display:flex;animation:fadeUp 0.4s ease}
