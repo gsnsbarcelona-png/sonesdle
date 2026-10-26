@@ -35,9 +35,15 @@ export { esc };
 
 export { emojiHtml };   // banderas como imagen (shared/js/flags.js)
 
-/** Icono de una categoría: su logo (grid/img/) si lo tiene, si no su emoji. */
+/** Iconos de trazo para las categorías sin logo ni bandera. */
+const SVG_ICONS = {
+  champ: '<svg class="cat-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="M8.5 14L7 21l5-3 5 3-1.5-7"/></svg>',
+};
+
+/** Icono de una categoría: su logo (grid/img/), si no su icono de trazo, si no su bandera. */
 export function catIconHtml(cat) {
-  return cat.img ? `<img class="cat-logo" src="./img/${cat.img}.webp" alt="">` : emojiHtml(cat.icon);
+  if (cat.img) return `<img class="cat-logo" src="./img/${cat.img}.webp" alt="">`;
+  return SVG_ICONS[cat.id] ?? emojiHtml(cat.icon);
 }
 
 /** Texto de una categoría en el idioma actual: `cat.en.main` en inglés, `cat.main` en español. */

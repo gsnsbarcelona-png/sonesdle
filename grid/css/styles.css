@@ -73,10 +73,8 @@ h1 {
   cursor:default; animation:flipReveal .38s ease forwards;
 }
 .cell.revealed .cell-name { color:#e8a0a0; }
-.cell.revealed .cell-emoji { opacity:.8; }
-@keyframes flipReveal { 0%{opacity:0;transform:rotateY(90deg)} 100%{opacity:1;transform:rotateY(0)} }
+.cell.revealed @keyframes flipReveal { 0%{opacity:0;transform:rotateY(90deg)} 100%{opacity:1;transform:rotateY(0)} }
 .cell-content { display:flex; flex-direction:column; align-items:center; gap:3px; padding:6px; text-align:center; }
-.cell-emoji { font-size:1.4rem; }
 /* Banderas como imagen (ver emojiHtml en i18n.js): mismo alto que un emoji */
 .flag-img { height:.85em; width:auto; vertical-align:-.08em; border-radius:2px; }
 /* Logos de liga, equipo y posición (grid/img/) */
@@ -159,8 +157,7 @@ h1 {
   .col-label .lbl-icon, .row-label .lbl-icon { font-size: 1.05rem; }
   .col-label .lbl-main, .row-label .lbl-main { font-size: .7rem; letter-spacing: .03em; }
   .col-label .lbl-sub,  .row-label .lbl-sub  { font-size: .62rem; }
-  .cell-emoji { font-size: 1.1rem; }
-  .cell-name { font-size: .8rem; max-width: 100%; }
+    .cell-name { font-size: .8rem; max-width: 100%; }
 }
 
 /* Modo diario / libre */
