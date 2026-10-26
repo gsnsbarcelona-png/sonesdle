@@ -85,7 +85,7 @@ let streak = null;
 function renderStreak() {
   streakEls.forEach(el => {
     el.classList.toggle('hidden', !streak);
-    if (streak) el.textContent = `🔥 ${tx('streak')} ${streak.currentStreak} · ${tx('best')} ${streak.maxStreak}`;
+    if (streak) el.textContent = `${tx('streak')} ${streak.currentStreak} · ${tx('best')} ${streak.maxStreak}`;
   });
 }
 

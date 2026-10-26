@@ -29,8 +29,8 @@ export class AutocompletePresenter {
     if (!matches.length) { this._clear(); return; }
     this._list.innerHTML = matches
       .map(p => p.tried
-        ? `<div class="ac-item tried">❌ <span>${esc(p.name)}</span></div>`
-        : `<div class="ac-item" data-key="${esc(p.key)}" data-name="${esc(p.name)}">${p.em ? emojiHtml(p.em) + ' ' : ''}${esc(p.name)}</div>`)
+        ? `<div class="ac-item tried"><span>${esc(p.name)}</span></div>`
+        : `<div class="ac-item" data-key="${esc(p.key)}" data-name="${esc(p.name)}">${esc(p.name)}</div>`)
       .join('');
     this._list.classList.add('open');
     this._selectable().forEach(item =>
