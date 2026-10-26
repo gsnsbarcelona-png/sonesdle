@@ -49,7 +49,7 @@ export class GameFactory {
     setupDialog(document.getElementById('modalOverlay'), { closeSelector: '#btnCancel' });
     setupDialog(document.getElementById('victoryOverlay'), { closeSelector: '#btnVictoryView' });
     setupDialog(document.getElementById('gameoverOverlay'), { closeSelector: '#btnGameoverView' });
-    new ParticleSystem(bus, document.getElementById('bgCanvas'), document.getElementById('confettiCanvas'));
+    new ParticleSystem(bus, document.getElementById('confettiCanvas'));
     const boardReplayBtn = document.getElementById('btnBoardReplay');
     boardReplayBtn.addEventListener('click', () => bus.emit(EVENTS.GAME_RESET));
     new EndScreenPresenter(bus, document.getElementById('victoryOverlay'), document.getElementById('btnVictoryReplay'), EVENTS.GAME_WON, {
