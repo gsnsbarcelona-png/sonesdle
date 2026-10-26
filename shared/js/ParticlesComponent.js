@@ -15,7 +15,7 @@
 import { prefersReducedMotion } from './a11y.js';
 
 export class ParticlesComponent {
-  static #WIN_COLORS  = ['#c89b3c', '#f0e6d3', '#0bc4c4', '#00ff88', '#ffffff', '#ff8c55'];
+  static #WIN_COLORS  = ['#e8b84a', '#e9edf1', '#0bc4c4', '#00ff88', '#ffffff', '#ff8c55'];
   static #LOSE_COLORS = ['#ff2222', '#880000', '#444444', '#222222', '#661111', '#992222'];
 
   #pCanvas; #pCtx;
@@ -112,7 +112,7 @@ export class ParticlesComponent {
       if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(200,155,60,${p.a})`;
+      ctx.fillStyle = `rgba(232,184,74,${p.a})`;
       ctx.fill();
     }
     requestAnimationFrame(this.#rafParticles);

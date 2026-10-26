@@ -35,14 +35,13 @@
   <link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
   <link rel="apple-touch-icon" href="../apple-touch-icon.png">
   <link rel="manifest" href="../manifest.json">
-  <meta name="theme-color" content="#010a13">
+  <meta name="theme-color" content="#0b0d10">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="LOL Pro Games">
 
   <!-- Preload fondo -->
-  <link rel="preload" href="../fondo1.jpg" as="image">
 
   <!-- Preconnect -->
 
@@ -162,14 +161,14 @@
 
   <!-- Modal instrucciones -->
   <style>
-    #instructions-modal{display:none;position:fixed;inset:0;background:rgba(1,10,19,0.88);z-index:9999;align-items:center;justify-content:center}
+    #instructions-modal{display:none;position:fixed;inset:0;background:rgba(11,13,16,0.88);z-index:9999;align-items:center;justify-content:center}
     #instructions-modal.open{display:flex}
-    .instr-card{background:#0a1428;border:1px solid #785a28;max-width:400px;width:92%;padding:28px 24px;position:relative}
-    .instr-card h3{font-family:'Cinzel',serif;color:#c89b3c;font-size:1rem;letter-spacing:2px;margin-bottom:16px;text-align:center}
-    .instr-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-family:'Rajdhani',sans-serif;font-size:0.82rem;color:#c8d4e8;line-height:1.4}
-    .instr-close{position:absolute;top:10px;right:12px;background:none;border:none;cursor:pointer;color:#4a6080;font-size:1.2rem;transition:color 0.15s}
-    .instr-close:hover{color:#c89b3c}
-    .instr-pip{flex-shrink:0;width:8px;height:8px;background:#785a28;border-radius:50%;margin-top:5px}
+    .instr-card{background:#12161b;border:1px solid #8a6a1f;max-width:400px;width:92%;padding:28px 24px;position:relative}
+    .instr-card h3{font-family:var(--font-display);color:#e8b84a;font-size:1rem;letter-spacing:2px;margin-bottom:16px;text-align:center}
+    .instr-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-family:var(--font-body);font-size:0.82rem;color:#e9edf1;line-height:1.4}
+    .instr-close{position:absolute;top:10px;right:12px;background:none;border:none;cursor:pointer;color:#8b96a3;font-size:1.2rem;transition:color 0.15s}
+    .instr-close:hover{color:#e8b84a}
+    .instr-pip{flex-shrink:0;width:8px;height:8px;background:#8a6a1f;border-radius:50%;margin-top:5px}
   </style>
   <div id="instructions-modal">
     <div class="instr-card">
@@ -178,7 +177,7 @@
       <div class="instr-row"><div class="instr-pip"></div><span>Se muestra el equipo y año de un roster histórico de Worlds o MSI</span></div>
       <div class="instr-row"><div class="instr-pip"></div><span>Adivina los 5 jugadores (Top, Jg, Mid, ADC, Sup) uno a uno</span></div>
       <div class="instr-row"><div class="instr-pip"></div><span>Cada 5 errores se revela una letra de un jugador sin resolver</span></div>
-      <div class="instr-row"><div class="instr-pip"></div><span>El <strong style="color:#c89b3c">reto diario</strong> es siempre en dificultad ⚔️ Media (hasta cuartos de final)</span></div>
+      <div class="instr-row"><div class="instr-pip"></div><span>El <strong style="color:#e8b84a">reto diario</strong> es siempre en dificultad ⚔️ Media (hasta cuartos de final)</span></div>
       <div class="instr-row"><div class="instr-pip"></div><span>Al completarlo desbloqueas el modo libre: ⭐ Fácil (top 2), ⚔️ Media (top 8) o 💀 Difícil (todos)</span></div>
     </div>
   </div>

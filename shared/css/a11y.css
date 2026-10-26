@@ -2,7 +2,7 @@
 
 /* Foco visible con teclado (sin dibujar anillo al hacer clic con el ratón) */
 :focus-visible {
-  outline: 2px solid #c89b3c !important;
+  outline: 2px solid #e8b84a !important;
   outline-offset: 2px;
 }
 input:focus-visible { outline-offset: 0 !important; }

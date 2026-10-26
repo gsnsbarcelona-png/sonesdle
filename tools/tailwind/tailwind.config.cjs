@@ -9,20 +9,20 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        gold:  { DEFAULT: '#c89b3c', light: '#f0e6d3', dark: '#785a28' },
+        gold:  { DEFAULT: '#e8b84a', light: '#e9edf1', dark: '#8a6a1f' },
         lol:   {
-          bg:       '#010a13',
-          surface:  '#0a1428',
-          surface2: '#0f1e36',
-          border:   '#1e3a5f',
-          dim:      '#4a6080',
-          text:     '#c8d4e8',
-          teal:     '#0bc4c4',
+          bg:       '#0b0d10',
+          surface:  '#12161b',
+          surface2: '#181d24',
+          border:   '#232a33',
+          dim:      '#8b96a3',
+          text:     '#e9edf1',
+          teal:     '#3fc1c9',
         },
       },
       fontFamily: {
-        cinzel:   ['Cinzel', 'serif'],
-        rajdhani: ['Rajdhani', 'sans-serif'],
+        display:  ['Barlow Condensed', 'sans-serif'],
+        body:     ['Barlow', 'sans-serif'],
       },
     },
   },

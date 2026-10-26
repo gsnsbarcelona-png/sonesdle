@@ -23,7 +23,7 @@ export class ParticleSystem {
 
   _cellBurst(x, y) {
     if (this._still) return;
-    const colors = ['#c89b3c','#f0e6d3','#0bc4c4','#00ff88','#fff'];
+    const colors = ['#e8b84a','#e9edf1','#0bc4c4','#00ff88','#fff'];
     for (let i = 0; i < 16; i++) {
       const a = Math.random() * Math.PI * 2, s = Math.random() * 5 + 2;
       this._conf.push({
@@ -41,7 +41,7 @@ export class ParticleSystem {
     this._rainActive = true;
     this._rainTimer = setInterval(() => {
       if (!this._rainActive) { clearInterval(this._rainTimer); return; }
-      const colors = ['#c89b3c','#f0e6d3','#0bc4c4','#00ff88','#fff','#ff8c55'];
+      const colors = ['#e8b84a','#e9edf1','#0bc4c4','#00ff88','#fff','#ff8c55'];
       for (let i = 0; i < 8; i++) {
         this._conf.push({
           x: Math.random() * this._cc.width, y: -10,
@@ -66,8 +66,8 @@ export class ParticleSystem {
     this._bctx.clearRect(0, 0, this._bg.width, this._bg.height);
     for (const p of this._bgParts) {
       this._bctx.save();
-      this._bctx.globalAlpha = p.alpha; this._bctx.fillStyle = '#c89b3c';
-      this._bctx.shadowColor = '#c89b3c'; this._bctx.shadowBlur = 4;
+      this._bctx.globalAlpha = p.alpha; this._bctx.fillStyle = '#e8b84a';
+      this._bctx.shadowColor = '#e8b84a'; this._bctx.shadowBlur = 4;
       this._bctx.beginPath(); this._bctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); this._bctx.fill();
       this._bctx.restore();
       p.y -= p.speed;

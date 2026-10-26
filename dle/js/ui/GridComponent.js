@@ -1,15 +1,26 @@
 import { flagImg, esc } from '../utils/helpers.js';
 import { t } from '../utils/i18n.js';
 
+/** Iconos de trazo de las cabeceras (sin emojis). */
+const ICONS = {
+  globe: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>',
+  league: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5zM3 13l9 5 9-5"/></svg>',
+  pos: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/></svg>',
+  award: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="M8.5 14L7 21l5-3 5 3-1.5-7"/></svg>',
+  trophy: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M12 14v4M8 20h8"/></svg>',
+  cal: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+  shield: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg>'
+};
+
 const COLUMN_KEYS = [
   { key: 'colPlayer',   icon: '',    tip: 'tipPlayer',   hard: true  },
-  { key: 'colCountry',  icon: '🌍',  tip: 'tipCountry',  hard: true  },
-  { key: 'colLeague',   icon: '🏅',  tip: 'tipLeague',   hard: false },
-  { key: 'colPosition', icon: '🎮',  tip: 'tipPosition', hard: true  },
-  { key: 'colTitles',   icon: '🏅',  tip: 'tipTitles',   hard: true  },
-  { key: 'colWorlds',   icon: '🏆',  tip: 'tipWorlds',   hard: true  },
-  { key: 'colAge',      icon: '📅',  tip: 'tipAge',      hard: true  },
-  { key: 'colTeam',     icon: '🛡️', tip: 'tipTeam',     hard: false },
+  { key: 'colCountry',  icon: ICONS.globe,  tip: 'tipCountry',  hard: true  },
+  { key: 'colLeague',   icon: ICONS.league,  tip: 'tipLeague',   hard: false },
+  { key: 'colPosition', icon: ICONS.pos,  tip: 'tipPosition', hard: true  },
+  { key: 'colTitles',   icon: ICONS.award,  tip: 'tipTitles',   hard: true  },
+  { key: 'colWorlds',   icon: ICONS.trophy,  tip: 'tipWorlds',   hard: true  },
+  { key: 'colAge',      icon: ICONS.cal,  tip: 'tipAge',      hard: true  },
+  { key: 'colTeam',     icon: ICONS.shield, tip: 'tipTeam',     hard: false },
 ];
 
 const REVEAL_DELAY_MS = 130;

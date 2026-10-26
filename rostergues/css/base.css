@@ -1,10 +1,10 @@
 @import '../../shared/css/base.css';
 
 body {
-  background: url('../../fondo1.jpg') center center/cover no-repeat fixed;
+  background: var(--bg);
   background-color: var(--bg);
   color: var(--text);
-  font-family: 'Rajdhani', sans-serif;
+  font-family: var(--font-body);
   min-height: 100vh;
   overflow-x: hidden;
 }

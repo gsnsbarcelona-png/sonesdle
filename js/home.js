@@ -21,6 +21,6 @@ const T = {
   },
 };
 
-mountSwitcher();
+mountSwitcher(document.querySelector('.topbar'));   // dentro de la barra superior
 applyStaticTranslations(T);
 document.addEventListener('langchange', () => applyStaticTranslations(T));
