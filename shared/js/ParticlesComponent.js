@@ -5,7 +5,7 @@
  * Uso:
  *   import { ParticlesComponent } from '../../shared/js/ParticlesComponent.js';
  *   const fx = new ParticlesComponent({
- *     particleCanvas: document.getElementById('canvas-particles'),
+ *     particleCanvas: document.getElementById('canvas-particles'),   // opcional: sin él no hay partículas de fondo
  *     confettiCanvas: document.getElementById('canvas-confetti'),
  *   });
  *   fx.launchConfetti();   // victoria
@@ -28,8 +28,9 @@ export class ParticlesComponent {
   #rafConfetti;
 
   constructor({ particleCanvas, confettiCanvas }) {
-    this.#pCanvas = particleCanvas;
-    this.#pCtx    = particleCanvas.getContext('2d');
+    // Sin canvas de fondo (particleCanvas omitido): solo hay confeti
+    this.#pCanvas = particleCanvas ?? document.createElement('canvas');
+    this.#pCtx    = this.#pCanvas.getContext('2d');
     this.#cCanvas = confettiCanvas;
     this.#cCtx    = confettiCanvas.getContext('2d');
 
@@ -43,7 +44,7 @@ export class ParticlesComponent {
 
     this.#resize();
     this.#initParticles();
-    if (!prefersReducedMotion()) this.#animParticles();   // sin movimiento: fondo quieto
+    if (particleCanvas && !prefersReducedMotion()) this.#animParticles();   // sin movimiento: fondo quieto
   }
 
   // ── Public ──────────────────────────────────────────────────────────────────
