@@ -36,17 +36,17 @@ function remember() {
 
 const CSS = `
 #storage-notice{position:fixed;left:0;right:0;bottom:0;z-index:9990;box-sizing:border-box;
-  background:var(--surface);border-top:1px solid #a8832a;box-shadow:0 -8px 40px rgba(0,0,0,.6);
+  background:var(--surface);border-top:1px solid var(--border);
   padding:12px 16px;font-family:var(--font-body)}
 #storage-notice .sn-wrap{max-width:960px;margin:0 auto;display:flex;align-items:center;gap:12px 16px;flex-wrap:wrap}
-#storage-notice p{flex:1;min-width:220px;margin:0;font-size:.85rem;line-height:1.45;color:#a9bfd8}
+#storage-notice p{flex:1;min-width:220px;margin:0;font-size:.85rem;line-height:1.45;color:var(--text-dim)}
 #storage-notice a{color:#e8b84a;text-decoration:underline;white-space:nowrap}
-#storage-notice button{font:700 .75rem var(--font-body);letter-spacing:2px;text-transform:uppercase;
-  padding:9px 20px;border:1px solid #e8b84a;background:#e8b84a;color:#0b0d10;border-radius:3px;cursor:pointer}
+#storage-notice button{font:700 1rem var(--font-display);letter-spacing:.12em;text-transform:uppercase;
+  height:44px;padding:0 24px;border:1px solid #e8b84a;background:#e8b84a;color:#0b0d10;border-radius:6px;cursor:pointer}
 #storage-notice button:hover{background:#e9edf1;border-color:#e9edf1}
 #storage-notice button:focus-visible,#storage-notice a:focus-visible{outline:2px solid #e9edf1;outline-offset:2px}
-@media (prefers-reduced-motion:no-preference){#storage-notice{animation:sn-up .35s ease both}}
-@keyframes sn-up{from{transform:translateY(100%)}to{transform:none}}
+@media (prefers-reduced-motion:no-preference){#storage-notice{animation:sn-fade .25s ease both}}
+@keyframes sn-fade{from{opacity:0}to{opacity:1}}
 `;
 
 function mount() {

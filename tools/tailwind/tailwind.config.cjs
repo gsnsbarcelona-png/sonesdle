@@ -23,6 +23,7 @@ module.exports = {
       fontFamily: {
         display:  ['Barlow Condensed', 'sans-serif'],
         body:     ['Barlow', 'sans-serif'],
+        mono:     ['JetBrains Mono', 'monospace'],
       },
     },
   },
