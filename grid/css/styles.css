@@ -157,10 +157,10 @@ h1 {
   :root { --cell: calc((100vw - 32px - 9px) / 4); --label: var(--cell); }
   .col-label, .row-label { padding: 4px 3px; gap: 3px; }
   .col-label .lbl-icon, .row-label .lbl-icon { font-size: 1.05rem; }
-  .col-label .lbl-main, .row-label .lbl-main { font-size: .46rem; letter-spacing: .6px; }
-  .col-label .lbl-sub,  .row-label .lbl-sub  { font-size: .48rem; }
+  .col-label .lbl-main, .row-label .lbl-main { font-size: .7rem; letter-spacing: .03em; }
+  .col-label .lbl-sub,  .row-label .lbl-sub  { font-size: .62rem; }
   .cell-emoji { font-size: 1.1rem; }
-  .cell-name { font-size: .7rem; max-width: 100%; }
+  .cell-name { font-size: .8rem; max-width: 100%; }
 }
 
 /* Modo diario / libre */

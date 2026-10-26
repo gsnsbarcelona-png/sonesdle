@@ -235,7 +235,6 @@ async function boot() {
       disableInput();
       showVictory(secret, saved.attempts, saved.won);
       if (saved.won) particles.launchConfetti();
-      else           particles.launchDefeat();
       showCountdown();
       showShareBtn(saved);
       return;
@@ -283,7 +282,6 @@ async function boot() {
 
     setTimeout(() => {
       showVictory(game.secret, 0, false);
-      particles.launchDefeat();
     }, 300);
   });
 
