@@ -41,6 +41,8 @@ let currentGame = null;
 let wordleLength = null;   // Pro Wordle: estadísticas de una sola longitud (4, 5, 6)
 
 /** Añade el botón de cuenta al final de `container` (la fila de iconos). */
+const USER_SVG = '<svg class="gnav-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>';
+
 export function mountAccount(container, gameId) {
   injectStyles();
   currentGame = GAMES.includes(gameId) ? gameId : GAMES[0];
@@ -49,7 +51,7 @@ export function mountAccount(container, gameId) {
   button.type = 'button';
   button.className = 'gnav-icon-btn acc-btn';
   button.title = t('account');
-  button.innerHTML = '<span class="gnav-icon-emoji">👤</span>';
+  button.innerHTML = USER_SVG;
   button.addEventListener('click', openModal);
   container.appendChild(button);
 
@@ -65,7 +67,7 @@ function renderButton() {
   button.title = user ? `${t('account')} · ${user.user_metadata?.full_name ?? user.email}` : t('account');
   button.innerHTML = avatar
     ? `<img class="acc-avatar" src="${esc(avatar)}" alt="" referrerpolicy="no-referrer">`
-    : '<span class="gnav-icon-emoji">👤</span>';
+    : USER_SVG;
   button.classList.toggle('acc-signed', !!user);
 }
 
@@ -196,70 +198,71 @@ function injectStyles() {
   s.id = 'acc-styles';
   s.textContent = `
     .acc-btn { padding: 0; font: inherit; overflow: hidden; }
-    .acc-btn.acc-signed { border-color: #785a28; }
+    .acc-btn.acc-signed { border-color: #a8832a; }
     .acc-avatar { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
 
     #acc-overlay {
       position: fixed; inset: 0; z-index: 9995;
-      background: rgba(1,10,19,0.88);
+      background: rgba(11,13,16,0.88);
       display: flex; align-items: center; justify-content: center;
-      font-family: 'Rajdhani', sans-serif;
+      font-family: var(--font-body);
     }
     .acc-card {
       position: relative; width: 92%; max-width: 420px; max-height: 88vh; overflow-y: auto;
-      background: #0a1428; border: 1px solid #785a28; padding: 26px 22px 18px;
-      color: #c8d4e8;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+      box-shadow: 0 24px 60px rgba(0,0,0,.6); padding: 32px 24px 20px;
+      color: var(--text);
     }
     .acc-close {
-      position: absolute; top: 8px; right: 12px; background: none; border: none;
-      color: #4a6080; font-size: 1.4rem; cursor: pointer;
+      position: absolute; top: 8px; right: 8px; width: 40px; height: 40px; border-radius: 6px;
+      background: none; border: none; color: #8b96a3; font-size: 1.5rem; line-height: 1; cursor: pointer;
     }
-    .acc-close:hover { color: #c89b3c; }
+    .acc-close:hover { color: #e9edf1; background: var(--surface2); }
     .acc-title {
-      font-family: 'Cinzel', serif; color: #c89b3c; font-size: 1rem;
-      letter-spacing: 2px; text-align: center; margin: 0 0 16px;
+      font-family: var(--font-display); color: var(--text); font-size: 1.9rem; font-weight: 700;
+      text-transform: uppercase; line-height: 1; text-align: center; margin: 0 0 18px;
     }
-    .acc-info { font-size: 0.85rem; line-height: 1.45; color: #7a9cc0; margin: 0 0 14px; text-align: center; }
+    .acc-info { font-size: 0.85rem; line-height: 1.45; color: #8b96a3; margin: 0 0 14px; text-align: center; }
     .acc-google {
       display: flex; align-items: center; justify-content: center; gap: 10px;
-      width: 100%; padding: 10px; margin-bottom: 18px; cursor: pointer;
-      background: #fff; color: #1f1f1f; border: none; border-radius: 4px;
-      font-family: 'Rajdhani', sans-serif; font-size: 0.95rem; font-weight: 700;
+      width: 100%; height: 48px; margin-bottom: 18px; cursor: pointer;
+      background: #fff; color: #1f1f1f; border: none; border-radius: 6px;
+      font-family: var(--font-body); font-size: 0.95rem; font-weight: 700;
     }
     .acc-google:hover { background: #f0f0f0; }
     .acc-user { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
-    .acc-user-avatar { width: 44px; height: 44px; border-radius: 50%; border: 1px solid #785a28; }
-    .acc-name { font-weight: 700; color: #f0e6d2; }
-    .acc-email { font-size: 0.8rem; color: #4a6080; }
+    .acc-user-avatar { width: 44px; height: 44px; border-radius: 50%; border: 1px solid #a8832a; }
+    .acc-name { font-weight: 700; color: var(--text); }
+    .acc-email { font-size: 0.8rem; color: #8b96a3; }
     .acc-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
     .acc-tab {
-      flex: 1; padding: 6px 4px; cursor: pointer; background: transparent;
-      border: 1px solid #1e3a5f; color: #4a6080;
-      font-family: 'Rajdhani', sans-serif; font-size: 0.72rem; font-weight: 700;
-      letter-spacing: 1px; text-transform: uppercase;
+      flex: 1; padding: 8px 4px; cursor: pointer; background: transparent; border-radius: 6px;
+      border: 1px solid #232a33; color: #8b96a3;
+      font-family: var(--font-display); font-size: 0.9rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
     }
-    .acc-tab.active, .acc-tab:hover { border-color: #c89b3c; color: #c89b3c; }
+    .acc-tab.active, .acc-tab:hover { border-color: #e8b84a; color: #e8b84a; }
     .acc-nums { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; text-align: center; margin-bottom: 14px; }
-    .acc-num { font-family: 'Cinzel', serif; font-size: 1.5rem; color: #f0e6d2; }
-    .acc-label { font-size: 0.68rem; letter-spacing: 1px; text-transform: uppercase; color: #4a6080; }
+    .acc-num { font-family: var(--font-display); font-size: 1.9rem; font-weight: 700; color: var(--text); }
+    .acc-label { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase; color: #8b96a3; }
     .acc-dist-title { margin-bottom: 6px; }
     .acc-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; font-size: 0.8rem; }
-    .acc-bar-row > span { width: 18px; text-align: right; color: #7a9cc0; }
+    .acc-bar-row > span { width: 18px; text-align: right; color: #8b96a3; }
     .acc-bar {
-      background: #1e3a5f; color: #f0e6d2; text-align: right; padding: 1px 6px;
+      background: #232a33; color: var(--text); text-align: right; padding: 1px 6px; border-radius: 3px;
       font-size: 0.75rem; font-weight: 700; min-width: 18px;
     }
-    .acc-empty { text-align: center; color: #4a6080; font-size: 0.85rem; margin: 18px 0; }
+    .acc-empty { text-align: center; color: #8b96a3; font-size: 0.85rem; margin: 18px 0; }
     .acc-footer {
       display: flex; justify-content: center; flex-wrap: wrap; gap: 14px;
-      margin-top: 18px; padding-top: 12px; border-top: 1px solid #1e3a5f;
+      margin-top: 18px; padding-top: 12px; border-top: 1px solid #232a33;
     }
     .acc-link {
       background: none; border: none; cursor: pointer; padding: 0;
-      font-family: 'Rajdhani', sans-serif; font-size: 0.78rem; color: #4a6080; text-decoration: underline;
+      font-family: var(--font-body); font-size: 0.78rem; color: #8b96a3; text-decoration: underline;
     }
-    .acc-link:hover { color: #c89b3c; }
-    .acc-delete:hover { color: #cc2222; }
+    .acc-link:hover { color: #e8b84a; }
+    .acc-delete:hover { color: #e0645c; }
   `;
   document.head.appendChild(s);
 }

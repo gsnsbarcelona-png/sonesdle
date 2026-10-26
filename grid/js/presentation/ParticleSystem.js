@@ -2,16 +2,14 @@ import { EVENTS } from '../events.js';
 import { prefersReducedMotion } from '../../../shared/js/a11y.js';
 
 export class ParticleSystem {
-  constructor(bus, bgEl, confettiEl) {
-    this._bg   = bgEl;       this._bctx = bgEl.getContext('2d');
+  constructor(bus, confettiEl) {
     this._cc   = confettiEl; this._cctx = confettiEl.getContext('2d');
-    this._conf = []; this._bgParts = null;
+    this._conf = [];
     this._rainActive = false; this._rainTimer = null; this._confRunning = false;
 
     this._resize();
     window.addEventListener('resize', () => this._resize());
-    this._still = prefersReducedMotion();   // sin movimiento: ni fondo animado ni confeti
-    if (!this._still) this._bgLoop();
+    this._still = prefersReducedMotion();   // sin movimiento: sin confeti
 
     bus.on(EVENTS.CELL_RENDERED, ({ rect }) =>
       this._cellBurst(rect.left + rect.width / 2, rect.top + rect.height / 2)
@@ -23,7 +21,7 @@ export class ParticleSystem {
 
   _cellBurst(x, y) {
     if (this._still) return;
-    const colors = ['#c89b3c','#f0e6d3','#0bc4c4','#00ff88','#fff'];
+    const colors = ['#e8b84a','#e9edf1','#0bc4c4','#00ff88','#fff'];
     for (let i = 0; i < 16; i++) {
       const a = Math.random() * Math.PI * 2, s = Math.random() * 5 + 2;
       this._conf.push({
@@ -41,7 +39,7 @@ export class ParticleSystem {
     this._rainActive = true;
     this._rainTimer = setInterval(() => {
       if (!this._rainActive) { clearInterval(this._rainTimer); return; }
-      const colors = ['#c89b3c','#f0e6d3','#0bc4c4','#00ff88','#fff','#ff8c55'];
+      const colors = ['#e8b84a','#e9edf1','#0bc4c4','#00ff88','#fff','#ff8c55'];
       for (let i = 0; i < 8; i++) {
         this._conf.push({
           x: Math.random() * this._cc.width, y: -10,
@@ -56,25 +54,6 @@ export class ParticleSystem {
   }
 
   _stopRain() { this._rainActive = false; clearInterval(this._rainTimer); }
-
-  _bgLoop() {
-    if (!this._bgParts)
-      this._bgParts = Array.from({ length: 80 }, () => ({
-        x: Math.random() * this._bg.width, y: Math.random() * this._bg.height,
-        r: Math.random() * 1.4 + .4, alpha: Math.random() * .3 + .05, speed: Math.random() * .3 + .1,
-      }));
-    this._bctx.clearRect(0, 0, this._bg.width, this._bg.height);
-    for (const p of this._bgParts) {
-      this._bctx.save();
-      this._bctx.globalAlpha = p.alpha; this._bctx.fillStyle = '#c89b3c';
-      this._bctx.shadowColor = '#c89b3c'; this._bctx.shadowBlur = 4;
-      this._bctx.beginPath(); this._bctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); this._bctx.fill();
-      this._bctx.restore();
-      p.y -= p.speed;
-      if (p.y < -4) { p.y = this._bg.height + 4; p.x = Math.random() * this._bg.width; }
-    }
-    requestAnimationFrame(() => this._bgLoop());
-  }
 
   /** El bucle del confeti solo corre mientras hay partículas. */
   _startConfLoop() {
@@ -110,9 +89,6 @@ export class ParticleSystem {
   }
 
   _resize() {
-    const w = innerWidth, h = innerHeight;
-    this._bg.width = w; this._bg.height = h;
-    this._cc.width = w; this._cc.height = h;
-    this._bgParts = null;
+    this._cc.width = innerWidth; this._cc.height = innerHeight;
   }
 }

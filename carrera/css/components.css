@@ -1,33 +1,25 @@
 @import '../../shared/css/game-ui.css';
-/* GAME TITLE ROW */
-
-/* HEADER */
-
-.header-banner{display:inline-block;width:100%;max-width:560px;padding:1.2rem 2rem;background:rgba(1,10,19,0.82);border-top:1px solid rgba(200,155,60,0.2);border-bottom:1px solid rgba(200,155,60,0.2)}
-
-.header-title{font-family:'Cinzel',serif;font-size:clamp(1.6rem,7vw,3rem);font-weight:700;letter-spacing:0.18em;color:#c89b3c;text-shadow:0 0 28px rgba(200,155,60,0.45),0 2px 6px rgba(0,0,0,0.8);line-height:1;text-transform:uppercase}
-
 /* STATS */
 
 /* LIVES BOX */
 .lives-box{display:flex;align-items:center;justify-content:center;gap:16px;padding:14px 24px;background:var(--surface);border:1px solid var(--border);border-top:2px solid var(--gold-dark);margin-bottom:16px;animation:fadeUp 0.5s ease 0.05s both}
-.lives-label{font-family:'Rajdhani',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-dark);white-space:nowrap}
+.lives-label{font-family:var(--font-body);font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-dark);white-space:nowrap}
 /* DOTS */
 .progress-dots{display:flex;justify-content:center;gap:8px}
 .dot{width:14px;height:14px;background:var(--surface2);border:1px solid var(--border);transition:all 0.3s ease}
 .dot.correct{background:#0d3a1e;border-color:var(--green);box-shadow:0 0 8px rgba(0,204,102,0.5)}
 .dot.wrong{background:#3a0d0d;border-color:var(--red);box-shadow:0 0 8px rgba(204,34,34,0.5)}
-.dot.hint{background:#2a1e00;border-color:var(--gold);box-shadow:0 0 8px rgba(200,155,60,0.5)}
-.dot.current{border-color:var(--gold);animation:pulse 1.2s infinite}
+.dot.hint{background:#2a1e00;border-color:var(--gold);box-shadow:0 0 8px rgba(232,184,74,0.5)}
+.dot.current{border-color:var(--gold);animation:none}
 /* TIMELINE */
 .timeline-card{background:var(--surface);border:1px solid var(--border);border-top:1px solid var(--gold-dark);padding:18px 22px;margin-bottom:16px;animation:fadeUp 0.4s ease}
-.timeline-title{font-family:'Cinzel',serif;font-size:0.65rem;color:var(--text-dim);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px;font-weight:600}
+.timeline-title{font-family:var(--font-display);font-size:0.65rem;color:var(--text-dim);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px;font-weight:600}
 .timeline-title::before,.timeline-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
 .timeline{position:relative;padding-left:28px}
-.timeline::before{content:'';position:absolute;left:6px;top:8px;bottom:8px;width:2px;background:linear-gradient(to bottom,#785a28,transparent)}
+.timeline::before{content:'';position:absolute;left:6px;top:8px;bottom:8px;width:2px;background:linear-gradient(to bottom,#a8832a,transparent)}
 .timeline-item{position:relative;display:flex;align-items:center;gap:12px;padding:7px 0;animation:slideIn 0.3s ease}
-.timeline-dot{position:absolute;left:-23px;width:9px;height:9px;background:#c89b3c;border:2px solid var(--surface);box-shadow:0 0 6px rgba(200,155,60,0.5)}
-.timeline-year{font-family:'Cinzel',serif;font-size:0.7rem;color:var(--text-dim);min-width:60px;letter-spacing:0.05em}
+.timeline-dot{position:absolute;left:-23px;width:9px;height:9px;background:#e8b84a;border:2px solid var(--surface);box-shadow:0 0 6px rgba(232,184,74,0.5)}
+.timeline-year{font-family:var(--font-display);font-size:0.7rem;color:var(--text-dim);min-width:60px;letter-spacing:0.05em}
 .timeline-team{font-size:0.95rem;font-weight:600;color:var(--text);flex:1}
 .region-badge{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;padding:2px 7px;border:1px solid}
 .region-badge.LCK{color:var(--lck);border-color:var(--lck);background:rgba(11,196,196,0.08)}
@@ -35,10 +27,10 @@
 .region-badge.LEC{color:var(--lec);border-color:var(--lec);background:rgba(155,89,182,0.08)}
 .region-badge.LCS{color:var(--lcs);border-color:var(--lcs);background:rgba(204,34,34,0.08)}
 .region-badge.OTHER{color:var(--other);border-color:var(--other);background:rgba(0,204,102,0.08)}
-.position-badge{font-size:0.65rem;font-weight:700;letter-spacing:0.12em;padding:2px 8px;border:1px solid var(--gold);color:var(--gold);background:rgba(200,155,60,0.1);animation:iconPop 0.3s ease}
+.position-badge{font-size:0.65rem;font-weight:700;letter-spacing:0.12em;padding:2px 8px;border:1px solid var(--gold);color:var(--gold);background:rgba(232,184,74,0.1);animation:iconPop 0.3s ease}
 .timeline-more{display:flex;align-items:center;gap:8px;padding:6px 0 0;color:var(--text-dim);font-size:0.75rem}
 .more-dots{display:flex;gap:4px}
-.more-dots span{width:4px;height:4px;background:#785a28;animation:morePulse 1.5s infinite}
+.more-dots span{width:4px;height:4px;background:#a8832a;animation:morePulse 1.5s infinite}
 .more-dots span:nth-child(2){animation-delay:0.2s}
 .more-dots span:nth-child(3){animation-delay:0.4s}
 /* HINTS */
@@ -59,11 +51,84 @@
 /* BUTTONS */
 
 .btn-hint{background:transparent;border:1px solid var(--gold-dark);color:var(--gold-dark)}
-.btn-hint:hover{border-color:var(--gold);color:var(--gold);background:rgba(200,155,60,0.07)}
-.btn-skip{background:transparent;border:1px solid #660000;color:#884444;padding:7px 16px;font-size:0.75rem;white-space:nowrap}
+.btn-hint:hover{border-color:var(--gold);color:var(--gold);background:rgba(232,184,74,0.07)}
+.btn-skip{background:transparent;border:1px solid #6b2a27;color:#e0645c;padding:7px 16px;font-size:0.75rem;white-space:nowrap}
 .btn-skip:hover{border-color:var(--red);color:var(--red);background:rgba(204,34,34,0.07)}
 .btn-next{width:100%;background:var(--gold);color:var(--bg);justify-content:center;font-size:0.95rem;padding:13px;display:none;border:none}
 .btn-next.visible{display:flex;animation:fadeUp 0.4s ease}
-.btn-next:hover{background:var(--gold-light);box-shadow:0 0 24px rgba(200,155,60,0.4)}
+.btn-next:hover{background:var(--gold-light);box-shadow:0 0 24px rgba(232,184,74,0.4)}
 
 .guess-error{min-height:1.2em;margin:6px 2px 0;font-size:0.8rem;color:#ff5555}
+
+
+/* ═══ Rediseño: estilo común con dle, wordle y grid ═══
+   Sobrescribe lo heredado de shared/css/game-ui.css (compartido con rostergues). */
+
+/* Título centrado; el botón de ayuda cuelga a la derecha */
+.game-title-row{padding:20px 0 16px}
+.game-title-wrap{position:relative}
+.game-title-text{font-size:clamp(2.2rem,7vw,3.4rem);line-height:1;letter-spacing:.01em;color:var(--text);text-shadow:none;text-transform:uppercase}
+.game-instr-btn{position:absolute;left:100%;top:50%;transform:translateY(-50%);margin-left:12px;width:28px;height:28px;border-color:var(--border);color:var(--dim)}
+.game-instr-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+/* Estadísticas */
+.stat{border-radius:0}
+.stat:first-child{border-radius:6px 0 0 6px}
+.stat:last-child{border-radius:0 6px 6px 0}
+.stat-value{font-size:2rem;color:var(--gold)}
+.stat-label{font-family:var(--font-mono);font-size:.68rem;font-weight:400;letter-spacing:.1em;color:var(--dim)}
+
+/* Intentos */
+.lives-box{border-top:1px solid var(--border);border-radius:6px}
+.lives-label{font-family:var(--font-mono);font-size:.72rem;font-weight:400;letter-spacing:.1em;color:var(--dim)}
+.dot{border-radius:3px}
+.dot.correct{background:var(--green);border-color:var(--green);box-shadow:none}
+.dot.wrong{background:var(--red);border-color:var(--red);box-shadow:none}
+.dot.hint{background:var(--gold);border-color:var(--gold);box-shadow:none}
+.dot.current{border-color:var(--gold);animation:none}
+
+/* Trayectoria */
+.timeline-card{border-top:1px solid var(--border);border-radius:6px}
+.timeline-title{font-family:var(--font-mono);font-size:.72rem;font-weight:400;letter-spacing:.1em;color:var(--dim)}
+.timeline-title::before,.timeline-title::after{background:var(--border)}
+.timeline::before{background:var(--border)}
+.timeline-dot{background:var(--gold);box-shadow:none;border-radius:50%}
+.timeline-year{font-family:var(--font-mono);font-size:.78rem;color:var(--dim)}
+.timeline-team{font-size:1.05rem}
+.region-badge{font-family:var(--font-mono);font-size:.7rem;font-weight:600;letter-spacing:.04em;border-radius:4px;background:transparent!important}
+.region-badge.LCK{color:#3fc1c9;border-color:#3fc1c9}
+.region-badge.LPL{color:#ff8c00;border-color:#ff8c00}
+.region-badge.LEC{color:#bf8fd8;border-color:#bf8fd8}
+.region-badge.LCS{color:#e0645c;border-color:#e0645c}
+.region-badge.OTHER{color:#4fcf8a;border-color:#4fcf8a}
+.position-badge{font-family:var(--font-mono);font-size:.72rem;font-weight:600;letter-spacing:.04em;border-radius:4px;background:transparent;animation:none}
+.more-dots span{background:var(--gold);animation:none;opacity:.7}
+.timeline-more{font-size:.85rem}
+
+/* Pistas */
+.hint-item{background:var(--surface);border-radius:6px;font-size:.92rem}
+.hint-item.wrong{border-left-color:var(--red);background:var(--surface)}
+.hint-player{color:#e0645c}
+.hint-icon{color:#e0645c;margin-top:3px}
+.hint-text{font-size:.9rem;color:var(--text-dim)}
+
+/* Buscador y botones, como en dle */
+.input-row{align-items:stretch}
+.guess-input{height:48px;padding:0 16px;font-weight:500;letter-spacing:0;border:1px solid var(--border);border-radius:6px;box-shadow:none}
+.guess-input:hover:not(:disabled){border-color:var(--dim)}
+.guess-input:focus{border-color:var(--gold);box-shadow:none}
+.autocomplete-list{top:calc(100% + 4px);border:1px solid var(--border);border-radius:6px;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.autocomplete-item{font-weight:500}
+.autocomplete-item:hover,.autocomplete-item.active{background:var(--surface2);color:var(--gold)}
+.autocomplete-pos{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.04em}
+.btn{height:48px;padding:0 20px;border-radius:6px;font-family:var(--font-display);font-size:1rem;letter-spacing:.12em}
+.btn-submit{padding:0 22px;background:var(--gold);border:1px solid var(--gold);color:var(--bg)}
+.btn-submit:hover{background:var(--text);border-color:var(--text);color:var(--bg);box-shadow:none}
+.btn-hint{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-hint:hover{border-color:var(--gold);color:var(--gold);background:transparent}
+.btn-skip{padding:0 20px;font-size:1rem;background:transparent}
+.btn-skip:hover{background:transparent}
+.btn-next{height:52px;font-size:1.05rem;background:var(--gold);color:var(--bg)}
+.btn-next:hover{background:var(--text);box-shadow:none}
+.guess-error{font-size:.88rem;color:#e0645c}
+.divider{border-top-color:var(--border)}

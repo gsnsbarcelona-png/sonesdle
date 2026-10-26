@@ -8,8 +8,9 @@ mkdirSync(flagsTo, { recursive: true });
 for (const f of readdirSync(flagsFrom).filter(f => f.endsWith('.svg'))) cpSync(`${flagsFrom}/${f}`, `${flagsTo}/${f.toLowerCase()}`);
 
 const FONTS = {
-  cinzel:   { family: 'Cinzel',   weights: [400, 600, 700, 900] },
-  rajdhani: { family: 'Rajdhani', weights: [300, 400, 500, 600, 700] },
+  'barlow-condensed': { family: 'Barlow Condensed', weights: [500, 600, 700] },
+  barlow:             { family: 'Barlow',           weights: [400, 500, 600, 700] },
+  'jetbrains-mono':   { family: 'JetBrains Mono',   weights: [400, 600] },
 };
 const fontsTo = '../../shared/fonts';
 mkdirSync(fontsTo, { recursive: true });

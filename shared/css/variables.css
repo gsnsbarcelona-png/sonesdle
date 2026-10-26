@@ -1,21 +1,26 @@
 :root {
   /* Fondos */
-  --bg:#010a13; --surface:#0a1428; --surface2:#0f1e36;
+  --bg:#0b0d10; --surface:#12161b; --surface2:#181d24;
 
   /* Bordes */
-  --border:#1e3a5f; --border-dim:rgba(30,58,95,0.4); --border-gold:rgba(200,155,60,0.2);
+  --border:#232a33; --border-dim:rgba(35,42,51,0.4); --border-gold:rgba(232,184,74,0.2);
 
   /* Texto */
-  --text:#c8d4e8; --text-dim:#4a6080; --dim:#4a6080;
+  --text:#e9edf1; --text-dim:#8b96a3; --dim:#8b96a3;
 
   /* Dorado (marca principal) */
-  --gold:#c89b3c; --gold-light:#f0e6d3; --gold-dark:#785a28;
+  --gold:#e8b84a; --gold-light:#e9edf1; --gold-dark:#a8832a;
 
   /* Colores de estado */
-  --teal:#0bc4c4; --green:#00cc66; --green-bg:#0d3a1e; --green-text:#a0ffcc; --red:#cc2222;
+  --teal:#3fc1c9; --green:#2a7d4f; --green-bg:#2a7d4f; --green-text:#ffffff; --red:#d6453d;
 
   /* Ligas */
   --lck:#0bc4c4; --lpl:#FF8C00; --lec:#9B59B6; --lcs:#cc2222; --other:#00cc66;
+
+  /* Tipografía */
+  --font-display:'Barlow Condensed','Arial Narrow',sans-serif;
+  --font-body:'Barlow',system-ui,sans-serif;
+  --font-mono:'JetBrains Mono',ui-monospace,monospace;
 
   /* Grid game */
   --cell:110px; --label:110px;

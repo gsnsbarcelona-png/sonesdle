@@ -89,7 +89,7 @@ export class GridRenderer {
     const el = this._getCell(r, c);
     if (!el) return;
     el.innerHTML = `<div class="cell-content">
-      <span class="cell-emoji">${emojiHtml(emoji)}</span>
+      ${emoji ? `<span class="cell-emoji">${emojiHtml(emoji)}</span>` : ''}
       <span class="cell-name">${esc(name)}</span>
     </div>`;
     el.classList.add(kind);

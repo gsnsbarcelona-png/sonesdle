@@ -134,8 +134,8 @@ async function boot() {
       const btn = document.createElement('button');
       const active = isActive(item);
       btn.className = [
-        'font-rajdhani text-xs font-bold tracking-widest uppercase',
-        'px-3 py-1 border transition-all duration-200 hover:border-gold hover:text-gold',
+        'font-display text-sm font-bold tracking-widest uppercase',
+        'px-3 py-1 border rounded transition-colors duration-150 hover:border-gold hover:text-gold',
         active ? 'border-gold text-gold' : 'border-lol-border text-lol-dim',
       ].join(' ');
       btn.textContent = label(item);
@@ -191,7 +191,7 @@ async function boot() {
   function updateVHardBtn() {
     if (!vHardBtn) return;
     const label = isHard ? t('hardModeOn') : t('hardModeBtn');
-    vHardBtn.innerHTML = `💀 <span>${label}</span>`;
+    vHardBtn.innerHTML = `<span>${label}</span>`;
     vHardBtn.classList.toggle('border-gold',       isHard);
     vHardBtn.classList.toggle('text-gold',         isHard);
     vHardBtn.classList.toggle('border-lol-border', !isHard);
@@ -235,7 +235,6 @@ async function boot() {
       disableInput();
       showVictory(secret, saved.attempts, saved.won);
       if (saved.won) particles.launchConfetti();
-      else           particles.launchDefeat();
       showCountdown();
       showShareBtn(saved);
       return;
@@ -283,7 +282,6 @@ async function boot() {
 
     setTimeout(() => {
       showVictory(game.secret, 0, false);
-      particles.launchDefeat();
     }, 300);
   });
 
@@ -483,11 +481,11 @@ boot().catch(err => {
   document.body.innerHTML = `
     <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;
                 min-height:100vh;color:#ff4444;font-family:monospace;text-align:center;
-                padding:2rem;background:#010a13;">
+                padding:2rem;background:#0b0d10;">
       <h2 style="font-size:1.4rem;margin-bottom:1rem">Error al cargar el juego</h2>
       <p style="color:#aaa;margin-bottom:0.5rem">Inténtalo de nuevo en unos segundos.</p>
       <button id="reload-btn" style="margin-top:1.5rem;padding:0.6rem 1.8rem;
-        background:transparent;border:1px solid #c89b3c;color:#c89b3c;
+        background:transparent;border:1px solid #e8b84a;color:#e8b84a;
         font-family:monospace;font-size:0.85rem;cursor:pointer;">Recargar</button>
     </div>
   `;

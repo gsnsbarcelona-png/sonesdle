@@ -96,7 +96,7 @@ export class GameSession {
     });
     for (const [r, c, key] of this._placed()) {
       const p = this._players.get(key);
-      this._bus.emit(EVENTS.CELL_RESTORED, { r, c, name: p?.name ?? key, emoji: p?.em || '🎮' });
+      this._bus.emit(EVENTS.CELL_RESTORED, { r, c, name: p?.name ?? key, emoji: p?.em || '' });
     }
     if (this._over) this._finish(this._won(), { restored: true });
   }
@@ -224,7 +224,7 @@ export class GameSession {
       const p = options.find(o => o.em) ?? options[0];
       if (!p) return null;
       used.add(p.key);
-      return { r, c, name: p.name, emoji: p.em || '🎮' };
+      return { r, c, name: p.name, emoji: p.em || '' };
     }).filter(Boolean);
   }
 
@@ -234,7 +234,7 @@ export class GameSession {
     this._over = won;
     this._save();
     const count = this._board.filledCount();
-    this._bus.emit(EVENTS.GUESS_CORRECT, { r, c, key: player.key, name: player.name, emoji: player.em || '🎮', filledCount: count });
+    this._bus.emit(EVENTS.GUESS_CORRECT, { r, c, key: player.key, name: player.name, emoji: player.em || '', filledCount: count });
     this._bus.emit(EVENTS.MODAL_CLOSE);
     if (won) {
       this._record(true);

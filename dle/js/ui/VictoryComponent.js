@@ -28,6 +28,7 @@ export class VictoryComponent {
     const gaveUp = attempts === 0;
 
     this.#titleEl.textContent = gaveUp ? t('giveUpTitle') : t('victory');
+    document.getElementById('v-icon')?.classList.toggle('hidden', gaveUp);   // el trofeo solo si se acierta
 
     this.#playerEl.innerHTML = `${flagImg(secret.flag, 24)} ${esc(secret.name)}`;
 

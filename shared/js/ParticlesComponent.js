@@ -5,7 +5,7 @@
  * Uso:
  *   import { ParticlesComponent } from '../../shared/js/ParticlesComponent.js';
  *   const fx = new ParticlesComponent({
- *     particleCanvas: document.getElementById('canvas-particles'),
+ *     particleCanvas: document.getElementById('canvas-particles'),   // opcional: sin él no hay partículas de fondo
  *     confettiCanvas: document.getElementById('canvas-confetti'),
  *   });
  *   fx.launchConfetti();   // victoria
@@ -15,7 +15,7 @@
 import { prefersReducedMotion } from './a11y.js';
 
 export class ParticlesComponent {
-  static #WIN_COLORS  = ['#c89b3c', '#f0e6d3', '#0bc4c4', '#00ff88', '#ffffff', '#ff8c55'];
+  static #WIN_COLORS  = ['#e8b84a', '#e9edf1', '#0bc4c4', '#00ff88', '#ffffff', '#ff8c55'];
   static #LOSE_COLORS = ['#ff2222', '#880000', '#444444', '#222222', '#661111', '#992222'];
 
   #pCanvas; #pCtx;
@@ -28,8 +28,9 @@ export class ParticlesComponent {
   #rafConfetti;
 
   constructor({ particleCanvas, confettiCanvas }) {
-    this.#pCanvas = particleCanvas;
-    this.#pCtx    = particleCanvas.getContext('2d');
+    // particleCanvas es opcional: sin él no hay partículas de fondo y solo queda el confeti
+    this.#pCanvas = particleCanvas ?? null;
+    this.#pCtx    = particleCanvas?.getContext('2d') ?? null;
     this.#cCanvas = confettiCanvas;
     this.#cCtx    = confettiCanvas.getContext('2d');
 
@@ -38,12 +39,14 @@ export class ParticlesComponent {
 
     window.addEventListener('resize', () => {
       clearTimeout(this.#resizeTimer);
-      this.#resizeTimer = setTimeout(() => { this.#resize(); this.#initParticles(); }, 120);
+      this.#resizeTimer = setTimeout(() => { this.#resize(); if (this.#pCanvas) this.#initParticles(); }, 120);
     });
 
     this.#resize();
-    this.#initParticles();
-    if (!prefersReducedMotion()) this.#animParticles();   // sin movimiento: fondo quieto
+    if (this.#pCanvas) {
+      this.#initParticles();
+      if (!prefersReducedMotion()) this.#animParticles();   // sin movimiento: fondo quieto
+    }
   }
 
   // ── Public ──────────────────────────────────────────────────────────────────
@@ -85,8 +88,12 @@ export class ParticlesComponent {
   }
 
   #resize() {
-    this.#pCanvas.width  = this.#cCanvas.width  = window.innerWidth;
-    this.#pCanvas.height = this.#cCanvas.height = window.innerHeight;
+    this.#cCanvas.width  = window.innerWidth;
+    this.#cCanvas.height = window.innerHeight;
+    if (this.#pCanvas) {
+      this.#pCanvas.width  = window.innerWidth;
+      this.#pCanvas.height = window.innerHeight;
+    }
   }
 
   #initParticles() {
@@ -112,7 +119,7 @@ export class ParticlesComponent {
       if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(200,155,60,${p.a})`;
+      ctx.fillStyle = `rgba(232,184,74,${p.a})`;
       ctx.fill();
     }
     requestAnimationFrame(this.#rafParticles);

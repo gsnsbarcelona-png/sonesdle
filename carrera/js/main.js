@@ -159,9 +159,8 @@ document.addEventListener('DOMContentLoaded', () => {
     Renderer.update(State.getState()); // re-render timeline con nuevo idioma
   });
 
-  // Boot canvas particles (same as /dle)
+  // Solo confeti (sin partículas de fondo)
   const particles = new ParticlesComponent({
-    particleCanvas: document.getElementById('canvas-particles'),
     confettiCanvas: document.getElementById('canvas-confetti'),
   });
   Modal.setParticles(particles);

@@ -35,14 +35,13 @@
   <link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
   <link rel="apple-touch-icon" href="../apple-touch-icon.png">
   <link rel="manifest" href="../manifest.json">
-  <meta name="theme-color" content="#010a13">
+  <meta name="theme-color" content="#0b0d10">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="LOL Pro Games">
 
   <!-- Preload fondo -->
-  <link rel="preload" href="../fondo1.jpg" as="image">
 
   <!-- Preconnect -->
 
@@ -57,31 +56,31 @@
 </head>
 <body>
 
-  <div class="bg-overlay"></div>
-  <canvas id="canvas-particles" style="position:fixed;inset:0;pointer-events:none;z-index:1"></canvas>
   <canvas id="canvas-confetti"  style="position:fixed;inset:0;pointer-events:none;z-index:201"></canvas>
 
   <div class="app">
 
     <!-- Título del juego + instrucciones -->
     <div class="game-title-row">
-      <h1 class="game-title-text">Roster Guess</h1>
-      <button class="game-instr-btn" id="instructions-btn" title="Instrucciones" data-aria="help">?</button>
+      <div class="game-title-wrap">
+        <h1 class="game-title-text">Roster Guess</h1>
+        <button class="game-instr-btn" id="instructions-btn" title="Instrucciones" data-aria="help">?</button>
+      </div>
     </div>
 
     <!-- DIFICULTAD (visible solo tras completar el reto diario) -->
     <div class="difficulty-row hidden" id="difficulty-row">
-      <button class="diff-btn" data-diff="facil">⭐ Fácil</button>
-      <button class="diff-btn active" data-diff="media">⚔️ Media</button>
-      <button class="diff-btn" data-diff="dificil">💀 Difícil</button>
+      <button class="diff-btn" data-diff="facil">Fácil</button>
+      <button class="diff-btn active" data-diff="media">Media</button>
+      <button class="diff-btn" data-diff="dificil">Difícil</button>
     </div>
     <div class="difficulty-row hidden" id="region-row">
-      <button class="diff-btn active" data-region="all">🌐 Todas</button>
+      <button class="diff-btn active" data-region="all">Todas</button>
       <button class="diff-btn" data-region="LCK">LCK</button>
       <button class="diff-btn" data-region="LPL">LPL</button>
       <button class="diff-btn" data-region="LEC">LEC</button>
       <button class="diff-btn" data-region="LCS">LCS</button>
-      <button class="diff-btn" data-region="other">🗺️ Otras</button>
+      <button class="diff-btn" data-region="other">Otras</button>
     </div>
 
     <!-- YEAR BANNER -->
@@ -95,12 +94,12 @@
     <div class="info-row">
       <div class="counter-box">
         <span class="counter-value" id="counter-attempts">0</span>
-        <span class="counter-label" data-i18n="attemptsLabel">⚡ Intentos</span>
+        <span class="counter-label" data-i18n="attemptsLabel">Intentos</span>
       </div>
       <div class="hint-progress hidden" id="hint-progress"></div>
       <div class="counter-box">
         <span class="counter-value" id="counter-solved">0/5</span>
-        <span class="counter-label" data-i18n="solvedLabel">✓ Acertados</span>
+        <span class="counter-label" data-i18n="solvedLabel">Acertados</span>
       </div>
     </div>
 
@@ -121,8 +120,8 @@
           >
           <div class="autocomplete-list" id="autocomplete-list"></div>
         </div>
-        <button class="btn btn-submit" id="btn-submit" data-i18n="btnGuess">⚔ Adivinar</button>
-        <button class="btn btn-surrender" id="btn-surrender" data-i18n="btnSurrender">⚑ Rendirse</button>
+        <button class="btn btn-submit" id="btn-submit" data-i18n="btnGuess">Adivinar</button>
+        <button class="btn btn-surrender" id="btn-surrender" data-i18n="btnSurrender">Rendirse</button>
       </div>
     </div>
 
@@ -142,44 +141,44 @@
       <div class="result-diff-unlock hidden" id="result-diff-unlock">
         <div class="result-diff-label">Elige la dificultad para la próxima partida</div>
         <div class="result-diff-btns">
-          <button class="diff-btn" data-diff="facil">⭐ Fácil</button>
-          <button class="diff-btn" data-diff="media">⚔️ Media</button>
-          <button class="diff-btn" data-diff="dificil">💀 Difícil</button>
+          <button class="diff-btn" data-diff="facil">Fácil</button>
+          <button class="diff-btn" data-diff="media">Media</button>
+          <button class="diff-btn" data-diff="dificil">Difícil</button>
         </div>
         <div class="result-diff-label" style="margin-top:12px">Y la región</div>
         <div class="result-diff-btns" style="flex-wrap:wrap">
-          <button class="diff-btn" data-region="all">🌐 Todas</button>
+          <button class="diff-btn" data-region="all">Todas</button>
           <button class="diff-btn" data-region="LCK">LCK</button>
           <button class="diff-btn" data-region="LPL">LPL</button>
           <button class="diff-btn" data-region="LEC">LEC</button>
           <button class="diff-btn" data-region="LCS">LCS</button>
-          <button class="diff-btn" data-region="other">🗺️ Otras</button>
+          <button class="diff-btn" data-region="other">Otras</button>
         </div>
       </div>
-      <button class="result-btn" id="result-btn" data-i18n="resultBtn">▶ Jugar de nuevo</button>
+      <button class="result-btn" id="result-btn" data-i18n="resultBtn">Jugar de nuevo</button>
     </div>
   </div>
 
   <!-- Modal instrucciones -->
   <style>
-    #instructions-modal{display:none;position:fixed;inset:0;background:rgba(1,10,19,0.88);z-index:9999;align-items:center;justify-content:center}
+    #instructions-modal{display:none;position:fixed;inset:0;background:rgba(11,13,16,0.88);z-index:9999;align-items:center;justify-content:center}
     #instructions-modal.open{display:flex}
-    .instr-card{background:#0a1428;border:1px solid #785a28;max-width:400px;width:92%;padding:28px 24px;position:relative}
-    .instr-card h3{font-family:'Cinzel',serif;color:#c89b3c;font-size:1rem;letter-spacing:2px;margin-bottom:16px;text-align:center}
-    .instr-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-family:'Rajdhani',sans-serif;font-size:0.82rem;color:#c8d4e8;line-height:1.4}
-    .instr-close{position:absolute;top:10px;right:12px;background:none;border:none;cursor:pointer;color:#4a6080;font-size:1.2rem;transition:color 0.15s}
-    .instr-close:hover{color:#c89b3c}
-    .instr-pip{flex-shrink:0;width:8px;height:8px;background:#785a28;border-radius:50%;margin-top:5px}
+    .instr-card{background:#12161b;border:1px solid #232a33;border-radius:10px;max-width:400px;width:92%;padding:28px 24px;position:relative}
+    .instr-card h3{font-family:var(--font-display);color:#e9edf1;font-size:1.4rem;font-weight:700;letter-spacing:.06em;margin-bottom:16px;text-align:center}
+    .instr-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-family:var(--font-body);font-size:0.9rem;color:#e9edf1;line-height:1.45}
+    .instr-close{position:absolute;top:10px;right:12px;background:none;border:none;cursor:pointer;color:#8b96a3;font-size:1.2rem;transition:color 0.15s}
+    .instr-close:hover{color:#e8b84a}
+    .instr-pip{flex-shrink:0;width:8px;height:8px;background:#e8b84a;transform:rotate(45deg);margin-top:6px}
   </style>
   <div id="instructions-modal">
     <div class="instr-card">
-      <button class="instr-close" id="instructions-close" data-aria="close">✕</button>
+      <button class="instr-close" id="instructions-close" data-aria="close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
       <h3>CÓMO JUGAR</h3>
       <div class="instr-row"><div class="instr-pip"></div><span>Se muestra el equipo y año de un roster histórico de Worlds o MSI</span></div>
       <div class="instr-row"><div class="instr-pip"></div><span>Adivina los 5 jugadores (Top, Jg, Mid, ADC, Sup) uno a uno</span></div>
       <div class="instr-row"><div class="instr-pip"></div><span>Cada 5 errores se revela una letra de un jugador sin resolver</span></div>
-      <div class="instr-row"><div class="instr-pip"></div><span>El <strong style="color:#c89b3c">reto diario</strong> es siempre en dificultad ⚔️ Media (hasta cuartos de final)</span></div>
-      <div class="instr-row"><div class="instr-pip"></div><span>Al completarlo desbloqueas el modo libre: ⭐ Fácil (top 2), ⚔️ Media (top 8) o 💀 Difícil (todos)</span></div>
+      <div class="instr-row"><div class="instr-pip"></div><span>El <strong style="color:#e8b84a">reto diario</strong> es siempre en dificultad Media (hasta cuartos de final)</span></div>
+      <div class="instr-row"><div class="instr-pip"></div><span>Al completarlo desbloqueas el modo libre: Fácil (top 2), Media (top 8) o Difícil (todos)</span></div>
     </div>
   </div>
   <script type="module" src="../shared/js/instructions.js"></script>

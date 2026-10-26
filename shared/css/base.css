@@ -14,7 +14,7 @@ html { font-size: 16px; }
 /* Overlay oscuro sobre fondo (todos los juegos lo usan) */
 .bg-overlay {
   position: fixed; inset: 0;
-  background: rgba(1,10,19,0.72);
+  background: transparent;
   pointer-events: none; z-index: 0;
 }
 
