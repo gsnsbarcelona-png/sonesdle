@@ -25,10 +25,7 @@ h1 {
 .heart { display:flex; color:var(--red); transition:color .3s; }
 .heart.lost { color:var(--border); }
 
-/* Grid — offset so the CELLS are centered, not the full grid+labels */
-.grid-outer {
-  transform: translateX(calc(var(--label) / -2));
-}
+/* Grid: el bloque completo (etiquetas + casillas) va centrado */
 .grid-wrap {
   display:grid;
   grid-template-columns:var(--label) repeat(3,var(--cell));
@@ -155,7 +152,6 @@ h1 {
 /* Móvil: las 4 columnas (etiquetas + 3 casillas) caben en el ancho de la pantalla */
 @media (max-width: 480px) {
   :root { --cell: calc((100vw - 32px - 9px) / 4); --label: var(--cell); }
-  .grid-outer { transform: none; }
   .col-label, .row-label { padding: 4px 3px; gap: 3px; }
   .col-label .lbl-icon, .row-label .lbl-icon { font-size: 1.05rem; }
   .col-label .lbl-main, .row-label .lbl-main { font-size: .46rem; letter-spacing: .6px; }

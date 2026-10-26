@@ -348,16 +348,19 @@
   <div class="relative z-10 max-w-5xl mx-auto">
 
     <!-- Título del juego + instrucciones -->
-    <div class="flex items-center justify-center gap-3 pt-5 pb-3">
-      <h1 class="font-display font-bold text-lol-text uppercase tracking-wide"
-          style="font-size: clamp(2.2rem, 7vw, 3.4rem); line-height: 1;">
-        Adivina el Pro
-      </h1>
-      <button id="instructions-btn"
-              title="Instrucciones" data-aria="help"
-              class="flex items-center justify-center w-7 h-7 rounded-full border border-lol-border
-                     text-lol-dim font-body font-bold text-sm
-                     hover:border-gold hover:text-gold transition-all duration-200">?</button>
+    <div class="flex items-center justify-center pt-5 pb-3">
+      <div class="relative">
+        <h1 class="font-display font-bold text-lol-text uppercase tracking-wide"
+            style="font-size: clamp(2.2rem, 7vw, 3.4rem); line-height: 1;">
+          Adivina el Pro
+        </h1>
+        <!-- El botón de ayuda cuelga a la derecha del título para que el título quede centrado -->
+        <button id="instructions-btn"
+                title="Instrucciones" data-aria="help"
+                class="absolute left-full top-1/2 -translate-y-1/2 ml-3 flex items-center justify-center w-7 h-7 rounded-full border border-lol-border
+                       text-lol-dim font-body font-bold text-sm
+                       hover:border-gold hover:text-gold transition-all duration-200">?</button>
+      </div>
     </div>
 
     <!-- Badge modo + banner modo libre -->
