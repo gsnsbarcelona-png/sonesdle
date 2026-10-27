@@ -970,5 +970,17 @@
       "european",
       "worlds"
     ]
+  },
+  "2026-12-26": {
+    "cols": [
+      "fnatic",
+      "lpl",
+      "worlds"
+    ],
+    "rows": [
+      "geng",
+      "jungle",
+      "top"
+    ]
   }
 }
