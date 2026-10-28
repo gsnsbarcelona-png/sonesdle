@@ -105,7 +105,7 @@
 .result-player-name{font-family:var(--font-mono);font-size:0.8rem;font-weight:600;word-break:break-all;text-align:center}
 .result-player-flag{font-size:1.2rem;line-height:1}
 .result-diff-unlock{margin:0 0 18px;padding:14px 16px;border:1px solid var(--border);border-radius:8px;background:var(--surface2)}
-.result-diff-label{font-family:var(--font-mono);font-size:0.72rem;color:#8b96a3;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px}
+.result-diff-label{font-family:var(--font-mono);font-size:0.72rem;color:#a3adb9;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px}
 .result-diff-btns{display:flex;justify-content:center;gap:8px}
 .result-btn{margin-top:4px;height:48px;padding:0 32px;background:var(--gold);color:var(--bg);border:none;border-radius:6px;font-family:var(--font-display);font-size:1.05rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;width:100%}
 .result-btn:hover{background:var(--text)}

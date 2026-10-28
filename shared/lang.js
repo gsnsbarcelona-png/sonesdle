@@ -106,7 +106,7 @@ function _injectStyles() {
     .lang-option {
       display: flex; align-items: center; gap: 5px;
       padding: 5px 9px; cursor: pointer;
-      background: none; border: none; color: #8b96a3;
+      background: none; border: none; color: #a3adb9;
       font-family: var(--font-body);
       font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
       transition: background 0.15s, color 0.15s;

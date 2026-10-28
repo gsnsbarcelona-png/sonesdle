@@ -15,7 +15,7 @@ module.exports = {
           surface:  '#12161b',
           surface2: '#181d24',
           border:   '#232a33',
-          dim:      '#8b96a3',
+          dim:      '#a3adb9',
           text:     '#e9edf1',
           teal:     '#3fc1c9',
         },
