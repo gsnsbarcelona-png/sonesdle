@@ -11,6 +11,9 @@ const INITIAL_REVEAL = 1;
 /** Storage key for persistent stats. */
 const STORAGE_KEY = 'lolguess_stats';
 
+/** Ronda en curso: así recargar la página no cambia de jugador ni devuelve los intentos. */
+const ROUND_KEY = 'lolguess_round';
+
 // ─── Internal state ───────────────────────────────────────────────────────────
 
 let currentPlayer  = null;
@@ -38,7 +41,46 @@ function saveStats() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(stats));
 }
 
+function saveRound() {
+  try {
+    localStorage.setItem(ROUND_KEY, JSON.stringify({
+      player: currentPlayer.name, attempts, hintsLog, revealedCount, hintsGiven,
+    }));
+  } catch (_) { /* modo privado: la ronda no sobrevivirá a una recarga */ }
+}
+
+function clearRound() {
+  try { localStorage.removeItem(ROUND_KEY); } catch (_) { /* nada que borrar */ }
+}
+
+/** Recupera la ronda guardada si es válida. Devuelve false si no hay o está dañada. */
+function restoreRound() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(ROUND_KEY) || 'null');
+    const player = saved && PLAYERS.find((p) => p.name === saved.player);
+    if (!player) return false;
+    const okAttempts = Array.isArray(saved.attempts) && saved.attempts.length < MAX_ATTEMPTS
+      && saved.attempts.every((a) => a && typeof a.name === 'string' && typeof a.correct === 'boolean');
+    const okLog = Array.isArray(saved.hintsLog)
+      && saved.hintsLog.every((h) => h && h.type === 'wrong' && typeof h.name === 'string' && h.info);
+    const okReveal = Number.isInteger(saved.revealedCount)
+      && saved.revealedCount >= Math.min(INITIAL_REVEAL, player.career.length)
+      && saved.revealedCount <= player.career.length;
+    if (!okAttempts || !okLog || !okReveal || !Number.isInteger(saved.hintsGiven) || saved.hintsGiven < 0) return false;
+
+    currentPlayer = player;
+    attempts      = saved.attempts;
+    hintsLog      = saved.hintsLog;
+    revealedCount = saved.revealedCount;
+    hintsGiven    = saved.hintsGiven;
+    roundOver     = false;
+    won           = false;
+    return true;
+  } catch (_) { return false; }
+}
+
 function endRound(didWin) {
+  clearRound();
   roundOver = true;
   won       = didWin;
   stats.played++;
@@ -95,6 +137,7 @@ export function nextPlayer() {
   hintsGiven    = 0;
   roundOver     = false;
   won           = false;
+  saveRound();
 }
 
 /**
@@ -132,6 +175,7 @@ export function guess(name) {
     return { correct: false, finished: true };
   }
 
+  saveRound();
   return { correct: false, finished: false };
 }
 
@@ -162,6 +206,7 @@ export function useHint() {
     return { used: true, finished: true };
   }
 
+  saveRound();
   return { used: true, finished: false };
 }
 
@@ -175,4 +220,4 @@ export function skip() {
 
 loadStats();
 resetQueue();
-nextPlayer();
+if (!restoreRound()) nextPlayer();
