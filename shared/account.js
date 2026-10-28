@@ -44,7 +44,6 @@ let wordleLength = null;   // Pro Wordle: estadísticas de una sola longitud (4,
 const USER_SVG = '<svg class="gnav-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>';
 
 export function mountAccount(container, gameId) {
-  injectStyles();
   currentGame = GAMES.includes(gameId) ? gameId : GAMES[0];
 
   button = document.createElement('button');
@@ -163,7 +162,7 @@ async function renderStats(el, game) {
   const bars = Object.entries(s.distribution)
     .sort((a, b) => Number(a[0]) - Number(b[0]))
     .map(([tries, n]) => `<div class="acc-bar-row"><span>${tries}</span>
-        <div class="acc-bar" style="width:${Math.max(8, 100 * n / maxCount)}%">${n}</div></div>`)
+        <div class="acc-bar" data-w="${Math.max(8, 100 * n / maxCount)}">${n}</div></div>`)
     .join('');
   el.innerHTML = `${chips}
     <div class="acc-nums">
@@ -173,6 +172,8 @@ async function renderStats(el, game) {
         .join('')}
     </div>
     ${bars ? `<div class="acc-label acc-dist-title">${t('distribution')}</div>${bars}` : ''}`;
+  // El ancho de las barras se pone por CSSOM: la CSP no admite style="" en el HTML
+  el.querySelectorAll('.acc-bar').forEach(b => { b.style.width = `${b.dataset.w}%`; });
   bindLengths(el, game);
 }
 
@@ -192,77 +193,3 @@ function googleIcon() {
   </svg>`;
 }
 
-function injectStyles() {
-  if (document.getElementById('acc-styles')) return;
-  const s = document.createElement('style');
-  s.id = 'acc-styles';
-  s.textContent = `
-    .acc-btn { padding: 0; font: inherit; overflow: hidden; }
-    .acc-btn.acc-signed { border-color: transparent; }
-    .acc-avatar { width: 26px; height: 26px; object-fit: cover; border-radius: 50%; box-shadow: 0 0 0 1.5px #a8832a; }
-
-    #acc-overlay {
-      position: fixed; inset: 0; z-index: 9995;
-      background: rgba(11,13,16,0.88);
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--font-body);
-    }
-    .acc-card {
-      position: relative; width: 92%; max-width: 420px; max-height: 88vh; overflow-y: auto;
-      background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-      box-shadow: 0 24px 60px rgba(0,0,0,.6); padding: 32px 24px 20px;
-      color: var(--text);
-    }
-    .acc-close {
-      position: absolute; top: 8px; right: 8px; width: 40px; height: 40px; border-radius: 6px;
-      background: none; border: none; color: #a3adb9; font-size: 1.5rem; line-height: 1; cursor: pointer;
-    }
-    .acc-close:hover { color: #e9edf1; background: var(--surface2); }
-    .acc-title {
-      font-family: var(--font-display); color: var(--text); font-size: 1.9rem; font-weight: 700;
-      text-transform: uppercase; line-height: 1; text-align: center; margin: 0 0 18px;
-    }
-    .acc-info { font-size: 0.85rem; line-height: 1.45; color: #a3adb9; margin: 0 0 14px; text-align: center; }
-    .acc-google {
-      display: flex; align-items: center; justify-content: center; gap: 10px;
-      width: 100%; height: 48px; margin-bottom: 18px; cursor: pointer;
-      background: #fff; color: #1f1f1f; border: none; border-radius: 6px;
-      font-family: var(--font-body); font-size: 0.95rem; font-weight: 700;
-    }
-    .acc-google:hover { background: #f0f0f0; }
-    .acc-user { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
-    .acc-user-avatar { width: 44px; height: 44px; border-radius: 50%; border: 1px solid #a8832a; }
-    .acc-name { font-weight: 700; color: var(--text); }
-    .acc-email { font-size: 0.8rem; color: #a3adb9; }
-    .acc-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
-    .acc-tab {
-      flex: 1; padding: 8px 4px; cursor: pointer; background: transparent; border-radius: 6px;
-      border: 1px solid #232a33; color: #a3adb9;
-      font-family: var(--font-display); font-size: 0.9rem; font-weight: 700;
-      letter-spacing: 0.08em; text-transform: uppercase;
-    }
-    .acc-tab.active, .acc-tab:hover { border-color: #e8b84a; color: #e8b84a; }
-    .acc-nums { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; text-align: center; margin-bottom: 14px; }
-    .acc-num { font-family: var(--font-display); font-size: 1.9rem; font-weight: 700; color: var(--text); }
-    .acc-label { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase; color: #a3adb9; }
-    .acc-dist-title { margin-bottom: 6px; }
-    .acc-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; font-size: 0.8rem; }
-    .acc-bar-row > span { width: 18px; text-align: right; color: #a3adb9; }
-    .acc-bar {
-      background: #232a33; color: var(--text); text-align: right; padding: 1px 6px; border-radius: 3px;
-      font-size: 0.75rem; font-weight: 700; min-width: 18px;
-    }
-    .acc-empty { text-align: center; color: #a3adb9; font-size: 0.85rem; margin: 18px 0; }
-    .acc-footer {
-      display: flex; justify-content: center; flex-wrap: wrap; gap: 14px;
-      margin-top: 18px; padding-top: 12px; border-top: 1px solid #232a33;
-    }
-    .acc-link {
-      background: none; border: none; cursor: pointer; padding: 0;
-      font-family: var(--font-body); font-size: 0.78rem; color: #a3adb9; text-decoration: underline;
-    }
-    .acc-link:hover { color: #e8b84a; }
-    .acc-delete:hover { color: #e0645c; }
-  `;
-  document.head.appendChild(s);
-}

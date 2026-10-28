@@ -21,56 +21,8 @@
   <link rel="icon" type="image/png" href="./favicon.png" sizes="32x32">
   <link rel="stylesheet" href="./shared/fonts/fonts.css">
   <link rel="stylesheet" href="./shared/css/variables.css">
-  <style>
-    * { box-sizing: border-box; margin: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      min-height: 100vh; color: var(--text); background: var(--bg);
-      font-family: var(--font-body); font-size: 1.05rem; line-height: 1.6;
-    }
-    .bar {
-      display: flex; align-items: center; justify-content: space-between; gap: 16px;
-      max-width: 1120px; margin: 0 auto; padding: 18px 20px;
-      border-bottom: 1px solid var(--border);
-    }
-    .brand {
-      font-family: var(--font-display); font-size: 1.25rem; font-weight: 700;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--text); text-decoration: none; white-space: nowrap;
-    }
-    .brand::before {
-      content: ''; display: inline-block; width: 9px; height: 9px; margin-right: 10px;
-      background: var(--gold); transform: rotate(45deg);
-    }
-    .brand:hover { color: var(--gold); }
-    .lang { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; }
-    main { max-width: 70ch; margin: 0 auto; padding: 56px 20px 72px; }
-    h1 {
-      font-family: var(--font-display); font-weight: 700; text-transform: uppercase;
-      font-size: clamp(2.2rem, 7vw, 3.4rem); line-height: 1; letter-spacing: 0.01em;
-      color: var(--text); text-align: center;
-    }
-    h1 + .updated, .updated { margin: 14px 0 40px; text-align: center; color: var(--dim);
-      font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; }
-    h1[id] { margin-top: 72px; padding-top: 48px; border-top: 1px solid var(--border); }
-    h2 {
-      font-family: var(--font-display); font-weight: 700; text-transform: uppercase;
-      font-size: 1.35rem; letter-spacing: 0.04em; color: var(--text);
-      margin: 36px 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border);
-    }
-    p, ul { margin-bottom: 12px; }
-    strong { color: var(--text); font-weight: 600; }
-    a { color: var(--gold); text-underline-offset: 3px; }
-    a:hover { color: var(--text); }
-    ul { padding-left: 22px; }
-    li { margin-bottom: 6px; }
-    li::marker { color: var(--gold); }
-    @media (max-width: 600px) {
-      .bar { padding: 14px 16px; }
-      main { padding: 40px 16px 56px; }
-      h2 { font-size: 1.2rem; }
-    }
-  </style>
+  <link rel="stylesheet" href="./shared/css/chrome.css">
+  <link rel="stylesheet" href="./css/legal.css">
 </head>
 <body>
 <header class="bar">
@@ -141,7 +93,7 @@
   <h2>Legislación aplicable</h2>
   <p>Este aviso se rige por la legislación española.</p>
 
-  <hr style="border:none;border-top:1px solid var(--line);margin:36px 0 8px">
+  <hr class="legal-rule">
 
   <h1 id="english">Legal notice</h1>
   <p class="updated">Last updated: October 6, 2026</p>
