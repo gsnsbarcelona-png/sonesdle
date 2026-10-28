@@ -47,7 +47,7 @@ async function boot() {
     realEl:    document.getElementById('v-real'),
     triesEl:   document.getElementById('v-tries'),
     imgEl:     document.getElementById('v-img'),
-    onRestart: startFreePlay,
+    onRestart: onPlayAgain,
   });
 
   const search = new SearchComponent({
@@ -72,7 +72,12 @@ async function boot() {
   const countdownEl      = document.getElementById('daily-countdown');
   const freeModeBtn      = document.getElementById('free-mode-btn');
   const hardBtn          = document.getElementById('hard-mode-btn');
-  const freePlayOptions  = document.getElementById('free-play-options');
+  const resultView       = document.getElementById('v-result');
+  const setupView        = document.getElementById('v-setup');
+  const otherGamesEl     = document.getElementById('v-other-games');
+  const customizeBtn     = document.getElementById('v-customize-btn');
+  const startBtn         = document.getElementById('v-start-btn');
+  const backBtn          = document.getElementById('v-back-btn');
   const vHardBtn         = document.getElementById('v-hard-btn');
   const vTierBtns        = document.getElementById('v-tier-btns');
   const vRegionBtns      = document.getElementById('v-region-btns');
@@ -369,8 +374,11 @@ async function boot() {
 
   // ── Helpers de UI ─────────────────────────────────────────
   function showVictory(secret, attempts, won) {
+    showResultView();
+    // Tras el reto diario: otros juegos; en modo libre: cambiar los ajustes
+    otherGamesEl?.classList.toggle('hidden', !isDaily);
+    customizeBtn?.classList.toggle('hidden', isDaily);
     victory.show(secret, won ? attempts : 0);
-    if (isDaily) showFreePlayOptions();
   }
 
   function resetUI() {
@@ -382,21 +390,33 @@ async function boot() {
     particles.stopConfetti();
     if (shareBtn)       shareBtn.classList.add('hidden');
     if (countdownEl)    countdownEl.classList.add('hidden');
-    hideFreePlayOptions();
+    showResultView();
     updateHardBtn();
   }
 
-  function showFreePlayOptions() {
-    if (!freePlayOptions) return;
-    updateVHardBtn();
-    renderFilters();
-    freePlayOptions.classList.remove('hidden');
+  /** "Jugar de nuevo": tras el diario se personaliza la partida; en modo libre se repite igual. */
+  function onPlayAgain() {
+    if (isDaily) openSetup();
+    else startFreePlay();
   }
 
-  function hideFreePlayOptions() {
-    if (!freePlayOptions) return;
-    freePlayOptions.classList.add('hidden');
+  /** Vista "personalizar partida" dentro del mismo diálogo (modo difícil, nivel y región). */
+  function openSetup() {
+    updateVHardBtn();
+    renderFilters();
+    resultView?.classList.add('hidden');
+    setupView?.classList.remove('hidden');
+    startBtn?.focus();
   }
+
+  function showResultView() {
+    setupView?.classList.add('hidden');
+    resultView?.classList.remove('hidden');
+  }
+
+  customizeBtn?.addEventListener('click', openSetup);
+  startBtn?.addEventListener('click', startFreePlay);
+  backBtn?.addEventListener('click', showResultView);
 
   function disableInput() {
     search.setEnabled(false);
