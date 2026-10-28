@@ -982,5 +982,17 @@
       "jungle",
       "top"
     ]
+  },
+  "2026-12-27": {
+    "cols": [
+      "lpl",
+      "lec",
+      "g2"
+    ],
+    "rows": [
+      "adc",
+      "korean",
+      "mid"
+    ]
   }
 }
