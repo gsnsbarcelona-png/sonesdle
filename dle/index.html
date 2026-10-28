@@ -94,7 +94,7 @@
       justify-content: center;
       text-align: center;
       padding: 5px 1px;
-      color: #8b96a3;
+      color: #a3adb9;
       font-size: 0.5rem;
       font-weight: 600;
       letter-spacing: 1px;
@@ -171,7 +171,7 @@
     /* Estados de celda */
     .cell-correct { background: #2a7d4f; border-color: #2a7d4f; color: #fff; }
     .cell-partial { background: #c58a1d; border-color: #c58a1d; color: #1a1204; }
-    .cell-wrong   { background: #232a33; border-color: #232a33; color: #8b96a3; }
+    .cell-wrong   { background: #232a33; border-color: #232a33; color: #a3adb9; }
 
 
     /* Posición: texto en pantallas anchas, icono en las estrechas (el texto se cortaba) */
@@ -199,6 +199,8 @@
     /* Móvil: el país solo con la bandera (el nombre no cabe en la columna) */
     @media (max-width: 539px) {
       .cell-flag + .cell-text { display: none; }
+      /* Equipo: que los nombres largos ("FlyQuest") no se partan a mitad de palabra */
+      .cell-text { font-size: 0.56rem; letter-spacing: -0.01em; overflow-wrap: normal; }
     }
     .cell-main  { font-size: 0.75rem; font-weight: 700; }
     .cell-arrow { font-size: 0.85rem; margin-left: 2px; }
@@ -236,7 +238,7 @@
     .dd-item.dd-active  { background: rgba(232,184,74,0.1); color: #e8b84a; }
     .dd-flag { font-size: 1.1rem; }
     .dd-name { flex: 1; }
-    .dd-pos  { font-size: 0.65rem; color: #8b96a3; letter-spacing: 1px; }
+    .dd-pos  { font-size: 0.65rem; color: #a3adb9; letter-spacing: 1px; }
 
     /* ── Victory overlay ────────────────────────────────────── */
     @keyframes cardIn {
@@ -288,7 +290,7 @@
       position: absolute; top: 8px; right: 8px;
       width: 40px; height: 40px; border-radius: 6px;
       background: none; border: none; cursor: pointer;
-      color: #8b96a3; font-size: 1.1rem;
+      color: #a3adb9; font-size: 1.1rem;
       transition: color 0.15s, background 0.15s;
     }
     .instr-close:hover { background: var(--surface2); }
@@ -363,7 +365,7 @@
   <div class="relative z-10 max-w-5xl mx-auto">
 
     <!-- Título del juego + instrucciones -->
-    <div class="flex items-center justify-center pt-5 pb-3">
+    <div class="flex items-center justify-center pt-8 sm:pt-10 pb-4">
       <div class="relative">
         <h1 class="font-display font-bold text-lol-text uppercase tracking-wide"
             style="font-size: clamp(2.2rem, 7vw, 3.4rem); line-height: 1;">
@@ -388,8 +390,8 @@
     </div>
     <div id="free-mode-banner" class="hidden text-center mb-3">
       <button id="free-mode-btn"
-              class="font-body text-xs tracking-widest uppercase text-lol-dim underline
-                     underline-offset-2 hover:text-gold transition-colors"
+              class="font-body text-sm tracking-widest uppercase text-lol-text underline
+                     underline-offset-4 hover:text-gold transition-colors"
               data-i18n="newPlayer">Otro jugador ↻</button>
     </div>
 
@@ -433,31 +435,29 @@
       <p id="error-msg" role="alert" class="text-center text-red-500 text-xs tracking-wide mt-1 min-h-[1.1em]"></p>
 
       <!-- Intentos + Rendirse -->
-      <div class="flex items-stretch justify-center gap-3 mt-3">
-        <div class="flex flex-col items-center justify-center px-6 py-2 border border-lol-border bg-lol-surface"
-             style="min-width: 110px;">
-          <span data-i18n="attempts" class="font-body text-xs tracking-widest uppercase text-lol-dim mb-0.5">Intentos</span>
-          <span id="attempt-count" class="text-gold font-display font-bold text-2xl leading-none">0</span>
+      <div class="flex items-center justify-center gap-6 mt-5">
+        <div class="flex items-baseline gap-2">
+          <span data-i18n="attempts" class="font-body text-sm tracking-widest uppercase text-lol-dim">Intentos</span>
+          <span id="attempt-count" class="text-lol-text font-display font-bold text-3xl leading-none">0</span>
         </div>
         <button
           id="giveup-btn"
-          class="flex flex-col items-center justify-center px-6 py-2 border border-[#6b2a27]
-                 bg-lol-surface font-body text-xs tracking-widest uppercase text-[#e0645c]
+          class="flex items-center justify-center gap-2 h-10 px-4 rounded-md border border-[#6b2a27]
+                 bg-transparent font-body text-xs tracking-widest uppercase text-[#e0645c]
                  hover:border-red-500 hover:text-red-400 hover:bg-[#1a0505]
                  transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
-          style="min-width: 110px;"
         >
-          <span class="text-lg leading-none mb-0.5">✕</span>
+          <span class="text-base leading-none">✕</span>
           <span data-i18n="giveup">Rendirse</span>
         </button>
       </div>
 
       <!-- Modo difícil + Filtro liga (modo libre) -->
-      <div class="flex items-center justify-center gap-2 mt-2 flex-wrap">
+      <div class="flex items-center justify-center gap-3 mt-5 flex-wrap">
         <button
           id="hard-mode-btn"
           title="Oculta las columnas Liga y Equipo"
-          class="font-body text-xs font-bold tracking-widest uppercase px-4 py-1 border
+          class="h-10 font-body text-xs font-bold tracking-widest uppercase px-4 rounded-md border
                  border-lol-border text-lol-dim transition-all duration-200
                  hover:border-gold hover:text-gold"
         >Modo difícil</button>
@@ -465,14 +465,14 @@
         <!-- Desplegables de tier y región (solo en modo libre) -->
         <select
           id="tier-filter-select"
-          class="hidden font-body text-xs font-bold tracking-widest uppercase px-3 py-1 border
+          class="hidden h-10 font-body text-xs font-bold tracking-widest uppercase px-3 rounded-md border
                  border-lol-border text-lol-dim bg-lol-surface outline-none
                  transition-all duration-200 cursor-pointer
                  hover:border-gold hover:text-gold focus:border-gold focus:text-gold"
         ></select>
         <select
           id="region-filter-select"
-          class="hidden font-body text-xs font-bold tracking-widest uppercase px-3 py-1 border
+          class="hidden h-10 font-body text-xs font-bold tracking-widest uppercase px-3 rounded-md border
                  border-lol-border text-lol-dim bg-lol-surface outline-none
                  transition-all duration-200 cursor-pointer
                  hover:border-gold hover:text-gold focus:border-gold focus:text-gold"
