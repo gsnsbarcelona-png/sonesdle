@@ -994,5 +994,17 @@
       "korean",
       "mid"
     ]
+  },
+  "2026-12-28": {
+    "cols": [
+      "drx",
+      "european",
+      "worlds"
+    ],
+    "rows": [
+      "adc",
+      "champ",
+      "jungle"
+    ]
   }
 }
