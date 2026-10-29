@@ -1,0 +1,105 @@
+/* Portada (antes en un <style> dentro de index.html) */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+.page {
+  display: flex; flex-direction: column; align-items: center;
+  min-height: 100vh;
+  padding: 0 20px 48px;
+}
+
+/* ── BARRA SUPERIOR ────────────────────────────────────── */
+.topbar {
+  width: 100%; max-width: 1120px;
+  display: flex; align-items: center;
+  justify-content: flex-end; min-height: 61px; padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.brand {
+  font-family: var(--font-display);
+  font-size: 1.25rem; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--text);
+}
+.brand::before {
+  content: ''; display: inline-block;
+  width: 9px; height: 9px; margin-right: 10px;
+  background: var(--gold); transform: rotate(45deg);
+}
+
+/* ── CABECERA ──────────────────────────────────────────── */
+.header { text-align: center; margin: 72px 0 40px; }
+.header-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 9vw, 5rem);
+  font-weight: 700; line-height: 1;
+  letter-spacing: 0.02em; text-transform: uppercase;
+  color: var(--text);
+}
+.header-sub {
+  margin-top: 14px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ── LISTA DE JUEGOS ───────────────────────────────────── */
+.menu-wrap { width: 100%; max-width: 640px; }
+.menu-list { list-style: none; border-top: 1px solid var(--border); }
+.menu-list li { border-bottom: 1px solid var(--border); }
+
+.menu-card {
+  display: flex; align-items: center; gap: 20px;
+  padding: 20px 8px;
+  text-decoration: none; color: inherit;
+  transition: background 0.15s;
+}
+.menu-card:hover { background: var(--surface); }
+.menu-card:hover .menu-arrow { color: var(--gold); transform: translateX(3px); }
+
+.menu-icon { flex-shrink: 0; width: 28px; height: 28px; color: var(--gold); }
+.menu-icon svg { display: block; width: 100%; height: 100%; }
+
+.menu-content { flex: 1; min-width: 0; }
+.menu-card-tag {
+  font-family: var(--font-mono);
+  font-size: 0.68rem; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--dim);
+}
+.menu-card-title {
+  font-family: var(--font-display);
+  font-size: 1.6rem; font-weight: 700; line-height: 1.15;
+  letter-spacing: 0.03em; text-transform: uppercase;
+  color: var(--text);
+}
+.menu-card-desc { font-size: 0.95rem; color: var(--dim); }
+.menu-arrow {
+  font-size: 1.2rem; color: var(--dim);
+  transition: color 0.15s, transform 0.15s;
+}
+
+/* ── PIE ───────────────────────────────────────────────── */
+.footer { margin-top: 56px; text-align: center; }
+.footer-copy { font-size: 0.8rem; color: var(--dim); }
+.footer-links {
+  margin-top: 8px; font-size: 0.8rem; color: var(--dim);
+  display: flex; justify-content: center; gap: 8px;
+}
+.footer-links a { color: var(--dim); text-decoration: none; }
+.footer-links a:hover { color: var(--gold); text-decoration: underline; }
+
+@media (max-width: 480px) {
+  .header { margin: 48px 0 28px; }
+  .menu-card { gap: 14px; padding: 16px 4px; }
+  .menu-card-title { font-size: 1.4rem; }
+}

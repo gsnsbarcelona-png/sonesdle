@@ -31,8 +31,6 @@ function getCurrentId() {
 }
 
 export function mountGameNav() {
-  _injectStyles();
-
   const currentId = getCurrentId();
 
   // Barra única: marca · juegos · cuenta + idioma
@@ -88,61 +86,3 @@ function _adoptLangSwitcher(slot) {
   mo.observe(document.body, { childList: true, subtree: false });
 }
 
-function _injectStyles() {
-  if (document.getElementById('game-nav-styles')) return;
-  const s = document.createElement('style');
-  s.id = 'game-nav-styles';
-  s.textContent = `
-    #game-header {
-      position: relative; z-index: 10;
-      display: flex; align-items: center; gap: 24px;
-      width: 100%; max-width: 1120px; margin: 0 auto;
-      padding: 14px 20px;
-      border-bottom: 1px solid var(--border);
-      font-family: var(--font-body);
-    }
-
-    #game-brand-link {
-      font-family: var(--font-display);
-      font-size: 1.2rem; font-weight: 700;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--text); text-decoration: none; white-space: nowrap;
-    }
-    #game-brand-link::before {
-      content: ''; display: inline-block;
-      width: 9px; height: 9px; margin-right: 10px;
-      background: var(--gold); transform: rotate(45deg);
-    }
-    #game-brand-link:hover { color: var(--gold); }
-
-    #game-nav-icons { display: flex; align-items: center; gap: 2px; flex: 1; }
-
-    .gnav-icon-btn {
-      width: 40px; height: 40px;
-      display: flex; align-items: center; justify-content: center;
-      background: transparent; border: 0; border-radius: 6px;
-      color: var(--dim); text-decoration: none; cursor: pointer;
-      position: relative; transition: color 0.15s, background 0.15s;
-    }
-    .gnav-icon-btn:hover { color: var(--text); background: var(--surface2); }
-    .gnav-icon-btn.gnav-current { color: var(--text); background: var(--surface2); }
-    .gnav-icon-btn.gnav-current::after {
-      content: ''; position: absolute; left: 8px; right: 8px; bottom: 2px;
-      height: 2px; background: var(--gold);
-    }
-    .gnav-svg { display: block; }
-
-    #game-topbar-right { display: flex; align-items: center; gap: 12px; margin-left: auto; }
-    #game-topbar-right #lang-switcher { position: static !important; }
-
-    @media (max-width: 560px) {
-      #game-header { flex-wrap: wrap; gap: 8px 12px; padding: 12px 16px; }
-      #game-nav-icons { order: 3; flex-basis: 100%; justify-content: space-between; }
-      .gnav-icon-btn { width: 44px; height: 44px; }
-    }
-
-    /* ── Cookie reopener ── */
-    #ck-reopener { bottom: 16px !important; left: 16px !important; }
-  `;
-  document.head.appendChild(s);
-}

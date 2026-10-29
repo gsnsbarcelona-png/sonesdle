@@ -90,41 +90,9 @@ export function mountSwitcher(container = null) {
     document.body.appendChild(wrapper);
   }
 
-  _injectStyles();
   _bindEvents(wrapper);
 }
 
-function _injectStyles() {
-  if (document.getElementById('lang-switcher-styles')) return;
-  const s = document.createElement('style');
-  s.id = 'lang-switcher-styles';
-  s.textContent = `
-    #lang-switcher {
-      display: flex; font-family: var(--font-body);
-      background: #12161b; border: 1px solid #232a33;
-    }
-    .lang-option {
-      display: flex; align-items: center; gap: 5px;
-      padding: 5px 9px; cursor: pointer;
-      background: none; border: none; color: #a3adb9;
-      font-family: var(--font-body);
-      font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
-      transition: background 0.15s, color 0.15s;
-    }
-    .lang-option + .lang-option { border-left: 1px solid #232a33; }
-    .lang-option img { opacity: 0.45; transition: opacity 0.15s; }
-    .lang-option:hover { color: #e9edf1; }
-    .lang-option:hover img { opacity: 0.8; }
-    .lang-option.active { color: #e8b84a; background: rgba(232,184,74,0.1); cursor: default; }
-    .lang-option.active img { opacity: 1; }
-    /* Móvil: solo banderas, para no pisar el título de la cabecera */
-    @media (max-width: 480px) {
-      .lang-option { padding: 6px 7px; }
-      .lang-code { display: none; }
-    }
-  `;
-  document.head.appendChild(s);
-}
 
 function _bindEvents(wrapper) {
   const options = wrapper.querySelectorAll('.lang-option');
