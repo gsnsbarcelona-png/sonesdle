@@ -826,7 +826,6 @@
   {"key": "cryogen", "name": "Cryogen", "pos": ["support"], "nat": "other", "teams": [], "comps": ["lcs"]},
   {"key": "cvmax", "name": "cvMax", "pos": ["top"], "nat": "korean", "teams": ["geng"], "comps": ["lck"]},
   {"key": "damonte", "name": "Damonte", "pos": ["mid"], "nat": "na", "teams": [], "comps": ["lcs"]},
-  {"key": "dan", "name": "Dan", "pos": ["jungle"], "nat": "european", "teams": ["fnatic"], "comps": ["lec"]},
   {"key": "dan dan", "name": "Dan Dan", "pos": ["top"], "nat": "european", "teams": [], "comps": ["lec"]},
   {"key": "dandy", "name": "DanDy", "pos": ["jungle"], "nat": "korean", "teams": ["geng"], "comps": ["worlds", "league_title", "lck", "lpl"]},
   {"key": "danny", "name": "Danny", "pos": ["adc"], "nat": "na", "teams": [], "comps": ["league_title", "lcs"]},

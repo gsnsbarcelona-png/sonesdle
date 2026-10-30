@@ -1006,5 +1006,17 @@
       "champ",
       "jungle"
     ]
+  },
+  "2026-12-29": {
+    "cols": [
+      "champ",
+      "support",
+      "adc"
+    ],
+    "rows": [
+      "lck",
+      "tl",
+      "geng"
+    ]
   }
 }
