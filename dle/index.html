@@ -33,7 +33,10 @@
   <meta name="twitter:image:alt"   content="DLE Games — Adivina el Pro Player · LOL Pro Games">
 
   <!-- PWA / App -->
-  <meta name="theme-color" content="#0b0d10">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#0b0d10" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)">
+  <script src="../shared/js/theme-init.js"></script>
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -95,7 +98,7 @@
       <span id="daily-badge"
             data-mode="daily"
             class="font-body text-xs font-bold tracking-[3px] uppercase px-3 py-1 border
-                   border-gold text-gold bg-[rgba(232,184,74,0.08)]"
+                   border-gold text-gold bg-gold/[0.08]"
             data-i18n="dailyBadge">DIARIO</span>
     </div>
     <div id="free-mode-banner" class="hidden text-center mb-3">
@@ -152,9 +155,9 @@
         </div>
         <button
           id="giveup-btn"
-          class="flex items-center justify-center gap-2 h-10 px-4 rounded-md border border-[#6b2a27]
-                 bg-transparent font-body text-xs tracking-widest uppercase text-[#e0645c]
-                 hover:border-red-500 hover:text-red-400 hover:bg-[#1a0505]
+          class="flex items-center justify-center gap-2 h-10 px-4 rounded-md border border-danger-border
+                 bg-transparent font-body text-xs tracking-widest uppercase text-danger
+                 hover:border-danger hover:text-danger hover:bg-danger-bg
                  transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
         >
           <span class="text-base leading-none">✕</span>

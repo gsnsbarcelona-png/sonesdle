@@ -4,7 +4,7 @@
   --tile: 58px;
   --hit:  #2a7d4f;     /* letra en su sitio */
   --near: #c58a1d;     /* letra en otra posición */
-  --miss: #232a33;     /* letra que no está */
+  --miss: var(--border);     /* letra que no está */
 }
 
 html,body { min-height:100%; background:var(--bg); color:var(--text); font-family:var(--font-body); overflow-x:hidden; }
@@ -36,7 +36,7 @@ h1 {
 .mode-btn   { font-size:.9rem; padding:8px 18px; }
 .league-btn { font-size:.78rem; padding:5px 11px; }
 .mode-btn:hover, .league-btn:hover { color:var(--text); border-color:var(--dim); }
-.mode-btn.active, .league-btn.active { color:var(--gold); border-color:var(--gold); background:rgba(232,184,74,.08); }
+.mode-btn.active, .league-btn.active { color:var(--gold); border-color:var(--gold); background:rgb(var(--gold-rgb) / .08); }
 .leagues { display:flex; flex-wrap:wrap; justify-content:center; gap:6px; max-width:420px; }
 .day-info { font-family:var(--font-mono); font-size:.72rem; font-weight:400; color:var(--dim); letter-spacing:.1em; text-transform:uppercase; min-height:1em; margin:-6px 0 -4px; }
 .day-info:empty { display:none; }
@@ -89,7 +89,7 @@ h1 {
 .key.miss { background:var(--surface); color:var(--dim); }
 
 /* Modal (resultado y código beta) */
-.overlay { position:fixed; inset:0; z-index:100; background:rgba(11,13,16,.88); backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center; animation:fadeIn .18s ease; padding:16px; }
+.overlay { position:fixed; inset:0; z-index:100; background:rgb(var(--bg-rgb) / .88); backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center; animation:fadeIn .18s ease; padding:16px; }
 @keyframes fadeIn { from{opacity:0} to{opacity:1} }
 .modal-card {
   background:var(--surface); border:1px solid var(--border); border-radius:10px;

@@ -1,21 +1,36 @@
+/* Tokens de diseño. Los colores base van como canales RGB ("r g b") para poder usarlos con
+   transparencia: rgb(var(--gold-rgb) / .2). Los temas solo cambian los canales. */
 :root {
-  /* Fondos */
-  --bg:#0b0d10; --surface:#12161b; --surface2:#181d24;
+  color-scheme: dark;
 
-  /* Bordes */
-  --border:#232a33; --border-dim:rgba(35,42,51,0.4); --border-gold:rgba(232,184,74,0.2);
+  /* Canales (tema oscuro) */
+  --bg-rgb: 11 13 16;        --surface-rgb: 18 22 27;   --surface2-rgb: 24 29 36;
+  --border-rgb: 35 42 51;    --text-rgb: 233 237 241;   --dim-rgb: 163 173 185;
+  --gold-rgb: 232 184 74;    --gold-dark-rgb: 168 131 42;
+  --danger-rgb: 224 100 92;  --danger-border-rgb: 107 42 39; --danger-bg-rgb: 26 5 5;
+  --teal-rgb: 63 193 201;
 
-  /* Texto */
-  --text:#e9edf1; --text-dim:#a3adb9; --dim:#a3adb9;
+  /* Fondos, bordes y texto */
+  --bg: rgb(var(--bg-rgb)); --surface: rgb(var(--surface-rgb)); --surface2: rgb(var(--surface2-rgb));
+  --border: rgb(var(--border-rgb)); --border-dim: rgb(var(--border-rgb) / 0.4); --border-gold: rgb(var(--gold-rgb) / 0.2);
+  --text: rgb(var(--text-rgb)); --text-dim: rgb(var(--dim-rgb)); --dim: rgb(var(--dim-rgb));
 
-  /* Dorado (marca principal) */
-  --gold:#e8b84a; --gold-light:#e9edf1; --gold-dark:#a8832a;
+  /* Acento (marca principal) */
+  --gold: rgb(var(--gold-rgb)); --gold-light: rgb(var(--text-rgb)); --gold-dark: rgb(var(--gold-dark-rgb));
 
-  /* Colores de estado */
-  --teal:#3fc1c9; --green:#2a7d4f; --green-bg:#2a7d4f; --green-text:#ffffff; --red:#d6453d;
+  /* Estados */
+  --teal: rgb(var(--teal-rgb));
+  --green: #2a7d4f; --green-bg: #2a7d4f; --green-text: #ffffff;
+  --red: #d6453d;
+  --danger: rgb(var(--danger-rgb)); --danger-border: rgb(var(--danger-border-rgb)); --danger-bg: rgb(var(--danger-bg-rgb));
 
-  /* Ligas */
-  --lck:#0bc4c4; --lpl:#FF8C00; --lec:#9B59B6; --lcs:#cc2222; --other:#00cc66;
+  /* Puestos del torneo (rostergues) */
+  --stage-champion: #f0c040; --stage-finalist: #aaaaaa; --stage-semifinalist: #cd7f32;
+  --stage-quarterfinalist: #7ec8e3; --stage-groups: #888888;
+
+  /* Ligas (en carrera, texto de las insignias) */
+  --lec-text: #bf8fd8; --other-text: #4fcf8a;
+  --lck: #0bc4c4; --lpl: #FF8C00; --lec: #9B59B6; --lcs: #cc2222; --other: #00cc66;
 
   /* Tipografía */
   --font-display:'Barlow Condensed','Arial Narrow',sans-serif;
@@ -24,4 +39,34 @@
 
   /* Grid game */
   --cell:110px; --label:110px;
+}
+
+/* Tema claro: el del sistema, salvo que la persona haya elegido uno (data-theme en <html>) */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    color-scheme: light;
+    --bg-rgb: 244 245 247;     --surface-rgb: 255 255 255; --surface2-rgb: 238 240 243;
+    --border-rgb: 213 217 224; --text-rgb: 20 24 29;       --dim-rgb: 82 92 105;
+    --gold-rgb: 138 96 0;      --gold-dark-rgb: 112 78 0;
+    --danger-rgb: 184 50 42;   --danger-border-rgb: 226 160 155; --danger-bg-rgb: 253 238 237;
+    --teal-rgb: 8 127 134;
+    --red: #c0392b;
+    --lck: #087f80; --lpl: #b85f00; --lec: #7b3fa0; --lcs: #b32020; --other: #1e8e57;
+  --stage-champion: #8a6a00; --stage-finalist: #5b6573; --stage-semifinalist: #8a4e12;
+  --stage-quarterfinalist: #1a6d8f; --stage-groups: #5b6573;
+  --lec-text: #7b3fa0; --other-text: #1e8e57;
+  }
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg-rgb: 244 245 247;     --surface-rgb: 255 255 255; --surface2-rgb: 238 240 243;
+  --border-rgb: 213 217 224; --text-rgb: 20 24 29;       --dim-rgb: 82 92 105;
+  --gold-rgb: 138 96 0;      --gold-dark-rgb: 112 78 0;
+  --danger-rgb: 184 50 42;   --danger-border-rgb: 226 160 155; --danger-bg-rgb: 253 238 237;
+  --teal-rgb: 8 127 134;
+  --red: #c0392b;
+  --lck: #087f80; --lpl: #b85f00; --lec: #7b3fa0; --lcs: #b32020; --other: #1e8e57;
+  --stage-champion: #8a6a00; --stage-finalist: #5b6573; --stage-semifinalist: #8a4e12;
+  --stage-quarterfinalist: #1a6d8f; --stage-groups: #5b6573;
+  --lec-text: #7b3fa0; --other-text: #1e8e57;
 }
