@@ -7,7 +7,7 @@
  * Mientras WEBSITE_ID esté vacío no hace nada. Para activarlo, pega aquí el "Website ID"
  * que da Umami al añadir el sitio.
  */
-const WEBSITE_ID = '';
+const WEBSITE_ID = '82a7b089-3542-4ca2-a019-3c5e4fca7277';
 
 // Solo se mide la web real: las vistas previas de Vercel y localhost no contaminan las cifras
 const DOMAINS = 'lolprogames.com,www.lolprogames.com';
