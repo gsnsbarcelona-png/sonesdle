@@ -58,12 +58,13 @@
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/modal.css">
   <link rel="stylesheet" href="css/animations.css">
+<link rel="stylesheet" href="../shared/css/chrome.css">
 <link rel="stylesheet" href="../shared/css/a11y.css">
 </head>
 <body>
 
 <!-- Canvas de confetti de victoria (z-index alto, encima del modal) -->
-<canvas id="canvas-confetti"  style="position:fixed;inset:0;pointer-events:none;z-index:201"></canvas>
+<canvas id="canvas-confetti" ></canvas>
 
 <div class="app">
 
@@ -165,16 +166,7 @@
 </div>
 
 <!-- Modal instrucciones -->
-<style>
-  #instructions-modal{display:none;position:fixed;inset:0;background:rgba(11,13,16,0.88);z-index:9999;align-items:center;justify-content:center}
-  #instructions-modal.open{display:flex}
-  .instr-card{background:#12161b;border:1px solid #232a33;border-radius:10px;max-width:400px;width:92%;padding:28px 24px;position:relative}
-  .instr-card h3{font-family:var(--font-display);color:#e9edf1;font-size:1.5rem;letter-spacing:.08em;margin-bottom:16px;text-align:center}
-  .instr-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-family:var(--font-body);font-size:0.92rem;color:#e9edf1;line-height:1.4}
-  .instr-close{position:absolute;top:10px;right:12px;background:none;border:none;cursor:pointer;color:#a3adb9;font-size:1.2rem;transition:color 0.15s}
-  .instr-close:hover{color:#e8b84a}
-  .instr-pip{flex-shrink:0;width:8px;height:8px;background:#e8b84a;transform:rotate(45deg);margin-top:6px}
-</style>
+  <link rel="stylesheet" href="./css/instructions.css">
 <div id="instructions-modal">
   <div class="instr-card">
     <button class="instr-close" id="instructions-close" data-aria="close">✕</button>

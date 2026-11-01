@@ -1,0 +1,165 @@
+/* Estilos de la cabecera y los avisos compartidos (antes se inyectaban desde JS).
+   Van en un fichero propio para que la CSP pueda prohibir estilos en línea. */
+
+/* ── Barra de juegos (shared/nav.js) ── */
+#game-header {
+  position: relative; z-index: 10;
+  display: flex; align-items: center; gap: 24px;
+  width: 100%; max-width: 1120px; margin: 0 auto;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-body);
+}
+
+#game-brand-link {
+  font-family: var(--font-display);
+  font-size: 1.2rem; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--text); text-decoration: none; white-space: nowrap;
+}
+#game-brand-link::before {
+  content: ''; display: inline-block;
+  width: 9px; height: 9px; margin-right: 10px;
+  background: var(--gold); transform: rotate(45deg);
+}
+#game-brand-link:hover { color: var(--gold); }
+
+#game-nav-icons { display: flex; align-items: center; gap: 2px; flex: 1; }
+
+.gnav-icon-btn {
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  background: transparent; border: 0; border-radius: 6px;
+  color: var(--dim); text-decoration: none; cursor: pointer;
+  position: relative; transition: color 0.15s, background 0.15s;
+}
+.gnav-icon-btn:hover { color: var(--text); background: var(--surface2); }
+.gnav-icon-btn.gnav-current { color: var(--text); background: var(--surface2); }
+.gnav-icon-btn.gnav-current::after {
+  content: ''; position: absolute; left: 8px; right: 8px; bottom: 2px;
+  height: 2px; background: var(--gold);
+}
+.gnav-svg { display: block; }
+
+#game-topbar-right { display: flex; align-items: center; gap: 12px; margin-left: auto; }
+#game-topbar-right #lang-switcher { position: static !important; }
+
+@media (max-width: 560px) {
+  #game-header { flex-wrap: wrap; gap: 8px 12px; padding: 12px 16px; }
+  #game-nav-icons { order: 3; flex-basis: 100%; justify-content: space-between; }
+  .gnav-icon-btn { width: 44px; height: 44px; }
+}
+
+/* ── Cookie reopener ── */
+#ck-reopener { bottom: 16px !important; left: 16px !important; }
+
+/* ── Selector de idioma (shared/lang.js) ── */
+#lang-switcher {
+  display: flex; font-family: var(--font-body);
+  background: #12161b; border: 1px solid #232a33;
+}
+.lang-option {
+  display: flex; align-items: center; gap: 5px;
+  padding: 5px 9px; cursor: pointer;
+  background: none; border: none; color: #a3adb9;
+  font-family: var(--font-body);
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
+  transition: background 0.15s, color 0.15s;
+}
+.lang-option + .lang-option { border-left: 1px solid #232a33; }
+.lang-option img { opacity: 0.45; transition: opacity 0.15s; }
+.lang-option:hover { color: #e9edf1; }
+.lang-option:hover img { opacity: 0.8; }
+.lang-option.active { color: #e8b84a; background: rgba(232,184,74,0.1); cursor: default; }
+.lang-option.active img { opacity: 1; }
+/* Móvil: solo banderas, para no pisar el título de la cabecera */
+@media (max-width: 480px) {
+  .lang-option { padding: 6px 7px; }
+  .lang-code { display: none; }
+}
+
+/* ── Cuenta (shared/account.js) ── */
+.acc-btn { padding: 0; font: inherit; overflow: hidden; }
+.acc-btn.acc-signed { border-color: transparent; }
+.acc-avatar { width: 26px; height: 26px; object-fit: cover; border-radius: 50%; box-shadow: 0 0 0 1.5px #a8832a; }
+
+#acc-overlay {
+  position: fixed; inset: 0; z-index: 9995;
+  background: rgba(11,13,16,0.88);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-body);
+}
+.acc-card {
+  position: relative; width: 92%; max-width: 420px; max-height: 88vh; overflow-y: auto;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  box-shadow: 0 24px 60px rgba(0,0,0,.6); padding: 32px 24px 20px;
+  color: var(--text);
+}
+.acc-close {
+  position: absolute; top: 8px; right: 8px; width: 40px; height: 40px; border-radius: 6px;
+  background: none; border: none; color: #a3adb9; font-size: 1.5rem; line-height: 1; cursor: pointer;
+}
+.acc-close:hover { color: #e9edf1; background: var(--surface2); }
+.acc-title {
+  font-family: var(--font-display); color: var(--text); font-size: 1.9rem; font-weight: 700;
+  text-transform: uppercase; line-height: 1; text-align: center; margin: 0 0 18px;
+}
+.acc-info { font-size: 0.85rem; line-height: 1.45; color: #a3adb9; margin: 0 0 14px; text-align: center; }
+.acc-google {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; height: 48px; margin-bottom: 18px; cursor: pointer;
+  background: #fff; color: #1f1f1f; border: none; border-radius: 6px;
+  font-family: var(--font-body); font-size: 0.95rem; font-weight: 700;
+}
+.acc-google:hover { background: #f0f0f0; }
+.acc-user { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+.acc-user-avatar { width: 44px; height: 44px; border-radius: 50%; border: 1px solid #a8832a; }
+.acc-name { font-weight: 700; color: var(--text); }
+.acc-email { font-size: 0.8rem; color: #a3adb9; }
+.acc-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.acc-tab {
+  flex: 1; padding: 8px 4px; cursor: pointer; background: transparent; border-radius: 6px;
+  border: 1px solid #232a33; color: #a3adb9;
+  font-family: var(--font-display); font-size: 0.9rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+.acc-tab.active, .acc-tab:hover { border-color: #e8b84a; color: #e8b84a; }
+.acc-nums { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; text-align: center; margin-bottom: 14px; }
+.acc-num { font-family: var(--font-display); font-size: 1.9rem; font-weight: 700; color: var(--text); }
+.acc-label { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase; color: #a3adb9; }
+.acc-dist-title { margin-bottom: 6px; }
+.acc-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; font-size: 0.8rem; }
+.acc-bar-row > span { width: 18px; text-align: right; color: #a3adb9; }
+.acc-bar {
+  background: #232a33; color: var(--text); text-align: right; padding: 1px 6px; border-radius: 3px;
+  font-size: 0.75rem; font-weight: 700; min-width: 18px;
+}
+.acc-empty { text-align: center; color: #a3adb9; font-size: 0.85rem; margin: 18px 0; }
+.acc-footer {
+  display: flex; justify-content: center; flex-wrap: wrap; gap: 14px;
+  margin-top: 18px; padding-top: 12px; border-top: 1px solid #232a33;
+}
+.acc-link {
+  background: none; border: none; cursor: pointer; padding: 0;
+  font-family: var(--font-body); font-size: 0.78rem; color: #a3adb9; text-decoration: underline;
+}
+.acc-link:hover { color: #e8b84a; }
+.acc-delete:hover { color: #e0645c; }
+
+/* ── Aviso de almacenamiento (shared/js/notice.js) ── */
+#storage-notice{position:fixed;left:0;right:0;bottom:0;z-index:9990;box-sizing:border-box;
+  background:var(--surface);border-top:1px solid var(--border);
+  padding:12px 16px;font-family:var(--font-body)}
+#storage-notice .sn-wrap{max-width:960px;margin:0 auto;display:flex;align-items:center;gap:12px 16px;flex-wrap:wrap}
+#storage-notice p{flex:1;min-width:220px;margin:0;font-size:.85rem;line-height:1.45;color:var(--text-dim)}
+#storage-notice a{color:#e8b84a;text-decoration:underline;white-space:nowrap}
+#storage-notice button{font:700 1rem var(--font-display);letter-spacing:.12em;text-transform:uppercase;
+  height:44px;padding:0 24px;border:1px solid #e8b84a;background:#e8b84a;color:#0b0d10;border-radius:6px;cursor:pointer}
+#storage-notice button:hover{background:#e9edf1;border-color:#e9edf1}
+#storage-notice button:focus-visible,#storage-notice a:focus-visible{outline:2px solid #e9edf1;outline-offset:2px}
+@media (prefers-reduced-motion:no-preference){#storage-notice{animation:sn-fade .25s ease both}}
+@keyframes sn-fade{from{opacity:0}to{opacity:1}}
+
+/* ── Piezas que antes llevaban style="" desde el JS ── */
+.ac-hit { color: var(--gold); }
+.load-error { padding: 2rem; text-align: center; color: var(--gold); font-family: var(--font-body); }

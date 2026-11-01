@@ -24,9 +24,8 @@ function emojiToIso(emoji) {
 export function flagImg(flagEmoji, size = 20) {
   const code = emojiToIso(flagEmoji);
   if (!code) return '';
-  return `<img data-flag src="${flagUrl(code)}"
+  return `<img data-flag class="flag-dle" src="${flagUrl(code)}"
               width="${size}" height="${Math.round(size * 0.75)}"
-              style="vertical-align:middle;border-radius:2px;display:inline-block"
               alt="">`;
 }
 

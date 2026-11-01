@@ -1,0 +1,304 @@
+/* dle (antes en un <style> dentro de dle/index.html) */
+/* ── Grid layout ────────────────────────────────────────── */
+.game-grid {
+  display: grid;
+  /* minmax(0, 1fr): columnas iguales en todas las filas aunque un texto sea largo */
+  grid-template-columns: 68px repeat(7, minmax(0, 1fr));
+  gap: 2px;
+}
+@media (min-width: 400px) {
+  .game-grid { grid-template-columns: 80px repeat(7, minmax(0, 1fr)); gap: 3px; }
+}
+@media (min-width: 540px) {
+  .game-grid { grid-template-columns: 100px repeat(7, minmax(0, 1fr)); }
+}
+@media (min-width: 768px) {
+  .game-grid { grid-template-columns: 130px repeat(7, minmax(0, 1fr)); gap: 4px; }
+}
+/* Modo difícil: 5 columnas (sin Liga ni Equipo) */
+.game-grid[data-hard] { grid-template-columns: 68px repeat(5, minmax(0, 1fr)); }
+@media (min-width: 400px) {
+  .game-grid[data-hard] { grid-template-columns: 80px repeat(5, minmax(0, 1fr)); }
+}
+@media (min-width: 540px) {
+  .game-grid[data-hard] { grid-template-columns: 100px repeat(5, minmax(0, 1fr)); }
+}
+@media (min-width: 768px) {
+  .game-grid[data-hard] { grid-template-columns: 130px repeat(5, minmax(0, 1fr)); }
+}
+
+/* ── Encabezados de columna ─────────────────────────────── */
+.col-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5px 1px;
+  color: #a3adb9;
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  gap: 2px;
+  border-radius: 4px 4px 0 0;
+}
+.col-icon { font-size: 0.85rem; }
+.col-header { min-width: 0; }
+.col-label { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* Móvil: solo el icono (el nombre de la columna sigue en el tooltip) */
+@media (max-width: 539px) {
+  .col-icon + .col-label { display: none; }
+}
+@media (min-width: 400px) {
+  .col-header { font-size: 0.54rem; padding: 5px 2px; }
+  .col-icon   { font-size: 0.95rem; }
+}
+@media (min-width: 540px) {
+  .col-header { font-size: 0.6rem; }
+  .col-icon   { font-size: 1.05rem; }
+}
+@media (min-width: 768px) {
+  .col-header { font-size: 0.65rem; letter-spacing: 1.5px; padding: 6px 4px; }
+  .col-icon   { font-size: 1.1rem; }
+}
+
+/* ── Celdas base ────────────────────────────────────────── */
+.cell {
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3px 2px;
+  border: 1px solid #232a33;
+  background: #12161b;
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 600;
+  border-radius: 4px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  /* estado inicial para la animacion */
+  opacity: 0;
+  transform: rotateY(90deg);
+}
+@media (min-width: 400px) {
+  .cell { height: 54px; font-size: 0.68rem; padding: 3px; }
+}
+@media (min-width: 540px) {
+  .cell { height: 58px; font-size: 0.72rem; }
+}
+@media (min-width: 768px) {
+  .cell { height: 66px; font-size: 0.8rem; padding: 4px 5px; border-radius: 6px; }
+}
+
+/* Celda de nombre (visible desde el principio, sin animacion) */
+.cell-name {
+  border-color: #a8832a;
+  background: #181d24;
+  color: #e9edf1;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  border-radius: 4px;
+  opacity: 1;
+  transform: none;
+}
+@media (min-width: 540px)  { .cell-name { font-size: 0.78rem; } }
+@media (min-width: 768px)  { .cell-name { font-size: 0.9rem; letter-spacing: 0.5px; border-radius: 6px; } }
+
+/* Estados de celda */
+.cell-correct { background: #2a7d4f; border-color: #2a7d4f; color: #fff; }
+.cell-partial { background: #c58a1d; border-color: #c58a1d; color: #1a1204; }
+.cell-wrong   { background: #232a33; border-color: #232a33; color: #a3adb9; }
+
+
+/* Posición: texto en pantallas anchas, icono en las estrechas (el texto se cortaba) */
+.pos-icons { display: none; align-items: center; justify-content: center; gap: 2px; }
+.pos-icon { width: 1.5rem; height: 1.5rem; object-fit: contain; filter: brightness(0) invert(1); }
+.cell-partial .pos-icon { filter: brightness(0); }
+.cell-wrong .pos-icon { opacity: .75; }
+@media (max-width: 539px) {
+  .pos-text { display: none; }
+  .pos-icons { display: inline-flex; }
+}
+
+/* Animacion flip reveal */
+.cell-revealed {
+  animation: flipReveal 0.38s ease forwards;
+}
+@keyframes flipReveal {
+  from { opacity: 0; transform: rotateY(90deg); }
+  to   { opacity: 1; transform: rotateY(0deg);  }
+}
+
+/* Contenido de celda */
+.cell-flag  { font-size: 1rem;  margin-bottom: 1px; }
+.cell-text  { font-size: 0.6rem; line-height: 1.2; }
+/* Móvil: el país solo con la bandera (el nombre no cabe en la columna) */
+@media (max-width: 539px) {
+  .cell-flag + .cell-text { display: none; }
+  /* Equipo: que los nombres largos ("FlyQuest") no se partan a mitad de palabra */
+  .cell-text { font-size: 0.56rem; letter-spacing: -0.01em; overflow-wrap: normal; }
+}
+.cell-main  { font-size: 0.75rem; font-weight: 700; }
+.cell-arrow { font-size: 0.85rem; margin-left: 2px; }
+.cell-tag   { font-size: 0.55rem; font-weight: 700; letter-spacing: 0.08em; opacity: 0.7; margin-top: 1px; }
+@media (min-width: 540px) {
+  .cell-flag  { font-size: 1.1rem; }
+  .cell-text  { font-size: 0.64rem; }
+  .cell-main  { font-size: 0.8rem; }
+}
+@media (min-width: 768px) {
+  .cell-flag  { font-size: 1.2rem; margin-bottom: 2px; }
+  .cell-text  { font-size: 0.68rem; line-height: 1.25; }
+  .cell-main  { font-size: 0.86rem; }
+  .cell-arrow { font-size: 0.95rem; }
+}
+
+/* ── Dropdown ───────────────────────────────────────────── */
+.dd-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(35,42,51,0.4);
+  transition: background 0.12s;
+}
+@media (min-width: 540px) {
+  .dd-item { gap: 10px; padding: 9px 14px; font-size: 0.92rem; }
+}
+.dd-item:last-child { border-bottom: none; }
+.dd-item:hover,
+.dd-item.dd-active  { background: rgba(232,184,74,0.1); color: #e8b84a; }
+.dd-flag { font-size: 1.1rem; }
+.dd-name { flex: 1; }
+.dd-pos  { font-size: 0.65rem; color: #a3adb9; letter-spacing: 1px; }
+
+/* ── Victory overlay ────────────────────────────────────── */
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+.victory-card { animation: cardIn 0.25s ease; }
+
+/* ── Topbar transparente (mantener espacio y botones) ───── */
+/* ── Modal instrucciones ───────────────────────────────── */
+#instructions-modal {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(11,13,16,0.88);
+  z-index: 9999;
+  align-items: center; justify-content: center;
+}
+#instructions-modal.open { display: flex; }
+.instr-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 24px 60px rgba(0,0,0,.6);
+  max-width: 420px; width: 92%;
+  padding: 32px 28px 28px;
+  position: relative;
+}
+.instr-card h3 {
+  font-family: var(--font-display);
+  color: var(--text); font-size: 1.9rem; font-weight: 700;
+  text-transform: uppercase; line-height: 1;
+  margin-bottom: 20px; text-align: center;
+}
+.instr-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin-bottom: 10px;
+  font-family: var(--font-body);
+  font-size: 0.92rem; color: var(--text);
+  line-height: 1.45;
+}
+.instr-row .badge {
+  flex-shrink: 0; width: 14px; height: 14px;
+  border-radius: 3px; margin-top: 2px;
+}
+.badge-green  { background: #2a7d4f; }
+.badge-orange { background: #c58a1d; }
+.badge-red    { background: #232a33; border: 1px solid #3a434f; }
+.instr-close {
+  position: absolute; top: 8px; right: 8px;
+  width: 40px; height: 40px; border-radius: 6px;
+  background: none; border: none; cursor: pointer;
+  color: #a3adb9; font-size: 1.1rem;
+  transition: color 0.15s, background 0.15s;
+}
+.instr-close:hover { background: var(--surface2); }
+.instr-close:hover { color: #e8b84a; }
+
+/* ── Tooltips de columna ────────────────────────────────── */
+.col-tip { position: relative; }
+.col-tip::after {
+  content: attr(data-tip);
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #12161b;
+  border: 1px solid #a8832a;
+  color: #e9edf1;
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  padding: 5px 9px;
+  white-space: normal;
+  width: max-content;
+  max-width: 160px;
+  text-align: center;
+  z-index: 200;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.col-tip::before {
+  content: '';
+  position: absolute;
+  top: calc(100% + 1px);
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-bottom-color: #a8832a;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 201;
+  pointer-events: none;
+}
+.col-tip:hover::after,
+.col-tip:hover::before { opacity: 1; }
+/* Tooltips de las últimas columnas hacia dentro, para no salirse de la pantalla */
+.col-tip:nth-last-child(-n+2)::after { left: auto; right: 0; transform: none; }
+.col-tip:nth-child(-n+2)::after { left: 0; transform: none; }
+/* Ocultos no ocupan sitio: si no, ensanchan la página y se puede deslizar de lado */
+.col-tip::after { display: none; }
+.col-tip:hover::after { display: block; }
+/* En una celda (edad "?" o "~"), por encima de las filas vecinas */
+.cell.col-tip:hover { z-index: 300; }
+
+/* Antes en atributos style="" del HTML (la CSP ya no admite estilos en línea) */
+body { background-color: var(--bg); }
+.dle-title { font-size: clamp(2.2rem, 7vw, 3.4rem); line-height: 1; }
+.instr-key { flex-shrink: 0; text-align: center; }
+.instr-key-arrows { min-width: 14px; margin-top: 1px; white-space: nowrap; }
+.instr-key-gem { width: 14px; color: var(--gold); }
+.instr-row-note { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border); }
+
+.flag-dle { vertical-align: middle; border-radius: 2px; display: inline-block; }
+/* Pantalla de error de arranque (dle/js/main.js) */
+.boot-error { display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 100vh; padding: 2rem; text-align: center; background: var(--bg); color: #ff6b6b; font-family: var(--font-mono); }
+.boot-error h2 { font-size: 1.4rem; margin-bottom: 1rem; }
+.boot-error p { color: var(--text-dim); margin-bottom: 0.5rem; }
+.boot-error button { margin-top: 1.5rem; padding: 0.6rem 1.8rem; background: transparent; border: 1px solid var(--gold);
+  color: var(--gold); font-family: var(--font-mono); font-size: 0.85rem; cursor: pointer; }

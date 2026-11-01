@@ -24,7 +24,7 @@ export function highlight(name, query) {
   if (!q || idx === -1) return esc(name);
   return (
     esc(name.slice(0, idx)) +
-    `<strong style="color:var(--gold)">${esc(name.slice(idx, idx + q.length))}</strong>` +
+    `<strong class="ac-hit">${esc(name.slice(idx, idx + q.length))}</strong>` +
     esc(name.slice(idx + q.length))
   );
 }

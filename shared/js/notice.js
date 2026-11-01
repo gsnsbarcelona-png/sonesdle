@@ -34,27 +34,8 @@ function remember() {
   try { localStorage.setItem(KEY, '1'); } catch { /* modo privado: se volverá a mostrar */ }
 }
 
-const CSS = `
-#storage-notice{position:fixed;left:0;right:0;bottom:0;z-index:9990;box-sizing:border-box;
-  background:var(--surface);border-top:1px solid var(--border);
-  padding:12px 16px;font-family:var(--font-body)}
-#storage-notice .sn-wrap{max-width:960px;margin:0 auto;display:flex;align-items:center;gap:12px 16px;flex-wrap:wrap}
-#storage-notice p{flex:1;min-width:220px;margin:0;font-size:.85rem;line-height:1.45;color:var(--text-dim)}
-#storage-notice a{color:#e8b84a;text-decoration:underline;white-space:nowrap}
-#storage-notice button{font:700 1rem var(--font-display);letter-spacing:.12em;text-transform:uppercase;
-  height:44px;padding:0 24px;border:1px solid #e8b84a;background:#e8b84a;color:#0b0d10;border-radius:6px;cursor:pointer}
-#storage-notice button:hover{background:#e9edf1;border-color:#e9edf1}
-#storage-notice button:focus-visible,#storage-notice a:focus-visible{outline:2px solid #e9edf1;outline-offset:2px}
-@media (prefers-reduced-motion:no-preference){#storage-notice{animation:sn-fade .25s ease both}}
-@keyframes sn-fade{from{opacity:0}to{opacity:1}}
-`;
-
 function mount() {
   if (seen() || document.getElementById('storage-notice')) return;
-
-  const style = document.createElement('style');
-  style.textContent = CSS;
-  document.head.appendChild(style);
 
   const el = document.createElement('div');
   el.id = 'storage-notice';

@@ -499,14 +499,10 @@ async function boot() {
 boot().catch(err => {
   console.error('[DLE Games]', err);
   document.body.innerHTML = `
-    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;
-                min-height:100vh;color:#ff4444;font-family:monospace;text-align:center;
-                padding:2rem;background:#0b0d10;">
-      <h2 style="font-size:1.4rem;margin-bottom:1rem">Error al cargar el juego</h2>
-      <p style="color:#aaa;margin-bottom:0.5rem">Inténtalo de nuevo en unos segundos.</p>
-      <button id="reload-btn" style="margin-top:1.5rem;padding:0.6rem 1.8rem;
-        background:transparent;border:1px solid #e8b84a;color:#e8b84a;
-        font-family:monospace;font-size:0.85rem;cursor:pointer;">Recargar</button>
+    <div class="boot-error">
+      <h2>Error al cargar el juego</h2>
+      <p>Inténtalo de nuevo en unos segundos.</p>
+      <button id="reload-btn">Recargar</button>
     </div>
   `;
   document.getElementById('reload-btn').addEventListener('click', () => location.reload());

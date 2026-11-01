@@ -170,3 +170,6 @@ h1 {
 .mode-btn:hover:not(:disabled) { color:var(--text); border-color:var(--dim); }
 .mode-btn.active { color:var(--gold); border-color:var(--gold); background:rgba(232,184,74,.08); }
 .mode-btn:disabled { opacity:.4; cursor:not-allowed; }
+
+/* Cerrados al cargar; el JS los abre con style.display (permitido por la CSP) */
+#modalOverlay, #victoryOverlay, #gameoverOverlay { display: none; }
