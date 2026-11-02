@@ -242,7 +242,7 @@ function renderSlots() {
 
     if (solved) {
       slot.innerHTML = `
-        <div class="slot-position">${labels[pos] ?? pos}</div>
+        <div class="slot-position">${esc(labels[pos] ?? pos)}</div>
         <div class="slot-name">${esc(player.name)}</div>
         <div class="slot-real">${esc(player.real)}</div>
         <div class="slot-flag">${flagEmojiHtml(player.flag)}</div>
@@ -250,12 +250,12 @@ function renderSlots() {
       `;
     } else if (hint) {
       slot.innerHTML = `
-        <div class="slot-position">${labels[pos] ?? pos}</div>
+        <div class="slot-position">${esc(labels[pos] ?? pos)}</div>
         <div class="slot-name">${hint}</div>
       `;
     } else {
       slot.innerHTML = `
-        <div class="slot-position">${labels[pos] ?? pos}</div>
+        <div class="slot-position">${esc(labels[pos] ?? pos)}</div>
         <div class="slot-name">?</div>
       `;
     }
@@ -312,7 +312,7 @@ function renderHistory() {
     item.innerHTML = `
       <span class="guess-item-icon">${g.correct ? '✓' : '✗'}</span>
       <span class="guess-item-name">${esc(g.name)}</span>
-      <span class="guess-item-pos">${posLabel}</span>
+      <span class="guess-item-pos">${esc(posLabel)}</span>
     `;
     container.appendChild(item);
   }
@@ -406,7 +406,7 @@ function showResult() {
     const card    = document.createElement('div');
     card.className = `result-player ${guessed ? 'guessed' : 'missed'}`;
     card.innerHTML = `
-      <div class="result-player-pos">${labels[pos] ?? pos}</div>
+      <div class="result-player-pos">${esc(labels[pos] ?? pos)}</div>
       <div class="result-player-flag">${flagEmojiHtml(player.flag)}</div>
       <div class="result-player-name">${esc(player.name)}</div>
     `;
