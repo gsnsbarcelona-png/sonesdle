@@ -1,4 +1,4 @@
 # Scrapers manuales (main.py, worlds_scraper.py). Para build.py basta requirements-build.txt.
 requests>=2.34.2,<3
-beautifulsoup4>=4.12,<5
+beautifulsoup4>=4.15.0,<5
 aiohttp>=3.14.5,<4
