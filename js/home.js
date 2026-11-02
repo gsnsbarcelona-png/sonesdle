@@ -1,4 +1,5 @@
 import { mountSwitcher, applyStaticTranslations } from '../shared/lang.js';
+import { mountThemeToggle } from '../shared/js/theme.js';
 
 const T = {
   es: {
@@ -21,6 +22,7 @@ const T = {
   },
 };
 
+mountThemeToggle(document.querySelector('.topbar'));
 mountSwitcher(document.querySelector('.topbar'));   // dentro de la barra superior
 applyStaticTranslations(T);
 document.addEventListener('langchange', () => applyStaticTranslations(T));

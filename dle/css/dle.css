@@ -35,7 +35,7 @@
   justify-content: center;
   text-align: center;
   padding: 5px 1px;
-  color: #a3adb9;
+  color: var(--dim);
   font-size: 0.5rem;
   font-weight: 600;
   letter-spacing: 1px;
@@ -72,8 +72,8 @@
   justify-content: center;
   text-align: center;
   padding: 3px 2px;
-  border: 1px solid #232a33;
-  background: #12161b;
+  border: 1px solid var(--border);
+  background: var(--surface);
   font-family: var(--font-body);
   font-size: 0.65rem;
   font-weight: 600;
@@ -96,9 +96,9 @@
 
 /* Celda de nombre (visible desde el principio, sin animacion) */
 .cell-name {
-  border-color: #a8832a;
-  background: #181d24;
-  color: #e9edf1;
+  border-color: var(--gold-dark);
+  background: var(--surface2);
+  color: var(--text);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.3px;
@@ -112,7 +112,7 @@
 /* Estados de celda */
 .cell-correct { background: #2a7d4f; border-color: #2a7d4f; color: #fff; }
 .cell-partial { background: #c58a1d; border-color: #c58a1d; color: #1a1204; }
-.cell-wrong   { background: #232a33; border-color: #232a33; color: #a3adb9; }
+.cell-wrong   { background: var(--border); border-color: var(--border); color: var(--dim); }
 
 
 /* Posición: texto en pantallas anchas, icono en las estrechas (el texto se cortaba) */
@@ -168,7 +168,7 @@
   font-family: var(--font-body);
   font-size: 0.85rem;
   font-weight: 600;
-  border-bottom: 1px solid rgba(35,42,51,0.4);
+  border-bottom: 1px solid rgb(var(--border-rgb) / 0.4);
   transition: background 0.12s;
 }
 @media (min-width: 540px) {
@@ -176,10 +176,10 @@
 }
 .dd-item:last-child { border-bottom: none; }
 .dd-item:hover,
-.dd-item.dd-active  { background: rgba(232,184,74,0.1); color: #e8b84a; }
+.dd-item.dd-active  { background: rgb(var(--gold-rgb) / 0.1); color: var(--gold); }
 .dd-flag { font-size: 1.1rem; }
 .dd-name { flex: 1; }
-.dd-pos  { font-size: 0.65rem; color: #a3adb9; letter-spacing: 1px; }
+.dd-pos  { font-size: 0.65rem; color: var(--dim); letter-spacing: 1px; }
 
 /* ── Victory overlay ────────────────────────────────────── */
 @keyframes cardIn {
@@ -193,7 +193,7 @@
 #instructions-modal {
   display: none;
   position: fixed; inset: 0;
-  background: rgba(11,13,16,0.88);
+  background: rgb(var(--bg-rgb) / 0.88);
   z-index: 9999;
   align-items: center; justify-content: center;
 }
@@ -226,16 +226,16 @@
 }
 .badge-green  { background: #2a7d4f; }
 .badge-orange { background: #c58a1d; }
-.badge-red    { background: #232a33; border: 1px solid #3a434f; }
+.badge-red    { background: var(--border); border: 1px solid #3a434f; }
 .instr-close {
   position: absolute; top: 8px; right: 8px;
   width: 40px; height: 40px; border-radius: 6px;
   background: none; border: none; cursor: pointer;
-  color: #a3adb9; font-size: 1.1rem;
+  color: var(--dim); font-size: 1.1rem;
   transition: color 0.15s, background 0.15s;
 }
 .instr-close:hover { background: var(--surface2); }
-.instr-close:hover { color: #e8b84a; }
+.instr-close:hover { color: var(--gold); }
 
 /* ── Tooltips de columna ────────────────────────────────── */
 .col-tip { position: relative; }
@@ -245,9 +245,9 @@
   top: calc(100% + 6px);
   left: 50%;
   transform: translateX(-50%);
-  background: #12161b;
-  border: 1px solid #a8832a;
-  color: #e9edf1;
+  background: var(--surface);
+  border: 1px solid var(--gold-dark);
+  color: var(--text);
   font-family: var(--font-body);
   font-size: 0.62rem;
   font-weight: 500;
@@ -269,7 +269,7 @@
   left: 50%;
   transform: translateX(-50%);
   border: 5px solid transparent;
-  border-bottom-color: #a8832a;
+  border-bottom-color: var(--gold-dark);
   opacity: 0;
   transition: opacity 0.15s ease;
   z-index: 201;

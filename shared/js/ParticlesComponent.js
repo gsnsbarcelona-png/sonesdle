@@ -15,7 +15,7 @@
 import { prefersReducedMotion } from './a11y.js';
 
 export class ParticlesComponent {
-  static #WIN_COLORS  = ['#e8b84a', '#e9edf1', '#0bc4c4', '#00ff88', '#ffffff', '#ff8c55'];
+  static #WIN_COLORS  = ['#e8b84a', '#0bc4c4', '#2a7d4f', '#ff8c55', '#d6453d', '#7b3fa0'];
   static #LOSE_COLORS = ['#ff2222', '#880000', '#444444', '#222222', '#661111', '#992222'];
 
   #pCanvas; #pCtx;

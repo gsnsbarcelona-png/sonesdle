@@ -89,7 +89,7 @@ h1 {
 .pip.active { background:var(--green); border-color:var(--green); }
 
 /* Modal */
-.overlay { position:fixed; inset:0; z-index:100; background:rgba(11,13,16,.88); backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center; animation:fadeIn .18s ease; }
+.overlay { position:fixed; inset:0; z-index:100; background:rgb(var(--bg-rgb) / .88); backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center; animation:fadeIn .18s ease; }
 @keyframes fadeIn { from{opacity:0} to{opacity:1} }
 .modal-card {
   background:var(--surface); border:1px solid var(--border); border-radius:10px;
@@ -116,7 +116,7 @@ h1 {
 .ac-list.open { display:block; }
 .ac-item { padding:9px 14px; cursor:pointer; font-size:.9rem; font-weight:600; color:var(--text); display:flex; align-items:center; gap:8px; border-bottom:1px solid var(--border); transition:background .12s, color .12s; letter-spacing:.5px; }
 .ac-item:last-child { border-bottom:none; }
-.ac-item:hover,.ac-item.focused { background:rgba(232,184,74,.1); color:var(--gold); }
+.ac-item:hover,.ac-item.focused { background:rgb(var(--gold-rgb) / .1); color:var(--gold); }
 .ac-item.tried, .ac-item.tried:hover { cursor:not-allowed; background:rgba(204,34,34,.1); color:#ff6b6b; }
 .ac-item.tried span { text-decoration:line-through; opacity:.8; }
 .error-msg { min-height:18px; margin:-8px 0 8px; font-size:.78rem; font-weight:600; color:var(--red); letter-spacing:.5px; }
@@ -130,7 +130,7 @@ h1 {
 .btn-cancel:hover { border-color:var(--dim); color:var(--text); }
 
 /* End screens (victory + game over) — shared structure */
-.end-overlay { position:fixed; inset:0; z-index:200; background:rgba(11,13,16,.9); display:flex; align-items:center; justify-content:center; animation:fadeIn .3s ease; }
+.end-overlay { position:fixed; inset:0; z-index:200; background:rgb(var(--bg-rgb) / .9); display:flex; align-items:center; justify-content:center; animation:fadeIn .3s ease; }
 .end-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; width:min(400px,90vw); overflow:hidden; box-shadow:0 24px 60px rgba(0,0,0,.6); animation:cardIn .3s ease; text-align:center; }
 .end-body { padding:36px 32px 40px; }
 .end-icon { display:block; margin:0 auto 18px; }
@@ -139,7 +139,7 @@ h1 {
 .end-title { font-family:var(--font-display); font-size:2.6rem; font-weight:700; line-height:1.05; color:var(--text); letter-spacing:.02em; text-transform:uppercase; margin-bottom:8px; }
 .end-sub { font-family:var(--font-mono); font-size:.78rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; margin-bottom:28px; }
 .end-sub.teal { color:var(--teal); }
-.end-sub.red  { color:#e0645c; }
+.end-sub.red  { color:var(--danger); }
 /* Racha del reto diario: va justo debajo del subtítulo, que deja su margen para ella */
 .end-streak { font-family:var(--font-mono); font-size:.74rem; font-weight:600; color:var(--gold); letter-spacing:.1em; text-transform:uppercase; margin:-16px 0 22px; }
 /* Botones de las pantallas de fin: el principal va relleno, el resto con borde */
@@ -168,7 +168,7 @@ h1 {
   border-radius:6px; padding:8px 18px; cursor:pointer; transition:border-color .15s, color .15s, background .15s;
 }
 .mode-btn:hover:not(:disabled) { color:var(--text); border-color:var(--dim); }
-.mode-btn.active { color:var(--gold); border-color:var(--gold); background:rgba(232,184,74,.08); }
+.mode-btn.active { color:var(--gold); border-color:var(--gold); background:rgb(var(--gold-rgb) / .08); }
 .mode-btn:disabled { opacity:.4; cursor:not-allowed; }
 
 /* Cerrados al cargar; el JS los abre con style.display (permitido por la CSP) */

@@ -194,11 +194,11 @@ function renderYearBanner() {
     groups:          'Grupos',
   };
   const placementColors = {
-    champion:        '#f0c040',
-    finalist:        '#aaa',
-    semifinalist:    '#cd7f32',
-    quarterfinalist: '#7ec8e3',
-    groups:          '#888',
+    champion:        'var(--stage-champion)',
+    finalist:        'var(--stage-finalist)',
+    semifinalist:    'var(--stage-semifinalist)',
+    quarterfinalist: 'var(--stage-quarterfinalist)',
+    groups:          'var(--stage-groups)',
   };
   const eventText = r.event;
   const placementText = placementLabels[r.placement] || '';

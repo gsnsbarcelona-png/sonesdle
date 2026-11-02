@@ -3,7 +3,7 @@
 .difficulty-row{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:14px}
 .diff-btn{padding:6px 16px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--text-dim);font-family:var(--font-display);font-size:0.9rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .diff-btn:hover{border-color:var(--text-dim);color:var(--text)}
-.diff-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(232,184,74,0.1)}
+.diff-btn.active{border-color:var(--gold);color:var(--gold);background:rgb(var(--gold-rgb) / 0.1)}
 
 /* GAME TITLE ROW: el botón de ayuda cuelga a la derecha para que el título quede centrado */
 .game-title-wrap{position:relative}
@@ -20,11 +20,11 @@
 .year-year{font-family:var(--font-mono);font-size:1.1rem;font-weight:600;color:var(--gold);letter-spacing:0.1em;margin-top:6px}
 .year-event{font-family:var(--font-mono);font-size:0.72rem;color:var(--text-dim);letter-spacing:0.08em;margin-top:8px;text-transform:uppercase;font-weight:400}
 .year-region-badge{display:inline-block;font-family:var(--font-mono);font-size:0.68rem;font-weight:600;letter-spacing:0.08em;padding:2px 8px;border:1px solid;border-radius:4px;margin-top:10px;text-transform:uppercase}
-.year-region-badge.LCK{color:#0bc4c4;border-color:#0bc4c4;background:rgba(11,196,196,0.08)}
-.year-region-badge.LPL{color:#ff8c00;border-color:#ff8c00;background:rgba(255,140,0,0.08)}
-.year-region-badge.LEC{color:#9b59b6;border-color:#9b59b6;background:rgba(155,89,182,0.08)}
-.year-region-badge.EU{color:#9b59b6;border-color:#9b59b6;background:rgba(155,89,182,0.08)}
-.year-region-badge.LCS{color:#cc2222;border-color:#cc2222;background:rgba(204,34,34,0.08)}
+.year-region-badge.LCK{color:var(--lck);border-color:var(--lck);background:color-mix(in srgb, var(--lck) 8%, transparent)}
+.year-region-badge.LPL{color:var(--lpl);border-color:var(--lpl);background:color-mix(in srgb, var(--lpl) 8%, transparent)}
+.year-region-badge.LEC{color:var(--lec-text);border-color:var(--lec-text);background:color-mix(in srgb, var(--lec-text) 8%, transparent)}
+.year-region-badge.EU{color:var(--lec-text);border-color:var(--lec-text);background:color-mix(in srgb, var(--lec-text) 8%, transparent)}
+.year-region-badge.LCS{color:var(--danger);border-color:var(--danger);background:color-mix(in srgb, var(--danger) 8%, transparent)}
 .year-region-badge.LMS{color:#d4a017;border-color:#d4a017;background:rgba(212,160,23,0.08)}
 .year-region-badge.PCS{color:#0093c7;border-color:#0093c7;background:rgba(0,147,199,0.08)}
 .year-region-badge.VCS{color:#00b894;border-color:#00b894;background:rgba(0,184,148,0.08)}
@@ -38,7 +38,7 @@
 /* SLOTS GRID */
 .slots-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px;animation:fadeUp 0.5s ease 0.12s both}
 .player-slot{min-height:110px;border:1px solid var(--border);border-radius:8px;background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 6px;gap:4px;transition:all 0.3s ease;position:relative;overflow:hidden}
-.slot-empty .slot-name{font-size:2rem;color:rgba(139,150,163,0.7);font-family:var(--font-mono)}
+.slot-empty .slot-name{font-size:2rem;color:rgb(var(--dim-rgb) / 0.8);font-family:var(--font-mono)}
 .slot-hint{background:var(--surface2);border-color:var(--gold)}
 .slot-solved{background:var(--green-bg);border-color:var(--green)}
 .slot-position{font-family:var(--font-mono);font-size:0.66rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:2px}
@@ -67,8 +67,8 @@
 
 /* BUTTONS */
 
-.btn-surrender{flex:0 0 auto;background:transparent;border:1px solid #6b2a27;color:#e0645c}
-.btn-surrender:hover{border-color:#e0645c;color:#f0827a;background:rgba(214,69,61,0.08)}
+.btn-surrender{flex:0 0 auto;background:transparent;border:1px solid var(--danger-border);color:var(--danger)}
+.btn-surrender:hover{border-color:var(--danger);color:#f0827a;background:rgba(214,69,61,0.08)}
 
 /* INFO ROW (contadores + pista en una fila sobre el grid) */
 .info-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px;animation:fadeUp 0.5s ease 0.15s both;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 18px}
@@ -83,29 +83,29 @@
 .guess-history{display:flex;flex-direction:column;gap:4px;margin-top:8px}
 .guess-item{display:flex;align-items:center;gap:10px;padding:8px 14px;border:1px solid var(--border);border-radius:6px;background:var(--surface);font-family:var(--font-body);font-size:0.92rem;font-weight:500;animation:slideIn 0.25s ease}
 .guess-item.correct{background:var(--green-bg);border-color:var(--green);color:var(--green-text)}
-.guess-item.wrong{background:var(--surface);border-color:#6b2a27;color:#e0645c}
+.guess-item.wrong{background:var(--surface);border-color:var(--danger-border);color:var(--danger)}
 .guess-item-icon{font-size:0.9rem;flex-shrink:0}
 .guess-item-name{flex:1;letter-spacing:0.04em}
 .guess-item-pos{font-family:var(--font-mono);font-size:0.66rem;letter-spacing:0.08em;text-transform:uppercase;flex-shrink:0}
 
 /* RESULT OVERLAY */
-.result-overlay{position:fixed;inset:0;background:rgba(11,13,16,0.88);z-index:200;display:flex;align-items:center;justify-content:center;animation:fadeDown 0.3s ease;padding:20px}
+.result-overlay{position:fixed;inset:0;background:rgb(var(--bg-rgb) / 0.88);z-index:200;display:flex;align-items:center;justify-content:center;animation:fadeDown 0.3s ease;padding:20px}
 .result-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:0 24px 60px rgba(0,0,0,0.6);padding:36px 32px 28px;max-width:520px;width:100%;text-align:center;animation:slideIn 0.4s ease}
 .result-icon{display:flex;justify-content:center;line-height:1;margin-bottom:12px;color:var(--gold)}
-.result-icon:has(+ .result-title.lose){color:#e0645c}
+.result-icon:has(+ .result-title.lose){color:var(--danger)}
 .result-title{font-family:var(--font-display);font-size:2.6rem;font-weight:700;line-height:1.05;letter-spacing:0.02em;text-transform:uppercase;margin-bottom:8px}
 .result-title.win{color:var(--text)}
-.result-title.lose{color:#e0645c}
+.result-title.lose{color:var(--danger)}
 .result-attempts{font-family:var(--font-mono);font-size:0.78rem;color:var(--text-dim);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:20px;font-weight:400}
 .result-roster{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:24px}
 .result-player{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;border:1px solid;border-radius:6px;font-family:var(--font-body);font-size:0.78rem;font-weight:700}
 .result-player.guessed{background:var(--green-bg);border-color:var(--green);color:var(--green-text)}
-.result-player.missed{background:var(--surface);border-color:#6b2a27;color:#e0645c}
+.result-player.missed{background:var(--surface);border-color:var(--danger-border);color:var(--danger)}
 .result-player-pos{font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase}
 .result-player-name{font-family:var(--font-mono);font-size:0.8rem;font-weight:600;word-break:break-all;text-align:center}
 .result-player-flag{font-size:1.2rem;line-height:1}
 .result-diff-unlock{margin:0 0 18px;padding:14px 16px;border:1px solid var(--border);border-radius:8px;background:var(--surface2)}
-.result-diff-label{font-family:var(--font-mono);font-size:0.72rem;color:#a3adb9;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px}
+.result-diff-label{font-family:var(--font-mono);font-size:0.72rem;color:var(--dim);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px}
 .result-diff-btns{display:flex;justify-content:center;gap:8px}
 .result-btn{margin-top:4px;height:48px;padding:0 32px;background:var(--gold);color:var(--bg);border:none;border-radius:6px;font-family:var(--font-display);font-size:1.05rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;width:100%}
 .result-btn:hover{background:var(--text)}

@@ -21,7 +21,7 @@ export class ParticleSystem {
 
   _cellBurst(x, y) {
     if (this._still) return;
-    const colors = ['#e8b84a','#e9edf1','#0bc4c4','#00ff88','#fff'];
+    const colors = ['#e8b84a','#0bc4c4','#2a7d4f','#ff8c55','#d6453d'];
     for (let i = 0; i < 16; i++) {
       const a = Math.random() * Math.PI * 2, s = Math.random() * 5 + 2;
       this._conf.push({
@@ -39,7 +39,7 @@ export class ParticleSystem {
     this._rainActive = true;
     this._rainTimer = setInterval(() => {
       if (!this._rainActive) { clearInterval(this._rainTimer); return; }
-      const colors = ['#e8b84a','#e9edf1','#0bc4c4','#00ff88','#fff','#ff8c55'];
+      const colors = ['#e8b84a','#0bc4c4','#2a7d4f','#ff8c55','#d6453d','#7b3fa0'];
       for (let i = 0; i < 8; i++) {
         this._conf.push({
           x: Math.random() * this._cc.width, y: -10,

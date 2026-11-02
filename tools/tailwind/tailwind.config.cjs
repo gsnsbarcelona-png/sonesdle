@@ -8,16 +8,19 @@ module.exports = {
   content: ['./dle/index.html', './dle/js/**/*.js'],
   theme: {
     extend: {
+      // Los colores salen de las variables de shared/css/variables.css (canales RGB),
+      // así cambian solos con el tema claro/oscuro y admiten opacidad (bg-gold/10)
       colors: {
-        gold:  { DEFAULT: '#e8b84a', light: '#e9edf1', dark: '#a8832a' },
+        gold:  { DEFAULT: 'rgb(var(--gold-rgb) / <alpha-value>)', light: 'rgb(var(--text-rgb) / <alpha-value>)', dark: 'rgb(var(--gold-dark-rgb) / <alpha-value>)' },
+        danger: { DEFAULT: 'rgb(var(--danger-rgb) / <alpha-value>)', border: 'rgb(var(--danger-border-rgb) / <alpha-value>)', bg: 'rgb(var(--danger-bg-rgb) / <alpha-value>)' },
         lol:   {
-          bg:       '#0b0d10',
-          surface:  '#12161b',
-          surface2: '#181d24',
-          border:   '#232a33',
-          dim:      '#a3adb9',
-          text:     '#e9edf1',
-          teal:     '#3fc1c9',
+          bg:       'rgb(var(--bg-rgb) / <alpha-value>)',
+          surface:  'rgb(var(--surface-rgb) / <alpha-value>)',
+          surface2: 'rgb(var(--surface2-rgb) / <alpha-value>)',
+          border:   'rgb(var(--border-rgb) / <alpha-value>)',
+          dim:      'rgb(var(--dim-rgb) / <alpha-value>)',
+          text:     'rgb(var(--text-rgb) / <alpha-value>)',
+          teal:     'rgb(var(--teal-rgb) / <alpha-value>)',
         },
       },
       fontFamily: {

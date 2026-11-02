@@ -3,6 +3,7 @@
  * Barra única: marca (link a inicio) · iconos de cada juego · cuenta + idioma
  */
 import { mountAccount } from './account.js';
+import { mountThemeToggle } from './js/theme.js';
 
 const GAMES = [
   { id: 'dle',        href: '../dle/',        name: 'Adivina el Pro',  tag: 'Pistas'       },
@@ -59,6 +60,7 @@ export function mountGameNav() {
 
   const right = document.createElement('div');
   right.id = 'game-topbar-right';
+  mountThemeToggle(right);
   mountAccount(right, currentId);
 
   header.append(brandLink, iconsRow, right);
