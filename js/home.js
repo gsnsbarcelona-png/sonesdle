@@ -1,5 +1,6 @@
 import { mountSwitcher, applyStaticTranslations } from '../shared/lang.js';
 import { mountThemeToggle } from '../shared/js/theme.js';
+import { mountAccount } from '../shared/account.js';
 
 const T = {
   es: {
@@ -22,7 +23,9 @@ const T = {
   },
 };
 
-mountThemeToggle(document.querySelector('.topbar'));
-mountSwitcher(document.querySelector('.topbar'));   // dentro de la barra superior
+const topbar = document.querySelector('.topbar');
+mountThemeToggle(topbar);
+mountAccount(topbar, null);                  // inicio de sesión y estadísticas, como en los juegos
+mountSwitcher(topbar);                       // dentro de la barra superior
 applyStaticTranslations(T);
 document.addEventListener('langchange', () => applyStaticTranslations(T));
