@@ -1042,5 +1042,17 @@
       "support",
       "mid"
     ]
+  },
+  "2027-01-01": {
+    "cols": [
+      "lpl",
+      "korean",
+      "t1"
+    ],
+    "rows": [
+      "worlds",
+      "lcs",
+      "top"
+    ]
   }
 }
