@@ -168,4 +168,5 @@
 
 /* ── Botón de tema claro/oscuro (shared/js/theme.js) ── */
 .theme-toggle { background: transparent; border: 0; padding: 0; cursor: pointer; }
-.topbar .theme-toggle { margin-right: 8px; }
+.topbar { gap: 4px; }
+.topbar #lang-switcher { margin-left: 8px; }
