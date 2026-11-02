@@ -161,7 +161,7 @@ export class GridComponent {
       d.classList.add('col-tip');
       d.dataset.tip = tip;
     }
-    d.innerHTML = `<div class="cell-main">${age}${arrow ? `<span class="cell-arrow">${arrow}</span>` : ''}</div>`;
+    d.innerHTML = `<div class="cell-main">${esc(age)}${arrow ? `<span class="cell-arrow">${arrow}</span>` : ''}</div>`;
     return d;
   }
 
