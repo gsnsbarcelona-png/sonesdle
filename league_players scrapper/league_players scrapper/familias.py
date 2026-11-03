@@ -142,6 +142,10 @@ def canon(team):
     return TEAM_ALIASES.get(team, team)
 
 
+# Equipos filiales: no salen en las familias de equipo (nadie reconoce "RED Academy" o "DRX Challengers")
+FARM_TEAM = re.compile(r"(\s+(Academy|Youth Team|Youth|Junior|Challengers|Rookies|Prime|Young|Blue|Gold|II|2)|\.Bee)$", re.I)
+
+
 GENERIC_FIRST_WORD = {"team", "the", "fc", "gaming", "esports", "e-sports", "royal"}
 
 
@@ -256,8 +260,8 @@ def build_families(pool, fame=0, daily=False):
             continue
         t = k[0]
         teams = {k[1]} if t in ("team", "teamyear") else set(k[1]) if t == "twoteams" else set()
-        if any(size[x] < fame for x in teams):
-            continue   # equipo que casi nadie reconoce
+        if any(size[x] < fame or FARM_TEAM.search(x) for x in teams):
+            continue   # equipo que casi nadie reconoce o filial
         if t == "team":
             fams.append(_family(f"team:{k[1]}", t, 1, f"Juegan en {k[1]}", f"Play for {k[1]}", members, {k[1]}))
         elif t == "country":
