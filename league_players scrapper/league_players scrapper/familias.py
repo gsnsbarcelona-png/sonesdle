@@ -13,8 +13,8 @@ los nombres visibles, y escribe lo que devuelve:
     familias/data/bank.json      [puzle, ...]                       puzles del modo libre
 
 Un puzle es {"id", "groups": [{"level", "id", "es", "en", "players": [4 claves]}, ...]}.
-Los días ya fijados del calendario no se tocan; los futuros y el banco se revalidan en cada
-ejecución (un traspaso puede dejar falsa una familia) y se sustituyen solo los que dejan de valer.
+Los días del calendario y el banco se revalidan en cada ejecución (un traspaso o un cambio de
+criterio puede dejar falsa una familia) y se sustituyen solo los que dejan de valer.
 """
 import datetime
 import json
@@ -25,6 +25,8 @@ import re
 import unicodedata
 from collections import Counter, defaultdict
 
+SEASON_START = (11, 15)   # mes y día en que empieza la temporada siguiente (tras Worlds)
+MIN_TEAM_DAYS = 90         # días mínimos en un equipo para decir que "pasó por él" (un suplente de 20 días no cuenta)
 MIN_OVERLAP_DAYS = 90      # días en un equipo, dentro de un año, para contar como "jugó en X en ese año"
 FIRST_YEAR = 2012
 MIN_MEMBERS = 4            # una familia necesita al menos 4 jugadores
@@ -51,7 +53,6 @@ KNOWN_LEAGUES = {"LCK", "LPL", "LEC", "LCS", "LTA", "LCP", "CBLOL", "PCS", "LJL"
 LEAGUE_ALIAS = {"LPLOL": "LPL"}   # mismo nombre con otro código en Leaguepedia
 MIN_TEAM_FAME = {"daily": 10, "free": 5}   # jugadores del conjunto que han pasado por el equipo
 ATTEMPTS = 60              # intentos para fabricar un puzle antes de rendirse
-FROZEN_DAYS = 1            # hoy y mañana no se tocan aunque cambien los datos
 SURNAME_FIRST_COUNTRIES = {"South Korea", "China", "Vietnam"}   # el apellido va primero
 LEVEL_COLORS = {1: "yellow", 2: "green", 3: "blue", 4: "purple"}
 ROLE_ES = {"Top": "Top", "Jungle": "Jungla", "Mid": "Mid", "ADC": "ADC", "Support": "Support"}
@@ -92,8 +93,25 @@ def _date(iso):
         return None
 
 
+def season_window(year):
+    """La temporada N va del fin de Worlds del año anterior al del año N (en noviembre se
+    cambian los equipos: quien ficha en noviembre de 2023 juega la temporada de 2024)."""
+    return datetime.date(year - 1, SEASON_START[0], SEASON_START[1]), \
+        datetime.date(year, SEASON_START[0], SEASON_START[1]) - datetime.timedelta(days=1)
+
+
+def tenure_days(history, today):
+    """{equipo: días totales en las plantillas}, con los equipos filiales unidos al principal."""
+    days = defaultdict(int)
+    for h in history:
+        start, end = _date(h.get("from")), _date(h.get("to")) or today
+        if start and h.get("team") and end >= start:
+            days[canon(h["team"])] += (end - start).days
+    return days
+
+
 def seasons_from_history(history, today):
-    """{equipo: {años}} en los que pasó al menos MIN_OVERLAP_DAYS en el equipo."""
+    """{equipo: {temporadas}} en las que estuvo al menos MIN_OVERLAP_DAYS en el equipo."""
     out = defaultdict(set)
     history = [dict(h, team=canon(h.get("team"))) for h in history]
     for h in history:
@@ -101,8 +119,9 @@ def seasons_from_history(history, today):
         end = _date(h.get("to")) or today
         if not start or not h.get("team"):
             continue
-        for year in range(max(start.year, FIRST_YEAR), min(end.year, today.year) + 1):
-            lo, hi = max(start, datetime.date(year, 1, 1)), min(end, datetime.date(year, 12, 31))
+        for year in range(max(start.year, FIRST_YEAR), min(end.year, today.year) + 2):
+            lo, hi = season_window(year)
+            lo, hi = max(start, lo), min(end, hi)
             if (hi - lo).days >= MIN_OVERLAP_DAYS:
                 out[h["team"]].add(year)
     return out
@@ -161,7 +180,7 @@ def build_pool(master, images, names, today=None):
             "leagues": sorted({_known(h.get("league")) for h in history if _known(h.get("league"))}),
             "majors": sorted(m.get("major_leagues") or []),
             "seasons": seasons_from_history(history, today),
-            "teams": {canon(h["team"]) for h in history if h.get("team")} | {canon(m["game_team"])},
+            "teams": {t for t, d in tenure_days(history, today).items() if d >= MIN_TEAM_DAYS} | {canon(m["game_team"])},
             "born": _year(m.get("birthdate")),
         }
     return pool
@@ -415,20 +434,17 @@ def index_families(fams):
 
 def update_schedule(schedule, pool, fams, fams_of, today, days=SCHEDULE_DAYS):
     """Calendario diario: conserva lo ya fijado y completa hasta `days` días por delante.
-    Los días futuros que dejen de valer (traspasos) se rehacen; hoy y mañana no se tocan."""
+    Los días que dejen de valer (traspasos, cambios de criterio) se rehacen, hoy incluido."""
     by_id = {f["id"]: f for f in fams}
     out = dict(schedule)
     misses = 0
-    frozen_until = today + datetime.timedelta(days=FROZEN_DAYS)
     for offset in range(days + 1):
         day = today + datetime.timedelta(days=offset)
         iso = day.isoformat()
-        if iso in out:
-            keys = [k for g in out[iso]["groups"] for k in g["players"]]
-            # Hoy y mañana ya los han visto: solo se rehacen si les falta algún jugador
-            if (all(k in pool for k in keys) if day <= frozen_until
-                    else check_puzzle(out[iso], pool, by_id, fams_of)):
-                continue
+        # Un día se conserva mientras siga siendo verdad y con una única solución, incluidos hoy
+        # y mañana: un puzle con una familia falsa es peor que uno cambiado
+        if iso in out and check_puzzle(out[iso], pool, by_id, fams_of):
+            continue
         recent = set()
         for back in range(1, RECENT_DAYS + 1):
             prev = out.get((day - datetime.timedelta(days=back)).isoformat())
