@@ -183,8 +183,6 @@ def build_families(pool, fame=0):
             first = p["real"].split()[0].strip(",") if p["real"].split() else ""
             if first:
                 by[("surname", first)].add(p["key"])
-        if p["born"]:
-            by[("born", p["born"])].add(p["key"])
         if slug(p["name"]) in CHAMPIONS:
             by[("champion",)].add(p["key"])
         if re.search(r"\d", p["name"]):
@@ -229,8 +227,6 @@ def build_families(pool, fame=0):
             fams.append(_family("champion", t, 4, "Su apodo es un campeón", "Their nickname is a champion", members))
         elif t == "digit":
             fams.append(_family("digit", t, 4, "Llevan un número en el apodo", "Have a number in their nickname", members))
-        elif t == "born":
-            fams.append(_family(f"born:{k[1]}", t, 4, f"Nacieron en {k[1]}", f"Were born in {k[1]}", members))
     return sorted(fams, key=lambda f: f["id"])
 
 
@@ -386,8 +382,12 @@ def update_schedule(schedule, pool, fams, fams_of, today, days=SCHEDULE_DAYS):
     for offset in range(days + 1):
         day = today + datetime.timedelta(days=offset)
         iso = day.isoformat()
-        if iso in out and (day <= frozen_until or check_puzzle(out[iso], pool, by_id, fams_of)):
-            continue
+        if iso in out:
+            keys = [k for g in out[iso]["groups"] for k in g["players"]]
+            # Hoy y mañana ya los han visto: solo se rehacen si les falta algún jugador
+            if (all(k in pool for k in keys) if day <= frozen_until
+                    else check_puzzle(out[iso], pool, by_id, fams_of)):
+                continue
         recent = set()
         for back in range(1, RECENT_DAYS + 1):
             prev = out.get((day - datetime.timedelta(days=back)).isoformat())
