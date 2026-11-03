@@ -30,6 +30,16 @@ SCHEDULE_DAYS = 60         # días de reto diario por delante
 BANK_SIZE = 150
 BANK_MAX_FAMILY_USES = 3   # veces que una misma familia puede salir en el banco
 RECENT_DAYS = 10           # no repetir familia en días cercanos del calendario
+# Mismo equipo con varios nombres en Leaguepedia: se cuentan como uno
+TEAM_ALIASES = {
+    "SK Telecom T1": "T1", "SKT T1": "T1", "SK Telecom T1 2": "T1", "SK Telecom T1 K": "T1",
+    "Gen.G Esports": "Gen.G", "Samsung Galaxy": "Gen.G", "Samsung Galaxy Blue": "Gen.G",
+    "Longzhu Gaming": "Gen.G", "Team Vitality": "Vitality", "Misfits Gaming": "Misfits",
+    "Fnatic Academy": "Fnatic", "G2 Esports": "G2", "FunPlus Phoenix": "FPX",
+    "EDG Youth Team": "EDG", "EDward Gaming": "EDG", "KT Academy": "KT Rolster", "Invictus Gaming": "iG", "Royal Never Give Up": "RNG", "Edward Gaming": "EDG",
+    "Cloud9 Blue": "Cloud9", "Cloud9 Academy": "Cloud9", "Team Liquid Academy": "Team Liquid",
+}
+MIN_TEAM_FAME = {"daily": 10, "free": 5}   # jugadores del conjunto que han pasado por el equipo
 ATTEMPTS = 60              # intentos para fabricar un puzle antes de rendirse
 FROZEN_DAYS = 1            # hoy y mañana no se tocan aunque cambien los datos
 SURNAME_FIRST_COUNTRIES = {"South Korea", "China", "Vietnam"}   # el apellido va primero
@@ -75,6 +85,7 @@ def _date(iso):
 def seasons_from_history(history, today):
     """{equipo: {años}} en los que pasó al menos MIN_OVERLAP_DAYS en el equipo."""
     out = defaultdict(set)
+    history = [dict(h, team=canon(h.get("team"))) for h in history]
     for h in history:
         start = _date(h.get("from"))
         end = _date(h.get("to")) or today
@@ -85,6 +96,15 @@ def seasons_from_history(history, today):
             if (hi - lo).days >= MIN_OVERLAP_DAYS:
                 out[h["team"]].add(year)
     return out
+
+
+FARM = re.compile(r"\s+(Academy|Youth Team|Youth|Junior|Challengers|Rookies|Prime)$", re.I)
+
+
+def canon(team):
+    """Nombre único del equipo: alias conocidos y sin sufijo de equipo filial."""
+    team = TEAM_ALIASES.get(team, team)
+    return TEAM_ALIASES.get(FARM.sub("", team or ""), FARM.sub("", team or "")) or team
 
 
 def build_pool(master, images, names, today=None):
@@ -105,12 +125,12 @@ def build_pool(master, images, names, today=None):
         pool[key] = {
             "key": key, "name": name, "page": page, "image": images[page],
             "real": m.get("real") or "", "country": m.get("country") or "",
-            "team": m["game_team"], "region": m.get("region"), "league": m.get("league"),
+            "team": canon(m["game_team"]), "region": m.get("region"), "league": m.get("league"),
             "tier": m.get("tier"), "roles": list(m.get("roles") or m.get("positions") or []),
             "debut": m.get("debut"), "worlds": bool(ach.get("worlds")),
             "majors": sorted(m.get("major_leagues") or []),
             "seasons": seasons_from_history(history, today),
-            "teams": {h["team"] for h in history if h.get("team")} | {m["game_team"]},
+            "teams": {canon(h["team"]) for h in history if h.get("team")} | {canon(m["game_team"])},
             "born": _year(m.get("birthdate")),
         }
     return pool
@@ -123,7 +143,7 @@ def _family(fid, ftype, level, es, en, members, entities=()):
             "members": frozenset(members), "entities": frozenset(entities)}
 
 
-def build_families(pool):
+def build_families(pool, fame=0):
     """Todas las familias posibles con al menos MIN_MEMBERS jugadores de `pool`.
     Nivel 1 (amarillo) fácil · 2 (verde) media · 3 (azul) difícil · 4 (morado) truco."""
     by = defaultdict(set)
@@ -150,12 +170,18 @@ def build_families(pool):
                 by[("surname", first)].add(p["key"])
         if p["born"]:
             by[("born", p["born"])].add(p["key"])
+        if re.search(r"\d", p["name"]):
+            by[("digit",)].add(p["key"])
 
+    size = Counter(t for p in pool.values() for t in p["teams"])
     fams = []
     for k, members in by.items():
         if len(members) < MIN_MEMBERS:
             continue
         t = k[0]
+        teams = {k[1]} if t in ("team", "teamyear") else set(k[1]) if t == "twoteams" else set()
+        if any(size[x] < fame for x in teams):
+            continue   # equipo que casi nadie reconoce
         if t == "team":
             fams.append(_family(f"team:{k[1]}", t, 1, f"Juegan en {k[1]}", f"Play for {k[1]}", members, {k[1]}))
         elif t == "country":
@@ -182,6 +208,8 @@ def build_families(pool):
                                 f"Played for both {a} and {b}", members, {a, b}))
         elif t == "surname":
             fams.append(_family(f"surname:{k[1]}", t, 4, f"Se apellidan {k[1]}", f"Have the surname {k[1]}", members))
+        elif t == "digit":
+            fams.append(_family("digit", t, 4, "Llevan un número en el apodo", "Have a number in their nickname", members))
         elif t == "born":
             fams.append(_family(f"born:{k[1]}", t, 4, f"Nacieron en {k[1]}", f"Were born in {k[1]}", members))
     return sorted(fams, key=lambda f: f["id"])
@@ -397,8 +425,8 @@ def build(master, images, names, schedule, bank, today=None):
     today = today or datetime.date.today()
     pool = build_pool(master, images, names, today)
     daily_pool = {k: p for k, p in pool.items() if p["tier"] == 1 or p["worlds"]}
-    daily_fams = build_families(daily_pool)
-    free_fams = build_families(pool)
+    daily_fams = build_families(daily_pool, MIN_TEAM_FAME["daily"])
+    free_fams = build_families(pool, MIN_TEAM_FAME["free"])
     d_of, _ = index_families(daily_fams)
     f_of, _ = index_families(free_fams)
     new_schedule = update_schedule(schedule, daily_pool, daily_fams, d_of, today)

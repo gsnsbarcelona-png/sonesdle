@@ -17,7 +17,7 @@ create table if not exists public.results (
 -- Juegos válidos (aparte, para poder añadir juegos a una tabla ya creada)
 alter table public.results drop constraint if exists results_game_check;
 alter table public.results add constraint results_game_check
-  check (game in ('dle', 'rostergues', 'carrera', 'grid', 'wordle'));
+  check (game in ('dle', 'rostergues', 'carrera', 'grid', 'wordle', 'familias'));
 
 -- Límites de lo que puede enviar el cliente (la anon key es pública, así que se validan aquí).
 -- "not valid": solo se aplican a filas nuevas, por si ya hay datos antiguos.

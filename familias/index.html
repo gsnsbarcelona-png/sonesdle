@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Family Grid · LOL Pro Games</title>
+
+<!-- SEO -->
+<meta name="description" content="Agrupa 16 pro players de LoL en 4 familias: mismo equipo, mismo año, campeones del mundo… Reto diario y modo libre.">
+<meta name="keywords" content="lol, league of legends, pro player, familias, connections, esports, adivina, lolprogames">
+<meta name="author" content="LOL Pro Games">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.lolprogames.com/familias/">
+
+<!-- Open Graph -->
+<meta property="og:type"        content="website">
+<meta property="og:url"         content="https://www.lolprogames.com/familias/">
+<meta property="og:title"       content="Family Grid · LOL Pro Games">
+<meta property="og:description" content="Agrupa 16 pro players de LoL en 4 familias.">
+<meta property="og:image"       content="https://www.lolprogames.com/og-image.jpg">
+  <meta property="og:image:width"  content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt"    content="Family Grid · LOL Pro Games">
+  <meta property="og:site_name"      content="LOL Pro Games">
+  <meta property="og:locale"         content="es_ES">
+  <meta property="og:locale:alternate" content="en_GB">
+
+<!-- Twitter Card -->
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:title"       content="Family Grid · LOL Pro Games">
+<meta name="twitter:description" content="Agrupa 16 pro players de LoL en 4 familias.">
+<meta name="twitter:image"       content="https://www.lolprogames.com/og-image.jpg">
+  <meta name="twitter:image:alt"   content="Family Grid · LOL Pro Games">
+
+<!-- PWA / App -->
+<meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#0b0d10" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)">
+  <script src="../shared/js/theme-init.js"></script>
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LOL Pro Games">
+<link rel="manifest" href="../manifest.json">
+
+<!-- Favicon (raíz global) -->
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png"     href="../favicon.png" sizes="32x32">
+<link rel="apple-touch-icon"          href="../apple-touch-icon.png">
+
+<link rel="stylesheet" href="../shared/css/variables.css">
+<link rel="stylesheet" href="../shared/fonts/fonts.css">
+<link rel="stylesheet" href="./css/styles.css">
+<link rel="stylesheet" href="../shared/css/chrome.css">
+<link rel="stylesheet" href="../shared/css/a11y.css">
+</head>
+<body>
+
+<main class="page">
+  <header class="header">
+    <div class="header-title-row">
+      <div class="header-line"></div>
+      <h1>Family Grid</h1>
+      <div class="header-line"></div>
+    </div>
+    <p class="header-sub" data-i18n="headerSub">Agrupa los 16 jugadores en 4 familias</p>
+  </header>
+
+  <div class="modes">
+    <button class="mode-btn" data-mode="daily" data-i18n="daily">Reto diario</button>
+    <button class="mode-btn" data-mode="free"  data-i18n="free">Modo libre</button>
+  </div>
+  <p class="day-info" id="dayInfo"></p>
+
+  <div class="solved" id="solved"></div>
+  <div class="board" id="board" role="group" aria-label="Jugadores / Players"></div>
+  <div class="toast" id="toast" role="status"></div>
+
+  <div class="lives" id="lives" role="img"></div>
+  <div class="actions">
+    <button class="btn btn-cancel" id="btnShuffle" data-i18n="shuffle">Mezclar</button>
+    <button class="btn btn-cancel" id="btnClear"   data-i18n="clear">Borrar</button>
+    <button class="btn btn-confirm" id="btnSubmit" data-i18n="submit">Validar</button>
+  </div>
+</main>
+
+<!-- Resultado -->
+<div class="overlay hidden" id="endOverlay">
+  <div class="modal-card">
+    <div class="modal-body end-body">
+      <p class="end-title" id="endTitle"></p>
+      <div class="end-groups" id="endGroups"></div>
+      <div class="end-actions">
+        <button class="btn btn-confirm" id="btnShare" data-i18n="share">Compartir</button>
+        <button class="btn btn-confirm" id="btnAgain" data-i18n="again">Otro puzle</button>
+        <button class="btn btn-cancel"  id="btnClose" data-i18n="close">Cerrar</button>
+      </div>
+      <p class="end-next" id="endNext"></p>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="./js/main.js"></script>
+<script type="module" src="../shared/js/pwa.js"></script>
+<script type="module" src="../shared/js/analytics.js"></script>
+<script type="module" src="../shared/js/notice.js"></script>
+</body>
+</html>

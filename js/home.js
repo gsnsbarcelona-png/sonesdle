@@ -10,6 +10,7 @@ const T = {
     c4tag:'Timeline · Carrera',                                       c4desc:'Adivina al jugador por su carrera',
     c2tag:'Grid · Conexiones',                                        c2desc:'Rellena la cuadrícula 3×3 de pro players',
     c5tag:'Wordle · Diario',                                          c5desc:'El nombre del pro player en 6 intentos',
+    c6tag:'Familias · Diario',                                        c6desc:'Agrupa 16 jugadores en 4 familias',
     legal:'Aviso legal', privacy:'Política de privacidad',
   },
   en: {
@@ -19,6 +20,7 @@ const T = {
     c4tag:'Timeline · Career',                                        c4desc:'Guess the player from their career',
     c2tag:'Grid · Connections',                                       c2desc:'Fill the 3×3 pro player grid',
     c5tag:'Wordle · Daily',                                           c5desc:'The pro player’s name in 6 tries',
+    c6tag:'Families · Daily',                                         c6desc:'Sort 16 players into 4 families',
     legal:'Legal notice', privacy:'Privacy policy',
   },
 };
