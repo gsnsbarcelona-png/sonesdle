@@ -51,6 +51,7 @@ TEAM_ALIASES = {
 # (en los datos salen decenas de ligas menores, como NACL o NASG, que casi nadie conoce)
 KNOWN_LEAGUES = {"LCK", "LPL", "LEC", "LCS", "LTA", "LCP", "CBLOL", "PCS", "LJL", "VCS", "LLA", "LFL", "LCO"}
 LEAGUE_ALIAS = {"LPLOL": "LPL"}   # mismo nombre con otro código en Leaguepedia
+MIN_TIER1_PLAYERS = 3     # jugadores en tier 1 que debe tener un equipo para salir en "Juegan en X"
 MIN_TEAM_FAME = {"daily": 10, "free": 10}   # jugadores del conjunto que han pasado por el equipo
 ATTEMPTS = 60              # intentos para fabricar un puzle antes de rendirse
 SURNAME_FIRST_COUNTRIES = {"South Korea", "China", "Vietnam"}   # el apellido va primero
@@ -256,15 +257,17 @@ def build_families(pool, fame=0, daily=False):
     size = Counter(t for p in pool.values() for t in p["teams"])
     # "Juegan en X" solo con equipos que hoy están en una liga de primer nivel: los demás
     # (LYON American Team, Smoke Tram...) tienen jugadores con foto pero nadie los reconoce
-    first_tier = {p["team"] for p in pool.values() if p["tier"] == 1}
+    tier1 = Counter(p["team"] for p in pool.values() if p["tier"] == 1)
+    first_tier = {t for t, n in tier1.items() if n >= MIN_TIER1_PLAYERS}
     fams = []
     for k, members in by.items():
         if len(members) < MIN_MEMBERS:
             continue
         t = k[0]
         teams = {k[1]} if t in ("team", "teamyear") else set(k[1]) if t == "twoteams" else set()
-        if any(size[x] < fame or FARM_TEAM.search(x) for x in teams):
-            continue   # equipo que casi nadie reconoce o filial
+        # equipo que casi nadie reconoce, filial o equipo temporal/nacional ("LYON (2024 American Team)")
+        if any(size[x] < fame or FARM_TEAM.search(x) or "(" in x for x in teams):
+            continue
         if t == "team" and k[1] not in first_tier:
             continue
         if t == "team":
