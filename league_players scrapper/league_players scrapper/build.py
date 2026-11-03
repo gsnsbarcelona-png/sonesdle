@@ -43,6 +43,7 @@ import re
 import time
 import unicodedata
 import zlib
+import familias
 from collections import Counter, defaultdict
 from urllib.parse import unquote, urlparse
 
@@ -86,6 +87,9 @@ GRID_CATEGORIES_PATH = os.path.join(ROOT, "grid", "data", "categories.json")
 GRID_SCHEDULE_PATH   = os.path.join(ROOT, "grid", "data", "schedule.json")
 WORDLE_WORDS_PATH    = os.path.join(ROOT, "wordle", "data", "words.json")
 WORDLE_SCHEDULE_PATH = os.path.join(ROOT, "wordle", "data", "schedule.json")
+FAMILIAS_PLAYERS_PATH  = os.path.join(ROOT, "familias", "data", "players.json")
+FAMILIAS_SCHEDULE_PATH = os.path.join(ROOT, "familias", "data", "schedule.json")
+FAMILIAS_BANK_PATH     = os.path.join(ROOT, "familias", "data", "bank.json")
 LEAGUE_HISTORY_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_league_history.json")
 
 CARGO_URL   = "https://lol.fandom.com/wiki/Special:CargoExport"
@@ -1606,6 +1610,14 @@ def update_grid_schedule(grid, categories, path):
     return dict(sorted(schedule.items()))
 
 
+def read_json_or(path, default):
+    try:
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    except (FileNotFoundError, ValueError):
+        return default
+
+
 def write_json(path, data):
     atomic_write(path, json.dumps(data, ensure_ascii=False, indent=2))
 
@@ -1895,6 +1907,18 @@ def main():
     print(f"wordle -> {WORDLE_WORDS_PATH} ({len(answers)} respuestas, para el diario "
           f"{dict(sorted(daily.items()))} por largo, {len(guesses)} intentos válidos; "
           f"calendario hasta {max(schedule)})")
+
+    old_sched = read_json_or(FAMILIAS_SCHEDULE_PATH, {})
+    old_bank = read_json_or(FAMILIAS_BANK_PATH, [])
+    fam_players, fam_schedule, fam_bank = familias.build(
+        master, images, display_names(master), old_sched, old_bank,
+        datetime.datetime.now(datetime.timezone.utc).date())
+    check_schedule("familias", fam_schedule)
+    write_json(FAMILIAS_PLAYERS_PATH, fam_players)
+    write_json(FAMILIAS_SCHEDULE_PATH, fam_schedule)
+    write_json(FAMILIAS_BANK_PATH, fam_bank)
+    print(f"familias -> {len(fam_players)} jugadores, {len(fam_bank)} puzles libres, "
+          f"reto diario hasta {max(fam_schedule)}")
 
     # Solo si todo ha ido bien: la próxima vez se miran los cambios desde aquí
     write_json(SYNC_STATE_PATH, {"last_sync": started.strftime("%Y-%m-%dT%H:%M:%SZ"),
