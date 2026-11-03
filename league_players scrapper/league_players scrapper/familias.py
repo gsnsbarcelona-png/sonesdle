@@ -31,8 +31,10 @@ MIN_MEMBERS = 4            # una familia necesita al menos 4 jugadores
 SCHEDULE_DAYS = 60         # días de reto diario por delante
 BANK_SIZE = 150
 MAX_SOLVER_STEPS = 20000   # pasos del solucionador antes de rechazar el puzle por ambiguo
-MAX_BANK_FAILS = 40       # intentos seguidos sin puzle antes de dar el banco por completo
-BANK_MAX_FAMILY_USES = 3   # veces que una misma familia puede salir en el banco
+MAX_BANK_FAILS = 80       # intentos seguidos sin puzle antes de dar el banco por completo
+# Veces que una misma familia puede salir en el banco, por color: las del nivel 3 son pocas
+# (campeones del mundo, pares de posiciones o ligas) y con 3 usos limitaban todo el banco
+BANK_MAX_FAMILY_USES = {1: 3, 2: 3, 3: 12, 4: 6}
 RECENT_DAYS = 10           # no repetir familia en días cercanos del calendario
 # Mismo equipo con varios nombres en Leaguepedia: se cuentan como uno
 TEAM_ALIASES = {
@@ -144,7 +146,9 @@ def build_pool(master, images, names, today=None):
             "real": m.get("real") or "", "country": m.get("country") or "",
             "team": canon(m["game_team"]), "region": m.get("region"), "league": m.get("league"),
             "tier": m.get("tier"), "roles": list(m.get("roles") or m.get("positions") or []),
-            "debut": m.get("debut"), "worlds": bool(ach.get("worlds")),
+            "debut": m.get("debut"), "worlds": bool(ach.get("worlds")), "msi": bool(ach.get("msi")),
+            "titles": sorted({t["league"] for t in (m.get("titles") or []) if t.get("league")}),
+            "leagues": sorted({h["league"] for h in history if h.get("league")}),
             "majors": sorted(m.get("major_leagues") or []),
             "seasons": seasons_from_history(history, today),
             "teams": {canon(h["team"]) for h in history if h.get("team")} | {canon(m["game_team"])},
@@ -185,6 +189,17 @@ def build_families(pool, fame=0):
             first = p["real"].split()[0].strip(",") if p["real"].split() else ""
             if first:
                 by[("surname", first)].add(p["key"])
+        if p["msi"]:
+            by[("msi",)].add(p["key"])
+        for lg in p["titles"]:
+            by[("title", lg)].add(p["key"])
+        for lg in p["leagues"]:
+            by[("league", lg)].add(p["key"])
+        letters = len(re.sub(r"[^A-Za-z]", "", p["name"]))
+        if 3 <= letters <= 5:
+            by[("nicklen", letters)].add(p["key"])
+        if p["name"][:1].isalpha():
+            by[("initial", p["name"][0].upper())].add(p["key"])
         if slug(p["name"]) in CHAMPIONS:
             by[("champion",)].add(p["key"])
         if re.search(r"\d", p["name"]):
@@ -225,6 +240,16 @@ def build_families(pool, fame=0):
                                 f"Played for both {a} and {b}", members, {a, b}))
         elif t == "surname":
             fams.append(_family(f"surname:{k[1]}", t, 4, f"Se apellidan {k[1]}", f"Have the surname {k[1]}", members))
+        elif t == "msi":
+            fams.append(_family("msi", t, 3, "Campeones del MSI", "MSI champions", members))
+        elif t == "title":
+            fams.append(_family(f"title:{k[1]}", t, 3, f"Campeones de la {k[1]}", f"{k[1]} champions", members))
+        elif t == "league":
+            fams.append(_family(f"league:{k[1]}", t, 2, f"Han jugado en la {k[1]}", f"Have played in the {k[1]}", members))
+        elif t == "nicklen":
+            fams.append(_family(f"nicklen:{k[1]}", t, 4, f"Apodo de {k[1]} letras", f"{k[1]}-letter nickname", members))
+        elif t == "initial":
+            fams.append(_family(f"initial:{k[1]}", t, 4, f"Su apodo empieza por {k[1]}", f"Nickname starts with {k[1]}", members))
         elif t == "champion":
             fams.append(_family("champion", t, 4, "Su apodo es un campeón", "Their nickname is a champion", members))
         elif t == "digit":
@@ -320,7 +345,7 @@ def make_puzzle(rng, pool, fams, fams_of, avoid=frozenset(), puzzle_id="", famil
     """Un puzle con una familia de cada color y una única solución, o None."""
     by_level = defaultdict(list)
     for f in fams:
-        if f["id"] not in avoid and not (max_uses and (family_uses or {}).get(f["id"], 0) >= max_uses):
+        if f["id"] not in avoid and not (max_uses and (family_uses or {}).get(f["id"], 0) >= max_uses[f["level"]]):
             by_level[f["level"]].append(f)
     if any(not by_level[l] for l in (1, 2, 3, 4)):
         return None
