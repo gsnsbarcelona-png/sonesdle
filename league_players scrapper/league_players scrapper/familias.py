@@ -17,6 +17,8 @@ Los días ya fijados del calendario no se tocan; los futuros y el banco se reval
 ejecución (un traspaso puede dejar falsa una familia) y se sustituyen solo los que dejan de valer.
 """
 import datetime
+import json
+import os
 import itertools
 import random
 import re
@@ -107,6 +109,19 @@ def canon(team):
     return TEAM_ALIASES.get(FARM.sub("", team or ""), FARM.sub("", team or "")) or team
 
 
+def champion_slugs():
+    """Nombres de campeones del juego (curated/campeones.json), para la familia 'apodo = campeón'."""
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "curated", "campeones.json")
+    try:
+        with open(path, encoding="utf-8") as f:
+            return {slug(n) for n in json.load(f)["champions"]}
+    except (OSError, ValueError):
+        return set()
+
+
+CHAMPIONS = champion_slugs()
+
+
 def build_pool(master, images, names, today=None):
     """Jugadores del juego: los que tienen foto, equipo y nombre visible.
     `names` va de página a apodo (el mismo que usa el dle)."""
@@ -170,6 +185,8 @@ def build_families(pool, fame=0):
                 by[("surname", first)].add(p["key"])
         if p["born"]:
             by[("born", p["born"])].add(p["key"])
+        if slug(p["name"]) in CHAMPIONS:
+            by[("champion",)].add(p["key"])
         if re.search(r"\d", p["name"]):
             by[("digit",)].add(p["key"])
 
@@ -208,6 +225,8 @@ def build_families(pool, fame=0):
                                 f"Played for both {a} and {b}", members, {a, b}))
         elif t == "surname":
             fams.append(_family(f"surname:{k[1]}", t, 4, f"Se apellidan {k[1]}", f"Have the surname {k[1]}", members))
+        elif t == "champion":
+            fams.append(_family("champion", t, 4, "Su apodo es un campeón", "Their nickname is a champion", members))
         elif t == "digit":
             fams.append(_family("digit", t, 4, "Llevan un número en el apodo", "Have a number in their nickname", members))
         elif t == "born":
