@@ -51,7 +51,7 @@ TEAM_ALIASES = {
 # (en los datos salen decenas de ligas menores, como NACL o NASG, que casi nadie conoce)
 KNOWN_LEAGUES = {"LCK", "LPL", "LEC", "LCS", "LTA", "LCP", "CBLOL", "PCS", "LJL", "VCS", "LLA", "LFL", "LCO"}
 LEAGUE_ALIAS = {"LPLOL": "LPL"}   # mismo nombre con otro código en Leaguepedia
-MIN_TEAM_FAME = {"daily": 10, "free": 5}   # jugadores del conjunto que han pasado por el equipo
+MIN_TEAM_FAME = {"daily": 10, "free": 10}   # jugadores del conjunto que han pasado por el equipo
 ATTEMPTS = 60              # intentos para fabricar un puzle antes de rendirse
 SURNAME_FIRST_COUNTRIES = {"South Korea", "China", "Vietnam"}   # el apellido va primero
 LEVEL_COLORS = {1: "yellow", 2: "green", 3: "blue", 4: "purple"}
