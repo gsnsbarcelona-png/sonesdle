@@ -110,14 +110,809 @@
     "groups": [
       {
         "level": 1,
+        "id": "country:Brazil",
+        "es": "Son de Brasil",
+        "en": "Are from Brazil",
+        "players": [
+          "zynts",
+          "tatu-pedro-seixas",
+          "curty",
+          "momochi"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:RNG:2023",
+        "es": "Jugaron en RNG en 2023",
+        "en": "Played for RNG in 2023",
+        "players": [
+          "angel-xiang-tao",
+          "gala",
+          "tangyuan",
+          "wei-yan-yang-wei"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:ECS",
+        "es": "Campeones de la ECS",
+        "en": "ECS champions",
+        "players": [
+          "uniboy",
+          "woody",
+          "junjia",
+          "betty"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "twoteams:Fredit BRION:Liiv SANDBOX",
+        "es": "Pasaron por Fredit BRION y por Liiv SANDBOX",
+        "en": "Played for both Fredit BRION and Liiv SANDBOX",
+        "players": [
+          "pungyeon",
+          "effort",
+          "raptor-jeon-eo-jin",
+          "hena"
+        ]
+      }
+    ]
+  },
+  "2026-11-06": {
+    "id": "2026-11-06",
+    "groups": [
+      {
+        "level": 1,
         "id": "country:Taiwan",
         "es": "Son de Taiwán",
         "en": "Are from Taiwan",
         "players": [
           "uniboy",
-          "feng-chen-chun-feng",
+          "hongsuo",
           "junjia",
-          "rest"
+          "pop9"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:LGD Gaming:2026",
+        "es": "Jugaron en LGD Gaming en 2026",
+        "en": "Played for LGD Gaming in 2026",
+        "players": [
+          "crisp",
+          "burdol",
+          "ycx",
+          "tangyuan"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:LCS",
+        "es": "Campeones de la LCS",
+        "en": "LCS champions",
+        "players": [
+          "ignar",
+          "hans-sama",
+          "gakgos",
+          "corejj"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "initial:X",
+        "es": "Su apodo empieza por X",
+        "en": "Nickname starts with X",
+        "players": [
+          "xiaoxu",
+          "xyno",
+          "xiaohu",
+          "xun"
+        ]
+      }
+    ]
+  },
+  "2026-11-07": {
+    "id": "2026-11-07",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:SK Gaming",
+        "es": "Juegan en SK Gaming",
+        "en": "Play for SK Gaming",
+        "players": [
+          "wunder",
+          "mikyx",
+          "skeanz",
+          "lider"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:Vivo Keyd Stars:2026",
+        "es": "Jugaron en Vivo Keyd Stars en 2026",
+        "en": "Played for Vivo Keyd Stars in 2026",
+        "players": [
+          "mireu",
+          "scamber",
+          "disamis",
+          "xyno"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:LCP",
+        "es": "Campeones de la LCP",
+        "en": "LCP champions",
+        "players": [
+          "dire",
+          "junjia",
+          "hizto",
+          "kaiwing"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "twoteams:EDG:Weibo Gaming",
+        "es": "Pasaron por EDG y por Weibo Gaming",
+        "en": "Played for both EDG and Weibo Gaming",
+        "players": [
+          "jiejie",
+          "xiaohao",
+          "jwei",
+          "zdz"
+        ]
+      }
+    ]
+  },
+  "2026-11-08": {
+    "id": "2026-11-08",
+    "groups": [
+      {
+        "level": 1,
+        "id": "country:Vietnam",
+        "es": "Son de Vietnam",
+        "en": "Are from Vietnam",
+        "players": [
+          "gury",
+          "dire",
+          "bie",
+          "siuloong"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:Cloud9:2023",
+        "es": "Jugaron en Cloud9 en 2023",
+        "en": "Played for Cloud9 in 2023",
+        "players": [
+          "blaber",
+          "zven",
+          "berserker-kim-min-cheol",
+          "fudge"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:CD",
+        "es": "Campeones de la CD",
+        "en": "CD champions",
+        "players": [
+          "hauz",
+          "curse-rai-yamada",
+          "xyno",
+          "rabelo"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "twoteams:LNG Esports:Top Esports",
+        "es": "Pasaron por LNG Esports y por Top Esports",
+        "en": "Played for both LNG Esports and Top Esports",
+        "players": [
+          "nia-zou-guang-lu",
+          "xiaofang",
+          "photic",
+          "zhuo"
+        ]
+      }
+    ]
+  },
+  "2026-11-09": {
+    "id": "2026-11-09",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:Gen.G",
+        "es": "Juegan en Gen.G",
+        "en": "Play for Gen.G",
+        "players": [
+          "chovy",
+          "canyon",
+          "duro",
+          "kiin"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:Dignitas:2026",
+        "es": "Jugaron en Dignitas en 2026",
+        "en": "Played for Dignitas in 2026",
+        "players": [
+          "fbi",
+          "denathor",
+          "ignar",
+          "palafox"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:SL",
+        "es": "Campeones de la SL",
+        "en": "SL champions",
+        "players": [
+          "oscarinin",
+          "lospa",
+          "daglas",
+          "tracyn"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "twoteams:Oh My God:Top Esports",
+        "es": "Pasaron por Oh My God y por Top Esports",
+        "en": "Played for both Oh My God and Top Esports",
+        "players": [
+          "crisp",
+          "photic",
+          "creme",
+          "xiaofang"
+        ]
+      }
+    ]
+  },
+  "2026-11-10": {
+    "id": "2026-11-10",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:EDG",
+        "es": "Juegan en EDG",
+        "en": "Play for EDG",
+        "players": [
+          "jiejie",
+          "bulldog-lee-tae-young",
+          "parukia",
+          "zdz"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:Vivo Keyd Stars:2024",
+        "es": "Jugaron en Vivo Keyd Stars en 2024",
+        "en": "Played for Vivo Keyd Stars in 2024",
+        "players": [
+          "morttheus",
+          "guigo",
+          "prodelta",
+          "disamis"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:EU CS",
+        "es": "Campeones de la EU CS",
+        "en": "EU CS champions",
+        "players": [
+          "ignar",
+          "wunder",
+          "hans-sama",
+          "zven"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "initial:D",
+        "es": "Su apodo empieza por D",
+        "en": "Nickname starts with D",
+        "players": [
+          "dardoch",
+          "dhokla",
+          "denathor",
+          "diable"
+        ]
+      }
+    ]
+  },
+  "2026-11-11": {
+    "id": "2026-11-11",
+    "groups": [
+      {
+        "level": 1,
+        "id": "country:United States",
+        "es": "Son de Estados Unidos",
+        "en": "Are from United States",
+        "players": [
+          "blaber",
+          "denathor",
+          "zeyzal",
+          "contractz"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:paiN Gaming:2026",
+        "es": "Jugaron en paiN Gaming en 2026",
+        "en": "Played for paiN Gaming in 2026",
+        "players": [
+          "boal",
+          "cariok",
+          "ceos",
+          "hena"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:LFL",
+        "es": "Campeones de la LFL",
+        "en": "LFL champions",
+        "players": [
+          "jeskla",
+          "vladi",
+          "jopa",
+          "boukada"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "twoteams:Bilibili Gaming:EDG",
+        "es": "Pasaron por Bilibili Gaming y por EDG",
+        "en": "Played for both Bilibili Gaming and EDG",
+        "players": [
+          "viper-park-do-hyeon",
+          "monki",
+          "flandre",
+          "jwei"
+        ]
+      }
+    ]
+  },
+  "2026-11-12": {
+    "id": "2026-11-12",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:Team Liquid",
+        "es": "Juegan en Team Liquid",
+        "en": "Play for Team Liquid",
+        "players": [
+          "morgan",
+          "josedeodo",
+          "corejj",
+          "quid"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:Top Esports:2026",
+        "es": "Jugaron en Top Esports en 2026",
+        "en": "Played for Top Esports in 2026",
+        "players": [
+          "fengyue",
+          "369",
+          "jackeylove",
+          "zhuo"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:VCS",
+        "es": "Campeones de la VCS",
+        "en": "VCS champions",
+        "players": [
+          "bie",
+          "chika",
+          "harky",
+          "artemis-tran-quoc-hung"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "twoteams:BNK FEARX:DRX",
+        "es": "Pasaron por BNK FEARX y por DRX",
+        "en": "Played for both BNK FEARX and DRX",
+        "players": [
+          "willer",
+          "clear-song-hyeon-min",
+          "career",
+          "taeyoon-kim-tae-yoon"
+        ]
+      }
+    ]
+  },
+  "2026-11-13": {
+    "id": "2026-11-13",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:Anyone's Legend",
+        "es": "Juegan en Anyone's Legend",
+        "en": "Play for Anyone's Legend",
+        "players": [
+          "shanks",
+          "hope-wang-jie",
+          "kael-kim-jin-hong",
+          "breathe"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:T1:2021",
+        "es": "Jugaron en T1 en 2021",
+        "en": "Played for T1 in 2021",
+        "players": [
+          "cuzz",
+          "poby",
+          "zeus",
+          "canna"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:CBLOL",
+        "es": "Campeones de la CBLOL",
+        "en": "CBLOL champions",
+        "players": [
+          "roamer",
+          "feisty",
+          "mireu",
+          "disamis"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "nicklen:3",
+        "es": "Apodo de 3 letras",
+        "en": "3-letter nickname",
+        "players": [
+          "ayu-andrey-saraiva",
+          "pop9",
+          "bdd",
+          "elk"
+        ]
+      }
+    ]
+  },
+  "2026-11-14": {
+    "id": "2026-11-14",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:Vitality",
+        "es": "Juegan en Vitality",
+        "en": "Play for Vitality",
+        "players": [
+          "naak-nako",
+          "lyncas",
+          "carzzy",
+          "fiesta-an-hyeon-seo"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:Rare Atom:2023",
+        "es": "Jugaron en Rare Atom en 2023",
+        "en": "Played for Rare Atom in 2023",
+        "players": [
+          "feather",
+          "cube-dai-yi",
+          "xiaoxu",
+          "assum"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:BRCC",
+        "es": "Campeones de la BRCC",
+        "en": "BRCC champions",
+        "players": [
+          "guigo",
+          "shini",
+          "hauz",
+          "cariok"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "twoteams:Gen.G:T1",
+        "es": "Pasaron por Gen.G y por T1",
+        "en": "Played for both Gen.G and T1",
+        "players": [
+          "willer",
+          "burdol",
+          "delight",
+          "peyz"
+        ]
+      }
+    ]
+  },
+  "2026-11-15": {
+    "id": "2026-11-15",
+    "groups": [
+      {
+        "level": 1,
+        "id": "country:Argentina",
+        "es": "Son de Argentina",
+        "en": "Are from Argentina",
+        "players": [
+          "kaze-lucas-fe",
+          "ceo",
+          "josedeodo",
+          "ackerman-gabriel-aparicio"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:Gen.G:2024",
+        "es": "Jugaron en Gen.G en 2024",
+        "en": "Played for Gen.G in 2024",
+        "players": [
+          "peyz",
+          "canyon",
+          "kiin",
+          "chovy"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:PCS",
+        "es": "Campeones de la PCS",
+        "en": "PCS champions",
+        "players": [
+          "woody",
+          "feng-chen-chun-feng",
+          "xiaoxiang-liao-yi-xiang",
+          "junjia"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "twoteams:Anyone's Legend:Team WE",
+        "es": "Pasaron por Anyone's Legend y por Team WE",
+        "en": "Played for both Anyone's Legend and Team WE",
+        "players": [
+          "shanks",
+          "hope-wang-jie",
+          "breathe",
+          "erha"
+        ]
+      }
+    ]
+  },
+  "2026-11-16": {
+    "id": "2026-11-16",
+    "groups": [
+      {
+        "level": 1,
+        "id": "country:Brazil",
+        "es": "Son de Brasil",
+        "en": "Are from Brazil",
+        "players": [
+          "morttheus",
+          "prodelta",
+          "rabelo",
+          "uzent"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:Gen.G:2017",
+        "es": "Jugaron en Gen.G en 2017",
+        "en": "Played for Gen.G in 2017",
+        "players": [
+          "corejj",
+          "ruler",
+          "cuzz",
+          "bdd"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:UL",
+        "es": "Campeones de la UL",
+        "en": "UL champions",
+        "players": [
+          "noah-oh-hyeon-taek",
+          "inspired",
+          "larssen",
+          "slowq"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "surname:Song",
+        "es": "Se apellidan Song",
+        "en": "Have the surname Song",
+        "players": [
+          "rookie",
+          "clear-song-hyeon-min",
+          "quad",
+          "saber-song-dai-lin"
+        ]
+      }
+    ]
+  },
+  "2026-11-17": {
+    "id": "2026-11-17",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:Top Esports",
+        "es": "Juegan en Top Esports",
+        "en": "Play for Top Esports",
+        "players": [
+          "tian",
+          "jackeylove",
+          "369",
+          "zuian"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:FURIA:2025",
+        "es": "Jugaron en FURIA en 2025",
+        "en": "Played for FURIA in 2025",
+        "players": [
+          "tatu-pedro-seixas",
+          "jojo-gabriel-dzelme",
+          "guigo",
+          "ayu-andrey-saraiva"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:TCL",
+        "es": "Campeones de la TCL",
+        "en": "TCL champions",
+        "players": [
+          "serin",
+          "zest-kim-dong-min",
+          "caps",
+          "hype-byeon-jeong-hyeon"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "twoteams:Kwangdong Freecs:T1",
+        "es": "Pasaron por Kwangdong Freecs y por T1",
+        "en": "Played for both Kwangdong Freecs and T1",
+        "players": [
+          "cuzz",
+          "heru",
+          "berserker-kim-min-cheol",
+          "teddy"
+        ]
+      }
+    ]
+  },
+  "2026-11-18": {
+    "id": "2026-11-18",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:Nongshim RedForce",
+        "es": "Juegan en Nongshim RedForce",
+        "en": "Play for Nongshim RedForce",
+        "players": [
+          "scout",
+          "calix-syun-hyun-bin",
+          "diable",
+          "kingen"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:RED:2026",
+        "es": "Jugaron en RED en 2026",
+        "en": "Played for RED in 2026",
+        "players": [
+          "fuuu",
+          "zynts",
+          "uzent",
+          "rabelo"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:ECS",
+        "es": "Campeones de la ECS",
+        "en": "ECS champions",
+        "players": [
+          "junjia",
+          "uniboy",
+          "betty",
+          "woody"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "twoteams:JD Gaming:Team WE",
+        "es": "Pasaron por JD Gaming y por Team WE",
+        "en": "Played for both JD Gaming and Team WE",
+        "players": [
+          "zhuo",
+          "hope-wang-jie",
+          "missing",
+          "vampire"
+        ]
+      }
+    ]
+  },
+  "2026-11-19": {
+    "id": "2026-11-19",
+    "groups": [
+      {
+        "level": 1,
+        "id": "country:Spain",
+        "es": "Son de España",
+        "en": "Are from Spain",
+        "players": [
+          "supa",
+          "oscarinin",
+          "razork",
+          "flakked"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "debut:2017",
+        "es": "Debutaron en 2017",
+        "en": "Debuted in 2017",
+        "players": [
+          "shiauc",
+          "uniboy",
+          "knight-zhuo-ding",
+          "viper-park-do-hyeon"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:NASG",
+        "es": "Campeones de la NASG",
+        "en": "NASG champions",
+        "players": [
+          "vulcan-philippe-laflamme",
+          "blaber",
+          "palafox",
+          "yeon-sean-sung"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "initial:Z",
+        "es": "Su apodo empieza por Z",
+        "en": "Nickname starts with Z",
+        "players": [
+          "zika",
+          "zven",
+          "zinie",
+          "zynts"
+        ]
+      }
+    ]
+  },
+  "2026-11-20": {
+    "id": "2026-11-20",
+    "groups": [
+      {
+        "level": 1,
+        "id": "country:Sweden",
+        "es": "Son de Suecia",
+        "en": "Are from Sweden",
+        "players": [
+          "caltys",
+          "larssen",
+          "yike",
+          "jeskla"
         ]
       },
       {
@@ -128,126 +923,20 @@
         "players": [
           "yeon-sean-sung",
           "corejj",
-          "apa-eain-stearns",
-          "impact"
+          "impact",
+          "apa-eain-stearns"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCK:LEC",
-        "es": "Han jugado en la LCK y en la LEC",
-        "en": "Have played in the LCK and the LEC",
+        "id": "title:LCK",
+        "es": "Campeones de la LCK",
+        "en": "LCK champions",
         "players": [
-          "ignar",
-          "kyeahoo",
-          "paduck",
-          "jun-yoon-se-jun"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "twoteams:Bilibili Gaming:LNG Esports",
-        "es": "Pasaron por Bilibili Gaming y por LNG Esports",
-        "en": "Played for both Bilibili Gaming and LNG Esports",
-        "players": [
-          "flandre",
-          "zika",
-          "shad0w",
-          "weiwei"
-        ]
-      }
-    ]
-  },
-  "2026-11-06": {
-    "id": "2026-11-06",
-    "groups": [
-      {
-        "level": 1,
-        "id": "team:FlyQuest",
-        "es": "Juegan en FlyQuest",
-        "en": "Play for FlyQuest",
-        "players": [
-          "gakgos",
-          "gryffinn",
-          "quad",
-          "massu"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:Bilibili Gaming:2021",
-        "es": "Jugaron en Bilibili Gaming en 2021",
-        "en": "Played for Bilibili Gaming in 2021",
-        "players": [
-          "jwei",
-          "aiming",
-          "zeka-kim-geon-woo",
-          "zika"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "majors:LCS:LEC",
-        "es": "Han jugado en la LCS y en la LEC",
-        "en": "Have played in the LCS and the LEC",
-        "players": [
-          "inspired",
-          "hans-sama",
-          "rahel",
-          "brokenblade"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "twoteams:Afreeca Freecs:KT Rolster",
-        "es": "Pasaron por Afreeca Freecs y por KT Rolster",
-        "en": "Played for both Afreeca Freecs and KT Rolster",
-        "players": [
-          "kiin",
+          "kellin",
           "lehends",
-          "hambak",
-          "ucal"
-        ]
-      }
-    ]
-  },
-  "2026-11-07": {
-    "id": "2026-11-07",
-    "groups": [
-      {
-        "level": 1,
-        "id": "country:Vietnam",
-        "es": "Son de Vietnam",
-        "en": "Are from Vietnam",
-        "players": [
-          "gloryy",
-          "eddie",
-          "siuloong",
-          "chika"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:FlyQuest:2026",
-        "es": "Jugaron en FlyQuest en 2026",
-        "en": "Played for FlyQuest in 2026",
-        "players": [
-          "cryogen",
-          "gryffinn",
-          "gakgos",
-          "massu"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "majors:LCK:LPL",
-        "es": "Han jugado en la LCK y en la LPL",
-        "en": "Have played in the LCK and the LPL",
-        "players": [
-          "ucal",
-          "viper-park-do-hyeon",
-          "moham",
-          "vicla"
+          "keria",
+          "oner"
         ]
       },
       {
@@ -256,699 +945,10 @@
         "es": "Pasaron por LNG Esports y por Ninjas in Pyjamas.CN",
         "en": "Played for both LNG Esports and Ninjas in Pyjamas.CN",
         "players": [
-          "zhuo",
           "photic",
-          "ycx",
-          "shad0w"
-        ]
-      }
-    ]
-  },
-  "2026-11-08": {
-    "id": "2026-11-08",
-    "groups": [
-      {
-        "level": 1,
-        "id": "country:Spain",
-        "es": "Son de España",
-        "en": "Are from Spain",
-        "players": [
-          "supa",
-          "oscarinin",
-          "myrwn",
-          "razork"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:Nongshim RedForce:2024",
-        "es": "Jugaron en Nongshim RedForce en 2024",
-        "en": "Played for Nongshim RedForce in 2024",
-        "players": [
-          "jiwoo",
-          "fisher-lee-jeong-tae",
-          "calix-syun-hyun-bin",
-          "callme"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "worlds",
-        "es": "Campeones del mundo",
-        "en": "World champions",
-        "players": [
-          "meiko",
-          "showmaker",
-          "viper-park-do-hyeon",
-          "faker"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "twoteams:Cloud9:Dignitas",
-        "es": "Pasaron por Cloud9 y por Dignitas",
-        "en": "Played for both Cloud9 and Dignitas",
-        "players": [
-          "vulcan-philippe-laflamme",
-          "palafox",
-          "isles",
-          "zven"
-        ]
-      }
-    ]
-  },
-  "2026-11-09": {
-    "id": "2026-11-09",
-    "groups": [
-      {
-        "level": 1,
-        "id": "team:Fnatic",
-        "es": "Juegan en Fnatic",
-        "en": "Play for Fnatic",
-        "players": [
-          "razork",
-          "soboro",
-          "lospa",
-          "upset"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:Cloud9:2022",
-        "es": "Jugaron en Cloud9 en 2022",
-        "en": "Played for Cloud9 in 2022",
-        "players": [
-          "berserker-kim-min-cheol",
-          "blaber",
-          "zven",
-          "isles"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "majors:LCS:LEC",
-        "es": "Han jugado en la LCS y en la LEC",
-        "en": "Have played in the LCS and the LEC",
-        "players": [
-          "jojopyun",
-          "hans-sama",
-          "inspired",
-          "brokenblade"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "twoteams:Liiv SANDBOX:OKSavingsBank BRION",
-        "es": "Pasaron por Liiv SANDBOX y por OKSavingsBank BRION",
-        "en": "Played for both Liiv SANDBOX and OKSavingsBank BRION",
-        "players": [
-          "effort",
-          "teddy",
-          "vincenzo-ha-seung-min",
-          "hena"
-        ]
-      }
-    ]
-  },
-  "2026-11-10": {
-    "id": "2026-11-10",
-    "groups": [
-      {
-        "level": 1,
-        "id": "country:Australia",
-        "es": "Son de Australia",
-        "en": "Are from Australia",
-        "players": [
-          "isles",
-          "fbi",
-          "srtty",
-          "fudge"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:Bilibili Gaming:2021",
-        "es": "Jugaron en Bilibili Gaming en 2021",
-        "en": "Played for Bilibili Gaming in 2021",
-        "players": [
-          "weiwei",
-          "zeka-kim-geon-woo",
-          "jwei",
-          "aiming"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "majors:LCS:LEC",
-        "es": "Han jugado en la LCS y en la LEC",
-        "en": "Have played in the LCS and the LEC",
-        "players": [
-          "ignar",
-          "brokenblade",
-          "jojopyun",
-          "rahel"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "twoteams:Top Esports:iG",
-        "es": "Pasaron por Top Esports y por iG",
-        "en": "Played for both Top Esports and iG",
-        "players": [
-          "zuian",
-          "jackeylove",
-          "jiaqi",
-          "photic"
-        ]
-      }
-    ]
-  },
-  "2026-11-11": {
-    "id": "2026-11-11",
-    "groups": [
-      {
-        "level": 1,
-        "id": "country:Australia",
-        "es": "Son de Australia",
-        "en": "Are from Australia",
-        "players": [
-          "isles",
-          "fudge",
-          "fbi",
-          "srtty"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:G2:2024",
-        "es": "Jugaron en G2 en 2024",
-        "en": "Played for G2 in 2024",
-        "players": [
-          "mikyx",
-          "brokenblade",
-          "hans-sama",
-          "caps"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "majors:LCK:LCS",
-        "es": "Han jugado en la LCK y en la LCS",
-        "en": "Have played in the LCK and the LCS",
-        "players": [
-          "callme",
-          "impact",
-          "hena",
-          "corejj"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "twoteams:LNG Esports:Weibo Gaming",
-        "es": "Pasaron por LNG Esports y por Weibo Gaming",
-        "en": "Played for both LNG Esports and Weibo Gaming",
-        "players": [
-          "zika",
-          "erha",
-          "tarzan-lee-seung-yong",
-          "weiwei"
-        ]
-      }
-    ]
-  },
-  "2026-11-12": {
-    "id": "2026-11-12",
-    "groups": [
-      {
-        "level": 1,
-        "id": "country:Spain",
-        "es": "Son de España",
-        "en": "Are from Spain",
-        "players": [
-          "elyoya",
-          "oscarinin",
-          "razork",
-          "supa"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "debut:2024",
-        "es": "Debutaron en 2024",
-        "en": "Debuted in 2024",
-        "players": [
-          "keshi-li-qing-hua",
-          "fengyue",
-          "tyrion",
-          "flauren"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "majors:LCK:LEC",
-        "es": "Han jugado en la LCK y en la LEC",
-        "en": "Have played in the LCK and the LEC",
-        "players": [
-          "paduck",
-          "jun-yoon-se-jun",
-          "kyeahoo",
-          "canna"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "twoteams:Oh My God:Top Esports",
-        "es": "Pasaron por Oh My God y por Top Esports",
-        "en": "Played for both Oh My God and Top Esports",
-        "players": [
-          "xiaofang",
-          "creme",
-          "crisp",
-          "photic"
-        ]
-      }
-    ]
-  },
-  "2026-11-13": {
-    "id": "2026-11-13",
-    "groups": [
-      {
-        "level": 1,
-        "id": "team:Team Liquid",
-        "es": "Juegan en Team Liquid",
-        "en": "Play for Team Liquid",
-        "players": [
-          "morgan",
-          "quid",
-          "corejj",
-          "yeon-sean-sung"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:Estral Esports:2024",
-        "es": "Jugaron en Estral Esports en 2024",
-        "en": "Played for Estral Esports in 2024",
-        "players": [
-          "ackerman-gabriel-aparicio",
-          "zothve",
-          "cody",
-          "josedeodo"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "majors:LCS:LEC",
-        "es": "Han jugado en la LCS y en la LEC",
-        "en": "Have played in the LCS and the LEC",
-        "players": [
-          "hans-sama",
-          "busio",
-          "zven",
-          "jojopyun"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "surname:Wang",
-        "es": "Se apellidan Wang",
-        "en": "Have the surname Wang",
-        "players": [
-          "hope-wang-jie",
-          "fengyue",
-          "feather",
-          "zhuo"
-        ]
-      }
-    ]
-  },
-  "2026-11-14": {
-    "id": "2026-11-14",
-    "groups": [
-      {
-        "level": 1,
-        "id": "country:France",
-        "es": "Son de Francia",
-        "en": "Are from France",
-        "players": [
-          "caliste",
-          "hans-sama",
-          "skewmond",
-          "isma"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:FURIA:2024",
-        "es": "Jugaron en FURIA en 2024",
-        "en": "Played for FURIA in 2024",
-        "players": [
-          "uzent",
-          "tutsz",
-          "jojo-gabriel-dzelme",
-          "xyno"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "worlds",
-        "es": "Campeones del mundo",
-        "en": "World champions",
-        "players": [
-          "faker",
-          "jiejie",
-          "theshy",
-          "zeka-kim-geon-woo"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "twoteams:RED:RED Canids",
-        "es": "Pasaron por RED y por RED Canids",
-        "en": "Played for both RED and RED Canids",
-        "players": [
-          "stepz-eloy-rodriguez",
-          "morttheus",
-          "kaze-lucas-fe",
-          "curse-rai-yamada"
-        ]
-      }
-    ]
-  },
-  "2026-11-15": {
-    "id": "2026-11-15",
-    "groups": [
-      {
-        "level": 1,
-        "id": "team:Ninjas in Pyjamas.CN",
-        "es": "Juegan en Ninjas in Pyjamas.CN",
-        "en": "Play for Ninjas in Pyjamas.CN",
-        "players": [
-          "hoya",
-          "guwon",
-          "fengyue",
-          "photic"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:Cloud9:2024",
-        "es": "Jugaron en Cloud9 en 2024",
-        "en": "Played for Cloud9 in 2024",
-        "players": [
-          "fudge",
-          "vulcan-philippe-laflamme",
-          "thanatos-park-seung-gyu",
-          "jojopyun"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "majors:LCK:LPL",
-        "es": "Han jugado en la LCK y en la LPL",
-        "en": "Have played in the LCK and the LPL",
-        "players": [
-          "bulldog-lee-tae-young",
-          "tarzan-lee-seung-yong",
-          "ucal",
-          "ruler"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "twoteams:Anyone's Legend:EDG",
-        "es": "Pasaron por Anyone's Legend y por EDG",
-        "en": "Played for both Anyone's Legend and EDG",
-        "players": [
-          "hope-wang-jie",
-          "flandre",
-          "zdz",
-          "xiaohao"
-        ]
-      }
-    ]
-  },
-  "2026-11-16": {
-    "id": "2026-11-16",
-    "groups": [
-      {
-        "level": 1,
-        "id": "country:Turkey",
-        "es": "Son de Turquía",
-        "en": "Are from Turkey",
-        "players": [
-          "rhilech",
-          "fleshy",
-          "parus",
-          "lot"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:EDG:2025",
-        "es": "Jugaron en EDG en 2025",
-        "en": "Played for EDG in 2025",
-        "players": [
-          "xiaohao",
-          "ahn",
-          "zdz",
-          "parukia"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "majors:LCS:LEC",
-        "es": "Han jugado en la LCS y en la LEC",
-        "en": "Have played in the LCS and the LEC",
-        "players": [
-          "brokenblade",
-          "hans-sama",
-          "rahel",
-          "ignar"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "twoteams:BNK FEARX:DRX",
-        "es": "Pasaron por BNK FEARX y por DRX",
-        "en": "Played for both BNK FEARX and DRX",
-        "players": [
-          "taeyoon-kim-tae-yoon",
-          "career",
-          "clear-song-hyeon-min",
-          "willer"
-        ]
-      }
-    ]
-  },
-  "2026-11-17": {
-    "id": "2026-11-17",
-    "groups": [
-      {
-        "level": 1,
-        "id": "team:Cloud9",
-        "es": "Juegan en Cloud9",
-        "en": "Play for Cloud9",
-        "players": [
-          "vulcan-philippe-laflamme",
-          "apa-eain-stearns",
-          "thanatos-park-seung-gyu",
-          "blaber"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:Dignitas:2026",
-        "es": "Jugaron en Dignitas en 2026",
-        "en": "Played for Dignitas in 2026",
-        "players": [
-          "palafox",
-          "ignar",
-          "fbi",
-          "denathor"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "majors:LCK:LCS",
-        "es": "Han jugado en la LCK y en la LCS",
-        "en": "Have played in the LCK and the LCS",
-        "players": [
-          "hena",
-          "pyosik",
-          "impact",
-          "vicla"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "twoteams:JD Gaming:Team WE",
-        "es": "Pasaron por JD Gaming y por Team WE",
-        "en": "Played for both JD Gaming and Team WE",
-        "players": [
-          "missing",
-          "morgan",
-          "hope-wang-jie",
-          "zhuo"
-        ]
-      }
-    ]
-  },
-  "2026-11-18": {
-    "id": "2026-11-18",
-    "groups": [
-      {
-        "level": 1,
-        "id": "country:Turkey",
-        "es": "Son de Turquía",
-        "en": "Are from Turkey",
-        "players": [
-          "gakgos",
-          "rhilech",
-          "parus",
-          "naak-nako"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:LNG Esports:2026",
-        "es": "Jugaron en LNG Esports en 2026",
-        "en": "Played for LNG Esports in 2026",
-        "players": [
-          "missing",
-          "nia-zou-guang-lu",
-          "sheer",
-          "bulldog-lee-tae-young"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "majors:LCS:LEC",
-        "es": "Han jugado en la LCS y en la LEC",
-        "en": "Have played in the LCS and the LEC",
-        "players": [
-          "inspired",
-          "rahel",
-          "busio",
-          "ignar"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "twoteams:RNG:Weibo Gaming",
-        "es": "Pasaron por RNG y por Weibo Gaming",
-        "en": "Played for both RNG and Weibo Gaming",
-        "players": [
-          "xiaohu",
-          "bin-chen-ze-bin",
-          "angel-xiang-tao",
-          "zdz"
-        ]
-      }
-    ]
-  },
-  "2026-11-19": {
-    "id": "2026-11-19",
-    "groups": [
-      {
-        "level": 1,
-        "id": "team:Anyone's Legend",
-        "es": "Juegan en Anyone's Legend",
-        "en": "Play for Anyone's Legend",
-        "players": [
-          "kael-kim-jin-hong",
-          "tarzan-lee-seung-yong",
-          "shanks",
-          "breathe"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:FlyQuest:2024",
-        "es": "Jugaron en FlyQuest en 2024",
-        "en": "Played for FlyQuest in 2024",
-        "players": [
-          "massu",
-          "busio",
-          "sajed",
-          "quad"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "majors:LCK:LPL",
-        "es": "Han jugado en la LCK y en la LPL",
-        "en": "Have played in the LCK and the LPL",
-        "players": [
-          "viper-park-do-hyeon",
-          "vicla",
-          "aiming",
-          "bulldog-lee-tae-young"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "surname:Trần",
-        "es": "Se apellidan Trần",
-        "en": "Have the surname Trần",
-        "players": [
-          "artemis-tran-quoc-hung",
-          "kiaya",
-          "dire",
-          "bie"
-        ]
-      }
-    ]
-  },
-  "2026-11-20": {
-    "id": "2026-11-20",
-    "groups": [
-      {
-        "level": 1,
-        "id": "team:G2",
-        "es": "Juegan en G2",
-        "en": "Play for G2",
-        "players": [
-          "brokenblade",
-          "hans-sama",
-          "labrov",
-          "caps"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:Leviatan:2026",
-        "es": "Jugaron en Leviatan en 2026",
-        "en": "Played for Leviatan in 2026",
-        "players": [
-          "strensh",
-          "booki",
-          "shiku",
-          "devost"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "majors:LCS:LEC",
-        "es": "Han jugado en la LCS y en la LEC",
-        "en": "Have played in the LCS and the LEC",
-        "players": [
-          "jojopyun",
-          "inspired",
-          "ignar",
-          "busio"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "twoteams:Afreeca Freecs:OKSavingsBank BRION",
-        "es": "Pasaron por Afreeca Freecs y por OKSavingsBank BRION",
-        "en": "Played for both Afreeca Freecs and OKSavingsBank BRION",
-        "players": [
-          "casting",
-          "hambak",
-          "teddy",
-          "namgung"
+          "zhuo",
+          "shad0w",
+          "ycx"
         ]
       }
     ]
@@ -958,50 +958,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "country:Poland",
-        "es": "Son de Polonia",
-        "en": "Are from Poland",
+        "id": "team:Vivo Keyd Stars",
+        "es": "Juegan en Vivo Keyd Stars",
+        "en": "Play for Vivo Keyd Stars",
         "players": [
-          "trymbi",
-          "tracyn",
-          "inspired",
-          "daglas"
+          "ceo",
+          "jeskla",
+          "zekas",
+          "scamber"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Team WE:2026",
-        "es": "Jugaron en Team WE en 2026",
-        "en": "Played for Team WE in 2026",
+        "id": "teamyear:T1:2022",
+        "es": "Jugaron en T1 en 2022",
+        "en": "Played for T1 in 2022",
         "players": [
-          "karis",
-          "tyrion",
-          "about",
-          "cube-dai-yi"
+          "poby",
+          "zeus",
+          "oner",
+          "faker"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCS:LEC",
-        "es": "Han jugado en la LCS y en la LEC",
-        "en": "Have played in the LCS and the LEC",
+        "id": "title:LCS",
+        "es": "Campeones de la LCS",
+        "en": "LCS champions",
         "players": [
-          "zven",
-          "hans-sama",
-          "busio",
-          "rahel"
+          "palafox",
+          "huhi",
+          "ignar",
+          "dhokla"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:Fnatic:G2",
-        "es": "Pasaron por Fnatic y por G2",
-        "en": "Played for both Fnatic and G2",
+        "id": "initial:N",
+        "es": "Su apodo empieza por N",
+        "en": "Nickname starts with N",
         "players": [
-          "wunder",
-          "caps",
-          "upset",
-          "mikyx"
+          "nia-zou-guang-lu",
+          "noah-oh-hyeon-taek",
+          "nuc",
+          "naak-nako"
         ]
       }
     ]
@@ -1011,50 +1011,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "country:Poland",
-        "es": "Son de Polonia",
-        "en": "Are from Poland",
+        "id": "team:Dignitas",
+        "es": "Juegan en Dignitas",
+        "en": "Play for Dignitas",
         "players": [
-          "daglas",
-          "trymbi",
-          "tracyn",
-          "inspired"
+          "denathor",
+          "palafox",
+          "ignar",
+          "dardoch"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:SK Gaming:2026",
-        "es": "Jugaron en SK Gaming en 2026",
-        "en": "Played for SK Gaming in 2026",
+        "id": "teamyear:Dplus Kia:2026",
+        "es": "Jugaron en Dplus Kia en 2026",
+        "en": "Played for Dplus Kia in 2026",
         "players": [
-          "mikyx",
-          "lider",
-          "wunder",
-          "slowq"
+          "lucid-choi-yong-hyeok",
+          "career",
+          "smash-shin-geum-jae",
+          "sharvel"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCS:LEC",
-        "es": "Han jugado en la LCS y en la LEC",
-        "en": "Have played in the LCS and the LEC",
+        "id": "title:SL",
+        "es": "Campeones de la SL",
+        "en": "SL champions",
         "players": [
-          "brokenblade",
-          "zven",
-          "ignar",
-          "jojopyun"
+          "alvaro-alvaro-fernandez",
+          "oscarinin",
+          "isma",
+          "feisty"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:Ninjas in Pyjamas.CN:Top Esports",
-        "es": "Pasaron por Ninjas in Pyjamas.CN y por Top Esports",
-        "en": "Played for both Ninjas in Pyjamas.CN and Top Esports",
+        "id": "twoteams:Oh My God:Top Esports",
+        "es": "Pasaron por Oh My God y por Top Esports",
+        "en": "Played for both Oh My God and Top Esports",
         "players": [
           "photic",
-          "rookie",
-          "fengyue",
-          "zhuo"
+          "crisp",
+          "xiaofang",
+          "creme"
         ]
       }
     ]
@@ -1064,50 +1064,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:Vitality",
-        "es": "Juegan en Vitality",
-        "en": "Play for Vitality",
+        "id": "team:Dplus Kia",
+        "es": "Juegan en Dplus Kia",
+        "en": "Play for Dplus Kia",
         "players": [
-          "carzzy",
-          "lyncas",
-          "fiesta-an-hyeon-seo",
-          "fleshy"
+          "siwoo",
+          "showmaker",
+          "career",
+          "lucid-choi-yong-hyeok"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Leviatan:2025",
-        "es": "Jugaron en Leviatan en 2025",
-        "en": "Played for Leviatan in 2025",
+        "id": "teamyear:RED Canids:2026",
+        "es": "Jugaron en RED Canids en 2026",
+        "en": "Played for RED Canids in 2026",
         "players": [
-          "prodelta",
-          "hauz",
-          "zothve",
-          "ceo"
+          "morttheus",
+          "kaze-lucas-fe",
+          "stepz-eloy-rodriguez",
+          "frosty-jose-eduardo"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCK:LEC",
-        "es": "Han jugado en la LCK y en la LEC",
-        "en": "Have played in the LCK and the LEC",
+        "id": "title:EU CS",
+        "es": "Campeones de la EU CS",
+        "en": "EU CS champions",
         "players": [
-          "canna",
+          "wunder",
           "ignar",
-          "kyeahoo",
-          "paduck"
+          "zven",
+          "hans-sama"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:EDG:LNG Esports",
-        "es": "Pasaron por EDG y por LNG Esports",
-        "en": "Played for both EDG and LNG Esports",
+        "id": "twoteams:EDG:JD Gaming",
+        "es": "Pasaron por EDG y por JD Gaming",
+        "en": "Played for both EDG and JD Gaming",
         "players": [
-          "flandre",
-          "bulldog-lee-tae-young",
-          "ycx",
-          "scout"
+          "junjia",
+          "vampire",
+          "scout",
+          "angel-xiang-tao"
         ]
       }
     ]
@@ -1117,50 +1117,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:FlyQuest",
-        "es": "Juegan en FlyQuest",
-        "en": "Play for FlyQuest",
+        "id": "country:United States",
+        "es": "Son de Estados Unidos",
+        "en": "Are from United States",
         "players": [
-          "cryogen",
-          "quad",
-          "gryffinn",
-          "massu"
+          "tactical",
+          "dardoch",
+          "yeon-sean-sung",
+          "denathor"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:RED Canids:2025",
-        "es": "Jugaron en RED Canids en 2025",
-        "en": "Played for RED Canids in 2025",
+        "id": "teamyear:G2:2023",
+        "es": "Jugaron en G2 en 2023",
+        "en": "Played for G2 in 2023",
         "players": [
-          "frosty-jose-eduardo",
-          "rabelo",
-          "curse-rai-yamada",
-          "kaze-lucas-fe"
+          "mikyx",
+          "hans-sama",
+          "caps",
+          "brokenblade"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCK:LCS",
-        "es": "Han jugado en la LCK y en la LCS",
-        "en": "Have played in the LCK and the LCS",
+        "id": "title:LCP",
+        "es": "Campeones de la LCP",
+        "en": "LCP champions",
         "players": [
-          "hambak",
-          "ignar",
-          "corejj",
-          "vicla"
+          "kaiwing",
+          "bie",
+          "eddie",
+          "junjia"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:Bilibili Gaming:Ultra",
-        "es": "Pasaron por Bilibili Gaming y por Ultra",
-        "en": "Played for both Bilibili Gaming and Ultra",
+        "id": "twoteams:Gen.G:Hanwha Life Esports",
+        "es": "Pasaron por Gen.G y por Hanwha Life Esports",
+        "en": "Played for both Gen.G and Hanwha Life Esports",
         "players": [
-          "xiaoxia",
-          "jwei",
-          "junhao",
-          "doggo"
+          "doran-choi-hyeon-jun",
+          "chovy",
+          "life",
+          "delight"
         ]
       }
     ]
@@ -1223,50 +1223,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "country:Taiwan",
-        "es": "Son de Taiwán",
-        "en": "Are from Taiwan",
+        "id": "team:LNG Esports",
+        "es": "Juegan en LNG Esports",
+        "en": "Play for LNG Esports",
         "players": [
-          "kino",
-          "1jiang",
-          "rest",
-          "hongsuo"
+          "nia-zou-guang-lu",
+          "1xn",
+          "weiwei",
+          "sheer"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Cloud9:2023",
-        "es": "Jugaron en Cloud9 en 2023",
-        "en": "Played for Cloud9 in 2023",
+        "id": "teamyear:Dignitas:2026",
+        "es": "Jugaron en Dignitas en 2026",
+        "en": "Played for Dignitas in 2026",
         "players": [
-          "berserker-kim-min-cheol",
-          "zeyzal",
-          "blaber",
-          "fudge"
+          "fbi",
+          "palafox",
+          "ignar",
+          "denathor"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCK:LPL",
-        "es": "Han jugado en la LCK y en la LPL",
-        "en": "Have played in the LCK and the LPL",
+        "id": "title:VCS",
+        "es": "Campeones de la VCS",
+        "en": "VCS champions",
         "players": [
-          "hoya",
-          "zeka-kim-geon-woo",
-          "morgan",
-          "kael-kim-jin-hong"
+          "artemis-tran-quoc-hung",
+          "siuloong",
+          "kiaya",
+          "bie"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:Anyone's Legend:Weibo Gaming",
-        "es": "Pasaron por Anyone's Legend y por Weibo Gaming",
-        "en": "Played for both Anyone's Legend and Weibo Gaming",
+        "id": "twoteams:RED Canids:Vivo Keyd Stars",
+        "es": "Pasaron por RED Canids y por Vivo Keyd Stars",
+        "en": "Played for both RED Canids and Vivo Keyd Stars",
         "players": [
-          "tarzan-lee-seung-yong",
-          "breathe",
-          "erha",
-          "xiaohao"
+          "boal",
+          "morttheus",
+          "guigo",
+          "scamber"
         ]
       }
     ]
@@ -1276,109 +1276,56 @@
     "groups": [
       {
         "level": 1,
-        "id": "country:Argentina",
-        "es": "Son de Argentina",
-        "en": "Are from Argentina",
+        "id": "country:Australia",
+        "es": "Son de Australia",
+        "en": "Are from Australia",
         "players": [
-          "ackerman-gabriel-aparicio",
-          "ceo",
-          "josedeodo",
-          "kaze-lucas-fe"
+          "fbi",
+          "isles",
+          "srtty",
+          "fudge"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:CTBC Flying Oyster:2025",
-        "es": "Jugaron en CTBC Flying Oyster en 2025",
-        "en": "Played for CTBC Flying Oyster in 2025",
+        "id": "teamyear:EDG:2025",
+        "es": "Jugaron en EDG en 2025",
+        "en": "Played for EDG in 2025",
         "players": [
-          "junjia",
-          "kaiwing",
-          "rest",
-          "doggo"
+          "ahn",
+          "xiaohao",
+          "angel-xiang-tao",
+          "parukia"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCK:LPL",
-        "es": "Han jugado en la LCK y en la LPL",
-        "en": "Have played in the LCK and the LPL",
+        "id": "title:CD",
+        "es": "Campeones de la CD",
+        "en": "CD champions",
         "players": [
-          "kael-kim-jin-hong",
-          "hoya",
-          "life",
-          "zeka-kim-geon-woo"
+          "scamber",
+          "zynts",
+          "zekas",
+          "xyno"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:FPX:iG",
-        "es": "Pasaron por FPX y por iG",
-        "en": "Played for both FPX and iG",
+        "id": "twoteams:KT Rolster:T1",
+        "es": "Pasaron por KT Rolster y por T1",
+        "en": "Played for both KT Rolster and T1",
         "players": [
-          "jwei",
-          "jiaqi",
-          "jiejie",
-          "assum"
+          "doran-choi-hyeon-jun",
+          "aiming",
+          "cuzz",
+          "effort"
         ]
       }
     ]
   },
   "2026-11-28": {
     "id": "2026-11-28",
-    "groups": [
-      {
-        "level": 1,
-        "id": "country:United States",
-        "es": "Son de Estados Unidos",
-        "en": "Are from United States",
-        "players": [
-          "zeyzal",
-          "dhokla",
-          "denathor",
-          "palafox"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:Bilibili Gaming:2021",
-        "es": "Jugaron en Bilibili Gaming en 2021",
-        "en": "Played for Bilibili Gaming in 2021",
-        "players": [
-          "zeka-kim-geon-woo",
-          "aiming",
-          "jwei",
-          "zika"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "majors:LCK:LCS",
-        "es": "Han jugado en la LCK y en la LCS",
-        "en": "Have played in the LCK and the LCS",
-        "players": [
-          "corejj",
-          "hambak",
-          "hena",
-          "pyosik"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "surname:Trần",
-        "es": "Se apellidan Trần",
-        "en": "Have the surname Trần",
-        "players": [
-          "artemis-tran-quoc-hung",
-          "dire",
-          "bie",
-          "kiaya"
-        ]
-      }
-    ]
-  },
-  "2026-11-29": {
-    "id": "2026-11-29",
     "groups": [
       {
         "level": 1,
@@ -1394,38 +1341,91 @@
       },
       {
         "level": 2,
-        "id": "teamyear:SK Gaming:2026",
-        "es": "Jugaron en SK Gaming en 2026",
-        "en": "Played for SK Gaming in 2026",
+        "id": "teamyear:FPX:2025",
+        "es": "Jugaron en FPX en 2025",
+        "en": "Played for FPX in 2025",
         "players": [
-          "slowq",
-          "skeanz",
-          "jopa",
-          "lider"
+          "jwei",
+          "care",
+          "shad0w",
+          "sheer"
         ]
       },
       {
         "level": 3,
-        "id": "worlds",
-        "es": "Campeones del mundo",
-        "en": "World champions",
+        "id": "title:CBLOL",
+        "es": "Campeones de la CBLOL",
+        "en": "CBLOL champions",
         "players": [
-          "crisp",
-          "meiko",
-          "jackeylove",
-          "doran-choi-hyeon-jun"
+          "zynts",
+          "sinatra",
+          "curse-rai-yamada",
+          "trymbi"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:Fnatic:G2",
-        "es": "Pasaron por Fnatic y por G2",
-        "en": "Played for both Fnatic and G2",
+        "id": "initial:X",
+        "es": "Su apodo empieza por X",
+        "en": "Nickname starts with X",
         "players": [
-          "wunder",
-          "caps",
-          "upset",
-          "mikyx"
+          "xiaohu",
+          "xiaoxiang-liao-yi-xiang",
+          "xiaofang",
+          "xyno"
+        ]
+      }
+    ]
+  },
+  "2026-11-29": {
+    "id": "2026-11-29",
+    "groups": [
+      {
+        "level": 1,
+        "id": "country:Vietnam",
+        "es": "Son de Vietnam",
+        "en": "Are from Vietnam",
+        "players": [
+          "siuloong",
+          "harky",
+          "eddie",
+          "kiaya"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "debut:2015",
+        "es": "Debutaron en 2015",
+        "en": "Debuted in 2015",
+        "players": [
+          "ignar",
+          "larssen",
+          "scout",
+          "ghost-jang-yong-jun"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "majors:LCK:LCS",
+        "es": "Han jugado en la LCK y en la LCS",
+        "en": "Have played in the LCK and the LCS",
+        "players": [
+          "hena",
+          "quad",
+          "corejj",
+          "hambak"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "twoteams:EDG:Weibo Gaming",
+        "es": "Pasaron por EDG y por Weibo Gaming",
+        "en": "Played for both EDG and Weibo Gaming",
+        "players": [
+          "angel-xiang-tao",
+          "assum",
+          "jiejie",
+          "xiaohao"
         ]
       }
     ]
@@ -1435,50 +1435,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:Cloud9",
-        "es": "Juegan en Cloud9",
-        "en": "Play for Cloud9",
+        "id": "team:Team Liquid",
+        "es": "Juegan en Team Liquid",
+        "en": "Play for Team Liquid",
         "players": [
-          "thanatos-park-seung-gyu",
-          "zven",
-          "loki-lee-sang-min",
-          "blaber"
+          "corejj",
+          "yeon-sean-sung",
+          "morgan",
+          "quid"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Team WE:2025",
-        "es": "Jugaron en Team WE en 2025",
-        "en": "Played for Team WE in 2025",
+        "id": "teamyear:EDG:2026",
+        "es": "Jugaron en EDG en 2026",
+        "en": "Played for EDG in 2026",
         "players": [
-          "vampire",
-          "taeyoon-kim-tae-yoon",
-          "cube-dai-yi",
-          "karis"
+          "leave",
+          "bulldog-lee-tae-young",
+          "xiaohao",
+          "jiejie"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCS:LEC",
-        "es": "Han jugado en la LCS y en la LEC",
-        "en": "Have played in the LCS and the LEC",
+        "id": "title:UL",
+        "es": "Campeones de la UL",
+        "en": "UL champions",
         "players": [
-          "brokenblade",
-          "rahel",
-          "inspired",
-          "busio"
+          "noah-oh-hyeon-taek",
+          "larssen",
+          "slowq",
+          "inspired"
         ]
       },
       {
         "level": 4,
-        "id": "surname:Trần",
-        "es": "Se apellidan Trần",
-        "en": "Have the surname Trần",
+        "id": "initial:G",
+        "es": "Su apodo empieza por G",
+        "en": "Nickname starts with G",
         "players": [
-          "bie",
-          "kiaya",
-          "artemis-tran-quoc-hung",
-          "dire"
+          "guwon",
+          "gumayusi",
+          "ghost-jang-yong-jun",
+          "gury"
         ]
       }
     ]
@@ -1488,49 +1488,49 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:Fnatic",
-        "es": "Juegan en Fnatic",
-        "en": "Play for Fnatic",
+        "id": "country:China",
+        "es": "Son de China",
+        "en": "Are from China",
         "players": [
-          "soboro",
-          "razork",
-          "lospa",
-          "vladi"
+          "parukia",
+          "xiaoxia",
+          "feather",
+          "369"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Dignitas:2026",
-        "es": "Jugaron en Dignitas en 2026",
-        "en": "Played for Dignitas in 2026",
+        "id": "teamyear:FURIA:2024",
+        "es": "Jugaron en FURIA en 2024",
+        "en": "Played for FURIA in 2024",
         "players": [
-          "ignar",
-          "palafox",
-          "fbi",
-          "denathor"
+          "tutsz",
+          "jojo-gabriel-dzelme",
+          "xyno",
+          "ayu-andrey-saraiva"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCS:LEC",
-        "es": "Han jugado en la LCS y en la LEC",
-        "en": "Have played in the LCS and the LEC",
+        "id": "title:PCS",
+        "es": "Campeones de la PCS",
+        "en": "PCS champions",
         "players": [
-          "brokenblade",
-          "jojopyun",
-          "rahel",
-          "zven"
+          "rest",
+          "hongsuo",
+          "woody",
+          "husha"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:DRX:T1",
-        "es": "Pasaron por DRX y por T1",
-        "en": "Played for both DRX and T1",
+        "id": "twoteams:Liiv SANDBOX:T1",
+        "es": "Pasaron por Liiv SANDBOX y por T1",
+        "en": "Played for both Liiv SANDBOX and T1",
         "players": [
+          "clozer",
           "teddy",
-          "keria",
-          "doran-choi-hyeon-jun",
+          "fisher-lee-jeong-tae",
           "willer"
         ]
       }
@@ -1541,91 +1541,38 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:Hanwha Life Esports",
-        "es": "Juegan en Hanwha Life Esports",
-        "en": "Play for Hanwha Life Esports",
+        "id": "team:iG",
+        "es": "Juegan en iG",
+        "en": "Play for iG",
         "players": [
-          "kanavi",
-          "gumayusi",
-          "zeus",
-          "delight"
+          "wei-yan-yang-wei",
+          "meiko",
+          "jiaqi",
+          "assum"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:FlyQuest:2023",
-        "es": "Jugaron en FlyQuest en 2023",
-        "en": "Played for FlyQuest in 2023",
+        "id": "teamyear:Team Heretics:2025",
+        "es": "Jugaron en Team Heretics en 2025",
+        "en": "Played for Team Heretics in 2025",
         "players": [
-          "vicla",
-          "impact",
-          "vulcan-philippe-laflamme",
-          "massu"
+          "sheo",
+          "daglas",
+          "flakked",
+          "tracyn"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCS:LEC",
-        "es": "Han jugado en la LCS y en la LEC",
-        "en": "Have played in the LCS and the LEC",
+        "id": "title:LLA",
+        "es": "Campeones de la LLA",
+        "en": "LLA champions",
         "players": [
-          "zven",
-          "ignar",
-          "hans-sama",
-          "brokenblade"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "twoteams:LNG Esports:Weibo Gaming",
-        "es": "Pasaron por LNG Esports y por Weibo Gaming",
-        "en": "Played for both LNG Esports and Weibo Gaming",
-        "players": [
-          "erha",
-          "weiwei",
-          "zika",
-          "tarzan-lee-seung-yong"
-        ]
-      }
-    ]
-  },
-  "2026-12-03": {
-    "id": "2026-12-03",
-    "groups": [
-      {
-        "level": 1,
-        "id": "team:G2",
-        "es": "Juegan en G2",
-        "en": "Play for G2",
-        "players": [
-          "hans-sama",
-          "labrov",
-          "caps",
-          "caltys"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:Dplus Kia:2023",
-        "es": "Jugaron en Dplus Kia en 2023",
-        "en": "Played for Dplus Kia in 2023",
-        "players": [
-          "lucid-choi-yong-hyeok",
-          "saint-kang-sung-in",
-          "canyon",
-          "kellin"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "majors:LCS:LEC",
-        "es": "Han jugado en la LCS y en la LEC",
-        "en": "Have played in the LCS and the LEC",
-        "players": [
-          "rahel",
-          "busio",
-          "zven",
-          "ignar"
+          "ackerman-gabriel-aparicio",
+          "mireu",
+          "lyonz",
+          "josedeodo"
         ]
       },
       {
@@ -1642,55 +1589,108 @@
       }
     ]
   },
+  "2026-12-03": {
+    "id": "2026-12-03",
+    "groups": [
+      {
+        "level": 1,
+        "id": "country:Turkey",
+        "es": "Son de Turquía",
+        "en": "Are from Turkey",
+        "players": [
+          "parus",
+          "gakgos",
+          "naak-nako",
+          "lot"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:RED Canids:2025",
+        "es": "Jugaron en RED Canids en 2025",
+        "en": "Played for RED Canids in 2025",
+        "players": [
+          "curse-rai-yamada",
+          "rabelo",
+          "frosty-jose-eduardo",
+          "kaze-lucas-fe"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:NACL",
+        "es": "Campeones de la NACL",
+        "en": "NACL champions",
+        "players": [
+          "srtty",
+          "quad",
+          "sajed",
+          "dardoch"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "twoteams:EDG:Team WE",
+        "es": "Pasaron por EDG y por Team WE",
+        "en": "Played for both EDG and Team WE",
+        "players": [
+          "vampire",
+          "monki",
+          "hope-wang-jie",
+          "about"
+        ]
+      }
+    ]
+  },
   "2026-12-04": {
     "id": "2026-12-04",
     "groups": [
       {
         "level": 1,
-        "id": "team:Team Heretics",
-        "es": "Juegan en Team Heretics",
-        "en": "Play for Team Heretics",
+        "id": "country:Argentina",
+        "es": "Son de Argentina",
+        "en": "Are from Argentina",
         "players": [
-          "tracyn",
-          "hype-byeon-jeong-hyeon",
-          "way-han-gil",
-          "daglas"
+          "kaze-lucas-fe",
+          "ceo",
+          "josedeodo",
+          "enga"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Weibo Gaming:2023",
-        "es": "Jugaron en Weibo Gaming en 2023",
-        "en": "Played for Weibo Gaming in 2023",
+        "id": "teamyear:RNG:2023",
+        "es": "Jugaron en RNG en 2023",
+        "en": "Played for RNG in 2023",
         "players": [
-          "crisp",
-          "theshy",
-          "weiwei",
-          "xiaohu"
+          "breathe",
+          "gala",
+          "tangyuan",
+          "angel-xiang-tao"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCK:LEC",
-        "es": "Han jugado en la LCK y en la LEC",
-        "en": "Have played in the LCK and the LEC",
+        "id": "title:SL",
+        "es": "Campeones de la SL",
+        "en": "SL champions",
         "players": [
-          "kyeahoo",
-          "canna",
-          "ignar",
-          "paduck"
+          "feisty",
+          "tracyn",
+          "isma",
+          "supa"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:LNG Esports:iG",
-        "es": "Pasaron por LNG Esports y por iG",
-        "en": "Played for both LNG Esports and iG",
+        "id": "twoteams:Fredit BRION:OKSavingsBank BRION",
+        "es": "Pasaron por Fredit BRION y por OKSavingsBank BRION",
+        "en": "Played for both Fredit BRION and OKSavingsBank BRION",
         "players": [
-          "nia-zou-guang-lu",
-          "gala",
-          "photic",
-          "zika"
+          "effort",
+          "raptor-jeon-eo-jin",
+          "karis",
+          "roamer"
         ]
       }
     ]
@@ -1700,50 +1700,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:FlyQuest",
-        "es": "Juegan en FlyQuest",
-        "en": "Play for FlyQuest",
+        "id": "country:France",
+        "es": "Son de Francia",
+        "en": "Are from France",
         "players": [
-          "quad",
-          "massu",
-          "gryffinn",
-          "gakgos"
+          "skewmond",
+          "sheo",
+          "hans-sama",
+          "isma"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Team WE:2021",
-        "es": "Jugaron en Team WE en 2021",
-        "en": "Played for Team WE in 2021",
+        "id": "teamyear:Top Esports:2022",
+        "es": "Jugaron en Top Esports en 2022",
+        "en": "Played for Top Esports in 2022",
         "players": [
-          "breathe",
-          "shanks",
-          "elk",
-          "missing"
+          "knight-zhuo-ding",
+          "jackeylove",
+          "tian",
+          "zhuo"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCS:LEC",
-        "es": "Han jugado en la LCS y en la LEC",
-        "en": "Have played in the LCS and the LEC",
+        "id": "title:ECS",
+        "es": "Campeones de la ECS",
+        "en": "ECS champions",
         "players": [
-          "zven",
-          "hans-sama",
-          "brokenblade",
-          "rahel"
+          "betty",
+          "junjia",
+          "woody",
+          "uniboy"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:JD Gaming:Top Esports",
-        "es": "Pasaron por JD Gaming y por Top Esports",
-        "en": "Played for both JD Gaming and Top Esports",
+        "id": "surname:Oh",
+        "es": "Se apellidan Oh",
+        "en": "Have the surname Oh",
         "players": [
-          "kanavi",
-          "knight-zhuo-ding",
-          "zhuo",
-          "xiaofang"
+          "vsta",
+          "noah-oh-hyeon-taek",
+          "career",
+          "callme"
         ]
       }
     ]
@@ -1753,50 +1753,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:SK Gaming",
-        "es": "Juegan en SK Gaming",
-        "en": "Play for SK Gaming",
+        "id": "team:Cloud9",
+        "es": "Juegan en Cloud9",
+        "en": "Play for Cloud9",
         "players": [
-          "slowq",
-          "skeanz",
-          "lider",
-          "wunder"
+          "blaber",
+          "thanatos-park-seung-gyu",
+          "zven",
+          "loki-lee-sang-min"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Vivo Keyd Stars:2025",
-        "es": "Jugaron en Vivo Keyd Stars en 2025",
-        "en": "Played for Vivo Keyd Stars in 2025",
+        "id": "teamyear:Team WE:2021",
+        "es": "Jugaron en Team WE en 2021",
+        "en": "Played for Team WE in 2021",
         "players": [
-          "xyno",
-          "scamber",
-          "morttheus",
-          "boal"
+          "shanks",
+          "missing",
+          "elk",
+          "breathe"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCK:LPL",
-        "es": "Han jugado en la LCK y en la LPL",
-        "en": "Have played in the LCK and the LPL",
+        "id": "title:LFL",
+        "es": "Campeones de la LFL",
+        "en": "LFL champions",
         "players": [
-          "ucal",
-          "karis",
-          "bulldog-lee-tae-young",
-          "vicla"
+          "caliste",
+          "yike",
+          "parus",
+          "boukada"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:Cloud9:Dignitas",
-        "es": "Pasaron por Cloud9 y por Dignitas",
-        "en": "Played for both Cloud9 and Dignitas",
+        "id": "twoteams:BRION:Liiv SANDBOX",
+        "es": "Pasaron por BRION y por Liiv SANDBOX",
+        "en": "Played for both BRION and Liiv SANDBOX",
         "players": [
-          "vulcan-philippe-laflamme",
-          "palafox",
-          "zven",
-          "isles"
+          "effort",
+          "fisher-lee-jeong-tae",
+          "raptor-jeon-eo-jin",
+          "teddy"
         ]
       }
     ]
@@ -1806,50 +1806,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "country:Australia",
-        "es": "Son de Australia",
-        "en": "Are from Australia",
+        "id": "team:Vitality",
+        "es": "Juegan en Vitality",
+        "en": "Play for Vitality",
         "players": [
-          "srtty",
-          "fudge",
-          "isles",
-          "fbi"
+          "fleshy",
+          "naak-nako",
+          "lyncas",
+          "carzzy"
         ]
       },
       {
         "level": 2,
-        "id": "debut:2016",
-        "es": "Debutaron en 2016",
-        "en": "Debuted in 2016",
+        "id": "teamyear:Nongshim RedForce:2023",
+        "es": "Jugaron en Nongshim RedForce en 2023",
+        "en": "Played for Nongshim RedForce in 2023",
         "players": [
-          "aiming",
-          "palafox",
-          "shad0w",
-          "ruler"
+          "fiesta-an-hyeon-seo",
+          "quad",
+          "jiwoo",
+          "peter-jeong-yoon-su"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCK:LEC",
-        "es": "Han jugado en la LCK y en la LEC",
-        "en": "Have played in the LCK and the LEC",
+        "id": "title:BRCC",
+        "es": "Campeones de la BRCC",
+        "en": "BRCC champions",
         "players": [
-          "ignar",
-          "kyeahoo",
-          "canna",
-          "paduck"
+          "cariok",
+          "shini",
+          "guigo",
+          "hauz"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:EDG:Rare Atom",
-        "es": "Pasaron por EDG y por Rare Atom",
-        "en": "Played for both EDG and Rare Atom",
+        "id": "twoteams:EDG:iG",
+        "es": "Pasaron por EDG y por iG",
+        "en": "Played for both EDG and iG",
         "players": [
-          "xiaohao",
-          "assum",
-          "jwei",
-          "ahn"
+          "jiejie",
+          "ahn",
+          "vampire",
+          "meiko"
         ]
       }
     ]
@@ -1859,50 +1859,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:RED Canids",
-        "es": "Juegan en RED Canids",
-        "en": "Play for RED Canids",
+        "id": "team:paiN Gaming",
+        "es": "Juegan en paiN Gaming",
+        "en": "Play for paiN Gaming",
         "players": [
-          "fuuu",
-          "frosty-jose-eduardo",
-          "morttheus",
-          "stepz-eloy-rodriguez"
+          "boal",
+          "keine",
+          "ceos",
+          "cariok"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Hanwha Life Esports:2025",
-        "es": "Jugaron en Hanwha Life Esports en 2025",
-        "en": "Played for Hanwha Life Esports in 2025",
+        "id": "teamyear:Vitality:2025",
+        "es": "Jugaron en Vitality en 2025",
+        "en": "Played for Vitality in 2025",
         "players": [
-          "zeka-kim-geon-woo",
-          "viper-park-do-hyeon",
-          "rooster",
-          "delight"
+          "lyncas",
+          "fleshy",
+          "carzzy",
+          "naak-nako"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCS:LEC",
-        "es": "Han jugado en la LCS y en la LEC",
-        "en": "Have played in the LCS and the LEC",
+        "id": "title:VCS",
+        "es": "Campeones de la VCS",
+        "en": "VCS champions",
         "players": [
-          "busio",
-          "hans-sama",
-          "inspired",
-          "rahel"
+          "chika",
+          "siuloong",
+          "harky",
+          "kiaya"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:JD Gaming:LNG Esports",
-        "es": "Pasaron por JD Gaming y por LNG Esports",
-        "en": "Played for both JD Gaming and LNG Esports",
+        "id": "twoteams:EDG:Rare Atom",
+        "es": "Pasaron por EDG y por Rare Atom",
+        "en": "Played for both EDG and Rare Atom",
         "players": [
-          "missing",
-          "sheer",
-          "scout",
-          "flandre"
+          "ahn",
+          "assum",
+          "xiaohao",
+          "junjia"
         ]
       }
     ]
@@ -1912,50 +1912,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "country:Spain",
-        "es": "Son de España",
-        "en": "Are from Spain",
+        "id": "team:Dplus Kia",
+        "es": "Juegan en Dplus Kia",
+        "en": "Play for Dplus Kia",
         "players": [
-          "alvaro-alvaro-fernandez",
-          "supa",
-          "razork",
-          "flakked"
+          "smash-shin-geum-jae",
+          "lucid-choi-yong-hyeok",
+          "siwoo",
+          "showmaker"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Vitality:2026",
-        "es": "Jugaron en Vitality en 2026",
-        "en": "Played for Vitality in 2026",
+        "id": "debut:2016",
+        "es": "Debutaron en 2016",
+        "en": "Debuted in 2016",
         "players": [
-          "lyncas",
-          "fleshy",
-          "fiesta-an-hyeon-seo",
-          "naak-nako"
+          "woody",
+          "tactical",
+          "hope-wang-jie",
+          "shad0w"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCK:LCS",
-        "es": "Han jugado en la LCK y en la LCS",
-        "en": "Have played in the LCK and the LCS",
+        "id": "title:CD",
+        "es": "Campeones de la CD",
+        "en": "CD champions",
         "players": [
-          "corejj",
-          "pyosik",
-          "berserker-kim-min-cheol",
-          "quad"
+          "uzent",
+          "hauz",
+          "xyno",
+          "disamis"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:EDG:FPX",
-        "es": "Pasaron por EDG y por FPX",
-        "en": "Played for both EDG and FPX",
+        "id": "initial:J",
+        "es": "Su apodo empieza por J",
+        "en": "Nickname starts with J",
         "players": [
-          "jiejie",
-          "assum",
-          "zdz",
-          "jwei"
+          "jun-yoon-se-jun",
+          "jopa",
+          "jackies",
+          "jojopyun"
         ]
       }
     ]
@@ -1965,50 +1965,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:paiN Gaming",
-        "es": "Juegan en paiN Gaming",
-        "en": "Play for paiN Gaming",
+        "id": "country:Australia",
+        "es": "Son de Australia",
+        "en": "Are from Australia",
         "players": [
-          "cariok",
-          "ceos",
-          "hena",
-          "namiru"
+          "isles",
+          "fudge",
+          "fbi",
+          "srtty"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Oh My God:2024",
-        "es": "Jugaron en Oh My God en 2024",
-        "en": "Played for Oh My God in 2024",
+        "id": "teamyear:KT Rolster:2026",
+        "es": "Jugaron en KT Rolster en 2026",
+        "en": "Played for KT Rolster in 2026",
         "players": [
-          "angel-xiang-tao",
-          "starry",
-          "cube-dai-yi",
-          "xiaofang"
+          "cuzz",
+          "bdd",
+          "perfect-lee-seung-min",
+          "aiming"
         ]
       },
       {
         "level": 3,
-        "id": "worlds",
-        "es": "Campeones del mundo",
-        "en": "World champions",
+        "id": "msi",
+        "es": "Campeones del MSI",
+        "en": "MSI champions",
         "players": [
-          "tian",
-          "crisp",
+          "369",
+          "mikyx",
           "zeus",
-          "canyon"
+          "xiaohu"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:Liiv SANDBOX:T1",
-        "es": "Pasaron por Liiv SANDBOX y por T1",
-        "en": "Played for both Liiv SANDBOX and T1",
+        "id": "twoteams:LNG Esports:Top Esports",
+        "es": "Pasaron por LNG Esports y por Top Esports",
+        "en": "Played for both LNG Esports and Top Esports",
         "players": [
-          "clozer",
-          "effort",
-          "fisher-lee-jeong-tae",
-          "burdol"
+          "nia-zou-guang-lu",
+          "zhuo",
+          "photic",
+          "xiaofang"
         ]
       }
     ]
@@ -2018,50 +2018,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:paiN Gaming",
-        "es": "Juegan en paiN Gaming",
-        "en": "Play for paiN Gaming",
+        "id": "team:RED Canids",
+        "es": "Juegan en RED Canids",
+        "en": "Play for RED Canids",
         "players": [
-          "keine",
-          "cariok",
-          "hena",
-          "ceos"
+          "zynts",
+          "morttheus",
+          "frosty-jose-eduardo",
+          "fuuu"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:EDG:2019",
-        "es": "Jugaron en EDG en 2019",
-        "en": "Played for EDG in 2019",
+        "id": "teamyear:G2:2025",
+        "es": "Jugaron en G2 en 2025",
+        "en": "Played for G2 in 2025",
         "players": [
-          "scout",
-          "meiko",
-          "junjia",
-          "jiejie"
+          "brokenblade",
+          "skewmond",
+          "hans-sama",
+          "caps"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCS:LEC",
-        "es": "Han jugado en la LCS y en la LEC",
-        "en": "Have played in the LCS and the LEC",
+        "id": "title:LDL",
+        "es": "Campeones de la LDL",
+        "en": "LDL champions",
         "players": [
-          "zven",
-          "jojopyun",
-          "busio",
-          "hans-sama"
+          "fengyue",
+          "starry",
+          "junhao",
+          "ahn"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:DWG KIA:Nongshim RedForce",
-        "es": "Pasaron por DWG KIA y por Nongshim RedForce",
-        "en": "Played for both DWG KIA and Nongshim RedForce",
+        "id": "twoteams:Afreeca Freecs:KT Rolster",
+        "es": "Pasaron por Afreeca Freecs y por KT Rolster",
+        "en": "Played for both Afreeca Freecs and KT Rolster",
         "players": [
-          "deokdam",
-          "kellin",
-          "canna",
-          "ghost-jang-yong-jun"
+          "lehends",
+          "ucal",
+          "kiin",
+          "casting"
         ]
       }
     ]
@@ -2071,50 +2071,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:SK Gaming",
-        "es": "Juegan en SK Gaming",
-        "en": "Play for SK Gaming",
+        "id": "team:EDG",
+        "es": "Juegan en EDG",
+        "en": "Play for EDG",
         "players": [
-          "skeanz",
-          "mikyx",
-          "slowq",
-          "wunder"
+          "zdz",
+          "leave",
+          "parukia",
+          "jiejie"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Gen.G:2026",
-        "es": "Jugaron en Gen.G en 2026",
-        "en": "Played for Gen.G in 2026",
+        "id": "teamyear:Team Liquid:2021",
+        "es": "Jugaron en Team Liquid en 2021",
+        "en": "Played for Team Liquid in 2021",
         "players": [
-          "duro",
-          "kiin",
-          "canyon",
-          "chovy"
+          "corejj",
+          "yeon-sean-sung",
+          "tactical",
+          "dhokla"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCS:LEC",
-        "es": "Han jugado en la LCS y en la LEC",
-        "en": "Have played in the LCS and the LEC",
+        "id": "title:LRN",
+        "es": "Campeones de la LRN",
+        "en": "LRN champions",
         "players": [
-          "rahel",
-          "ignar",
-          "busio",
-          "inspired"
+          "devost",
+          "zothve",
+          "ghost-jang-yong-jun",
+          "booki"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:Bilibili Gaming:EDG",
-        "es": "Pasaron por Bilibili Gaming y por EDG",
-        "en": "Played for both Bilibili Gaming and EDG",
+        "id": "initial:U",
+        "es": "Su apodo empieza por U",
+        "en": "Nickname starts with U",
         "players": [
-          "jwei",
-          "flandre",
-          "monki",
-          "viper-park-do-hyeon"
+          "uzent",
+          "upset",
+          "ucal",
+          "uniboy"
         ]
       }
     ]
@@ -2124,50 +2124,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "country:China",
-        "es": "Son de China",
-        "en": "Are from China",
+        "id": "team:FURIA",
+        "es": "Juegan en FURIA",
+        "en": "Play for FURIA",
         "players": [
-          "re0",
-          "feather",
-          "assum",
-          "jackeylove"
+          "shini",
+          "tutsz",
+          "jojo-gabriel-dzelme",
+          "ayu-andrey-saraiva"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:CTBC Flying Oyster:2024",
-        "es": "Jugaron en CTBC Flying Oyster en 2024",
-        "en": "Played for CTBC Flying Oyster in 2024",
+        "id": "teamyear:Cloud9:2023",
+        "es": "Jugaron en Cloud9 en 2023",
+        "en": "Played for Cloud9 in 2023",
         "players": [
-          "hongq",
-          "rest",
-          "kino",
-          "husha"
+          "berserker-kim-min-cheol",
+          "zeyzal",
+          "blaber",
+          "fudge"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCK:LEC",
-        "es": "Han jugado en la LCK y en la LEC",
-        "en": "Have played in the LCK and the LEC",
+        "id": "title:LCP",
+        "es": "Campeones de la LCP",
+        "en": "LCP champions",
         "players": [
-          "jun-yoon-se-jun",
-          "canna",
-          "ignar",
-          "kyeahoo"
+          "hongq",
+          "hizto",
+          "pun",
+          "junjia"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:JD Gaming:Top Esports",
-        "es": "Pasaron por JD Gaming y por Top Esports",
-        "en": "Played for both JD Gaming and Top Esports",
+        "id": "twoteams:Nongshim RedForce:T1",
+        "es": "Pasaron por Nongshim RedForce y por T1",
+        "en": "Played for both Nongshim RedForce and T1",
         "players": [
-          "zhuo",
-          "knight-zhuo-ding",
-          "369",
-          "kanavi"
+          "effort",
+          "scout",
+          "canna",
+          "fisher-lee-jeong-tae"
         ]
       }
     ]
@@ -2230,50 +2230,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "country:Turkey",
-        "es": "Son de Turquía",
-        "en": "Are from Turkey",
+        "id": "country:Brazil",
+        "es": "Son de Brasil",
+        "en": "Are from Brazil",
         "players": [
-          "gakgos",
-          "naak-nako",
-          "rhilech",
-          "fleshy"
+          "hauz",
+          "tutsz",
+          "tatu-pedro-seixas",
+          "fuuu"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Nongshim RedForce:2022",
-        "es": "Jugaron en Nongshim RedForce en 2022",
-        "en": "Played for Nongshim RedForce in 2022",
+        "id": "teamyear:Oh My God:2024",
+        "es": "Jugaron en Oh My God en 2024",
+        "en": "Played for Oh My God in 2024",
         "players": [
-          "calix-syun-hyun-bin",
-          "jiwoo",
-          "peter-jeong-yoon-su",
-          "bdd"
+          "xiaofang",
+          "cube-dai-yi",
+          "angel-xiang-tao",
+          "starry"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCS:LEC",
-        "es": "Han jugado en la LCS y en la LEC",
-        "en": "Have played in the LCS and the LEC",
+        "id": "title:UL",
+        "es": "Campeones de la UL",
+        "en": "UL champions",
         "players": [
-          "inspired",
-          "brokenblade",
-          "rahel",
-          "jojopyun"
+          "slowq",
+          "larssen",
+          "noah-oh-hyeon-taek",
+          "inspired"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:Cloud9:Dignitas",
-        "es": "Pasaron por Cloud9 y por Dignitas",
-        "en": "Played for both Cloud9 and Dignitas",
+        "id": "twoteams:Hanwha Life Esports:KT Rolster",
+        "es": "Pasaron por Hanwha Life Esports y por KT Rolster",
+        "en": "Played for both Hanwha Life Esports and KT Rolster",
         "players": [
-          "zven",
-          "isles",
-          "palafox",
-          "vulcan-philippe-laflamme"
+          "kingen",
+          "doran-choi-hyeon-jun",
+          "zeka-kim-geon-woo",
+          "lehends"
         ]
       }
     ]
@@ -2283,50 +2283,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:Dignitas",
-        "es": "Juegan en Dignitas",
-        "en": "Play for Dignitas",
+        "id": "team:Gen.G",
+        "es": "Juegan en Gen.G",
+        "en": "Play for Gen.G",
         "players": [
-          "dardoch",
-          "denathor",
-          "ignar",
-          "fbi"
+          "ruler",
+          "chovy",
+          "canyon",
+          "duro"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Cloud9:2022",
-        "es": "Jugaron en Cloud9 en 2022",
-        "en": "Played for Cloud9 in 2022",
+        "id": "teamyear:G2:2024",
+        "es": "Jugaron en G2 en 2024",
+        "en": "Played for G2 in 2024",
         "players": [
-          "fudge",
-          "zven",
-          "berserker-kim-min-cheol",
-          "blaber"
+          "caps",
+          "hans-sama",
+          "yike",
+          "brokenblade"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCK:LPL",
-        "es": "Han jugado en la LCK y en la LPL",
-        "en": "Have played in the LCK and the LPL",
+        "id": "title:PCS",
+        "es": "Campeones de la PCS",
+        "en": "PCS champions",
         "players": [
-          "ucal",
-          "ruler",
-          "scout",
-          "rookie"
+          "kino",
+          "xiaoxiang-liao-yi-xiang",
+          "hongsuo",
+          "uniboy"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:Bilibili Gaming:EDG",
-        "es": "Pasaron por Bilibili Gaming y por EDG",
-        "en": "Played for both Bilibili Gaming and EDG",
+        "id": "surname:Zhao",
+        "es": "Se apellidan Zhao",
+        "en": "Have the surname Zhao",
         "players": [
-          "viper-park-do-hyeon",
-          "flandre",
-          "jwei",
-          "monki"
+          "jiejie",
+          "elk",
+          "ycx",
+          "vampire"
         ]
       }
     ]
@@ -2336,50 +2336,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:CTBC Flying Oyster",
-        "es": "Juegan en CTBC Flying Oyster",
-        "en": "Play for CTBC Flying Oyster",
+        "id": "team:Bilibili Gaming",
+        "es": "Juegan en Bilibili Gaming",
+        "en": "Play for Bilibili Gaming",
         "players": [
-          "doggo",
-          "kino",
-          "shad0w",
-          "pout"
+          "flandre",
+          "bin-chen-ze-bin",
+          "on",
+          "knight-zhuo-ding"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:T1:2026",
-        "es": "Jugaron en T1 en 2026",
-        "en": "Played for T1 in 2026",
+        "id": "debut:2023",
+        "es": "Debutaron en 2023",
+        "en": "Debuted in 2023",
         "players": [
-          "keria",
-          "faker",
-          "peyz",
-          "oner"
+          "vampire",
+          "curty",
+          "cryogen",
+          "junhao"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCS:LEC",
-        "es": "Han jugado en la LCS y en la LEC",
-        "en": "Have played in the LCS and the LEC",
+        "id": "title:TCL",
+        "es": "Campeones de la TCL",
+        "en": "TCL champions",
         "players": [
-          "rahel",
-          "brokenblade",
-          "inspired",
-          "busio"
+          "bao-jeong-hyeon-woo",
+          "way-han-gil",
+          "fiesta-an-hyeon-seo",
+          "serin"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:Dignitas:FlyQuest",
-        "es": "Pasaron por Dignitas y por FlyQuest",
-        "en": "Played for both Dignitas and FlyQuest",
+        "id": "initial:X",
+        "es": "Su apodo empieza por X",
+        "en": "Nickname starts with X",
         "players": [
-          "ignar",
-          "palafox",
-          "vulcan-philippe-laflamme",
-          "srtty"
+          "xyno",
+          "xiaoxia",
+          "xiaohao",
+          "xiaoxiang-liao-yi-xiang"
         ]
       }
     ]
@@ -2389,50 +2389,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "country:Brazil",
-        "es": "Son de Brasil",
-        "en": "Are from Brazil",
+        "id": "country:Argentina",
+        "es": "Son de Argentina",
+        "en": "Are from Argentina",
         "players": [
-          "hauz",
-          "momochi",
-          "ayu-andrey-saraiva",
-          "guigo"
+          "ackerman-gabriel-aparicio",
+          "lyonz",
+          "kaze-lucas-fe",
+          "josedeodo"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Cloud9:2021",
-        "es": "Jugaron en Cloud9 en 2021",
-        "en": "Played for Cloud9 in 2021",
+        "id": "league:LEC",
+        "es": "Han jugado en la LEC",
+        "en": "Have played in the LEC",
         "players": [
-          "blaber",
-          "isles",
-          "zven",
-          "fudge"
+          "jojopyun",
+          "way-han-gil",
+          "rhilech",
+          "empyros"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCS:LEC",
-        "es": "Han jugado en la LCS y en la LEC",
-        "en": "Have played in the LCS and the LEC",
+        "id": "title:ECS",
+        "es": "Campeones de la ECS",
+        "en": "ECS champions",
         "players": [
-          "hans-sama",
-          "jojopyun",
-          "brokenblade",
-          "busio"
+          "woody",
+          "betty",
+          "junjia",
+          "uniboy"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:Fredit BRION:Hanwha Life Esports",
-        "es": "Pasaron por Fredit BRION y por Hanwha Life Esports",
-        "en": "Played for both Fredit BRION and Hanwha Life Esports",
+        "id": "twoteams:KT Rolster:OKSavingsBank BRION",
+        "es": "Pasaron por KT Rolster y por OKSavingsBank BRION",
+        "en": "Played for both KT Rolster and OKSavingsBank BRION",
         "players": [
-          "roamer",
-          "morgan",
-          "karis",
-          "delight"
+          "gideon",
+          "effort",
+          "casting",
+          "hambak"
         ]
       }
     ]
@@ -2442,50 +2442,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:Hanwha Life Esports",
-        "es": "Juegan en Hanwha Life Esports",
-        "en": "Play for Hanwha Life Esports",
+        "id": "team:paiN Gaming",
+        "es": "Juegan en paiN Gaming",
+        "en": "Play for paiN Gaming",
         "players": [
-          "gumayusi",
-          "zeus",
-          "delight",
-          "zeka-kim-geon-woo"
+          "boal",
+          "cariok",
+          "namiru",
+          "ceos"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Cloud9:2020",
-        "es": "Jugaron en Cloud9 en 2020",
-        "en": "Played for Cloud9 in 2020",
+        "id": "teamyear:Ultra:2025",
+        "es": "Jugaron en Ultra en 2025",
+        "en": "Played for Ultra in 2025",
         "players": [
-          "blaber",
-          "palafox",
-          "zven",
-          "fudge"
+          "saber-song-dai-lin",
+          "1jiang",
+          "junhao",
+          "xiaoxia"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCS:LEC",
-        "es": "Han jugado en la LCS y en la LEC",
-        "en": "Have played in the LCS and the LEC",
+        "id": "title:LFL",
+        "es": "Campeones de la LFL",
+        "en": "LFL champions",
         "players": [
-          "jojopyun",
-          "brokenblade",
-          "hans-sama",
-          "rahel"
+          "lyncas",
+          "yike",
+          "vladi",
+          "maynter"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:Top Esports:iG",
-        "es": "Pasaron por Top Esports y por iG",
-        "en": "Played for both Top Esports and iG",
+        "id": "initial:F",
+        "es": "Su apodo empieza por F",
+        "en": "Nickname starts with F",
         "players": [
-          "jiaqi",
-          "jackeylove",
-          "nia-zou-guang-lu",
-          "meiko"
+          "fengyue",
+          "fiesta-an-hyeon-seo",
+          "feng-chen-chun-feng",
+          "feisty"
         ]
       }
     ]
@@ -2495,50 +2495,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:iG",
-        "es": "Juegan en iG",
-        "en": "Play for iG",
+        "id": "country:Taiwan",
+        "es": "Son de Taiwán",
+        "en": "Are from Taiwan",
         "players": [
-          "wei-yan-yang-wei",
-          "theshy",
-          "rookie",
-          "assum"
+          "hongsuo",
+          "junjia",
+          "1jiang",
+          "pop9"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:LNG Esports:2026",
-        "es": "Jugaron en LNG Esports en 2026",
-        "en": "Played for LNG Esports in 2026",
+        "id": "teamyear:Gen.G:2021",
+        "es": "Jugaron en Gen.G en 2021",
+        "en": "Played for Gen.G in 2021",
         "players": [
-          "1xn",
-          "nia-zou-guang-lu",
-          "bulldog-lee-tae-young",
-          "weiwei"
+          "ruler",
+          "soboro",
+          "peyz",
+          "life"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCK:LCS",
-        "es": "Han jugado en la LCK y en la LCS",
-        "en": "Have played in the LCK and the LCS",
+        "id": "title:BRCC",
+        "es": "Campeones de la BRCC",
+        "en": "BRCC champions",
         "players": [
-          "ignar",
-          "berserker-kim-min-cheol",
-          "impact",
-          "corejj"
+          "guigo",
+          "cariok",
+          "hauz",
+          "shini"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:Fnatic:G2",
-        "es": "Pasaron por Fnatic y por G2",
-        "en": "Played for both Fnatic and G2",
+        "id": "initial:C",
+        "es": "Su apodo empieza por C",
+        "en": "Nickname starts with C",
         "players": [
-          "upset",
+          "creme",
+          "contractz",
           "caps",
-          "wunder",
-          "mikyx"
+          "cryogen"
         ]
       }
     ]
@@ -2552,46 +2552,46 @@
         "es": "Son de España",
         "en": "Are from Spain",
         "players": [
-          "razork",
-          "myrwn",
           "oscarinin",
+          "elyoya",
+          "razork",
           "supa"
         ]
       },
       {
         "level": 2,
-        "id": "debut:2019",
-        "es": "Debutaron en 2019",
-        "en": "Debuted in 2019",
+        "id": "teamyear:Bilibili Gaming:2026",
+        "es": "Jugaron en Bilibili Gaming en 2026",
+        "en": "Played for Bilibili Gaming in 2026",
         "players": [
-          "assum",
-          "hena",
-          "ycx",
-          "srtty"
+          "wenbo-yang-wen-bo",
+          "knight-zhuo-ding",
+          "bin-chen-ze-bin",
+          "xun"
         ]
       },
       {
         "level": 3,
-        "id": "worlds",
-        "es": "Campeones del mundo",
-        "en": "World champions",
+        "id": "majors:LCK:LCS",
+        "es": "Han jugado en la LCK y en la LCS",
+        "en": "Have played in the LCK and the LCS",
         "players": [
-          "zeus",
-          "impact",
-          "flandre",
-          "zeka-kim-geon-woo"
+          "corejj",
+          "callme",
+          "pyosik",
+          "ignar"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:Liiv SANDBOX:Nongshim RedForce",
-        "es": "Pasaron por Liiv SANDBOX y por Nongshim RedForce",
-        "en": "Played for both Liiv SANDBOX and Nongshim RedForce",
+        "id": "digit",
+        "es": "Llevan un número en el apodo",
+        "en": "Have a number in their nickname",
         "players": [
-          "fisher-lee-jeong-tae",
-          "vincenzo-ha-seung-min",
-          "effort",
-          "diable"
+          "369",
+          "1xn",
+          "pop9",
+          "shad0w"
         ]
       }
     ]
@@ -2601,50 +2601,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:LOUD",
-        "es": "Juegan en LOUD",
-        "en": "Play for LOUD",
+        "id": "country:China",
+        "es": "Son de China",
+        "en": "Are from China",
         "players": [
-          "uzent",
-          "xyno",
-          "curty",
-          "kaze-lucas-fe"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:Team Liquid:2025",
-        "es": "Jugaron en Team Liquid en 2025",
-        "en": "Played for Team Liquid in 2025",
-        "players": [
-          "yeon-sean-sung",
-          "apa-eain-stearns",
-          "corejj",
-          "impact"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "worlds",
-        "es": "Campeones del mundo",
-        "en": "World champions",
-        "players": [
-          "faker",
-          "oner",
-          "kingen",
+          "xiaohao",
+          "cube-dai-yi",
+          "tian",
           "jackeylove"
         ]
       },
       {
-        "level": 4,
-        "id": "twoteams:RNG:iG",
-        "es": "Pasaron por RNG y por iG",
-        "en": "Played for both RNG and iG",
+        "level": 2,
+        "id": "teamyear:OKSavingsBank BRION:2024",
+        "es": "Jugaron en OKSavingsBank BRION en 2024",
+        "en": "Played for OKSavingsBank BRION in 2024",
         "players": [
-          "wei-yan-yang-wei",
-          "jiaqi",
-          "gala",
-          "breathe"
+          "karis",
+          "effort",
+          "morgan",
+          "vincenzo-ha-seung-min"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:LEC",
+        "es": "Campeones de la LEC",
+        "en": "LEC champions",
+        "players": [
+          "brokenblade",
+          "skewmond",
+          "caliste",
+          "labrov"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "initial:M",
+        "es": "Su apodo empieza por M",
+        "en": "Nickname starts with M",
+        "players": [
+          "myrwn",
+          "mikyx",
+          "monki",
+          "missing"
         ]
       }
     ]
@@ -2654,67 +2654,14 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:LGD Gaming",
-        "es": "Juegan en LGD Gaming",
-        "en": "Play for LGD Gaming",
+        "id": "team:G2",
+        "es": "Juegan en G2",
+        "en": "Play for G2",
         "players": [
-          "burdol",
-          "shaoye",
-          "crisp",
-          "tangyuan"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:Nongshim RedForce:2021",
-        "es": "Jugaron en Nongshim RedForce en 2021",
-        "en": "Played for Nongshim RedForce in 2021",
-        "players": [
-          "deokdam",
-          "peter-jeong-yoon-su",
-          "fiesta-an-hyeon-seo",
-          "calix-syun-hyun-bin"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "majors:LCS:LEC",
-        "es": "Han jugado en la LCS y en la LEC",
-        "en": "Have played in the LCS and the LEC",
-        "players": [
-          "jojopyun",
-          "zven",
-          "inspired",
-          "brokenblade"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "surname:Trần",
-        "es": "Se apellidan Trần",
-        "en": "Have the surname Trần",
-        "players": [
-          "dire",
-          "kiaya",
-          "artemis-tran-quoc-hung",
-          "bie"
-        ]
-      }
-    ]
-  },
-  "2026-12-24": {
-    "id": "2026-12-24",
-    "groups": [
-      {
-        "level": 1,
-        "id": "team:Cloud9",
-        "es": "Juegan en Cloud9",
-        "en": "Play for Cloud9",
-        "players": [
-          "loki-lee-sang-min",
-          "thanatos-park-seung-gyu",
-          "tactical",
-          "zven"
+          "brokenblade",
+          "labrov",
+          "hans-sama",
+          "caltys"
         ]
       },
       {
@@ -2731,26 +2678,79 @@
       },
       {
         "level": 3,
-        "id": "majors:LCS:LEC",
-        "es": "Han jugado en la LCS y en la LEC",
-        "en": "Have played in the LCS and the LEC",
+        "id": "title:LPL",
+        "es": "Campeones de la LPL",
+        "en": "LPL champions",
         "players": [
-          "ignar",
-          "hans-sama",
-          "inspired",
-          "brokenblade"
+          "crisp",
+          "photic",
+          "leave",
+          "meiko"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:Bilibili Gaming:KT Rolster",
-        "es": "Pasaron por Bilibili Gaming y por KT Rolster",
-        "en": "Played for both Bilibili Gaming and KT Rolster",
+        "id": "twoteams:Fredit BRION:Liiv SANDBOX",
+        "es": "Pasaron por Fredit BRION y por Liiv SANDBOX",
+        "en": "Played for both Fredit BRION and Liiv SANDBOX",
         "players": [
-          "kingen",
-          "zeka-kim-geon-woo",
-          "feisty",
-          "aiming"
+          "pungyeon",
+          "effort",
+          "raptor-jeon-eo-jin",
+          "hena"
+        ]
+      }
+    ]
+  },
+  "2026-12-24": {
+    "id": "2026-12-24",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:Anyone's Legend",
+        "es": "Juegan en Anyone's Legend",
+        "en": "Play for Anyone's Legend",
+        "players": [
+          "tarzan-lee-seung-yong",
+          "breathe",
+          "shanks",
+          "kael-kim-jin-hong"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:DRX:2024",
+        "es": "Jugaron en DRX en 2024",
+        "en": "Played for DRX in 2024",
+        "players": [
+          "sponge",
+          "frog-lee-min-hoi",
+          "teddy",
+          "kyeahoo"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:VCS",
+        "es": "Campeones de la VCS",
+        "en": "VCS champions",
+        "players": [
+          "pun",
+          "artemis-tran-quoc-hung",
+          "harky",
+          "kiaya"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "twoteams:Fnatic:G2",
+        "es": "Pasaron por Fnatic y por G2",
+        "en": "Played for both Fnatic and G2",
+        "players": [
+          "mikyx",
+          "wunder",
+          "upset",
+          "caps"
         ]
       }
     ]
@@ -2760,50 +2760,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:Top Esports",
-        "es": "Juegan en Top Esports",
-        "en": "Play for Top Esports",
+        "id": "team:Vivo Keyd Stars",
+        "es": "Juegan en Vivo Keyd Stars",
+        "en": "Play for Vivo Keyd Stars",
         "players": [
-          "zhuo",
-          "creme",
-          "369",
-          "tian"
+          "jeskla",
+          "mireu",
+          "scamber",
+          "zekas"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Team Liquid:2024",
-        "es": "Jugaron en Team Liquid en 2024",
-        "en": "Played for Team Liquid in 2024",
+        "id": "teamyear:Top Esports:2020",
+        "es": "Jugaron en Top Esports en 2020",
+        "en": "Played for Top Esports in 2020",
         "players": [
-          "corejj",
-          "roamer",
-          "impact",
-          "yeon-sean-sung"
+          "jackeylove",
+          "photic",
+          "369",
+          "knight-zhuo-ding"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCK:LEC",
-        "es": "Han jugado en la LCK y en la LEC",
-        "en": "Have played in the LCK and the LEC",
+        "id": "title:LTA",
+        "es": "Campeones de la LTA",
+        "en": "LTA champions",
         "players": [
-          "ignar",
-          "paduck",
-          "jun-yoon-se-jun",
-          "kyeahoo"
+          "massu",
+          "busio",
+          "corejj",
+          "impact"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:Weibo Gaming:iG",
-        "es": "Pasaron por Weibo Gaming y por iG",
-        "en": "Played for both Weibo Gaming and iG",
+        "id": "twoteams:Hanwha Life Esports:T1",
+        "es": "Pasaron por Hanwha Life Esports y por T1",
+        "en": "Played for both Hanwha Life Esports and T1",
         "players": [
-          "breathe",
-          "theshy",
-          "jiejie",
-          "assum"
+          "doran-choi-hyeon-jun",
+          "willer",
+          "gumayusi",
+          "delight"
         ]
       }
     ]
@@ -2813,50 +2813,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "country:Argentina",
-        "es": "Son de Argentina",
-        "en": "Are from Argentina",
+        "id": "team:LNG Esports",
+        "es": "Juegan en LNG Esports",
+        "en": "Play for LNG Esports",
         "players": [
-          "kaze-lucas-fe",
-          "ackerman-gabriel-aparicio",
-          "enga",
-          "ceo"
+          "missing",
+          "sheer",
+          "1xn",
+          "weiwei"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Vivo Keyd Stars:2025",
-        "es": "Jugaron en Vivo Keyd Stars en 2025",
-        "en": "Played for Vivo Keyd Stars in 2025",
+        "id": "teamyear:FURIA:2023",
+        "es": "Jugaron en FURIA en 2023",
+        "en": "Played for FURIA in 2023",
         "players": [
-          "trymbi",
-          "disamis",
-          "boal",
-          "scamber"
+          "tutsz",
+          "ayu-andrey-saraiva",
+          "fuuu",
+          "xyno"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCS:LEC",
-        "es": "Han jugado en la LCS y en la LEC",
-        "en": "Have played in the LCS and the LEC",
+        "id": "title:LCS",
+        "es": "Campeones de la LCS",
+        "en": "LCS champions",
         "players": [
-          "jojopyun",
-          "ignar",
-          "brokenblade",
-          "rahel"
+          "tactical",
+          "morgan",
+          "fbi",
+          "saint-kang-sung-in"
         ]
       },
       {
         "level": 4,
-        "id": "surname:Park",
-        "es": "Se apellidan Park",
-        "en": "Have the surname Park",
+        "id": "initial:N",
+        "es": "Su apodo empieza por N",
+        "en": "Nickname starts with N",
         "players": [
-          "ruler",
-          "paduck",
-          "teddy",
-          "morgan"
+          "namgung",
+          "nia-zou-guang-lu",
+          "noah-oh-hyeon-taek",
+          "naak-nako"
         ]
       }
     ]
@@ -2866,50 +2866,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:Team Heretics",
-        "es": "Juegan en Team Heretics",
-        "en": "Play for Team Heretics",
+        "id": "country:Sweden",
+        "es": "Son de Suecia",
+        "en": "Are from Sweden",
         "players": [
-          "daglas",
-          "hype-byeon-jeong-hyeon",
-          "tracyn",
-          "serin"
+          "jeskla",
+          "caltys",
+          "yike",
+          "larssen"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Fnatic:2026",
-        "es": "Jugaron en Fnatic en 2026",
-        "en": "Played for Fnatic in 2026",
+        "id": "teamyear:Cloud9:2021",
+        "es": "Jugaron en Cloud9 en 2021",
+        "en": "Played for Cloud9 in 2021",
         "players": [
-          "empyros",
-          "vladi",
-          "upset",
-          "lospa"
+          "isles",
+          "vulcan-philippe-laflamme",
+          "blaber",
+          "fudge"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCK:LPL",
-        "es": "Han jugado en la LCK y en la LPL",
-        "en": "Have played in the LCK and the LPL",
+        "id": "title:PCS",
+        "es": "Campeones de la PCS",
+        "en": "PCS champions",
         "players": [
-          "zeka-kim-geon-woo",
-          "kanavi",
-          "vicla",
-          "karis"
+          "kaiwing",
+          "hongsuo",
+          "betty",
+          "junjia"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:EDG:Weibo Gaming",
-        "es": "Pasaron por EDG y por Weibo Gaming",
-        "en": "Played for both EDG and Weibo Gaming",
+        "id": "twoteams:FPX:Weibo Gaming",
+        "es": "Pasaron por FPX y por Weibo Gaming",
+        "en": "Played for both FPX and Weibo Gaming",
         "players": [
-          "zdz",
-          "xiaohao",
+          "tian",
           "jwei",
-          "angel-xiang-tao"
+          "jiejie",
+          "crisp"
         ]
       }
     ]
@@ -2919,50 +2919,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:Leviatan",
-        "es": "Juegan en Leviatan",
-        "en": "Play for Leviatan",
+        "id": "team:LOUD",
+        "es": "Juegan en LOUD",
+        "en": "Play for LOUD",
         "players": [
-          "enga",
-          "devost",
-          "strensh",
-          "shiku"
+          "rabelo",
+          "sinatra",
+          "xyno",
+          "curty"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Dignitas:2026",
-        "es": "Jugaron en Dignitas en 2026",
-        "en": "Played for Dignitas in 2026",
+        "id": "teamyear:Weibo Gaming:2024",
+        "es": "Jugaron en Weibo Gaming en 2024",
+        "en": "Played for Weibo Gaming in 2024",
         "players": [
-          "palafox",
-          "fbi",
-          "ignar",
-          "denathor"
+          "crisp",
+          "breathe",
+          "xiaohao",
+          "xiaohu"
         ]
       },
       {
         "level": 3,
-        "id": "worlds",
-        "es": "Campeones del mundo",
-        "en": "World champions",
+        "id": "title:NACL",
+        "es": "Campeones de la NACL",
+        "en": "NACL champions",
         "players": [
-          "ruler",
-          "theshy",
-          "zeus",
-          "showmaker"
+          "srtty",
+          "tactical",
+          "cryogen",
+          "zeyzal"
         ]
       },
       {
         "level": 4,
-        "id": "surname:Trần",
-        "es": "Se apellidan Trần",
-        "en": "Have the surname Trần",
+        "id": "initial:U",
+        "es": "Su apodo empieza por U",
+        "en": "Nickname starts with U",
         "players": [
-          "bie",
-          "kiaya",
-          "artemis-tran-quoc-hung",
-          "dire"
+          "upset",
+          "ucal",
+          "uniboy",
+          "uzent"
         ]
       }
     ]
@@ -2972,50 +2972,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "country:France",
-        "es": "Son de Francia",
-        "en": "Are from France",
+        "id": "team:JD Gaming",
+        "es": "Juegan en JD Gaming",
+        "en": "Play for JD Gaming",
         "players": [
-          "skewmond",
-          "nuc",
-          "isma",
-          "skeanz"
+          "hongq",
+          "xiaofang",
+          "gala",
+          "junjia"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:FPX:2025",
-        "es": "Jugaron en FPX en 2025",
-        "en": "Played for FPX in 2025",
+        "id": "teamyear:T1:2021",
+        "es": "Jugaron en T1 en 2021",
+        "en": "Played for T1 in 2021",
         "players": [
-          "shad0w",
-          "jiaqi",
-          "jwei",
-          "care"
+          "oner",
+          "cuzz",
+          "fisher-lee-jeong-tae",
+          "faker"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCK:LPL",
-        "es": "Han jugado en la LCK y en la LPL",
-        "en": "Have played in the LCK and the LPL",
+        "id": "title:TCL",
+        "es": "Campeones de la TCL",
+        "en": "TCL champions",
         "players": [
-          "kanavi",
-          "viper-park-do-hyeon",
-          "deokdam",
-          "taeyoon-kim-tae-yoon"
+          "hype-byeon-jeong-hyeon",
+          "fiesta-an-hyeon-seo",
+          "callme",
+          "skeanz"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:LNG Esports:Top Esports",
-        "es": "Pasaron por LNG Esports y por Top Esports",
-        "en": "Played for both LNG Esports and Top Esports",
+        "id": "initial:T",
+        "es": "Su apodo empieza por T",
+        "en": "Nickname starts with T",
         "players": [
-          "nia-zou-guang-lu",
-          "zhuo",
-          "xiaofang",
-          "photic"
+          "tactical",
+          "taeyoon-kim-tae-yoon",
+          "taki-inh-anh-tai",
+          "tangyuan"
         ]
       }
     ]
@@ -3025,50 +3025,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:Weibo Gaming",
-        "es": "Juegan en Weibo Gaming",
-        "en": "Play for Weibo Gaming",
+        "id": "country:France",
+        "es": "Son de Francia",
+        "en": "Are from France",
         "players": [
-          "zika",
-          "jwei",
-          "elk",
-          "xiaohu"
+          "hans-sama",
+          "boukada",
+          "isma",
+          "skeanz"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Cloud9:2023",
-        "es": "Jugaron en Cloud9 en 2023",
-        "en": "Played for Cloud9 in 2023",
+        "id": "league:LCP",
+        "es": "Han jugado en la LCP",
+        "en": "Have played in the LCP",
         "players": [
-          "zeyzal",
-          "berserker-kim-min-cheol",
-          "zven",
-          "blaber"
+          "uniboy",
+          "flauren",
+          "hizto",
+          "hongsuo"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCK:LCS",
-        "es": "Han jugado en la LCK y en la LCS",
-        "en": "Have played in the LCK and the LCS",
+        "id": "title:LRN",
+        "es": "Campeones de la LRN",
+        "en": "LRN champions",
         "players": [
-          "corejj",
-          "ignar",
-          "hambak",
-          "hena"
+          "booki",
+          "cody",
+          "devost",
+          "shiku"
         ]
       },
       {
         "level": 4,
-        "id": "surname:Trần",
-        "es": "Se apellidan Trần",
-        "en": "Have the surname Trần",
+        "id": "twoteams:JD Gaming:Top Esports",
+        "es": "Pasaron por JD Gaming y por Top Esports",
+        "en": "Played for both JD Gaming and Top Esports",
         "players": [
-          "kiaya",
-          "dire",
-          "bie",
-          "artemis-tran-quoc-hung"
+          "knight-zhuo-ding",
+          "369",
+          "kanavi",
+          "xiaofang"
         ]
       }
     ]
@@ -3078,50 +3078,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:EDG",
-        "es": "Juegan en EDG",
-        "en": "Play for EDG",
+        "id": "country:Australia",
+        "es": "Son de Australia",
+        "en": "Are from Australia",
         "players": [
-          "parukia",
-          "jiejie",
-          "zdz",
-          "leave"
+          "srtty",
+          "fbi",
+          "isles",
+          "fudge"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Team Liquid:2024",
-        "es": "Jugaron en Team Liquid en 2024",
-        "en": "Played for Team Liquid in 2024",
+        "id": "debut:2014",
+        "es": "Debutaron en 2014",
+        "en": "Debuted in 2014",
         "players": [
-          "apa-eain-stearns",
-          "roamer",
-          "yeon-sean-sung",
-          "corejj"
+          "hans-sama",
+          "wunder",
+          "huhi",
+          "xiaohu"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCS:LEC",
-        "es": "Han jugado en la LCS y en la LEC",
-        "en": "Have played in the LCS and the LEC",
+        "id": "title:LFL",
+        "es": "Campeones de la LFL",
+        "en": "LFL champions",
         "players": [
-          "jojopyun",
-          "busio",
-          "inspired",
-          "rahel"
+          "serin",
+          "jopa",
+          "jeskla",
+          "slowq"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:Griffin (Korean Team):Hanwha Life Esports",
-        "es": "Pasaron por Griffin (Korean Team) y por Hanwha Life Esports",
-        "en": "Played for both Griffin (Korean Team) and Hanwha Life Esports",
+        "id": "twoteams:Gen.G:Hanwha Life Esports",
+        "es": "Pasaron por Gen.G y por Hanwha Life Esports",
+        "en": "Played for both Gen.G and Hanwha Life Esports",
         "players": [
-          "doran-choi-hyeon-jun",
-          "kanavi",
-          "viper-park-do-hyeon",
-          "lehends"
+          "life",
+          "delight",
+          "willer",
+          "chovy"
         ]
       }
     ]
@@ -3131,50 +3131,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "country:Spain",
-        "es": "Son de España",
-        "en": "Are from Spain",
+        "id": "country:Brazil",
+        "es": "Son de Brasil",
+        "en": "Are from Brazil",
         "players": [
-          "myrwn",
-          "elyoya",
-          "alvaro-alvaro-fernandez",
-          "flakked"
+          "hauz",
+          "sinatra",
+          "namiru",
+          "scamber"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Fnatic:2023",
-        "es": "Jugaron en Fnatic en 2023",
-        "en": "Played for Fnatic in 2023",
+        "id": "teamyear:T1:2024",
+        "es": "Jugaron en T1 en 2024",
+        "en": "Played for T1 in 2024",
         "players": [
-          "razork",
-          "oscarinin",
-          "noah-oh-hyeon-taek",
-          "trymbi"
+          "faker",
+          "zeus",
+          "keria",
+          "oner"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCK:LPL",
-        "es": "Han jugado en la LCK y en la LPL",
-        "en": "Have played in the LCK and the LPL",
+        "id": "title:NASG",
+        "es": "Campeones de la NASG",
+        "en": "NASG champions",
         "players": [
-          "life",
-          "kael-kim-jin-hong",
-          "ruler",
-          "deokdam"
+          "blaber",
+          "vulcan-philippe-laflamme",
+          "palafox",
+          "yeon-sean-sung"
         ]
       },
       {
         "level": 4,
-        "id": "digit",
-        "es": "Llevan un número en el apodo",
-        "en": "Have a number in their nickname",
+        "id": "twoteams:EDG:Ninjas in Pyjamas.CN",
+        "es": "Pasaron por EDG y por Ninjas in Pyjamas.CN",
+        "en": "Played for both EDG and Ninjas in Pyjamas.CN",
         "players": [
-          "shad0w",
-          "re0",
-          "1xn",
-          "pop9"
+          "ycx",
+          "leave",
+          "angel-xiang-tao",
+          "pout"
         ]
       }
     ]
@@ -3184,50 +3184,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:JD Gaming",
-        "es": "Juegan en JD Gaming",
-        "en": "Play for JD Gaming",
+        "id": "team:Vitality",
+        "es": "Juegan en Vitality",
+        "en": "Play for Vitality",
         "players": [
-          "angel-xiang-tao",
-          "xiaoxu",
-          "vampire",
-          "junjia"
+          "fleshy",
+          "carzzy",
+          "lyncas",
+          "naak-nako"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Cloud9:2022",
-        "es": "Jugaron en Cloud9 en 2022",
-        "en": "Played for Cloud9 in 2022",
+        "id": "teamyear:Vivo Keyd Stars:2026",
+        "es": "Jugaron en Vivo Keyd Stars en 2026",
+        "en": "Played for Vivo Keyd Stars in 2026",
         "players": [
-          "isles",
-          "zven",
-          "fudge",
-          "berserker-kim-min-cheol"
+          "xyno",
+          "ceo",
+          "scamber",
+          "mireu"
         ]
       },
       {
         "level": 3,
-        "id": "worlds",
-        "es": "Campeones del mundo",
-        "en": "World champions",
+        "id": "title:ECS",
+        "es": "Campeones de la ECS",
+        "en": "ECS champions",
         "players": [
-          "ruler",
-          "zeus",
-          "tian",
-          "keria"
+          "woody",
+          "betty",
+          "junjia",
+          "uniboy"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:BNK FEARX:Liiv SANDBOX",
-        "es": "Pasaron por BNK FEARX y por Liiv SANDBOX",
-        "en": "Played for both BNK FEARX and Liiv SANDBOX",
+        "id": "twoteams:KT Rolster:OKSavingsBank BRION",
+        "es": "Pasaron por KT Rolster y por OKSavingsBank BRION",
+        "en": "Played for both KT Rolster and OKSavingsBank BRION",
         "players": [
-          "hena",
-          "duro",
-          "clear-song-hyeon-min",
-          "raptor-jeon-eo-jin"
+          "casting",
+          "gideon",
+          "hambak",
+          "hype-byeon-jeong-hyeon"
         ]
       }
     ]
