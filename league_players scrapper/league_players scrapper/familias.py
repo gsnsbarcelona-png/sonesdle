@@ -137,9 +137,23 @@ def _known(league):
 
 
 def canon(team):
-    """Nombre único del equipo: alias conocidos y sin sufijo de equipo filial."""
-    team = TEAM_ALIASES.get(team, team)
-    return TEAM_ALIASES.get(FARM.sub("", team or ""), FARM.sub("", team or "")) or team
+    """Nombre único del equipo (alias de Leaguepedia). El filial NO se une al principal:
+    una etapa en FlyQuest Academy no es haber jugado en FlyQuest."""
+    return TEAM_ALIASES.get(team, team)
+
+
+GENERIC_FIRST_WORD = {"team", "the", "fc", "gaming", "esports", "e-sports", "royal"}
+
+
+def same_club(a, b):
+    """True si dos equipos son el mismo club (principal y filial): mismo nombre sin el sufijo
+    de filial o misma primera palabra ("iG" e "iG Young", "RED Academy" y "RED Canids"),
+    salvo que esa palabra sea genérica ("Team Liquid" y "Team Secret" no lo son)."""
+    a, b = canon(a) or "", canon(b) or ""
+    if FARM.sub("", a) == FARM.sub("", b):
+        return True
+    fa, fb = a.split()[:1], b.split()[:1]
+    return bool(fa) and fa == fb and fa[0].lower() not in GENERIC_FIRST_WORD and len(fa[0]) >= 2
 
 
 def champion_slugs():
@@ -213,7 +227,8 @@ def build_families(pool, fame=0):
             for y in years:
                 by[("teamyear", team, y)].add(p["key"])
         for pair in itertools.combinations(sorted(p["teams"]), 2):
-            by[("twoteams", pair)].add(p["key"])
+            if not same_club(*pair):   # no "EDG y su equipo juvenil"
+                by[("twoteams", pair)].add(p["key"])
         if p["real"] and p["country"] in SURNAME_FIRST_COUNTRIES:
             first = p["real"].split()[0].strip(",") if p["real"].split() else ""
             if first:
