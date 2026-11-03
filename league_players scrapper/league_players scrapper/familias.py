@@ -30,6 +30,8 @@ FIRST_YEAR = 2012
 MIN_MEMBERS = 4            # una familia necesita al menos 4 jugadores
 SCHEDULE_DAYS = 60         # días de reto diario por delante
 BANK_SIZE = 150
+MAX_SOLVER_STEPS = 20000   # pasos del solucionador antes de rechazar el puzle por ambiguo
+MAX_BANK_FAILS = 40       # intentos seguidos sin puzle antes de dar el banco por completo
 BANK_MAX_FAMILY_USES = 3   # veces que una misma familia puede salir en el banco
 RECENT_DAYS = 10           # no repetir familia en días cercanos del calendario
 # Mismo equipo con varios nombres en Leaguepedia: se cuentan como uno
@@ -245,18 +247,19 @@ def count_partitions(keys, fams_of, limit=2):
         for fid in fams_of.get(k, ()):
             tokens[fid].append(idx[k])
     groups = set()
-    for members in tokens.values():
-        if len(members) >= 4:
-            for c in itertools.combinations(sorted(members), 4):
-                groups.add(sum(1 << i for i in c))
+    # familias con los mismos miembros dentro de estos 16 dan los mismos grupos: se cuentan una vez
+    for members in {frozenset(m) for m in tokens.values() if len(m) >= 4}:
+        for c in itertools.combinations(sorted(members), 4):
+            groups.add(sum(1 << i for i in c))
     by_low = defaultdict(list)
     for g in groups:
         by_low[(g & -g).bit_length() - 1].append(g)
     full = (1 << len(keys)) - 1
-    found, first = [0], []
+    found, first, steps = [0], [], [0]
 
     def dfs(covered, chosen):
-        if found[0] >= limit:
+        steps[0] += 1
+        if found[0] >= limit or steps[0] > MAX_SOLVER_STEPS:
             return
         if covered == full:
             found[0] += 1
@@ -269,6 +272,8 @@ def count_partitions(keys, fams_of, limit=2):
                 dfs(covered | g, chosen + [g])
 
     dfs(0, [])
+    if steps[0] > MAX_SOLVER_STEPS:   # demasiado ambiguo para comprobarlo: se rechaza
+        return limit, [], groups
     return found[0], first, groups
 
 
@@ -382,6 +387,7 @@ def update_schedule(schedule, pool, fams, fams_of, today, days=SCHEDULE_DAYS):
     Los días futuros que dejen de valer (traspasos) se rehacen; hoy y mañana no se tocan."""
     by_id = {f["id"]: f for f in fams}
     out = dict(schedule)
+    misses = 0
     frozen_until = today + datetime.timedelta(days=FROZEN_DAYS)
     for offset in range(days + 1):
         day = today + datetime.timedelta(days=offset)
@@ -401,8 +407,12 @@ def update_schedule(schedule, pool, fams, fams_of, today, days=SCHEDULE_DAYS):
                 break
         if puzzle:
             out[iso] = puzzle
+            misses = 0
         else:
             out.pop(iso, None)
+            misses += 1
+            if misses >= 3:   # los datos no dan para más puzles: se deja lo que haya
+                break
     return dict(sorted(out.items()))
 
 
@@ -415,13 +425,15 @@ def update_bank(bank, pool, fams, fams_of, size=BANK_SIZE):
             out.append(puzzle)
             uses.update(g["id"] for g in puzzle["groups"])
     seen = {frozenset(k for g in p["groups"] for k in g["players"]) for p in out}
-    n = 0
-    while len(out) < size and n < size * 20:
+    n = fails = 0
+    while len(out) < size and n < size * 6 and fails < MAX_BANK_FAILS:
         n += 1
         rng = random.Random(f"familias-bank-{len(out)}-{n}")
         puzzle = make_puzzle(rng, pool, fams, fams_of, puzzle_id=f"b{n:04d}", family_uses=uses, max_uses=BANK_MAX_FAMILY_USES)
         if not puzzle:
+            fails += 1
             continue
+        fails = 0
         who = frozenset(k for g in puzzle["groups"] for k in g["players"])
         if who in seen:
             continue
