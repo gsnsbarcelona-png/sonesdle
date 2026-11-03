@@ -15,7 +15,7 @@ const SUPABASE_KEY = 'sb_publishable_zXMAkTT5AM9PeC8l68OWlA_h8c3Kvup';
 const SUPABASE_JS  = new URL('./vendor/supabase.js', import.meta.url).href;   // empaquetado en el repo (tools/vendor)
 
 const LOCAL_KEY = 'lolpg_results';
-export const GAMES = ['dle', 'rostergues', 'carrera', 'grid', 'wordle'];
+export const GAMES = ['dle', 'rostergues', 'carrera', 'grid', 'wordle', 'familias'];
 
 let clientPromise = null;
 

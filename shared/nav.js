@@ -11,6 +11,7 @@ const GAMES = [
   { id: 'carrera',    href: '../carrera/',    name: 'Career Guess',    tag: 'Career'       },
   { id: 'grid',       href: '../grid/',       name: 'Pro Grid',        tag: 'Grid'         },
   { id: 'wordle',     href: '../wordle/',     name: 'Pro Wordle',      tag: 'Wordle'       },
+  { id: 'familias',   href: '../familias/',   name: 'Family Grid',     tag: 'Familias'     },
 ];
 
 /** Iconos de trazo (viewBox 24). */
@@ -19,7 +20,8 @@ const ICONS = {
   rostergues: '<path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M12 14v4M8 20h8"/>',
   carrera: '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/>',
   grid: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
-  wordle: '<path d="M5 7V5h14v2M12 5v14M9 19h6"/>'
+  wordle: '<path d="M5 7V5h14v2M12 5v14M9 19h6"/>',
+  familias: '<circle cx="8" cy="8" r="3.2"/><circle cx="16.5" cy="9" r="2.6"/><path d="M2.5 19a5.5 5.5 0 0 1 11 0M14 19a4.5 4.5 0 0 1 7.5 0"/>'
 };
 
 function svgIcon(paths) {

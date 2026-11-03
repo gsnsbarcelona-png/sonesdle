@@ -31,6 +31,7 @@ LIMITS = {
     "words_total": 30,      # respuestas de wordle nuevas, quitadas o modificadas
     "guesses_total": 200,   # palabras válidas añadidas o quitadas
     "schedule_added": 70,   # días nuevos de calendario
+    "familias_total": 120,   # puzles o jugadores nuevos + quitados en familias
     "js_lines": 150,        # líneas cambiadas en cada fichero .js de datos
 }
 
@@ -45,6 +46,9 @@ FILES = [
     "grid/data/schedule.json",
     "wordle/data/words.json",
     "wordle/data/schedule.json",
+    "familias/data/players.json",
+    "familias/data/schedule.json",
+    "familias/data/bank.json",
 ]
 
 # Texto que no debería aparecer en nombres, equipos ni descripciones
@@ -150,7 +154,7 @@ def main():
             check(len(a) + len(r) + len(c) > LIMITS["words_total"], f"wordle: {len(a)+len(r)+len(c)} respuestas cambiadas (máximo {LIMITS['words_total']})")
             check(g > LIMITS["guesses_total"], f"wordle: {g} palabras válidas distintas (máximo {LIMITS['guesses_total']})")
 
-        elif p in ("wordle/data/schedule.json", "grid/data/schedule.json"):
+        elif p in ("wordle/data/schedule.json", "grid/data/schedule.json", "familias/data/schedule.json"):
             o, n = json.loads(old), json.loads(new)
             a, r, c = diff_records(o, n)
             # El calendario solo debe crecer por el final: hoy y mañana ya están fijados
@@ -158,6 +162,15 @@ def main():
             rows.append((p, f"{len(a)} días nuevos, {len(r)} quitados, {len(c)} modificados"))
             check(tocados, f"{p}: cambia el calendario de días ya fijados ({', '.join(tocados[:5])})")
             check(len(a) > LIMITS["schedule_added"], f"{p}: {len(a)} días nuevos (máximo {LIMITS['schedule_added']})")
+
+        elif p in ("familias/data/players.json", "familias/data/bank.json"):
+            o, n = json.loads(old), json.loads(new)
+            if isinstance(o, list):   # banco de puzles
+                a, r = len({x["id"] for x in n} - {x["id"] for x in o}), len({x["id"] for x in o} - {x["id"] for x in n})
+            else:
+                a, r, _ = (len(x) for x in diff_records(o, n))
+            rows.append((p, f"{a} nuevos, {r} quitados"))
+            check(a + r > LIMITS["familias_total"], f"{p}: {a + r} cambios (máximo {LIMITS['familias_total']})")
 
         else:  # ficheros .js: sin estructura que comparar, se mide por líneas
             n_lines = changed_lines(p)
