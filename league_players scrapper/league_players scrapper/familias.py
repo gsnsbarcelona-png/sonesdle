@@ -152,7 +152,7 @@ def same_club(a, b):
     a, b = canon(a) or "", canon(b) or ""
     if FARM.sub("", a) == FARM.sub("", b):
         return True
-    fa, fb = a.split()[:1], b.split()[:1]
+    fa, fb = re.split(r"[ .]", a)[:1], re.split(r"[ .]", b)[:1]
     return bool(fa) and fa == fb and fa[0].lower() not in GENERIC_FIRST_WORD and len(fa[0]) >= 2
 
 
@@ -207,7 +207,7 @@ def _family(fid, ftype, level, es, en, members, entities=()):
             "members": frozenset(members), "entities": frozenset(entities)}
 
 
-def build_families(pool, fame=0):
+def build_families(pool, fame=0, daily=False):
     """Todas las familias posibles con al menos MIN_MEMBERS jugadores de `pool`.
     Nivel 1 (amarillo) fácil · 2 (verde) media · 3 (azul) difícil · 4 (morado) truco."""
     by = defaultdict(set)
@@ -240,7 +240,7 @@ def build_families(pool, fame=0):
         for lg in p["leagues"]:
             by[("league", lg)].add(p["key"])
         letters = len(re.sub(r"[^A-Za-z]", "", p["name"]))
-        if 3 <= letters <= 5:
+        if 3 <= letters <= 5 and not daily:   # en el diario es poco satisfactorio: hay demasiados apodos así
             by[("nicklen", letters)].add(p["key"])
         if p["name"][:1].isalpha():
             by[("initial", p["name"][0].upper())].add(p["key"])
@@ -522,7 +522,7 @@ def build(master, images, names, schedule, bank, today=None):
     today = today or datetime.date.today()
     pool = build_pool(master, images, names, today)
     daily_pool = {k: p for k, p in pool.items() if p["tier"] == 1 or p["worlds"]}
-    daily_fams = build_families(daily_pool, MIN_TEAM_FAME["daily"])
+    daily_fams = build_families(daily_pool, MIN_TEAM_FAME["daily"], daily=True)
     free_fams = build_families(pool, MIN_TEAM_FAME["free"])
     d_of, _ = index_families(daily_fams)
     f_of, _ = index_families(free_fams)
