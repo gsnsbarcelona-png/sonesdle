@@ -1054,5 +1054,17 @@
       "lcs",
       "top"
     ]
+  },
+  "2027-01-02": {
+    "cols": [
+      "msi",
+      "jungle",
+      "adc"
+    ],
+    "rows": [
+      "worlds",
+      "lpl",
+      "korean"
+    ]
   }
 }
