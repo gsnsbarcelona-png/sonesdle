@@ -45,6 +45,10 @@ TEAM_ALIASES = {
     "EDG Youth Team": "EDG", "EDward Gaming": "EDG", "KT Academy": "KT Rolster", "Invictus Gaming": "iG", "Royal Never Give Up": "RNG", "Edward Gaming": "EDG",
     "Cloud9 Blue": "Cloud9", "Cloud9 Academy": "Cloud9", "Team Liquid Academy": "Team Liquid",
 }
+# Ligas que la gente reconoce: solo con estas hay familias "campeones de…" y "han jugado en…"
+# (en los datos salen decenas de ligas menores, como NACL o NASG, que casi nadie conoce)
+KNOWN_LEAGUES = {"LCK", "LPL", "LEC", "LCS", "LTA", "LCP", "CBLOL", "PCS", "LJL", "VCS", "LLA", "LFL", "LCO"}
+LEAGUE_ALIAS = {"LPLOL": "LPL"}   # mismo nombre con otro código en Leaguepedia
 MIN_TEAM_FAME = {"daily": 10, "free": 5}   # jugadores del conjunto que han pasado por el equipo
 ATTEMPTS = 60              # intentos para fabricar un puzle antes de rendirse
 FROZEN_DAYS = 1            # hoy y mañana no se tocan aunque cambien los datos
@@ -107,6 +111,12 @@ def seasons_from_history(history, today):
 FARM = re.compile(r"\s+(Academy|Youth Team|Youth|Junior|Challengers|Rookies|Prime)$", re.I)
 
 
+def _known(league):
+    """Código de la liga si es una de las conocidas, si no None."""
+    league = LEAGUE_ALIAS.get(league, league)
+    return league if league in KNOWN_LEAGUES else None
+
+
 def canon(team):
     """Nombre único del equipo: alias conocidos y sin sufijo de equipo filial."""
     team = TEAM_ALIASES.get(team, team)
@@ -147,8 +157,8 @@ def build_pool(master, images, names, today=None):
             "team": canon(m["game_team"]), "region": m.get("region"), "league": m.get("league"),
             "tier": m.get("tier"), "roles": list(m.get("roles") or m.get("positions") or []),
             "debut": m.get("debut"), "worlds": bool(ach.get("worlds")), "msi": bool(ach.get("msi")),
-            "titles": sorted({t["league"] for t in (m.get("titles") or []) if t.get("league")}),
-            "leagues": sorted({h["league"] for h in history if h.get("league")}),
+            "titles": sorted({_known(t.get("league")) for t in (m.get("titles") or []) if _known(t.get("league"))}),
+            "leagues": sorted({_known(h.get("league")) for h in history if _known(h.get("league"))}),
             "majors": sorted(m.get("major_leagues") or []),
             "seasons": seasons_from_history(history, today),
             "teams": {canon(h["team"]) for h in history if h.get("team")} | {canon(m["game_team"])},
