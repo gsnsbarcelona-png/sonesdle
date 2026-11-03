@@ -543,6 +543,10 @@
     "n": "Cryogen",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/9/9e/FLY_Cryogen_2026_Split_1.png/revision/latest/scale-to-width-down/160?cb=20260124041054"
   },
+  "crystal": {
+    "n": "Crystal",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/2/27/PRS_Crystal_2018_Split_2.png/revision/latest/scale-to-width-down/160?cb=20180711183249"
+  },
   "cube-dai-yi": {
     "n": "Cube",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/5/55/VG_Cube_2019_Split_2.png/revision/latest/scale-to-width-down/160?cb=20190528150820"
@@ -1915,6 +1919,10 @@
     "n": "Nightmares",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/b/b4/DK_Nightmares_2020_Split_1.png/revision/latest/scale-to-width-down/160?cb=20200115215505"
   },
+  "nin": {
+    "n": "niN",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/d/d9/RED_niN_2022_Split_2.png/revision/latest/scale-to-width-down/160?cb=20220702202008"
+  },
   "nio": {
     "n": "Nio",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/8/8e/BSC_Nio.png/revision/latest/scale-to-width-down/160?cb=20220516091232"
@@ -2826,6 +2834,10 @@
   "twiizt": {
     "n": "Twiizt",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/2/2e/S04_Twiizt_2024_Split_2.png/revision/latest/scale-to-width-down/160?cb=20240623061848"
+  },
+  "typhoon-tayfun-gumus": {
+    "n": "Typhoon",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/5/58/NSR_Typhoon_2023_Split_2.png/revision/latest/scale-to-width-down/160?cb=20230704171431"
   },
   "tyrion": {
     "n": "Tyrion",

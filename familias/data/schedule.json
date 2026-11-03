@@ -4,50 +4,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:Dignitas",
-        "es": "Juegan en Dignitas",
-        "en": "Play for Dignitas",
+        "id": "country:France",
+        "es": "Son de Francia",
+        "en": "Are from France",
         "players": [
-          "palafox",
-          "dardoch",
-          "denathor",
-          "ignar"
+          "boukada",
+          "skewmond",
+          "isma",
+          "nuc"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:EDG:2026",
-        "es": "Jugaron en EDG en 2026",
-        "en": "Played for EDG in 2026",
+        "id": "teamyear:FPX:2025",
+        "es": "Jugaron en FPX en 2025",
+        "en": "Played for FPX in 2025",
         "players": [
-          "leave",
-          "angel-xiang-tao",
-          "xiaohao",
-          "zdz"
+          "jiaqi",
+          "sheer",
+          "jwei",
+          "shad0w"
         ]
       },
       {
         "level": 3,
-        "id": "title:LCP",
-        "es": "Campeones de la LCP",
-        "en": "LCP champions",
+        "id": "title:LCS",
+        "es": "Campeones de la LCS",
+        "en": "LCS champions",
         "players": [
-          "eddie",
-          "rest",
-          "bie",
-          "pun"
+          "brokenblade",
+          "quad",
+          "yeon-sean-sung",
+          "tactical"
         ]
       },
       {
         "level": 4,
-        "id": "nicklen:4",
-        "es": "Apodo de 4 letras",
-        "en": "4-letter nickname",
+        "id": "initial:P",
+        "es": "Su apodo empieza por P",
+        "en": "Nickname starts with P",
         "players": [
-          "cuzz",
-          "jwei",
-          "kael-kim-jin-hong",
-          "yeon-sean-sung"
+          "palafox",
+          "pyosik",
+          "peter-jeong-yoon-su",
+          "prodelta"
         ]
       }
     ]
