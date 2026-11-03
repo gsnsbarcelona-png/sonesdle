@@ -1329,50 +1329,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:Fnatic",
-        "es": "Juegan en Fnatic",
-        "en": "Play for Fnatic",
+        "id": "team:Leviatan",
+        "es": "Juegan en Leviatan",
+        "en": "Play for Leviatan",
         "players": [
-          "razork",
-          "soboro",
-          "lospa",
-          "vladi"
+          "devost",
+          "strensh",
+          "enga",
+          "shiku"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Griffin (Korean Team):2018",
-        "es": "Jugaron en Griffin (Korean Team) en 2018",
-        "en": "Played for Griffin (Korean Team) in 2018",
+        "id": "teamyear:Nongshim RedForce:2024",
+        "es": "Jugaron en Nongshim RedForce en 2024",
+        "en": "Played for Nongshim RedForce in 2024",
         "players": [
-          "viper-park-do-hyeon",
-          "lehends",
-          "chovy",
-          "tarzan-lee-seung-yong"
+          "calix-syun-hyun-bin",
+          "callme",
+          "fiesta-an-hyeon-seo",
+          "peter-jeong-yoon-su"
         ]
       },
       {
         "level": 3,
-        "id": "title:LTA",
-        "es": "Campeones de la LTA",
-        "en": "LTA champions",
+        "id": "msi",
+        "es": "Campeones del MSI",
+        "en": "MSI champions",
         "players": [
-          "yeon-sean-sung",
-          "apa-eain-stearns",
-          "inspired",
-          "corejj"
+          "peyz",
+          "delight",
+          "kiin",
+          "meiko"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:EDG:iG",
-        "es": "Pasaron por EDG y por iG",
-        "en": "Played for both EDG and iG",
+        "id": "initial:U",
+        "es": "Su apodo empieza por U",
+        "en": "Nickname starts with U",
         "players": [
-          "jiejie",
-          "meiko",
-          "assum",
-          "ahn"
+          "uniboy",
+          "ucal",
+          "upset",
+          "uzent"
         ]
       }
     ]
