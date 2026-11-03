@@ -6307,59 +6307,6 @@
     ]
   },
   {
-    "id": "b0117",
-    "groups": [
-      {
-        "level": 1,
-        "id": "team:LGD Gaming",
-        "es": "Juegan en LGD Gaming",
-        "en": "Play for LGD Gaming",
-        "players": [
-          "crisp",
-          "burdol",
-          "heng",
-          "tangyuan"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:OKSavingsBank BRION Challengers:2023",
-        "es": "Jugaron en OKSavingsBank BRION Challengers en 2023",
-        "en": "Played for OKSavingsBank BRION Challengers in 2023",
-        "players": [
-          "kangin",
-          "raptor-jeon-eo-jin",
-          "pollu",
-          "enosh"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "roles:ADC:Support",
-        "es": "Han jugado de ADC y de Support",
-        "en": "Have played ADC and Support",
-        "players": [
-          "corejj",
-          "pleata",
-          "steeelback",
-          "ayu-andrey-saraiva"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "twoteams:Vitality:Vitality.Bee",
-        "es": "Pasaron por Vitality y por Vitality.Bee",
-        "en": "Played for both Vitality and Vitality.Bee",
-        "players": [
-          "vetheo",
-          "fleshy",
-          "daglas",
-          "skeanz"
-        ]
-      }
-    ]
-  },
-  {
     "id": "b0118",
     "groups": [
       {
@@ -7945,6 +7892,59 @@
           "later",
           "zs",
           "liangchen"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "b0001",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:Dark Passage",
+        "es": "Juegan en Dark Passage",
+        "en": "Play for Dark Passage",
+        "players": [
+          "crystal",
+          "typhoon-tayfun-gumus",
+          "grave",
+          "fabfabulous"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:RED Academy:2022",
+        "es": "Jugaron en RED Academy en 2022",
+        "en": "Played for RED Academy in 2022",
+        "players": [
+          "nin",
+          "morttheus",
+          "leleko",
+          "telas"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "roles:ADC:Jungle",
+        "es": "Han jugado de ADC y de Jungla",
+        "en": "Have played ADC and Jungle",
+        "players": [
+          "starry",
+          "holo-tsang-dek-lam",
+          "pillow-nutthanon-bumrungchawkasem",
+          "veiga"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "twoteams:Hanwha Life Esports:KT Rolster",
+        "es": "Pasaron por Hanwha Life Esports y por KT Rolster",
+        "en": "Played for both Hanwha Life Esports and KT Rolster",
+        "players": [
+          "doran-choi-hyeon-jun",
+          "life",
+          "lehends",
+          "kingen"
         ]
       }
     ]
