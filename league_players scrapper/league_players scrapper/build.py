@@ -1910,15 +1910,23 @@ def main():
 
     old_sched = read_json_or(FAMILIAS_SCHEDULE_PATH, {})
     old_bank = read_json_or(FAMILIAS_BANK_PATH, [])
+    named = [m for m in master if m["page"] and m["id"] and images.get(m["page"])]
+    fam_names = {m["page"]: name for m, name in zip(named, display_names(named))}
     fam_players, fam_schedule, fam_bank = familias.build(
-        master, images, display_names(master), old_sched, old_bank,
+        master, images, fam_names, old_sched, old_bank,
         datetime.datetime.now(datetime.timezone.utc).date())
-    check_schedule("familias", fam_schedule)
-    write_json(FAMILIAS_PLAYERS_PATH, fam_players)
-    write_json(FAMILIAS_SCHEDULE_PATH, fam_schedule)
-    write_json(FAMILIAS_BANK_PATH, fam_bank)
-    print(f"familias -> {len(fam_players)} jugadores, {len(fam_bank)} puzles libres, "
-          f"reto diario hasta {max(fam_schedule)}")
+    # Un juego nuevo no debe tumbar la actualización diaria del resto: si no salen puzles
+    # suficientes se avisa y se conservan los ficheros anteriores
+    try:
+        check_schedule("familias", fam_schedule)
+    except (SystemExit, ValueError) as e:
+        print(f"::warning::Family Grid no actualizado: {e}")
+    else:
+        write_json(FAMILIAS_PLAYERS_PATH, fam_players)
+        write_json(FAMILIAS_SCHEDULE_PATH, fam_schedule)
+        write_json(FAMILIAS_BANK_PATH, fam_bank)
+        print(f"familias -> {len(fam_players)} jugadores, {len(fam_bank)} puzles libres, "
+              f"reto diario hasta {max(fam_schedule)}")
 
     # Solo si todo ha ido bien: la próxima vez se miran los cambios desde aquí
     write_json(SYNC_STATE_PATH, {"last_sync": started.strftime("%Y-%m-%dT%H:%M:%SZ"),
