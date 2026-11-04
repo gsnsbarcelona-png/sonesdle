@@ -53,59 +53,6 @@
     ]
   },
   {
-    "id": "b0013",
-    "groups": [
-      {
-        "level": 1,
-        "id": "team:LØS",
-        "es": "Juegan en LØS",
-        "en": "Play for LØS",
-        "players": [
-          "curse-rai-yamada",
-          "duduhh",
-          "feisty",
-          "ackerman-gabriel-aparicio"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:Team Phantasma:2025",
-        "es": "Jugaron en Team Phantasma en 2025",
-        "en": "Played for Team Phantasma in 2025",
-        "players": [
-          "peppe",
-          "vaynedeta",
-          "spooder",
-          "manaty"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "title:VCS",
-        "es": "Campeones de la VCS",
-        "en": "VCS champions",
-        "players": [
-          "kiaya",
-          "chika",
-          "npc",
-          "seany"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "initial:X",
-        "es": "Su apodo empieza por X",
-        "en": "Nickname starts with X",
-        "players": [
-          "xun",
-          "xiaoxu",
-          "xiaohao",
-          "xns"
-        ]
-      }
-    ]
-  },
-  {
     "id": "b0016",
     "groups": [
       {
@@ -7945,6 +7892,59 @@
           "shadow-facundo-cuello",
           "aloned",
           "renyu"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "b0001",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:Gen.G",
+        "es": "Juegan en Gen.G",
+        "en": "Play for Gen.G",
+        "players": [
+          "ruler",
+          "duro",
+          "chovy",
+          "canyon"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:Barça eSports:2025",
+        "es": "Jugaron en Barça eSports en 2025",
+        "en": "Played for Barça eSports in 2025",
+        "players": [
+          "113",
+          "thayger",
+          "czekolad",
+          "whiteknight"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:LJL",
+        "es": "Campeones de la LJL",
+        "en": "LJL champions",
+        "players": [
+          "marble",
+          "vsta",
+          "aria-lee-ga-eul",
+          "ellim"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "twoteams:Estral Esports:Leviatan",
+        "es": "Pasaron por Estral Esports y por Leviatan",
+        "en": "Played for both Estral Esports and Leviatan",
+        "players": [
+          "shadow-facundo-cuello",
+          "strensh",
+          "zothve",
+          "cody"
         ]
       }
     ]

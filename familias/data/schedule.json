@@ -3231,5 +3231,58 @@
         ]
       }
     ]
+  },
+  "2027-01-03": {
+    "id": "2027-01-03",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:Cloud9",
+        "es": "Juegan en Cloud9",
+        "en": "Play for Cloud9",
+        "players": [
+          "zven",
+          "thanatos-park-seung-gyu",
+          "tactical",
+          "loki-lee-sang-min"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:LNG Esports:2025",
+        "es": "Jugaron en LNG Esports en 2025",
+        "en": "Played for LNG Esports in 2025",
+        "players": [
+          "zika",
+          "photic",
+          "zhuo",
+          "xiaofang"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "worlds",
+        "es": "Campeones del mundo",
+        "en": "World champions",
+        "players": [
+          "rookie",
+          "viper-park-do-hyeon",
+          "tian",
+          "zeus"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "initial:N",
+        "es": "Su apodo empieza por N",
+        "en": "Nickname starts with N",
+        "players": [
+          "noah-oh-hyeon-taek",
+          "naak-nako",
+          "nia-zou-guang-lu",
+          "namgung"
+        ]
+      }
+    ]
   }
 }
