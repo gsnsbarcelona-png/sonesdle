@@ -1066,5 +1066,17 @@
       "lpl",
       "korean"
     ]
+  },
+  "2027-01-03": {
+    "cols": [
+      "lck",
+      "adc",
+      "jungle"
+    ],
+    "rows": [
+      "worlds",
+      "msi",
+      "c9"
+    ]
   }
 }
