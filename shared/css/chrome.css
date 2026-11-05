@@ -170,3 +170,17 @@
 .theme-toggle { background: transparent; border: 0; padding: 0; cursor: pointer; }
 .topbar { gap: 4px; }
 .topbar #lang-switcher { margin-left: 8px; }
+
+/* ── Fondo con profundidad ──
+   Dos luces suaves (dorado arriba, turquesa abajo a la derecha) y una trama de puntos muy tenue sobre el
+   color base. Todo sale de los tokens, así que el tema claro y el oscuro lo adaptan solos. Esta hoja carga
+   después de la de cada juego; las que la siguen (legal, instrucciones) no deben reponer `background:`. */
+body {
+  background-image:
+    radial-gradient(ellipse 90% 60% at 50% -12%, rgb(var(--gold-rgb) / .10), transparent 62%),
+    radial-gradient(ellipse 70% 50% at 100% 105%, rgb(var(--teal-rgb) / .08), transparent 60%),
+    radial-gradient(rgb(var(--text-rgb) / .04) 1px, transparent 1.4px);
+  background-size: auto, auto, 26px 26px;
+  background-repeat: no-repeat, no-repeat, repeat;
+  background-attachment: fixed, fixed, scroll;
+}
