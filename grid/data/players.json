@@ -873,7 +873,6 @@
   {"key": "madlife", "name": "MadLife", "pos": ["support"], "nat": "korean", "teams": [], "comps": ["league_title", "lck"]},
   {"key": "mash", "name": "Mash", "pos": ["adc"], "nat": "na", "teams": [], "comps": ["lcs"]},
   {"key": "maxlore", "name": "Maxlore", "pos": ["jungle"], "nat": "european", "teams": ["g2"], "comps": ["lec"]},
-  {"key": "memento", "name": "Memento", "pos": ["jungle"], "nat": "european", "teams": [], "comps": ["lec"]},
   {"key": "mithy", "name": "Mithy", "pos": ["support"], "nat": "european", "teams": ["g2", "tsm"], "comps": ["league_title", "lcs", "lec"]},
   {"key": "mouse", "name": "Mouse", "pos": ["top", "support"], "nat": "chinese", "teams": ["edg"], "comps": ["league_title", "lpl"]},
   {"key": "mowgli", "name": "Mowgli", "pos": ["jungle"], "nat": "korean", "teams": [], "comps": ["lck", "lec"]},
