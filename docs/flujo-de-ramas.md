@@ -54,8 +54,10 @@ Se comprueba así; si no sale ningún fichero, no hay nada que sincronizar y se 
 
 ```
 git fetch origin
-git diff --stat origin/develop..origin/main
+git diff --stat origin/develop...origin/main
 ```
+
+**Con tres puntos (`...`), no con dos.** Con tres puntos se comparan los cambios que `main` ha hecho desde que se separó de `develop`, que es lo que `develop` no tiene. Con dos puntos se comparan los dos extremos tal cual: si `develop` va por delante (lo normal tras mergear funcionalidades), salen sus ficheros aunque `main` no tenga nada nuevo, y parece que hay que sincronizar cuando no es así.
 
 El commit de merge de una publicación sin cambios **no** cuenta: no lleva ficheros y no justifica un PR.
 
