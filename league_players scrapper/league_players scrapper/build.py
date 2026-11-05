@@ -1479,18 +1479,21 @@ def _date(s):
 
 
 def career_label(h, team_majors):
-    """Etiqueta de una etapa de la carrera. LCK, LPL, LEC o LCS solo si el equipo jugó esa liga
-    mayor durante la etapa (con la EU LCS y la NA LCS como nombres antiguos); si no, su región
-    (EMEA, NA, KR, CN, PAC, BR, LATAM), porque Galions es de EMEA aunque no sea de la LEC.
-    `team_majors` es None si no se pudo descargar: entonces se usa la liga de su región."""
+    """Etiqueta de una etapa de la carrera. LCK, LPL, LEC o LCS solo si el equipo jugó, durante la
+    etapa, la liga mayor de SU región (con la EU LCS y la NA LCS como nombres antiguos); si no, su
+    región (EMEA, NA, KR, CN, PAC, BR, LATAM), porque Galions es de EMEA aunque no sea de la LEC.
+    Las invitaciones a la liga de otra región (CLG o Fnatic en la OGN) no cuentan: CLG sigue siendo
+    NA antes de que existiera la LCS. `team_majors` es None si no se pudo descargar: entonces se
+    usa la liga de su región, como antes."""
+    home = h["league"] if h["league"] in CARRERA_REGIONS else None
     if team_majors is None:
-        return h["league"] if h["league"] in CARRERA_REGIONS else "OTHER"
+        return home or "OTHER"
     start = _date(h["from"])
-    if start:
+    if home and start:
         end_year = (_date(h["to"]) or datetime.date.today()).year
-        for code, year in team_majors.get(h["team"], []):
-            if start.year <= year <= end_year:
-                return code.upper()
+        if any(code.upper() == home and start.year <= year <= end_year
+               for code, year in team_majors.get(h["team"], [])):
+            return home
     return h.get("region") or "OTHER"
 
 
