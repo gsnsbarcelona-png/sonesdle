@@ -11,7 +11,7 @@ export class VictoryComponent {
   #triesEl;
   #imgEl;
 
-  constructor({ overlayEl, titleEl, playerEl, realEl, triesEl, imgEl, onRestart }) {
+  constructor({ overlayEl, titleEl, playerEl, realEl, triesEl, imgEl, onRestart, onClose }) {
     this.#overlay  = overlayEl;
     this.#titleEl  = titleEl;
     this.#playerEl = playerEl;
@@ -22,6 +22,11 @@ export class VictoryComponent {
     overlayEl
       .querySelector('.btn-restart')
       ?.addEventListener('click', onRestart);
+
+    // "Cerrar": se vuelve a la cuadrícula con la partida terminada (también con Escape)
+    overlayEl
+      .querySelector('#v-close-btn')
+      ?.addEventListener('click', () => { this.hide(); onClose?.(); });
   }
 
   show(secret, attempts) {

@@ -48,6 +48,7 @@ async function boot() {
     triesEl:   document.getElementById('v-tries'),
     imgEl:     document.getElementById('v-img'),
     onRestart: onPlayAgain,
+    onClose:   onCloseResult,
   });
 
   const search = new SearchComponent({
@@ -62,7 +63,7 @@ async function boot() {
     input: document.getElementById('search-input'), list: document.getElementById('search-dropdown'),
     optionSelector: '.dd-item', activeClass: 'dd-active',
   });
-  setupDialog(document.getElementById('victory-overlay'));   // fin de partida: sin Escape, se sale con sus botones
+  setupDialog(document.getElementById('victory-overlay'), { closeSelector: '#v-close-btn' });   // fin de partida: Escape = Cerrar
   setupDialog(document.getElementById('instructions-modal'), { closeSelector: '#instructions-close' });
 
   const guessBtn         = document.getElementById('guess-btn');
@@ -74,7 +75,7 @@ async function boot() {
   const hardBtn          = document.getElementById('hard-mode-btn');
   const resultView       = document.getElementById('v-result');
   const setupView        = document.getElementById('v-setup');
-  const otherGamesEl     = document.getElementById('v-other-games');
+  const resultBtn        = document.getElementById('result-btn');
   const customizeBtn     = document.getElementById('v-customize-btn');
   const startBtn         = document.getElementById('v-start-btn');
   const backBtn          = document.getElementById('v-back-btn');
@@ -375,13 +376,33 @@ async function boot() {
   // ── Helpers de UI ─────────────────────────────────────────
   function showVictory(secret, attempts, won) {
     showResultView();
-    // Tras el reto diario: otros juegos; en modo libre: cambiar los ajustes
-    otherGamesEl?.classList.toggle('hidden', !isDaily);
+    // En modo libre: cambiar los ajustes
     customizeBtn?.classList.toggle('hidden', isDaily);
-    victory.show(secret, won ? attempts : 0);
+    lastResult = { secret, attempts: won ? attempts : 0 };
+    victory.show(lastResult.secret, lastResult.attempts);
   }
 
+  // Último resultado, para poder volver a verlo tras cerrar el diálogo
+  let lastResult = null;
+
+  /** "Cerrar": la partida sigue terminada; "Rendirse" deja su sitio a "Ver resultado". */
+  function onCloseResult() {
+    particles.stopConfetti();
+    giveupBtn.classList.add('hidden');
+    resultBtn?.classList.remove('hidden');
+    showResultView();   // al reabrir, vuelve la vista del resultado y no la de personalizar
+  }
+
+  resultBtn?.addEventListener('click', () => {
+    if (!lastResult) return;
+    showResultView();
+    victory.show(lastResult.secret, lastResult.attempts);
+  });
+
   function resetUI() {
+    giveupBtn.classList.remove('hidden');
+    resultBtn?.classList.add('hidden');
+    lastResult = null;
     grid.clear();
     countEl.textContent = '0';
     search.clearInput();
