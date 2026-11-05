@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <!-- Iconos propios de LoL Pro Games. Estilo: hexagonal (la forma de Hextech), esquinas rectas,
+       trazo de 1.8 y una pieza rellena al 22 % con el mismo color. Se usan con <use href="icons.svg#id">. -->
+  <symbol id="dle" viewBox="0 0 24 24">
+    <path d="M12 2.5l8.2 4.75v9.5L12 21.5l-8.2-4.75v-9.5z" fill="currentColor" fill-opacity=".22" stroke="currentColor" stroke-width="1.8" stroke-linejoin="miter"/>
+    <path d="M12 7v2.4M12 14.6V17M7.2 12h2.4M14.4 12h2.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/>
+    <circle cx="12" cy="12" r="1.6" fill="currentColor"/>
+  </symbol>
+  <symbol id="rostergues" viewBox="0 0 24 24">
+    <path d="M12 2.5l8 2.8v6.4c0 4.4-3.2 8-8 9.8-4.8-1.8-8-5.4-8-9.8V5.3z" fill="currentColor" fill-opacity=".22" stroke="currentColor" stroke-width="1.8" stroke-linejoin="miter"/>
+    <g fill="currentColor"><circle cx="8.6" cy="9.4" r="1.25"/><circle cx="15.4" cy="9.4" r="1.25"/><circle cx="12" cy="12.4" r="1.25"/><circle cx="9.3" cy="15.4" r="1.25"/><circle cx="14.7" cy="15.4" r="1.25"/></g>
+  </symbol>
+  <symbol id="carrera" viewBox="0 0 24 24">
+    <path d="M5 18.5l4.5-6 4.5 3.5 5-8.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="miter" stroke-linecap="square"/>
+    <path d="M4.5 15.2l3.3 3.3-3.3 3.3-3.3-3.3z" fill="currentColor" fill-opacity=".45"/>
+    <path d="M19.5 2.2l3.6 3.6-3.6 3.6-3.6-3.6z" fill="currentColor"/>
+  </symbol>
+  <symbol id="grid" viewBox="0 0 24 24">
+    <path d="M9 3.5v17M15 3.5v17M3.5 9h17M3.5 15h17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/>
+    <path d="M3.5 3.5h17v17h-17z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="miter"/>
+    <g fill="currentColor"><rect x="9.9" y="9.9" width="4.2" height="4.2" fill-opacity=".5"/><rect x="4.4" y="4.4" width="4.2" height="4.2" fill-opacity=".22"/><rect x="15.4" y="15.4" width="4.2" height="4.2" fill-opacity=".22"/></g>
+  </symbol>
+  <symbol id="wordle" viewBox="0 0 24 24">
+    <path d="M2.5 6.5h5.6v11H2.5zM9.2 6.5h5.6v11H9.2zM15.9 6.5h5.6v11h-5.6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="miter"/>
+    <path d="M9.2 6.5h5.6v11H9.2z" fill="currentColor" fill-opacity=".35"/>
+    <path d="M10.6 12.2l1.1 1.2 1.9-2.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/>
+  </symbol>
+  <symbol id="familias" viewBox="0 0 24 24">
+    <path d="M12 8.2v3.3M12 11.5H6v3.2M12 11.5h6v3.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter"/>
+    <g fill="currentColor" fill-opacity=".22" stroke="currentColor" stroke-width="1.8" stroke-linejoin="miter"><path d="M12 3l3.2 1.9v3.7L12 10.5 8.8 8.6V4.9z"/><path d="M6 14.7l3 1.7v3.4L6 21.5l-3-1.7v-3.4z"/><path d="M18 14.7l3 1.7v3.4l-3 1.7-3-1.7v-3.4z"/></g>
+  </symbol>
+  <symbol id="trophy" viewBox="0 0 24 24">
+    <path d="M7 3.5h10v6.2c0 3-2.2 5-5 5s-5-2-5-5z" fill="currentColor" fill-opacity=".22" stroke="currentColor" stroke-width="1.8" stroke-linejoin="miter"/>
+    <path d="M7 5.5H3.8v1.6c0 2 1.4 3.4 3.4 3.6M17 5.5h3.2v1.6c0 2-1.4 3.4-3.4 3.6M12 14.7v3.6M8 20.5h8M9 18.3h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter"/>
+  </symbol>
+  <symbol id="defeat" viewBox="0 0 24 24">
+    <path d="M12 2.5l8.2 4.75v9.5L12 21.5l-8.2-4.75v-9.5z" fill="currentColor" fill-opacity=".22" stroke="currentColor" stroke-width="1.8" stroke-linejoin="miter"/>
+    <path d="M9 9l6 6M15 9l-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/>
+  </symbol>
+  <symbol id="user" viewBox="0 0 24 24">
+    <path d="M12 3.2l3.6 2.1v4.2L12 11.6 8.4 9.5V5.3z" fill="currentColor" fill-opacity=".22" stroke="currentColor" stroke-width="1.8" stroke-linejoin="miter"/>
+    <path d="M4 21c.6-4 3.2-6.2 8-6.2s7.4 2.2 8 6.2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="miter"/>
+  </symbol>
+  <symbol id="close" viewBox="0 0 24 24">
+    <path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+  </symbol>
+</svg>

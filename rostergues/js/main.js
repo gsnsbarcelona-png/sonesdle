@@ -7,6 +7,7 @@ import { mountGameNav } from '../../shared/nav.js';
 import { recordResult, getTodayDaily, today } from '../../shared/auth.js';
 import { hideKeyboard } from '../../shared/js/keyboard.js';
 import { ParticlesComponent } from '../../shared/js/ParticlesComponent.js';
+import { iconHtml } from '../../shared/js/icons.js';
 import * as AC from '../../shared/js/autocomplete.js';
 import { esc } from '../../shared/js/escape.js';
 import { flagEmojiHtml } from '../../shared/js/flags.js';
@@ -36,9 +37,8 @@ function markDailyDone() {
 }
 
 /* ─── Iconos del resultado (trazo, sin emojis) ───────────── */
-const SVG_OPEN = '<svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">';
-const ICON_WIN  = `${SVG_OPEN}<path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M12 14v4M8 20h8"/></svg>`;
-const ICON_LOSE = `${SVG_OPEN}<circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg>`;
+const ICON_WIN  = iconHtml('trophy', 56);
+const ICON_LOSE = iconHtml('defeat', 56);
 
 /* ─── i18n ───────────────────────────────────────────────── */
 const STATIC = {
