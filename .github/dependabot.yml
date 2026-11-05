@@ -2,17 +2,20 @@ version: 2
 updates:
   - package-ecosystem: github-actions
     directory: /
+    target-branch: develop   # GitFlow: las versiones nuevas entran por develop
     schedule:
       interval: monthly
 
   # Supabase, esbuild y fuentes que se empaquetan en shared/ (tools/vendor)
   - package-ecosystem: npm
     directory: /tools/vendor
+    target-branch: develop   # GitFlow: las versiones nuevas entran por develop
     schedule:
       interval: monthly
 
   # Dependencias del generador de datos que corre el workflow diario
   - package-ecosystem: pip
     directory: "/league_players scrapper/league_players scrapper"
+    target-branch: develop   # GitFlow: las versiones nuevas entran por develop
     schedule:
       interval: monthly
