@@ -197,3 +197,6 @@ body {
 }
 .player-photo-sm { --photo: 36px; }
 .player-photo-lg { --photo: 64px; }
+
+/* Iconos propios (shared/icons.svg) */
+.icon { display: inline-block; flex: none; vertical-align: middle; }

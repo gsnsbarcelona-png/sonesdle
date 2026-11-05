@@ -4,6 +4,7 @@
  */
 import { mountAccount } from './account.js';
 import { mountThemeToggle } from './js/theme.js';
+import { iconHtml } from './js/icons.js';
 
 const GAMES = [
   { id: 'dle',        href: '../dle/',        name: 'Adivina el Pro',  tag: 'Pistas'       },
@@ -14,19 +15,6 @@ const GAMES = [
   { id: 'familias',   href: '../familias/',   name: 'Family Grid',     tag: 'Familias'     },
 ];
 
-/** Iconos de trazo (viewBox 24). */
-const ICONS = {
-  dle: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/>',
-  rostergues: '<path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M12 14v4M8 20h8"/>',
-  carrera: '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/>',
-  grid: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
-  wordle: '<path d="M5 7V5h14v2M12 5v14M9 19h6"/>',
-  familias: '<circle cx="8" cy="8" r="3.2"/><circle cx="16.5" cy="9" r="2.6"/><path d="M2.5 19a5.5 5.5 0 0 1 11 0M14 19a4.5 4.5 0 0 1 7.5 0"/>'
-};
-
-function svgIcon(paths) {
-  return `<svg class="gnav-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`;
-}
 
 function getCurrentId() {
   const path = window.location.pathname;
@@ -55,7 +43,7 @@ export function mountGameNav() {
     el.className = 'gnav-icon-btn' + (g.id === currentId ? ' gnav-current' : '');
     el.title = g.name;
     el.setAttribute('aria-label', g.name);
-    el.innerHTML = svgIcon(ICONS[g.id]);
+    el.innerHTML = iconHtml(g.id, 22, 'gnav-svg');
     if (g.id === currentId) el.setAttribute('aria-current', 'page');
     iconsRow.appendChild(el);
   });
