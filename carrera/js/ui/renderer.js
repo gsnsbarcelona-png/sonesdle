@@ -45,15 +45,18 @@ function getDOM() {
  * @param {import('../data/players.js').Player} player
  * @param {number} revealedCount
  */
-function renderTimeline(player, revealedCount) {
+function renderTimeline(player, revealedCount, roundOver = false) {
   const { timeline } = getDOM();
-  const shown  = player.career.slice(0, revealedCount);
-  const hidden = player.career.length - revealedCount;
+  // Al terminar la ronda, ganada o perdida, se ve la trayectoria entera
+  const shownCount = roundOver ? player.career.length : revealedCount;
+  const shown  = player.career.slice(0, shownCount);
+  const hidden = player.career.length - shownCount;
+  const late   = roundOver ? player.career.length - revealedCount : 0;   // etapas que no se habían revelado
 
   const itemsHTML = shown
     .map(
-      (c) => `
-      <div class="timeline-item">
+      (c, i) => `
+      <div class="timeline-item${i >= revealedCount ? ' late' : ''}">
         <div class="timeline-dot"></div>
         <span class="timeline-year">${esc(c.year)}</span>
         <span class="timeline-team">${teamLogoHtml(c.team)}<span>${esc(c.team)}</span></span>
@@ -70,7 +73,9 @@ function renderTimeline(player, revealedCount) {
          </div>`
       : '';
 
-  timeline.innerHTML = itemsHTML + moreHTML;
+  const lateHTML = late > 0 ? `<div class="timeline-more"><span>${t('stagesLate')}</span></div>` : '';
+
+  timeline.innerHTML = itemsHTML + moreHTML + lateHTML;
 }
 
 /**
@@ -177,7 +182,7 @@ function renderControls(state) {
  * @param {ReturnType<import('../core/state.js').getState>} state
  */
 export function update(state) {
-  renderTimeline(state.currentPlayer, state.revealedCount);
+  renderTimeline(state.currentPlayer, state.revealedCount, state.roundOver);
   renderDots(state.attempts);
   renderHintsLog(state.hintsLog);
   renderStats(state.stats);

@@ -67,6 +67,7 @@ ALIASES_CACHE_PATH     = os.path.join(SCRIPT_DIR, "cache", "cargo_aliases.json")
 LEAGUE_TITLES_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_league_titles.json")
 LEAGUE_INFO_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_leagues.json")
 MAJOR_LEAGUES_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_major_leagues.json")
+TEAM_MAJORS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_team_majors.json")
 CHAMPIONS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_champions.json")
 TEAM_TOURNAMENTS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_team_tournaments.json")
 CHAMPION_REDIRECTS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "champion_redirects.json")
@@ -941,6 +942,39 @@ def fetch_major_leagues(aliases):
     return dict(result)
 
 
+def fetch_team_majors(teams):
+    """{equipo: [[liga mayor, año]]}: años en los que el equipo jugó la LCK, la LPL, la LEC (o la
+    EU LCS) o la LCS (con sus nombres antiguos). Todos los equipos pedidos salen en el resultado,
+    aunque no hayan jugado ninguna (así la caché sabe que ya se miraron)."""
+    session = new_session()
+    teams = sorted(set(teams))
+    names = ",".join(cargo_quote(n) for names in MAJOR_LEAGUES.values() for n in names)
+    by_name = {n: code for code, names in MAJOR_LEAGUES.items() for n in names}
+    found = {t: set() for t in teams}
+    batch = 25   # un equipo grande suma cientos de filas (varios torneos por año)
+    for i in range(0, len(teams), batch):
+        print(f"\r  Ligas de equipos [{min(i + batch, len(teams))}/{len(teams)}]", end="", flush=True)
+        time.sleep(CARGO_DELAY)
+        r = session.get(CARGO_URL, headers=HEADERS, timeout=60, params={
+            "tables": "TournamentRosters=TR,Tournaments=T",
+            "join_on": "TR.OverviewPage=T.OverviewPage",
+            "fields": "TR.Team=Team,T.League=League,T.Year=Year",
+            "where": f"T.League IN ({names}) AND TR.Team IN (%s)"
+                     % ",".join(cargo_quote(t) for t in teams[i:i + batch]),
+            "format": "json", "limit": 5000,
+        })
+        r.raise_for_status()
+        rows = r.json()
+        if isinstance(rows, dict):
+            raise RuntimeError(f"Leaguepedia: {rows.get('error', rows)}")
+        for row in rows:
+            team, code = str(row.get("Team", "")), by_name.get(row.get("League"))
+            if team in found and code and str(row.get("Year") or "").isdigit():
+                found[team].add((code, int(row["Year"])))
+    print()
+    return {t: sorted([code, year] for code, year in ys) for t, ys in found.items()}
+
+
 def fetch_league_history():
     """{liga del Wordle: [[jugador, torneo, rol, equipo]]}: todos los que han jugado
     cada liga tier 1, sin filtrar por jugador (paginado de 5000 en 5000)."""
@@ -1160,6 +1194,11 @@ def tenure_role(role):
     return None
 
 
+def region_code(team_region):
+    """Región de un equipo de Leaguepedia -> EMEA, NA, KR, CN, PAC, BR o LATAM (None si no se sabe)."""
+    return REGION_CODES.get(team_region) or HISTORY_LEAGUE_REGION.get(TEAM_REGION_LEAGUE.get(team_region))
+
+
 def history_from_tenures(tenures, team_regions):
     """Solo etapas como jugador. Las del mismo equipo separadas por menos de
     MERGE_GAP_DAYS se unen, aunque haya otra etapa solapada en medio (una
@@ -1179,6 +1218,7 @@ def history_from_tenures(tenures, team_regions):
             continue
         history.append({"team": t["team"],
                         "league": TEAM_REGION_LEAGUE.get(team_regions.get(t["team"])),
+                        "region": region_code(team_regions.get(t["team"])),
                         "from": t["from"], "to": t["to"],
                         "days": {role: tenure_days(t)}})
     for i, h in enumerate(history):
@@ -1186,6 +1226,7 @@ def history_from_tenures(tenures, team_regions):
         if not h["league"]:
             neighbours = history[i - 1:i][::-1] + history[i + 1:i + 2]
             h["league"] = next((n["league"] for n in neighbours if n["league"]), None)
+            h["region"] = h["region"] or next((n["region"] for n in neighbours if n["region"]), None)
     return history
 
 
@@ -1437,8 +1478,24 @@ def _date(s):
     return datetime.date.fromisoformat(s) if s and re.fullmatch(r"\d{4}-\d{2}-\d{2}", s) else None
 
 
-def career_from_history(history):
-    """Etapas de carrera: "2016–18" + equipo + región (LCK|LPL|LEC|LCS|OTHER).
+def career_label(h, team_majors):
+    """Etiqueta de una etapa de la carrera. LCK, LPL, LEC o LCS solo si el equipo jugó esa liga
+    mayor durante la etapa (con la EU LCS y la NA LCS como nombres antiguos); si no, su región
+    (EMEA, NA, KR, CN, PAC, BR, LATAM), porque Galions es de EMEA aunque no sea de la LEC.
+    `team_majors` es None si no se pudo descargar: entonces se usa la liga de su región."""
+    if team_majors is None:
+        return h["league"] if h["league"] in CARRERA_REGIONS else "OTHER"
+    start = _date(h["from"])
+    if start:
+        end_year = (_date(h["to"]) or datetime.date.today()).year
+        for code, year in team_majors.get(h["team"], []):
+            if start.year <= year <= end_year:
+                return code.upper()
+    return h.get("region") or "OTHER"
+
+
+def career_from_history(history, team_majors=None):
+    """Etapas de carrera: "2016–18" + equipo + etiqueta de liga o región (ver career_label).
     Se saltan pruebas/cesiones de menos de MIN_TENURE_DAYS."""
     today = datetime.date.today()
     rows = []
@@ -1451,12 +1508,11 @@ def career_from_history(history):
     career = []
     for start, end, h in long_enough:
         year = str(start.year) if start.year == end.year else f"{start.year}–{str(end.year)[2:]}"
-        region = h["league"] if h["league"] in CARRERA_REGIONS else "OTHER"
-        career.append({"year": year, "team": h["team"], "region": region})
+        career.append({"year": year, "team": h["team"], "region": career_label(h, team_majors)})
     return career
 
 
-def build_carrera_js(curated, by_page):
+def build_carrera_js(curated, by_page, team_majors=None):
     players, missing = [], []
     for c in curated:
         p = by_page.get(c["page"])
@@ -1466,7 +1522,7 @@ def build_carrera_js(curated, by_page):
         main_role = (p["roles"] or p["positions"] or [""])[0]
         position = {"ADC": "Bot"}.get(main_role, main_role)
         players.append({"name": p["id"], "position": position,
-                        "career": career_from_history(p["history"])})
+                        "career": career_from_history(p["history"], team_majors)})
     J = lambda v: json.dumps(v, ensure_ascii=False)
     lines = ["// Generado por build.py (curated/carrera.json + Leaguepedia). No editar a mano.",
              "// Para añadir un jugador: añádelo a curated/carrera.json y ejecuta build.py.",
@@ -1474,7 +1530,7 @@ def build_carrera_js(curated, by_page):
              "/**",
              " * @typedef {{ year: string, team: string, region: string }} CareerEntry",
              " * @typedef {{ name: string, position: string, career: CareerEntry[] }} Player",
-             " * Regions: LCK | LPL | LEC | LCS | OTHER",
+             " * Regions: LCK | LPL | LEC | LCS (solo si el equipo jugó esa liga) | EMEA | NA | KR | CN | PAC | BR | LATAM | OTHER",
              " */",
              "",
              "/** @type {Player[]} */",
@@ -1950,7 +2006,18 @@ def main():
           f"{len(roster_players)} jugadores, {no_real} sin nombre real)")
 
     by_page = {m["page"]: m for m in master if m["page"]}
-    js, missing = build_carrera_js(curated_carrera, by_page)
+    # Ligas mayores que jugó cada equipo de los jugadores de carrera. Si no se pueden descargar, las
+    # etiquetas vuelven a ser las de siempre (la liga de su región) en vez de quedarse sin liga
+    try:
+        carrera_teams = {h["team"] for c in curated_carrera for h in by_page.get(c["page"], {}).get("history", [])
+                         if h["team"]}
+        team_majors = cached_by_key(TEAM_MAJORS_CACHE_PATH, refresh, carrera_teams, fetch_team_majors,
+                                    STABLE_REFRESH_DAYS)
+        print(f"  ligas mayores de {sum(1 for v in team_majors.values() if v)}/{len(carrera_teams)} equipos")
+    except Exception as e:
+        print(f"::warning::Ligas de los equipos de carrera no actualizadas: {e}")
+        team_majors = None
+    js, missing = build_carrera_js(curated_carrera, by_page, team_majors)
     carrera_js = js
     carrera_names = re.findall(r'^  \{"name": "([^"]*)"', js, re.M)
     check_dataset("carrera", CARRERA_PATH, carrera_names, len(carrera_names),
