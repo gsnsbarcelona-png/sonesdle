@@ -17,6 +17,7 @@
 /* YEAR BANNER */
 .year-banner{text-align:center;padding:20px 16px 16px;background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-bottom:18px;animation:fadeUp 0.5s ease 0.05s both}
 .year-team{font-family:var(--font-display);font-size:clamp(2rem,6vw,3rem);font-weight:700;color:var(--text);letter-spacing:0.02em;line-height:1.05;text-transform:uppercase}
+.year-team{display:flex;flex-direction:column;align-items:center;gap:10px}
 .year-year{font-family:var(--font-mono);font-size:1.1rem;font-weight:600;color:var(--gold);letter-spacing:0.1em;margin-top:6px}
 .year-event{font-family:var(--font-mono);font-size:0.72rem;color:var(--text-dim);letter-spacing:0.08em;margin-top:8px;text-transform:uppercase;font-weight:400}
 .year-region-badge{display:inline-block;font-family:var(--font-mono);font-size:0.68rem;font-weight:600;letter-spacing:0.08em;padding:2px 8px;border:1px solid;border-radius:4px;margin-top:10px;text-transform:uppercase}
@@ -47,6 +48,7 @@
 .slot-solved .slot-real,.slot-solved .slot-check,.slot-solved .slot-position{color:var(--green-text)}
 .slot-real{font-size:0.75rem;color:var(--text-dim);text-align:center;margin-top:2px;font-style:italic}
 .slot-flag{font-size:1.4rem;line-height:1;margin-top:2px}
+.slot-photo{--photo:56px;margin:2px 0 4px;animation:iconPop 0.4s ease}
 .flag-img{height:.85em;width:auto;vertical-align:-.08em;border-radius:2px}
 .slot-check{font-size:1rem;color:var(--green);font-weight:700;animation:iconPop 0.4s ease}
 
@@ -130,6 +132,8 @@
   .input-row .btn{width:100%}
   .player-slot{min-height:70px;flex-direction:row;gap:10px;padding:10px 14px;justify-content:flex-start}
   .slot-position{margin-bottom:0;min-width:52px}
+  .slot-photo{--photo:44px;margin:0}
+  .slot-solved{padding-top:8px;padding-bottom:8px}
   .input-row{flex-direction:column}
   .result-roster{grid-template-columns:repeat(2,1fr)}
   .info-row{padding:8px 12px;gap:6px}
