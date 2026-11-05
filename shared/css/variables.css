@@ -4,8 +4,8 @@
   color-scheme: dark;
 
   /* Canales (tema oscuro) */
-  --bg-rgb: 11 13 16;        --surface-rgb: 18 22 27;   --surface2-rgb: 24 29 36;
-  --border-rgb: 35 42 51;    --text-rgb: 233 237 241;   --dim-rgb: 163 173 185;
+  --bg-rgb: 15 20 29;        --surface-rgb: 25 33 46;   --surface2-rgb: 33 43 59;
+  --border-rgb: 50 62 82;    --text-rgb: 233 237 241;   --dim-rgb: 163 173 185;
   --gold-rgb: 232 184 74;    --gold-dark-rgb: 168 131 42;
   --danger-rgb: 224 100 92;  --danger-border-rgb: 107 42 39; --danger-bg-rgb: 26 5 5;
   --teal-rgb: 63 193 201;
