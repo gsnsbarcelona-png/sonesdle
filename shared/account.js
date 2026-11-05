@@ -2,6 +2,7 @@
  * account.js — Botón de cuenta en la cabecera y ventana con el login de
  * Google y las estadísticas de cada juego.
  */
+import { iconHtml } from './js/icons.js';
 import { getLang } from './lang.js';
 import { getClient, mayHaveSession, onAuthChange, signIn, signOut, deleteAccount,
          getResults, computeStats, GAMES } from './auth.js';
@@ -41,7 +42,7 @@ let currentGame = null;
 let wordleLength = null;   // Pro Wordle: estadísticas de una sola longitud (4, 5, 6)
 
 /** Añade el botón de cuenta al final de `container` (la fila de iconos). */
-const USER_SVG = '<svg class="gnav-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>';
+const USER_SVG = iconHtml('user', 22, 'gnav-svg');
 
 export function mountAccount(container, gameId) {
   currentGame = GAMES.includes(gameId) ? gameId : GAMES[0];
