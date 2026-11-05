@@ -15,6 +15,7 @@ import { mountSwitcher, applyStaticTranslations } from '../../shared/lang.js';
 import { mountGameNav } from '../../shared/nav.js';
 import { hideKeyboard, focusIfDesktop } from '../../shared/js/keyboard.js';
 import { setupCombobox, setupDialog } from '../../shared/js/a11y.js';
+import { loadTeamLogos } from '../../shared/js/media.js';
 
 // ─── Element shortcuts ────────────────────────────────────────────────────────
 
@@ -149,7 +150,7 @@ function bindEvents() {
 
 // ─── Boot ─────────────────────────────────────────────────────────────────────
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   // Idioma global
   mountSwitcher();
   mountGameNav();
@@ -173,5 +174,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setupDialog(document.getElementById('instructions-modal'), { closeSelector: '#instructions-close' });
 
   bindEvents();
+  await loadTeamLogos();   // extra: sin el fichero de logos el juego arranca igual
   Renderer.update(State.getState());
 });

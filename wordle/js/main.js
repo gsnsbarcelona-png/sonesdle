@@ -6,6 +6,7 @@ import { esc } from '../../shared/js/escape.js';
 import { loadJson, showLoadError } from '../../shared/js/data.js';
 import { setupDialog } from '../../shared/js/a11y.js';
 import { store } from '../../shared/js/storage.js';
+import { loadTeamLogos, teamLogoHtml, playerPhotoHtml } from '../../shared/js/media.js';
 
 const ROWS = 6;
 // El largo de la palabra varía: el diario rota entre 4, 5 y 6 letras; en el libre se elige
@@ -33,6 +34,7 @@ setupDialog($('endOverlay'), { closeSelector: '#btnClose' });
 const [{ answers, guesses }, schedule] = await Promise.all([
   loadJson('./data/words.json'),
   loadJson('./data/schedule.json').catch(() => ({})),
+  loadTeamLogos(),   // extra: sin el fichero de logos el juego arranca igual
 ]).catch(showLoadError);
 
 // Palabra → jugadores con ese nombre (el más conocido primero)
@@ -229,7 +231,7 @@ let countdown;
 /** Recorrido de equipos con su liga: "Dignitas (LCS) → Misfits Gaming (LEC)". Solo los últimos si es largo. */
 function pathHtml(path) {
   const shown = path.slice(-MAX_PATH).map(([team, league]) =>
-    `${esc(team)} <span class="path-league">${leagueLabel(league)}</span>`);
+    `${teamLogoHtml(team, 'team-logo-sm')}${esc(team)} <span class="path-league">${leagueLabel(league)}</span>`);
   return (path.length > MAX_PATH ? '… → ' : '') + shown.join(' → ');
 }
 
@@ -239,7 +241,10 @@ function showEnd() {
   $('endTitle').textContent = state.won ? t('won', state.rows.length) : t('lost');
   $('endWord').textContent  = state.word;
   $('endPlayer').innerHTML = !p ? '' : `
-    <div><b>${esc(p.name)}</b> · ${esc(p.role)}${p.years ? ` · ${p.years[0]}${p.years[1] !== p.years[0] ? `–${p.years[1]}` : ''}` : ''}</div>
+    <div class="end-head">
+      ${p.image ? playerPhotoHtml(p.image, 'player-photo-lg') : ''}
+      <div><b>${esc(p.name)}</b> · ${esc(p.role)}${p.years ? ` · ${p.years[0]}${p.years[1] !== p.years[0] ? `–${p.years[1]}` : ''}` : ''}</div>
+    </div>
     ${p.path?.length ? `<div class="path">${pathHtml(p.path)}</div>` : ''}
     <div class="tags">${p.leagues.map(l => `<span class="tag">${leagueLabel(l)}</span>`).join('')}</div>
     ${others.length ? `<div class="also">${t('also', others.map(o => `${esc(o.name)} (${esc(o.leagues.join(', '))})`).join(' · '))}</div>` : ''}`;

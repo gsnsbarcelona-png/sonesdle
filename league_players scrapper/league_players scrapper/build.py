@@ -73,6 +73,7 @@ CHAMPION_REDIRECTS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "champion_redi
 TIER2_PLAYERS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_tier2_players_v3.json")
 BIRTH_YEARS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "birth_years.json")
 IMAGES_CACHE_PATH        = os.path.join(SCRIPT_DIR, "cache", "player_images.json")
+TEAM_LOGOS_CACHE_PATH    = os.path.join(SCRIPT_DIR, "cache", "team_logos.json")
 TIER2_TEAMS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_tier2_teams.json")
 TIER1_PLAYERS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_tier1_players_v3.json")
 TIER1_TEAMS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_tier1_teams.json")
@@ -82,6 +83,7 @@ CURATED_CARRERA_PATH   = os.path.join(SCRIPT_DIR, "curated", "carrera.json")
 CURATED_GRID_PATH      = os.path.join(SCRIPT_DIR, "curated", "grid.json")
 ROSTERGUES_PATH  = os.path.join(ROOT, "rostergues", "js", "data", "rosters.js")
 CARRERA_PATH     = os.path.join(ROOT, "carrera", "js", "data", "players.js")
+TEAM_LOGOS_PATH  = os.path.join(ROOT, "shared", "data", "team-logos.json")
 GRID_PATH        = os.path.join(ROOT, "grid", "data", "players.json")
 GRID_CATEGORIES_PATH = os.path.join(ROOT, "grid", "data", "categories.json")
 GRID_SCHEDULE_PATH   = os.path.join(ROOT, "grid", "data", "schedule.json")
@@ -753,6 +755,56 @@ def fetch_images(pages):
     return images
 
 
+LOGO_WIDTH = 80   # px: el logo se enseña a 24-56 px (el doble, para pantallas HiDPI)
+LOGO_SUFFIXES = ("logo square.png", "logo std.png")   # nombres habituales de fichero en Leaguepedia
+
+
+def fetch_team_logos(teams):
+    """{equipo: URL del logo}. Cargo (Teams.Image) dice el fichero; como respaldo se prueban los
+    nombres habituales de Leaguepedia ("<Equipo>logo square.png", "<Equipo>logo std.png"). La API
+    de la wiki da la URL final, de miniatura (LOGO_WIDTH), y solo se admite el host de la CSP.
+    Si Cargo no tiene ese campo, se sigue solo con los nombres habituales."""
+    session = new_session()
+    teams = sorted(set(teams))
+    candidates = {t: [] for t in teams}
+    titles = {t[:1].upper() + t[1:]: t for t in teams}
+    keys = sorted(titles)
+    try:
+        for i in range(0, len(keys), CARGO_BATCH):
+            time.sleep(CARGO_DELAY)
+            for row in cargo_query(session, "OverviewPage", keys[i:i + CARGO_BATCH],
+                                   table="Teams", fields="OverviewPage,Image"):
+                team = titles.get(row["OverviewPage"])
+                if team and row.get("Image"):
+                    candidates[team].append(html.unescape(row["Image"]).replace("_", " "))
+    except Exception as e:
+        print(f"::warning::Logos: no se pudo leer Teams.Image ({e}); se usan los nombres habituales")
+    for t in teams:
+        candidates[t] += [t + suffix for suffix in LOGO_SUFFIXES]
+    files = sorted({"File:" + f for c in candidates.values() for f in c})
+    urls = {}   # "File:X.png" -> URL
+    for i in range(0, len(files), 50):
+        time.sleep(CARGO_DELAY)
+        r = session.get(API_URL, headers=HEADERS, timeout=60, params={
+            "action": "query", "prop": "imageinfo", "iiprop": "url", "iiurlwidth": LOGO_WIDTH,
+            "titles": "|".join(files[i:i + 50]), "format": "json",
+        })
+        r.raise_for_status()
+        query = r.json()["query"]
+        back = {step["to"]: step["from"] for step in query.get("normalized", [])}
+        for pg in query["pages"].values():
+            info = (pg.get("imageinfo") or [{}])[0]
+            url = info.get("thumburl") or info.get("url") or ""
+            if urlparse(url).hostname == IMAGE_HOST:
+                urls[back.get(pg["title"], pg["title"])] = url
+    logos = {}
+    for t in teams:
+        url = next((urls["File:" + f] for f in candidates[t] if "File:" + f in urls), None)
+        if url:
+            logos[t] = url
+    return logos
+
+
 def fetch_aliases(pages):
     """{página: [alias en minúsculas]}. Las tablas de Leaguepedia a veces usan un
     alias en vez de la página ("Broken Blade" -> "BrokenBlade", "caPs" -> "Caps")."""
@@ -1322,7 +1374,7 @@ def assign_roster_pages(rosters, canonical):
     return rosters
 
 
-def build_rostergues_js(rosters, cargo_rows):
+def build_rostergues_js(rosters, cargo_rows, images=None):
     """rosters.js con los datos de cada jugador una sola vez (PLAYERS) y las
     plantillas apuntando a su página (ver assign_roster_pages).
 
@@ -1347,6 +1399,8 @@ def build_rostergues_js(rosters, cargo_rows):
                 entry["page"] = page
                 if page not in players:
                     players[page] = roster_player_info(cargo, p.get("country", ""))
+                    if images and images.get(page):
+                        players[page]["image"] = images[page]
             else:
                 entry.update({k: p.get(k, "") for k in ("real", "country", "flag")})
             entries.append(entry)
@@ -1505,7 +1559,7 @@ def build_wordle(history, master):
         role = p["roles"].most_common(1)[0][0]
         leagues = [c for c in WORDLE_LEAGUES if p["tournaments"][c]]
         answers.append({
-            "w": name.upper(), "name": name,
+            "w": name.upper(), "name": name, "page": key,
             "role": "ADC" if role == "bot" else role.capitalize(),
             "path": path,
             "years": [min(years), max(years)] if years else None,
@@ -1861,7 +1915,18 @@ def main():
                  + "\n]}\n")
     print(f"dle -> {DLE_PATH} ({len(dle)} jugadores)")
 
-    js, roster_players = build_rostergues_js(rosters, cargo_rows)
+    # Fotos de los jugadores de las plantillas (muchos ya retirados, así que no están en el dle).
+    # Son un extra: si falla la descarga, las plantillas salen sin foto
+    def extra_images(pages):
+        try:
+            return cached_by_key(IMAGES_CACHE_PATH, refresh, pages, fetch_images,
+                                 STABLE_REFRESH_DAYS, changes["pages"])
+        except Exception as e:
+            print(f"::warning::Fotos extra no actualizadas: {e}")
+            return {}
+
+    images.update(extra_images({p["page"] for r in rosters for p in r["players"] if p.get("page")}))
+    js, roster_players = build_rostergues_js(rosters, cargo_rows, images)
     # Los ids que se publican son los del fichero generado (únicos: build_rostergues_js añade
     # el evento cuando un equipo y año se repite), no los de `rosters`
     roster_ids = re.findall(r'^  \{"id": "([^"]*)"', js, re.M)
@@ -1874,6 +1939,7 @@ def main():
 
     by_page = {m["page"]: m for m in master if m["page"]}
     js, missing = build_carrera_js(curated_carrera, by_page)
+    carrera_js = js
     carrera_names = re.findall(r'^  \{"name": "([^"]*)"', js, re.M)
     check_dataset("carrera", CARRERA_PATH, carrera_names, len(carrera_names),
                   lambda t: len(re.findall(r'^  \{"name": ', t, re.M)))
@@ -1895,6 +1961,11 @@ def main():
 
     history = cached(LEAGUE_HISTORY_CACHE_PATH, refresh, fetch_league_history, REFRESH_DAYS)
     answers, guesses = build_wordle(history, master)
+    images.update(extra_images({a["page"] for a in answers}))
+    for a in answers:   # la foto sale al final de la partida; "page" solo servía para buscarla
+        photo = images.get(a.pop("page"))
+        if photo:
+            a["image"] = photo
     schedule = update_wordle_schedule(answers, WORDLE_SCHEDULE_PATH)
     # una palabra puede ser el nombre de varios jugadores: no se exige que sea única
     check_dataset("wordle", WORDLE_WORDS_PATH, [a["name"] for a in answers],
@@ -1927,6 +1998,19 @@ def main():
         write_json(FAMILIAS_BANK_PATH, fam_bank)
         print(f"familias -> {len(fam_players)} jugadores, {len(fam_bank)} puzles libres, "
               f"reto diario hasta {max(fam_schedule)}")
+
+    # Logos de los equipos que salen en Roster Guess, Career Guess y Pro Wordle. Son un extra: si
+    # falla, se conserva el fichero anterior y los juegos siguen sin logo
+    try:
+        teams = ({r["team"] for r in rosters}
+                 | set(re.findall(r'"team": "([^"]*)"', carrera_js))
+                 | {t for a in answers for t, _ in a["path"]})
+        logos = cached_by_key(TEAM_LOGOS_CACHE_PATH, refresh, teams, fetch_team_logos, STABLE_REFRESH_DAYS)
+        if logos:
+            write_json(TEAM_LOGOS_PATH, dict(sorted(logos.items(), key=lambda kv: kv[0].lower())))
+        print(f"logos -> {TEAM_LOGOS_PATH} ({len(logos)} de {len(teams)} equipos)")
+    except Exception as e:
+        print(f"::warning::Logos de equipos no actualizados: {e}")
 
     # Solo si todo ha ido bien: la próxima vez se miran los cambios desde aquí
     write_json(SYNC_STATE_PATH, {"last_sync": started.strftime("%Y-%m-%dT%H:%M:%SZ"),

@@ -31,6 +31,7 @@ LIMITS = {
     "words_total": 30,      # respuestas de wordle nuevas, quitadas o modificadas
     "guesses_total": 200,   # palabras válidas añadidas o quitadas
     "schedule_added": 70,   # días nuevos de calendario
+    "logos_total": 80,      # logos de equipo nuevos, quitados o cambiados
     "familias_total": 120,   # puzles o jugadores nuevos + quitados en familias
     "js_lines": 150,        # líneas cambiadas en cada fichero .js de datos
 }
@@ -49,6 +50,7 @@ FILES = [
     "familias/data/players.json",
     "familias/data/schedule.json",
     "familias/data/bank.json",
+    "shared/data/team-logos.json",
 ]
 
 # Texto que no debería aparecer en nombres, equipos ni descripciones
@@ -162,6 +164,11 @@ def main():
             rows.append((p, f"{len(a)} días nuevos, {len(r)} quitados, {len(c)} modificados"))
             check(tocados, f"{p}: cambia el calendario de días ya fijados ({', '.join(tocados[:5])})")
             check(len(a) > LIMITS["schedule_added"], f"{p}: {len(a)} días nuevos (máximo {LIMITS['schedule_added']})")
+
+        elif p == "shared/data/team-logos.json":
+            a, r, c = diff_records(json.loads(old), json.loads(new))
+            rows.append((p, f"{len(a)} nuevos, {len(r)} quitados, {len(c)} cambiados"))
+            check(len(a) + len(r) + len(c) > LIMITS["logos_total"], f"logos: {len(a)+len(r)+len(c)} cambios (máximo {LIMITS['logos_total']})")
 
         elif p in ("familias/data/players.json", "familias/data/bank.json"):
             o, n = json.loads(old), json.loads(new)
