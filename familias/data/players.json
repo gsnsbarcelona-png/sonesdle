@@ -1887,10 +1887,6 @@
     "n": "PatkicaA",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/63/X25_PatkicaA_2019_Split_2.png/revision/latest/scale-to-width-down/160?cb=20190621141416"
   },
-  "patrik": {
-    "n": "Patrik",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/c/c3/XL_Patrik_2023_Split_3.png/revision/latest/scale-to-width-down/160?cb=20231123140203"
-  },
   "peach": {
     "n": "Peach",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/8/82/XL_Peach_2023_Split_3.png/revision/latest/scale-to-width-down/160?cb=20231123140205"
@@ -2471,10 +2467,6 @@
     "n": "Teddy",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/d/d1/T1_Teddy_Worlds_2021.png/revision/latest/scale-to-width-down/160?cb=20211115031543"
   },
-  "tent-tento-yamazaki": {
-    "n": "TenT",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/3/30/CAG_TenT_2025_Split_3.png/revision/latest/scale-to-width-down/160?cb=20260131090029"
-  },
   "th3antonio": {
     "n": "Th3Antonio",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/7/74/GX_Th3Antonio_2025.png/revision/latest/scale-to-width-down/160?cb=20251024172601"
@@ -2490,10 +2482,6 @@
   "theocacs": {
     "n": "Theocacs",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/5/5e/IJC_Theocacs_2025_Split_2.png/revision/latest/scale-to-width-down/160?cb=20250530162310"
-  },
-  "thepurpleace": {
-    "n": "ThePurpleAce",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/0/0f/ThePurpleAce.png/revision/latest/scale-to-width-down/160?cb=20240529222303"
   },
   "theshy": {
     "n": "TheShy",
@@ -2534,10 +2522,6 @@
   "tomo": {
     "n": "Tomo",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/67/OCN_Tomo_2019_SG.png/revision/latest/scale-to-width-down/160?cb=20191116233205"
-  },
-  "toumes": {
-    "n": "Toumes",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/8/84/ING.C_Toumes_2022_Split_2.png/revision/latest/scale-to-width-down/160?cb=20221030120305"
   },
   "tracyn": {
     "n": "Tracyn",
@@ -2770,6 +2754,10 @@
   "xiaopaike": {
     "n": "xiaopaike",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/8/81/WBG.Y_xiaopaike_2025_Split_2.png/revision/latest/scale-to-width-down/160?cb=20250520152346"
+  },
+  "xiaoshen": {
+    "n": "xiaoshen",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/5/53/WBGY_XiaoShen.png/revision/latest/scale-to-width-down/160?cb=20260901014438"
   },
   "xiaoxia": {
     "n": "Xiaoxia",

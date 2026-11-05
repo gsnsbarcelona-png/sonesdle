@@ -3284,5 +3284,58 @@
         ]
       }
     ]
+  },
+  "2027-01-04": {
+    "id": "2027-01-04",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:LGD Gaming",
+        "es": "Juegan en LGD Gaming",
+        "en": "Play for LGD Gaming",
+        "players": [
+          "burdol",
+          "crisp",
+          "shaoye",
+          "heng"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:T1:2021",
+        "es": "Jugaron en T1 en 2021",
+        "en": "Played for T1 in 2021",
+        "players": [
+          "keria",
+          "cuzz",
+          "gumayusi",
+          "faker"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:LLA",
+        "es": "Campeones de la LLA",
+        "en": "LLA champions",
+        "players": [
+          "lyonz",
+          "ceo",
+          "josedeodo",
+          "cody"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "initial:E",
+        "es": "Su apodo empieza por E",
+        "en": "Nickname starts with E",
+        "players": [
+          "enga",
+          "erha",
+          "elk",
+          "eddie"
+        ]
+      }
+    ]
   }
 }
