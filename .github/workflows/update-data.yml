@@ -84,7 +84,8 @@ jobs:
           git add dle/data/players.json rostergues/js/data/rosters.js \
                   carrera/js/data/players.js grid/data/players.json grid/data/schedule.json \
                   wordle/data/words.json wordle/data/schedule.json \
-                  familias/data/players.json familias/data/schedule.json familias/data/bank.json
+                  familias/data/players.json familias/data/schedule.json familias/data/bank.json \
+                  shared/data/team-logos.json
           git commit -m "datos: actualización diaria desde Leaguepedia"
           git push --force origin "$BRANCH"
 

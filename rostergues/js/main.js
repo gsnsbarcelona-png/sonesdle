@@ -10,6 +10,7 @@ import { ParticlesComponent } from '../../shared/js/ParticlesComponent.js';
 import * as AC from '../../shared/js/autocomplete.js';
 import { esc } from '../../shared/js/escape.js';
 import { flagEmojiHtml } from '../../shared/js/flags.js';
+import { loadTeamLogos, teamLogoHtml, playerPhotoHtml } from '../../shared/js/media.js';
 import { setupCombobox, setupDialog } from '../../shared/js/a11y.js';
 
 /* ─── Constants ──────────────────────────────────────────── */
@@ -197,7 +198,8 @@ function initGame() {
 /* ─── Year Banner ────────────────────────────────────────── */
 function renderYearBanner() {
   const r = state.roster;
-  $('year-team').textContent  = r.team;
+  // Logo arriba y nombre debajo; sin logo, solo el nombre
+  $('year-team').innerHTML    = `${teamLogoHtml(r.team, 'team-logo-xl')}<span>${esc(r.team)}</span>`;
   $('year-year').textContent  = r.year;
   const placementLabels = {
     champion:        'Campeón',
@@ -256,6 +258,7 @@ function renderSlots() {
     if (solved) {
       slot.innerHTML = `
         <div class="slot-position">${esc(labels[pos] ?? pos)}</div>
+        ${playerPhotoHtml(player.image, 'slot-photo')}
         <div class="slot-name">${esc(player.name)}</div>
         <div class="slot-real">${esc(player.real)}</div>
         <div class="slot-flag">${flagEmojiHtml(player.flag)}</div>
@@ -426,6 +429,7 @@ function showResult() {
     card.className = `result-player ${guessed ? 'guessed' : 'missed'}`;
     card.innerHTML = `
       <div class="result-player-pos">${esc(labels[pos] ?? pos)}</div>
+      ${playerPhotoHtml(player.image, 'player-photo-sm')}
       <div class="result-player-flag">${flagEmojiHtml(player.flag)}</div>
       <div class="result-player-name">${esc(player.name)}</div>
     `;
@@ -559,7 +563,7 @@ function bindEvents() {
 }
 
 /* ─── Boot ───────────────────────────────────────────────── */
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   mountSwitcher();
   mountGameNav();
   applyStaticTranslations(STATIC);
@@ -575,6 +579,7 @@ document.addEventListener('DOMContentLoaded', () => {
   bindEvents();
   if (isDailyDone()) showDiffRow();
   renderDiffButtons();
+  await loadTeamLogos();   // extra: sin el fichero de logos el juego arranca igual
   initGame();
 
   // Partida diaria ya jugada en otro dispositivo con la misma cuenta: la de

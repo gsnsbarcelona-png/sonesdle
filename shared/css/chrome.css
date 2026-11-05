@@ -184,3 +184,16 @@ body {
   background-repeat: no-repeat, no-repeat, repeat;
   background-attachment: fixed, fixed, scroll;
 }
+
+/* ── Logos de equipo y fotos de jugador (shared/js/media.js) ── */
+.team-logo { width: var(--logo, 24px); height: var(--logo, 24px); object-fit: contain; flex: none; vertical-align: middle; }
+.team-logo-sm { --logo: 20px; }
+.team-logo-lg { --logo: 36px; }
+.team-logo-xl { --logo: 64px; }
+.player-photo {
+  width: var(--photo, 48px); height: var(--photo, 48px); flex: none;
+  border-radius: 50%; object-fit: cover; object-position: top center;
+  background: var(--surface2); border: 1px solid var(--border);
+}
+.player-photo-sm { --photo: 36px; }
+.player-photo-lg { --photo: 64px; }

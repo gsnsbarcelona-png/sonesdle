@@ -9,14 +9,14 @@ Referencia completa: `docs/flujo-de-ramas.md`. Resumen para trabajar:
 - `main` = producción (Vercel). `develop` = integración.
 - Cada tarea nueva va en su propia rama, **la creo yo** sin preguntar, con el nombre que corresponda:
   - `feature/<nombre>` sale de `develop` y vuelve a `develop` (PR con **Squash**).
-  - `release/<AAAA-MM-DD>` sale de `develop` y va a `main` (PR con **merge commit**), luego `main` → `develop`.
-  - `hotfix/<nombre>` sale de `main` y va a `main` (merge commit), luego `main` → `develop`.
-- Antes de empezar una `feature/*`, actualizo `develop` (`git fetch` y partir de `origin/develop`). Si `main` tiene datos nuevos que `develop` no, lo digo y propongo el PR de `main` a `develop`.
+  - `release/<AAAA-MM-DD>` sale de `develop` y va a `main` (PR con **merge commit**). No hace falta devolverla a `develop` si no lleva cambios propios.
+  - `hotfix/<nombre>` sale de `main` y va a `main` (merge commit), y **siempre** luego `main` → `develop`.
+- Antes de empezar una `feature/*`, actualizo `develop` (`git fetch` y partir de `origin/develop`). Si la tarea toca datos o el generador y `git diff --stat origin/develop..origin/main` muestra ficheros, lo digo y propongo el PR de `main` a `develop` antes de empezar.
 - Decido yo qué tipo de rama es cada cosa: una mejora o juego nuevo es `feature`; un fallo que se ve en producción y no puede esperar, `hotfix`; un cambio del generador de datos que debe llegar ya a los datos reales también es `hotfix` (el workflow de datos solo corre sobre `main`).
 - Nunca subo directamente a `main` ni a `develop`. Nunca pongo `develop` como rama de origen de un PR a `main`: siempre una `release/*`.
 - Nunca lanzo el workflow `Actualizar datos` sobre una rama que no sea `main`.
 - **No hago PR ni merge sin que me lo pidan.** Abro el PR cuando el usuario lo diga y mergeo solo cuando lo diga explícitamente ("mergea el N").
-- Tras una publicación o un hotfix, recuerdo hacer el PR de `main` a `develop`.
+- **`main` → `develop` solo cuando hace falta:** tras un hotfix, si la release llevó arreglos propios, o antes de una feature que toque datos con `main` por delante. Compruebo con `git diff --stat origin/develop..origin/main`: si no sale ningún fichero (solo un commit de merge), no abro ese PR.
 - El nombre de la rama no lleva mayúsculas, espacios ni acentos.
 
 ## Cosas que no se rompen
