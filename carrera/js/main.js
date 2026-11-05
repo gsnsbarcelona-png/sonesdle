@@ -146,6 +146,7 @@ function bindEvents() {
   document.getElementById('btn-skip').addEventListener('click', skip);
   document.getElementById('btn-next').addEventListener('click', nextRound);
   document.getElementById('modal-btn').addEventListener('click', nextRound);
+  document.getElementById('modal-close').addEventListener('click', Modal.hideModal);   // ver la trayectoria completa
 }
 
 // ─── Boot ─────────────────────────────────────────────────────────────────────
@@ -170,7 +171,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     input: document.getElementById('guess-input'), list: document.getElementById('autocomplete-list'),
     optionSelector: '.autocomplete-item', activeClass: 'active',
   });
-  setupDialog(document.getElementById('modal-overlay'));   // fin de ronda: se sale con su botón
+  setupDialog(document.getElementById('modal-overlay'), { closeSelector: '#modal-close' });   // fin de ronda: Escape = ver la trayectoria
   setupDialog(document.getElementById('instructions-modal'), { closeSelector: '#instructions-close' });
 
   bindEvents();

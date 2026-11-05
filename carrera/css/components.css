@@ -30,6 +30,7 @@
 .region-badge.OTHER{color:var(--other);border-color:var(--other);background:rgba(0,204,102,0.08)}
 .position-badge{font-size:0.65rem;font-weight:700;letter-spacing:0.12em;padding:2px 8px;border:1px solid var(--gold);color:var(--gold);background:rgb(var(--gold-rgb) / 0.1);animation:iconPop 0.3s ease}
 .timeline-more{display:flex;align-items:center;gap:8px;padding:6px 0 0;color:var(--text-dim);font-size:0.75rem}
+.timeline-item.late{opacity:.55}
 .more-dots{display:flex;gap:4px}
 .more-dots span{width:4px;height:4px;background:var(--gold-dark);animation:morePulse 1.5s infinite}
 .more-dots span:nth-child(2){animation-delay:0.2s}
