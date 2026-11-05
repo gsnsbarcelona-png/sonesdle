@@ -73,7 +73,7 @@ CHAMPION_REDIRECTS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "champion_redi
 TIER2_PLAYERS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_tier2_players_v3.json")
 BIRTH_YEARS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "birth_years.json")
 IMAGES_CACHE_PATH        = os.path.join(SCRIPT_DIR, "cache", "player_images.json")
-TEAM_LOGOS_CACHE_PATH    = os.path.join(SCRIPT_DIR, "cache", "team_logos.json")
+TEAM_LOGOS_CACHE_PATH    = os.path.join(SCRIPT_DIR, "cache", "team_logos_v2.json")
 TIER2_TEAMS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_tier2_teams.json")
 TIER1_PLAYERS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_tier1_players_v3.json")
 TIER1_TEAMS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_tier1_teams.json")
@@ -760,27 +760,39 @@ LOGO_SUFFIXES = ("logo square.png", "logo std.png")   # nombres habituales de fi
 
 
 def fetch_team_logos(teams):
-    """{equipo: URL del logo}. Cargo (Teams.Image) dice el fichero; como respaldo se prueban los
-    nombres habituales de Leaguepedia ("<Equipo>logo square.png", "<Equipo>logo std.png"). La API
-    de la wiki da la URL final, de miniatura (LOGO_WIDTH), y solo se admite el host de la CSP.
-    Si Cargo no tiene ese campo, se sigue solo con los nombres habituales."""
+    """{equipo: URL del logo}. Los nombres de equipo de las plantillas y los historiales no siempre son
+    el título de su página ("Hanwha Life" es "Hanwha Life Esports"): primero se siguen las
+    redirecciones de la wiki. Cargo (Teams.Image) dice el fichero; como respaldo se prueban los
+    nombres habituales ("<Equipo>logo square.png", "<Equipo>logo std.png"). La API de la wiki da la
+    URL final, de miniatura (LOGO_WIDTH), y solo se admite el host de la CSP. Si Cargo no tiene ese
+    campo o falla la resolución de redirecciones, se sigue con lo que haya."""
     session = new_session()
     teams = sorted(set(teams))
+    try:
+        page_of = resolve_redirects(teams)
+    except Exception as e:
+        print(f"::warning::Logos: no se pudieron resolver las redirecciones ({e}); se usan los nombres tal cual")
+        page_of = {}
+    page = lambda t: page_of.get(t, t)
+    cap = lambda title: title[:1].upper() + title[1:]
+    teams_of = defaultdict(list)   # título de página -> equipos que apuntan a ella
+    for t in teams:
+        teams_of[cap(page(t))].append(t)
     candidates = {t: [] for t in teams}
-    titles = {t[:1].upper() + t[1:]: t for t in teams}
-    keys = sorted(titles)
+    keys = sorted(teams_of)
     try:
         for i in range(0, len(keys), CARGO_BATCH):
             time.sleep(CARGO_DELAY)
             for row in cargo_query(session, "OverviewPage", keys[i:i + CARGO_BATCH],
                                    table="Teams", fields="OverviewPage,Image"):
-                team = titles.get(row["OverviewPage"])
-                if team and row.get("Image"):
-                    candidates[team].append(html.unescape(row["Image"]).replace("_", " "))
+                if row.get("Image"):
+                    for t in teams_of.get(row["OverviewPage"], []):
+                        candidates[t].append(html.unescape(row["Image"]).replace("_", " "))
     except Exception as e:
         print(f"::warning::Logos: no se pudo leer Teams.Image ({e}); se usan los nombres habituales")
     for t in teams:
-        candidates[t] += [t + suffix for suffix in LOGO_SUFFIXES]
+        for name in dict.fromkeys([page(t), t]):   # primero el título de la página y luego el nombre tal cual
+            candidates[t] += [name + suffix for suffix in LOGO_SUFFIXES]
     files = sorted({"File:" + f for c in candidates.values() for f in c})
     urls = {}   # "File:X.png" -> URL
     for i in range(0, len(files), 50):
