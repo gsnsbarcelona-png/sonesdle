@@ -52,6 +52,8 @@
 
 /* SEARCH SECTION */
 .search-section{margin-bottom:14px;animation:fadeUp 0.4s ease 0.2s both}
+.guess-error{margin:8px 2px 0;font-size:.85rem;font-weight:600;color:var(--red)}
+.guess-error:empty{display:none}
 
 /* Buscador y botones como en dle: 48 px, redondeados, botón principal relleno */
 .guess-input{height:48px;padding:0 16px;border:1px solid var(--border);border-radius:6px;font-weight:500;letter-spacing:0}

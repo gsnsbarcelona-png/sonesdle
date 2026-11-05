@@ -52,6 +52,8 @@ const STATIC = {
     resultWin:    '¡Victoria!',
     resultLose:   'Derrota',
     resultBtn:    'Jugar de nuevo',
+    errNotFound:  'Ese jugador no está en la lista',
+    errAlready:   'Ya has probado ese jugador',
     posLabels:    { Top:'Top', Jungle:'Jungla', Mid:'Mid', ADC:'ADC', Support:'Support' },
   },
   en: {
@@ -65,6 +67,8 @@ const STATIC = {
     resultWin:    'Victory!',
     resultLose:   'Defeat',
     resultBtn:    'Play again',
+    errNotFound:  'That player is not in the list',
+    errAlready:   'You already tried that player',
     posLabels:    { Top:'Top', Jungle:'Jungle', Mid:'Mid', ADC:'ADC', Support:'Support' },
   },
 };
@@ -135,6 +139,14 @@ for (const roster of ROSTERS) {
   }
 }
 
+/** Nombres válidos: solo se puede responder con un jugador de la lista. */
+const normName = n => n.trim().replace(/\s+/g, ' ').toLowerCase();
+const PLAYER_BY_NAME = new Map(ALL_PLAYERS.map(p => [normName(p.name), p]));
+
+function showError(msg) {
+  $('guess-error').textContent = msg;
+}
+
 /* ─── Reto diario: mismo roster para todos ───────────────── */
 const DAILY_ROSTER_KEY = 'rostergues_daily_roster';
 
@@ -172,6 +184,7 @@ function initGame() {
   $('btn-submit').disabled  = false;
   $('btn-surrender').disabled = false;
   $('guess-input').value    = '';
+  showError('');
   AC.close($('autocomplete-list'));
 
   renderYearBanner();
@@ -320,11 +333,17 @@ function renderHistory() {
 
 /* ─── Submit guess ───────────────────────────────────────── */
 function submitGuess(inputName) {
-  const name = inputName.trim();
-  if (!name) { shakeInput(); return; }
+  const typed = normName(inputName);
+  if (!typed) { shakeInput(); return; }
+
+  // Solo vale un nombre de la lista: lo demás no cuenta como intento ni como fallo
+  const known = PLAYER_BY_NAME.get(typed);
+  if (!known) { showError(t('errNotFound')); shakeInput(); return; }
+  const name = known.name;   // el nombre de la lista, con sus mayúsculas
 
   const alreadyUsed = state.guesses.some(g => g.name.toLowerCase() === name.toLowerCase());
-  if (alreadyUsed) { shakeInput(); return; }
+  if (alreadyUsed) { showError(t('errAlready')); shakeInput(); return; }
+  showError('');
 
   state.attempts++;
 
@@ -474,7 +493,7 @@ function bindEvents() {
   const btnSurr     = $('btn-surrender');
   const btnResult   = $('result-btn');
 
-  input.addEventListener('input', () => updateAutocomplete(input.value));
+  input.addEventListener('input', () => { showError(''); updateAutocomplete(input.value); });
 
   input.addEventListener('keydown', e => {
     const list = $('autocomplete-list');
