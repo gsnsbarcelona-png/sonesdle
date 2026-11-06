@@ -886,7 +886,6 @@
   {"key": "piccaboo", "name": "Piccaboo", "pos": ["support", "jungle"], "nat": "korean", "teams": ["t1", "geng", "kt"], "comps": ["lck"]},
   {"key": "pobelter", "name": "Pobelter", "pos": ["mid"], "nat": "na", "teams": ["tl"], "comps": ["league_title", "lcs"]},
   {"key": "pyl", "name": "pyl", "pos": ["support"], "nat": "chinese", "teams": [], "comps": ["league_title", "lpl"]},
-  {"key": "raise", "name": "Raise", "pos": ["jungle", "support"], "nat": "korean", "teams": [], "comps": ["lck"]},
   {"key": "rapidstar", "name": "RapidStar", "pos": ["mid"], "nat": "korean", "teams": ["c9"], "comps": ["league_title", "lck"]},
   {"key": "rascal", "name": "Rascal", "pos": ["top"], "nat": "korean", "teams": ["geng", "drx", "kt"], "comps": ["lck"]},
   {"key": "reapered", "name": "Reapered", "pos": ["top"], "nat": "korean", "teams": [], "comps": ["league_title", "lck"]},
