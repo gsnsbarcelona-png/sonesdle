@@ -56,7 +56,7 @@ ROOT             = os.path.join(SCRIPT_DIR, "..", "..")
 SCRAPED_PATH     = os.path.join(SCRIPT_DIR, "players.json")
 PLAYER_LIST_PATH = os.path.join(SCRIPT_DIR, "cache", "player_list.json")
 CARGO_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_players_v3.json")
-TEAMS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_teams.json")
+TEAMS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_teams_v2.json")
 MASTER_PATH      = os.path.join(SCRIPT_DIR, "players_master.json")
 DLE_PATH         = os.path.join(ROOT, "dle", "data", "players.json")
 ROSTERS_PATH     = os.path.join(SCRIPT_DIR, "worlds_rosters.json")
@@ -501,17 +501,33 @@ def fetch_players(entries):
 
 def fetch_team_regions(teams):
     """{equipo: región de Leaguepedia}. MediaWiki pone en mayúscula la primera
-    letra del título ("paiN Gaming" -> "PaiN Gaming")."""
-    titles = {t[:1].upper() + t[1:]: t for t in teams}
-    regions = {}
+    letra del título ("paiN Gaming" -> "PaiN Gaming"). Un equipo cuyo nombre es una
+    redirección ("Star Horn Royal Club" -> "Royal Club") no tiene fila propia en Teams:
+    se vuelve a mirar con el título actual. Sin región, el equipo hereda la de la etapa
+    vecina del jugador y un equipo chino puede salir como coreano."""
     session = new_session()
-    keys = sorted(titles)
-    for i in range(0, len(keys), CARGO_BATCH):
-        rows = cargo_query(session, "OverviewPage", keys[i:i + CARGO_BATCH],
-                           table="Teams", fields="OverviewPage,Region")
-        for row in rows:
-            if row["OverviewPage"] in titles and row.get("Region"):
-                regions[titles[row["OverviewPage"]]] = row["Region"]
+
+    def query(titles):   # {título: equipo} -> {equipo: región}
+        found, keys = {}, sorted(titles)
+        for i in range(0, len(keys), CARGO_BATCH):
+            rows = cargo_query(session, "OverviewPage", keys[i:i + CARGO_BATCH],
+                               table="Teams", fields="OverviewPage,Region")
+            for row in rows:
+                if row["OverviewPage"] in titles and row.get("Region"):
+                    found[titles[row["OverviewPage"]]] = row["Region"]
+        return found
+
+    regions = query({t[:1].upper() + t[1:]: t for t in teams})
+    missing = {t[:1].upper() + t[1:]: t for t in teams if t not in regions}
+    if missing:
+        try:
+            current = resolve_redirects(missing)
+        except Exception as e:   # la región por redirección es un extra: sin ella, como antes
+            print(f"  Aviso: no se pudieron resolver las redirecciones de equipos ({e})")
+            current = {}
+        moved = {cur.replace("_", " "): team for title, team in missing.items()
+                 if (cur := current.get(title, title)) != title}
+        regions.update(query(moved))
     return regions
 
 
