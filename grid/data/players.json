@@ -833,7 +833,6 @@
   {"key": "djoko", "name": "Djoko", "pos": ["jungle"], "nat": "european", "teams": [], "comps": ["lec"]},
   {"key": "dodo", "name": "Dodo", "pos": ["support"], "nat": "korean", "teams": [], "comps": ["lcs"]},
   {"key": "edge", "name": "Edge", "pos": ["mid"], "nat": "korean", "teams": ["kt"], "comps": ["lck"]},
-  {"key": "edward", "name": "Edward", "pos": ["support"], "nat": "other", "teams": [], "comps": ["lec"]},
   {"key": "eimy", "name": "eimy", "pos": ["jungle"], "nat": "chinese", "teams": [], "comps": ["lpl"]},
   {"key": "emperor", "name": "Emperor", "pos": ["adc"], "nat": "korean", "teams": ["g2", "drx"], "comps": ["league_title", "lck"]},
   {"key": "endless", "name": "Endless", "pos": ["adc"], "nat": "chinese", "teams": [], "comps": ["lpl"]},
