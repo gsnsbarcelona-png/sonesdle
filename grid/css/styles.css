@@ -147,6 +147,8 @@ h1 {
 .btn-link { display:block; margin:14px auto 0; background:none; border:none; color:var(--dim); font-family:var(--font-body); font-size:.8rem; font-weight:600; letter-spacing:1px; text-decoration:underline; cursor:pointer; }
 .btn-link:hover { color:var(--text); }
 .btn-replay:hover { border-color:var(--gold); color:var(--gold); }
+.btn-share-x { display:flex; align-items:center; justify-content:center; gap:8px; }
+.btn-share-x.hidden { display:none; }
 #btnVictoryReplay, #btnGameoverReplay { background:var(--gold); border-color:var(--gold); color:var(--bg); }
 #btnVictoryReplay:hover, #btnGameoverReplay:hover { background:var(--text); border-color:var(--text); color:var(--bg); }
 

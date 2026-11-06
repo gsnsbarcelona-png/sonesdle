@@ -8,6 +8,7 @@ import { ParticlesComponent } from '../../shared/js/ParticlesComponent.js';
 import { t, applyStaticTranslations } from './utils/i18n.js';
 import { mountSwitcher } from '../../shared/lang.js';
 import { mountGameNav } from '../../shared/nav.js';
+import { shareToX } from '../../shared/js/share.js';
 import { recordResult, getTodayDaily } from '../../shared/auth.js';
 import { hideKeyboard } from '../../shared/js/keyboard.js';
 import { setupCombobox, setupDialog } from '../../shared/js/a11y.js';
@@ -70,6 +71,7 @@ async function boot() {
   const giveupBtn        = document.getElementById('giveup-btn');
   const countEl          = document.getElementById('attempt-count');
   const shareBtn         = document.getElementById('share-btn');
+  const shareXBtn        = document.getElementById('share-x-btn');
   const countdownEl      = document.getElementById('daily-countdown');
   const freeModeBtn      = document.getElementById('free-mode-btn');
   const hardBtn          = document.getElementById('hard-mode-btn');
@@ -306,6 +308,13 @@ async function boot() {
     });
   }
 
+  if (shareXBtn) {
+    shareXBtn.addEventListener('click', () => {
+      const result = DailyService.getTodayResult();
+      if (result) shareToX(DailyService.buildShareText(result));
+    });
+  }
+
   if (freeModeBtn) {
     freeModeBtn.addEventListener('click', startFreePlay);
   }
@@ -410,6 +419,7 @@ async function boot() {
     victory.hide();
     particles.stopConfetti();
     if (shareBtn)       shareBtn.classList.add('hidden');
+    if (shareXBtn)      shareXBtn.classList.add('hidden');
     if (countdownEl)    countdownEl.classList.add('hidden');
     showResultView();
     updateHardBtn();
@@ -455,6 +465,7 @@ async function boot() {
     if (!shareBtn || !result) return;
     shareBtn.textContent = t('dailyShare');
     shareBtn.classList.remove('hidden');
+    shareXBtn?.classList.remove('hidden');
   }
 
   function showCountdown() {

@@ -1,5 +1,6 @@
 import { mountSwitcher, applyStaticTranslations, getLang } from '../../shared/lang.js';
 import { mountGameNav } from '../../shared/nav.js';
+import { shareToX } from '../../shared/js/share.js';
 import { recordResult, getTodayDaily, today } from '../../shared/auth.js';
 import { T, t } from './i18n.js';
 import { esc } from '../../shared/js/escape.js';
@@ -221,6 +222,7 @@ function showEnd() {
       <div class="group-names">${g.players.map(k => esc(players[k]?.n ?? k)).join(' · ')}</div>
     </div>`).join('');
   $('btnShare').classList.toggle('hidden', state.mode !== 'daily');
+  $('btnShareX').classList.toggle('hidden', state.mode !== 'daily');
   $('btnAgain').classList.toggle('hidden', state.mode !== 'free');
   $('endOverlay').classList.remove('hidden');
 
@@ -245,11 +247,16 @@ function hideEnd() {
   clearInterval(countdown);
 }
 
-async function share() {
+function shareText() {
   const date = DAY.split('-').reverse().join('/');
   const grid = state.guesses.map(g =>
     g.map(k => SQUARE[groupOfKey(k).level]).sort().join('')).join('\n');
   const text = `Family Grid ${date} · ${state.won ? mistakes() : 'X'}/${LIVES - 1}\n\n${grid}\n\nlolprogames.com/familias`;
+  return text;
+}
+
+async function share() {
+  const text = shareText();
   try { await navigator.clipboard.writeText(text); toast(t('copied')); }
   catch { prompt('', text); }
 }
@@ -281,6 +288,7 @@ document.querySelector('.modes').addEventListener('click', e => {
 });
 
 $('btnShare').addEventListener('click', share);
+$('btnShareX').addEventListener('click', () => shareToX(shareText()));
 $('btnAgain').addEventListener('click', () => { hideEnd(); startFree(); });
 $('btnClose').addEventListener('click', hideEnd);
 $('endOverlay').addEventListener('click', e => { if (e.target === e.currentTarget) hideEnd(); });
