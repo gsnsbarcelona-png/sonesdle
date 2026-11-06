@@ -113,3 +113,6 @@ h1 {
   .page { gap:10px; }
   .tile .nick { font-size:.88rem; padding:4px 3px 5px; }
 }
+
+.btn-x { display:inline-flex; align-items:center; justify-content:center; gap:8px; flex-basis:100%; order:-1; }
+.btn-x.hidden { display:none; }

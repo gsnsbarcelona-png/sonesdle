@@ -1,5 +1,6 @@
 import { mountSwitcher, applyStaticTranslations } from '../../shared/lang.js';
 import { mountGameNav } from '../../shared/nav.js';
+import { shareToX } from '../../shared/js/share.js';
 import { recordResult, getTodayDaily, today } from '../../shared/auth.js';
 import { T, t } from './i18n.js';
 import { esc } from '../../shared/js/escape.js';
@@ -250,6 +251,7 @@ function showEnd() {
     ${others.length ? `<div class="also">${t('also', others.map(o => `${esc(o.name)} (${esc(o.leagues.join(', '))})`).join(' · '))}</div>` : ''}`;
   $('endPlayer').classList.toggle('hidden', !p);
   $('btnShare').classList.toggle('hidden', state.mode !== 'daily');
+  $('btnShareX').classList.toggle('hidden', state.mode !== 'daily');
   $('btnAgain').classList.toggle('hidden', state.mode !== 'free');
   $('endOverlay').classList.remove('hidden');
 
@@ -274,11 +276,16 @@ function hideEnd() {
   clearInterval(countdown);
 }
 
-async function share() {
+function shareText() {
   const date = DAY.split('-').reverse().join('/');
   const score = state.won ? state.rows.length : 'X';
   const grid = state.rows.map(g => evaluate(g, state.word).map(m => EMOJI[m]).join('')).join('\n');
   const text = `LoL Pro Wordle ${date} · ${t('letters', len())} · ${score}/6\n\n${grid}\n\nlolprogames.com/wordle`;
+  return text;
+}
+
+async function share() {
+  const text = shareText();
   try { await navigator.clipboard.writeText(text); toast(t('copied')); }
   catch { prompt('', text); }
 }
@@ -325,6 +332,7 @@ $('lengths').addEventListener('click', e => {
 });
 
 $('btnShare').addEventListener('click', share);
+$('btnShareX').addEventListener('click', () => shareToX(shareText()));
 $('btnAgain').addEventListener('click', () => { hideEnd(); startFree(); });
 $('btnClose').addEventListener('click', hideEnd);
 $('endOverlay').addEventListener('click', e => { if (e.target === e.currentTarget) hideEnd(); });

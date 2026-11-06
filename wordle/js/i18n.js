@@ -4,7 +4,7 @@ export const T = {
   es: {
     headerSub: 'Adivina el nombre del pro player · 6 intentos',
     daily: 'Reto diario', free: 'Modo libre',
-    share: 'Compartir', again: 'Otra palabra', close: 'Cerrar',
+    share: 'Compartir', shareX: 'Compartir en X', again: 'Otra palabra', close: 'Cerrar',
     allLeagues: 'Todas',
     lcpTip: 'LCP con PCS y LMS',
     tooShort: 'Faltan letras',
@@ -22,7 +22,7 @@ export const T = {
   en: {
     headerSub: 'Guess the pro player’s name · 6 tries',
     daily: 'Daily', free: 'Free play',
-    share: 'Share', again: 'New word', close: 'Close',
+    share: 'Share', shareX: 'Share on X', again: 'New word', close: 'Close',
     allLeagues: 'All',
     lcpTip: 'LCP with PCS and LMS',
     tooShort: 'Not enough letters',
