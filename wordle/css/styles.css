@@ -132,7 +132,7 @@ h1 {
 .end-head { display:flex; align-items:center; gap:12px; }
 .end-player .path-league { font-family:var(--font-mono); font-size:.62rem; font-weight:600; letter-spacing:.04em; color:var(--dim); }
 .end-player .also { color:var(--dim); font-size:.78rem; margin-top:6px; }
-.end-actions { display:flex; gap:8px; }
+.end-actions { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
 .end-next { margin-top:12px; font-size:.76rem; color:var(--dim); letter-spacing:1px; min-height:1em; }
 
 @media (max-width:420px) {
@@ -152,3 +152,6 @@ h1 {
   :root { --tile: 46px; }
   .tile { font-size:1.3rem; }
 }
+
+.btn-x { display:inline-flex; align-items:center; justify-content:center; gap:8px; flex-basis:100%; order:-1; }
+.btn-x.hidden { display:none; }

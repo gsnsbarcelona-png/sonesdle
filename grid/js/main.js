@@ -2,6 +2,7 @@ import { GameFactory }            from './GameFactory.js';
 import { LoLPlayerRepository }    from './repositories/LoLPlayerRepository.js';
 import { LoLCategoryRepository }  from './repositories/LoLCategoryRepository.js';
 import { EVENTS }                 from './events.js';
+import { shareToX }               from '../../shared/js/share.js';
 import { mountSwitcher, applyStaticTranslations, getLang } from '../../shared/lang.js';
 import { mountGameNav } from '../../shared/nav.js';
 import { loadJson, showLoadError } from '../../shared/js/data.js';
@@ -16,7 +17,7 @@ const STATIC = {
     confirm: 'Confirmar', cancel: 'Cancelar',
     victory: '¡Victoria!', victorySub: 'Todas las casillas completadas', playAgain: 'Jugar de nuevo',
     gameOver: 'Game Over', gameOverSub: 'Se acabaron las vidas', tryAgain: 'Intentar de nuevo',
-    seeSolutions: 'Ver soluciones', seeBoard: 'Ver tablero', share: 'Compartir',
+    seeSolutions: 'Ver soluciones', seeBoard: 'Ver tablero', share: 'Compartir', shareX: 'Compartir en X',
     freePlay: 'Jugar modo libre', copied: '¡Copiado!', streak: 'Racha', best: 'Mejor',
   },
   en: {
@@ -26,7 +27,7 @@ const STATIC = {
     confirm: 'Confirm', cancel: 'Cancel',
     victory: 'Victory!', victorySub: 'All cells completed', playAgain: 'Play again',
     gameOver: 'Game Over', gameOverSub: 'Out of lives', tryAgain: 'Try again',
-    seeSolutions: 'See solutions', seeBoard: 'See board', share: 'Share',
+    seeSolutions: 'See solutions', seeBoard: 'See board', share: 'Share', shareX: 'Share on X',
     freePlay: 'Play free mode', copied: 'Copied!', streak: 'Streak', best: 'Best',
   },
 };
@@ -51,7 +52,7 @@ const session = GameFactory.create({
 
 // ── Modo diario / libre ──────────────────────────────────────
 const modeButtons = document.querySelectorAll('.mode-btn');
-const shareButtons = document.querySelectorAll('.btn-share');
+const shareButtons = document.querySelectorAll('.btn-share, .btn-share-x');
 const replayButtons = ['btnVictoryReplay', 'btnGameoverReplay', 'btnBoardReplay'].map(id => document.getElementById(id));
 
 /** Botones según el modo: en el diario se comparte y "jugar de nuevo" lleva al libre. */
@@ -70,7 +71,9 @@ modeButtons.forEach(b => b.addEventListener('click', () => {
   if (b.dataset.mode !== session.mode) session.start(b.dataset.mode);
 }));
 
-shareButtons.forEach(b => b.addEventListener('click', async () => {
+document.querySelectorAll('.btn-share-x').forEach(b => b.addEventListener('click', () => shareToX(session.shareText())));
+
+shareButtons.forEach(b => !b.classList.contains('btn-share-x') && b.addEventListener('click', async () => {
   try {
     await navigator.clipboard.writeText(session.shareText());
     b.textContent = tx('copied');
