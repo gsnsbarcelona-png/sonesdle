@@ -3337,5 +3337,58 @@
         ]
       }
     ]
+  },
+  "2027-01-05": {
+    "id": "2027-01-05",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:FlyQuest",
+        "es": "Juegan en FlyQuest",
+        "en": "Play for FlyQuest",
+        "players": [
+          "quad",
+          "massu",
+          "gryffinn",
+          "gakgos"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:Bilibili Gaming:2026",
+        "es": "Jugaron en Bilibili Gaming en 2026",
+        "en": "Played for Bilibili Gaming in 2026",
+        "players": [
+          "flandre",
+          "wenbo-yang-wen-bo",
+          "bin-chen-ze-bin",
+          "knight-zhuo-ding"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:LCP",
+        "es": "Campeones de la LCP",
+        "en": "LCP champions",
+        "players": [
+          "rest",
+          "eddie",
+          "hongq",
+          "kaiwing"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "surname:Kim",
+        "es": "Se apellidan Kim",
+        "en": "Have the surname Kim",
+        "players": [
+          "kiin",
+          "life",
+          "zeka-kim-geon-woo",
+          "canna"
+        ]
+      }
+    ]
   }
 }
