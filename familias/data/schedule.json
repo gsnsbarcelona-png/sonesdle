@@ -3390,5 +3390,58 @@
         ]
       }
     ]
+  },
+  "2027-01-06": {
+    "id": "2027-01-06",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:KT Rolster",
+        "es": "Juegan en KT Rolster",
+        "en": "Play for KT Rolster",
+        "players": [
+          "bdd",
+          "jiwoo",
+          "cuzz",
+          "effort"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:Fnatic:2024",
+        "es": "Jugaron en Fnatic en 2024",
+        "en": "Played for Fnatic in 2024",
+        "players": [
+          "noah-oh-hyeon-taek",
+          "razork",
+          "jun-yoon-se-jun",
+          "oscarinin"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:LPL",
+        "es": "Campeones de la LPL",
+        "en": "LPL champions",
+        "players": [
+          "xiaohu",
+          "feather",
+          "assum",
+          "hope-wang-jie"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "initial:K",
+        "es": "Su apodo empieza por K",
+        "en": "Nickname starts with K",
+        "players": [
+          "kael-kim-jin-hong",
+          "kyeahoo",
+          "kanavi",
+          "knight-zhuo-ding"
+        ]
+      }
+    ]
   }
 }
