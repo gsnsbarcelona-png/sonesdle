@@ -86,7 +86,7 @@ const PLAYERS = {
   "Chovy": {"real": "Jeong Ji-hoon", "country": "South Korea", "flag": "🇰🇷", "image": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/0/02/HLE_Chovy_2021_Split_2.png/revision/latest/scale-to-width-down/160?cb=20210610234156"},
   "Clearlove": {"real": "Ming Kai", "country": "China", "flag": "🇨🇳", "image": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/e/ef/EDG_ClearLove_2015.jpg/revision/latest/scale-to-width-down/160?cb=20170801202519"},
   "Clid": {"real": "Kim Tae-min", "country": "South Korea", "flag": "🇰🇷"},
-  "Closer (Can Çelik)": {"real": "Can Çelik", "country": "Turkey", "flag": "🇹🇷"},
+  "Closer (Can Çelik)": {"real": "Can Çelik", "country": "Turkey", "flag": "🇹🇷", "image": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/f/f1/TCL_Closer_2019_AS.png/revision/latest/scale-to-width-down/160?cb=20240815150215"},
   "Cody": {"real": "Cristian Sebastián Quispe Yampara", "country": "Chile", "flag": "🇨🇱", "image": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/0/06/UCH_Cody_2020_Opening.png/revision/latest/scale-to-width-down/160?cb=20200225213247"},
   "Cody Sun": {"real": "Liyu \"Cody\" Sun", "country": "Canada", "flag": "🇨🇦", "image": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/e/e2/ME_Cody_Sun_2022_Split_2.png/revision/latest/scale-to-width-down/160?cb=20220701161006"},
   "Comp": {"real": "Markos Stamkopoulos", "country": "Greece", "flag": "🇬🇷", "image": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/1/17/VIT_Comp_2021_Split_1.png/revision/latest/scale-to-width-down/160?cb=20210121120405"},
