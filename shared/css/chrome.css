@@ -177,12 +177,9 @@
    después de la de cada juego; las que la siguen (legal, instrucciones) no deben reponer `background:`. */
 body {
   background-image:
-    radial-gradient(ellipse 90% 60% at 50% -12%, rgb(var(--gold-rgb) / .10), transparent 62%),
-    radial-gradient(ellipse 70% 50% at 100% 105%, rgb(var(--teal-rgb) / .08), transparent 60%),
-    radial-gradient(rgb(var(--text-rgb) / .04) 1px, transparent 1.4px);
-  background-size: auto, auto, 26px 26px;
-  background-repeat: no-repeat, no-repeat, repeat;
-  background-attachment: fixed, fixed, scroll;
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgb(var(--glow-rgb) / var(--glow-a)), transparent 65%),
+    linear-gradient(180deg, rgb(var(--bg-top-rgb)) 0, rgb(var(--bg-rgb)) 520px);
+  background-repeat: no-repeat;
 }
 
 /* ── Logos de equipo y fotos de jugador (shared/js/media.js) ── */
