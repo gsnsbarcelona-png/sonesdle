@@ -1114,5 +1114,17 @@
       "lpl",
       "msi"
     ]
+  },
+  "2027-01-07": {
+    "cols": [
+      "t1",
+      "chinese",
+      "lpl"
+    ],
+    "rows": [
+      "support",
+      "champ",
+      "lcs"
+    ]
   }
 }

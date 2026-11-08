@@ -3443,5 +3443,58 @@
         ]
       }
     ]
+  },
+  "2027-01-07": {
+    "id": "2027-01-07",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:LNG Esports",
+        "es": "Juegan en LNG Esports",
+        "en": "Play for LNG Esports",
+        "players": [
+          "ycx",
+          "missing",
+          "nia-zou-guang-lu",
+          "sheer"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:Cloud9:2025",
+        "es": "Jugaron en Cloud9 en 2025",
+        "en": "Played for Cloud9 in 2025",
+        "players": [
+          "thanatos-park-seung-gyu",
+          "vulcan-philippe-laflamme",
+          "blaber",
+          "zven"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:LEC",
+        "es": "Campeones de la LEC",
+        "en": "LEC champions",
+        "players": [
+          "carzzy",
+          "skewmond",
+          "canna",
+          "larssen"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "twoteams:DRX:Hanwha Life Esports",
+        "es": "Pasaron por DRX y por Hanwha Life Esports",
+        "en": "Played for both DRX and Hanwha Life Esports",
+        "players": [
+          "zeka-kim-geon-woo",
+          "willer",
+          "chovy",
+          "doran-choi-hyeon-jun"
+        ]
+      }
+    ]
   }
 }
