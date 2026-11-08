@@ -4,11 +4,12 @@
   color-scheme: dark;
 
   /* Canales (tema oscuro) */
-  --bg-rgb: 15 20 29;        --surface-rgb: 25 33 46;   --surface2-rgb: 33 43 59;
-  --border-rgb: 50 62 82;    --text-rgb: 233 237 241;   --dim-rgb: 163 173 185;
+  --bg-rgb: 9 17 31;         --surface-rgb: 17 30 50;   --surface2-rgb: 26 44 72;
+  --border-rgb: 44 70 108;    --text-rgb: 233 237 241;   --dim-rgb: 163 173 185;
   --gold-rgb: 232 184 74;    --gold-dark-rgb: 168 131 42;
   --danger-rgb: 224 100 92;  --danger-border-rgb: 107 42 39; --danger-bg-rgb: 26 5 5;
   --teal-rgb: 63 193 201;
+  --bg-top-rgb: 14 32 62;    --glow-rgb: 40 110 200;    --glow-a: .28;   /* degradado del fondo */
 
   /* Fondos, bordes y texto */
   --bg: rgb(var(--bg-rgb)); --surface: rgb(var(--surface-rgb)); --surface2: rgb(var(--surface2-rgb));
@@ -50,6 +51,7 @@
     --gold-rgb: 138 96 0;      --gold-dark-rgb: 112 78 0;
     --danger-rgb: 184 50 42;   --danger-border-rgb: 226 160 155; --danger-bg-rgb: 253 238 237;
     --teal-rgb: 8 127 134;
+    --bg-top-rgb: 244 245 247; --glow-rgb: 138 96 0; --glow-a: .08;
     --red: #c0392b;
     --lck: #087f80; --lpl: #b85f00; --lec: #7b3fa0; --lcs: #b32020; --other: #1e8e57;
   --stage-champion: #8a6a00; --stage-finalist: #5b6573; --stage-semifinalist: #8a4e12;
@@ -64,6 +66,7 @@
   --gold-rgb: 138 96 0;      --gold-dark-rgb: 112 78 0;
   --danger-rgb: 184 50 42;   --danger-border-rgb: 226 160 155; --danger-bg-rgb: 253 238 237;
   --teal-rgb: 8 127 134;
+  --bg-top-rgb: 244 245 247; --glow-rgb: 138 96 0; --glow-a: .08;
   --red: #c0392b;
   --lck: #087f80; --lpl: #b85f00; --lec: #7b3fa0; --lcs: #b32020; --other: #1e8e57;
   --stage-champion: #8a6a00; --stage-finalist: #5b6573; --stage-semifinalist: #8a4e12;
