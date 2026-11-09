@@ -3496,5 +3496,58 @@
         ]
       }
     ]
+  },
+  "2027-01-08": {
+    "id": "2027-01-08",
+    "groups": [
+      {
+        "level": 1,
+        "id": "country:Sweden",
+        "es": "Son de Suecia",
+        "en": "Are from Sweden",
+        "players": [
+          "jeskla",
+          "larssen",
+          "caltys",
+          "yike"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "debut:2014",
+        "es": "Debutaron en 2014",
+        "en": "Debuted in 2014",
+        "players": [
+          "flandre",
+          "huhi",
+          "meiko",
+          "contractz"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "majors:LCK:LPL",
+        "es": "Han jugado en la LCK y en la LPL",
+        "en": "Have played in the LCK and the LPL",
+        "players": [
+          "zeka-kim-geon-woo",
+          "kanavi",
+          "bulldog-lee-tae-young",
+          "kael-kim-jin-hong"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "initial:U",
+        "es": "Su apodo empieza por U",
+        "en": "Nickname starts with U",
+        "players": [
+          "upset",
+          "ucal",
+          "uniboy",
+          "uzent"
+        ]
+      }
+    ]
   }
 }
