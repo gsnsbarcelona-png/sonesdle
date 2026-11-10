@@ -1,5 +1,6 @@
 import { iconHtml } from '../../../shared/js/icons.js';
 import { t } from '../i18n.js';
+import { playerPhotoHtml } from '../../../shared/js/media.js';
 
 /** @type {import('../../../shared/js/ParticlesComponent.js').ParticlesComponent | null} */
 let _particles = null;
@@ -44,6 +45,8 @@ export function showModal(won, player, stats, attempts) {
 
   document.getElementById('modal-icon').innerHTML = won ? ICON_WIN : ICON_LOSE;
   document.getElementById('modal-title').textContent = won ? t('modalWin') : t('modalLose');
+  // La foto solo sale al terminar la ronda (antes sería una pista); sin ella, el marcador genérico
+  document.getElementById('modal-photo').innerHTML = playerPhotoHtml(player.image, 'player-photo-xl');
   document.getElementById('modal-player').textContent = player.name;
 
   document.getElementById('modal-subtitle').textContent = won
