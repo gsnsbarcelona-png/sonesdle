@@ -1138,5 +1138,17 @@
       "mid",
       "adc"
     ]
+  },
+  "2027-01-09": {
+    "cols": [
+      "worlds",
+      "geng",
+      "lpl"
+    ],
+    "rows": [
+      "champ",
+      "damwon",
+      "msi"
+    ]
   }
 }
