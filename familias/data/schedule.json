@@ -3390,5 +3390,217 @@
         ]
       }
     ]
+  },
+  "2027-01-06": {
+    "id": "2027-01-06",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:KT Rolster",
+        "es": "Juegan en KT Rolster",
+        "en": "Play for KT Rolster",
+        "players": [
+          "bdd",
+          "jiwoo",
+          "cuzz",
+          "effort"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:Fnatic:2024",
+        "es": "Jugaron en Fnatic en 2024",
+        "en": "Played for Fnatic in 2024",
+        "players": [
+          "noah-oh-hyeon-taek",
+          "razork",
+          "jun-yoon-se-jun",
+          "oscarinin"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:LPL",
+        "es": "Campeones de la LPL",
+        "en": "LPL champions",
+        "players": [
+          "xiaohu",
+          "feather",
+          "assum",
+          "hope-wang-jie"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "initial:K",
+        "es": "Su apodo empieza por K",
+        "en": "Nickname starts with K",
+        "players": [
+          "kael-kim-jin-hong",
+          "kyeahoo",
+          "kanavi",
+          "knight-zhuo-ding"
+        ]
+      }
+    ]
+  },
+  "2027-01-07": {
+    "id": "2027-01-07",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:LNG Esports",
+        "es": "Juegan en LNG Esports",
+        "en": "Play for LNG Esports",
+        "players": [
+          "ycx",
+          "missing",
+          "nia-zou-guang-lu",
+          "sheer"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:Cloud9:2025",
+        "es": "Jugaron en Cloud9 en 2025",
+        "en": "Played for Cloud9 in 2025",
+        "players": [
+          "thanatos-park-seung-gyu",
+          "vulcan-philippe-laflamme",
+          "blaber",
+          "zven"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:LEC",
+        "es": "Campeones de la LEC",
+        "en": "LEC champions",
+        "players": [
+          "carzzy",
+          "skewmond",
+          "canna",
+          "larssen"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "twoteams:DRX:Hanwha Life Esports",
+        "es": "Pasaron por DRX y por Hanwha Life Esports",
+        "en": "Played for both DRX and Hanwha Life Esports",
+        "players": [
+          "zeka-kim-geon-woo",
+          "willer",
+          "chovy",
+          "doran-choi-hyeon-jun"
+        ]
+      }
+    ]
+  },
+  "2027-01-08": {
+    "id": "2027-01-08",
+    "groups": [
+      {
+        "level": 1,
+        "id": "country:Sweden",
+        "es": "Son de Suecia",
+        "en": "Are from Sweden",
+        "players": [
+          "jeskla",
+          "larssen",
+          "caltys",
+          "yike"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "debut:2014",
+        "es": "Debutaron en 2014",
+        "en": "Debuted in 2014",
+        "players": [
+          "flandre",
+          "huhi",
+          "meiko",
+          "contractz"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "majors:LCK:LPL",
+        "es": "Han jugado en la LCK y en la LPL",
+        "en": "Have played in the LCK and the LPL",
+        "players": [
+          "zeka-kim-geon-woo",
+          "kanavi",
+          "bulldog-lee-tae-young",
+          "kael-kim-jin-hong"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "initial:U",
+        "es": "Su apodo empieza por U",
+        "en": "Nickname starts with U",
+        "players": [
+          "upset",
+          "ucal",
+          "uniboy",
+          "uzent"
+        ]
+      }
+    ]
+  },
+  "2027-01-09": {
+    "id": "2027-01-09",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:Dignitas",
+        "es": "Juegan en Dignitas",
+        "en": "Play for Dignitas",
+        "players": [
+          "denathor",
+          "palafox",
+          "fbi",
+          "dardoch"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:Vivo Keyd Stars:2026",
+        "es": "Jugaron en Vivo Keyd Stars en 2026",
+        "en": "Played for Vivo Keyd Stars in 2026",
+        "players": [
+          "morttheus",
+          "zekas",
+          "disamis",
+          "boal"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:VCS",
+        "es": "Campeones de la VCS",
+        "en": "VCS champions",
+        "players": [
+          "harky",
+          "artemis-tran-quoc-hung",
+          "bie",
+          "chika"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "twoteams:Gen.G:Hanwha Life Esports",
+        "es": "Pasaron por Gen.G y por Hanwha Life Esports",
+        "en": "Played for both Gen.G and Hanwha Life Esports",
+        "players": [
+          "life",
+          "lehends",
+          "doran-choi-hyeon-jun",
+          "chovy"
+        ]
+      }
+    ]
   }
 }

@@ -5989,59 +5989,6 @@
     ]
   },
   {
-    "id": "b0023",
-    "groups": [
-      {
-        "level": 1,
-        "id": "country:Serbia",
-        "es": "Son de Serbia",
-        "en": "Are from Serbia",
-        "players": [
-          "shy-carry",
-          "patkicaa",
-          "app",
-          "stefan"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:Malvinas Gaming:2025",
-        "es": "Jugaron en Malvinas Gaming en 2025",
-        "en": "Played for Malvinas Gaming in 2025",
-        "players": [
-          "horus",
-          "piqueos",
-          "doni",
-          "nobody-nicolas-ale"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "title:PCS",
-        "es": "Campeones de la PCS",
-        "en": "PCS champions",
-        "players": [
-          "shiauc",
-          "hongsuo",
-          "uniboy",
-          "kino"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "twoteams:Hanwha Life Esports:KT Rolster",
-        "es": "Pasaron por Hanwha Life Esports y por KT Rolster",
-        "en": "Played for both Hanwha Life Esports and KT Rolster",
-        "players": [
-          "lehends",
-          "life",
-          "doran-choi-hyeon-jun",
-          "kingen"
-        ]
-      }
-    ]
-  },
-  {
     "id": "b0025",
     "groups": [
       {
@@ -7945,6 +7892,59 @@
           "weiwei",
           "shad0w",
           "zika"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "b0001",
+    "groups": [
+      {
+        "level": 1,
+        "id": "country:Romania",
+        "es": "Son de Rumanía",
+        "en": "Are from Romania",
+        "players": [
+          "septico1",
+          "hazel-costin-pestritu",
+          "speedy-george-daniel-savu",
+          "ronaldo"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:Vivo Keyd Stars:2024",
+        "es": "Jugaron en Vivo Keyd Stars en 2024",
+        "en": "Played for Vivo Keyd Stars in 2024",
+        "players": [
+          "disamis",
+          "guigo",
+          "prodelta",
+          "leleko"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "roles:Mid:Top",
+        "es": "Han jugado de Mid y de Top",
+        "en": "Have played Mid and Top",
+        "players": [
+          "chordy",
+          "challenq",
+          "kerfa",
+          "dinastik"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "surname:Yang",
+        "es": "Se apellidan Yang",
+        "en": "Have the surname Yang",
+        "players": [
+          "h4cker",
+          "care",
+          "heng",
+          "wenbo-yang-wen-bo"
         ]
       }
     ]
