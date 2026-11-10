@@ -6,6 +6,10 @@
 .modal.win .modal-icon{color:var(--gold)}
 .modal.lose .modal-icon{color:var(--red)}
 .modal-title{font-family:var(--font-display);font-size:2.4rem;font-weight:700;line-height:1.05;letter-spacing:.02em;text-transform:uppercase;color:var(--text);margin-bottom:8px}
+.modal-photo{display:flex;justify-content:center;margin-bottom:10px}
+.modal-photo .player-photo{border-width:2px}
+.modal.win .modal-photo .player-photo{border-color:var(--gold)}
+.modal.lose .modal-photo .player-photo{border-color:var(--red)}
 .modal-player{font-family:var(--font-display);font-size:1.6rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
 .modal-subtitle{font-family:var(--font-mono);color:var(--text-dim);font-size:.78rem;letter-spacing:.06em;margin-bottom:20px}
 .modal-stats{display:flex;justify-content:center;gap:24px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:16px;margin-bottom:24px}
