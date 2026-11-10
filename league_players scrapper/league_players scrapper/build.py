@@ -73,7 +73,7 @@ TEAM_TOURNAMENTS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_team_tour
 CHAMPION_REDIRECTS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "champion_redirects.json")
 TIER2_PLAYERS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_tier2_players_v3.json")
 BIRTH_YEARS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "birth_years.json")
-IMAGES_CACHE_PATH        = os.path.join(SCRIPT_DIR, "cache", "player_images.json")
+IMAGES_CACHE_PATH        = os.path.join(SCRIPT_DIR, "cache", "player_images_v2.json")
 TEAM_LOGOS_CACHE_PATH    = os.path.join(SCRIPT_DIR, "cache", "team_logos_v2.json")
 TIER2_TEAMS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_tier2_teams.json")
 TIER1_PLAYERS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_tier1_players_v3.json")
@@ -729,6 +729,34 @@ def fetch_birth_years(pages):
 
 IMAGE_WIDTH = 160   # px: la foto se enseña en un círculo de 96 px (el doble, para pantallas HiDPI)
 IMAGE_HOST  = "static.wikia.nocookie.net"   # el mismo host que permite img-src en vercel.json
+NOT_A_PHOTO = re.compile(r"flag|logo|icon|placeholder|banner", re.I)   # imágenes de ficha que no son la foto
+
+
+def fetch_page_images(pages):
+    """{página: URL de la imagen principal de su ficha} (la de la caja de Leaguepedia).
+    Respaldo para quien no está en PlayerImages (Deft, Doublelift, Uzi...), que sí tiene foto
+    en su ficha. Es la API normal de la wiki, sin Cargo; sigue las redirecciones."""
+    session = new_session()
+    images = {}
+    pages = sorted(set(pages))
+    for i in range(0, len(pages), 50):
+        time.sleep(CARGO_DELAY)
+        r = session.get(API_URL, headers=HEADERS, timeout=60, params={
+            "action": "query", "prop": "pageimages", "piprop": "thumbnail", "pithumbsize": IMAGE_WIDTH,
+            "titles": "|".join(pages[i:i + 50]), "redirects": 1, "format": "json",
+        })
+        r.raise_for_status()
+        query = r.json().get("query", {})
+        back = {}   # título final -> título pedido (normalizaciones y redirecciones)
+        for step in query.get("normalized", []) + query.get("redirects", []):
+            back[step["to"]] = back.get(step["from"], step["from"])
+        for pg in query.get("pages", {}).values():
+            url = (pg.get("thumbnail") or {}).get("source", "")
+            filename = unquote(url).split("/revision")[0].rsplit("/", 1)[-1]
+            if urlparse(url).hostname != IMAGE_HOST or NOT_A_PHOTO.search(filename):
+                continue
+            images[back.get(pg["title"], pg["title"])] = url
+    return images
 
 
 def fetch_images(pages):
@@ -769,6 +797,16 @@ def fetch_images(pages):
                 continue
             for page in by_file.get(back.get(pg["title"], pg["title"]), []):
                 images[page] = url
+    # Los que no están en PlayerImages: la foto de su ficha. Es un extra; si falla, quedan sin foto
+    missing = [pg.replace("_", " ") for pg in pages if pg not in images]
+    if missing:
+        try:
+            for page, url in fetch_page_images(missing).items():
+                for pg in pages:
+                    if pg.replace("_", " ") == page and pg not in images:
+                        images[pg] = url
+        except Exception as e:
+            print(f"::warning::Fotos de las fichas no descargadas: {e}")
     return images
 
 
