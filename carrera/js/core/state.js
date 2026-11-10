@@ -5,8 +5,49 @@ import { recordResult }     from '../../../shared/auth.js';
 /** Maximum guesses per round. */
 export const MAX_ATTEMPTS = 6;
 
-/** Teams revealed at the start of each round. */
-const INITIAL_REVEAL = 1;
+/** Etapas que se enseñan como mínimo al empezar una ronda. */
+const MIN_INITIAL_REVEAL = 1;
+
+/**
+ * Hasta cuántas etapas se enseñan al empezar. La primera etapa de una carrera suele ser un equipo
+ * que casi nadie conoce (Caps empezó en Enigma Esports, Rekkles en Fnatic.Beta) y con eso solo es
+ * imposible acertar. Se enseñan etapas, en orden, hasta llegar a un equipo conocido.
+ */
+const MAX_INITIAL_REVEAL = 3;
+
+/** Ligas mayores: una etapa con esta etiqueta es de un equipo que jugó en ella (ver build.py). */
+const MAJOR_REGIONS = new Set(['LCK', 'LPL', 'LEC', 'LCS']);
+
+/** Un equipo es "conocido" si aparece en la carrera de al menos tantos jugadores del juego. */
+const KNOWN_TEAM_MIN = 3;
+
+/** Cuántos jugadores han pasado por cada equipo (una vez por jugador). */
+const TEAM_PLAYERS = new Map();
+for (const p of PLAYERS) {
+  for (const team of new Set(p.career.map((c) => c.team.toLowerCase()))) {
+    TEAM_PLAYERS.set(team, (TEAM_PLAYERS.get(team) ?? 0) + 1);
+  }
+}
+
+/** Una etapa es reconocible si el equipo jugó una liga mayor en ella o es de los más repetidos. */
+function isKnownStage(stage) {
+  return MAJOR_REGIONS.has(stage.region) || (TEAM_PLAYERS.get(stage.team.toLowerCase()) ?? 0) >= KNOWN_TEAM_MIN;
+}
+
+/**
+ * Etapas visibles al empezar con `player`: de 1 a MAX_INITIAL_REVEAL, las justas para que aparezca
+ * un equipo conocido. Si no hay ninguno en ese tramo, se enseña el tramo entero.
+ * @param {{ career: { team: string, region: string }[] }} player
+ */
+export function initialReveal(player) {
+  const limit = Math.min(MAX_INITIAL_REVEAL, player.career.length);
+  for (let i = 0; i < limit; i++) {
+    if (isKnownStage(player.career[i])) {
+      return Math.max(i + 1, Math.min(MIN_INITIAL_REVEAL, player.career.length));
+    }
+  }
+  return limit;
+}
 
 /** Storage key for persistent stats. */
 const STORAGE_KEY = 'lolguess_stats';
@@ -19,7 +60,7 @@ const ROUND_KEY = 'lolguess_round';
 let currentPlayer  = null;
 let attempts       = [];   // { name: string, correct: boolean, isHint?: boolean }[]
 let hintsLog       = [];   // { type: 'wrong', name: string, info: object }[]
-let revealedCount  = INITIAL_REVEAL;
+let revealedCount  = MIN_INITIAL_REVEAL;
 let hintsGiven     = 0;      // total manual hints used this round (>=1 means position revealed)
 let roundOver      = false;
 let won            = false;
@@ -64,7 +105,7 @@ function restoreRound() {
     const okLog = Array.isArray(saved.hintsLog)
       && saved.hintsLog.every((h) => h && h.type === 'wrong' && typeof h.name === 'string' && h.info);
     const okReveal = Number.isInteger(saved.revealedCount)
-      && saved.revealedCount >= Math.min(INITIAL_REVEAL, player.career.length)
+      && saved.revealedCount >= Math.min(MIN_INITIAL_REVEAL, player.career.length)
       && saved.revealedCount <= player.career.length;
     if (!okAttempts || !okLog || !okReveal || !Number.isInteger(saved.hintsGiven) || saved.hintsGiven < 0) return false;
 
@@ -133,7 +174,7 @@ export function nextPlayer() {
   currentPlayer = PLAYERS[idx];
   attempts      = [];
   hintsLog      = [];
-  revealedCount = Math.min(INITIAL_REVEAL, currentPlayer.career.length);
+  revealedCount = initialReveal(currentPlayer);
   hintsGiven    = 0;
   roundOver     = false;
   won           = false;
