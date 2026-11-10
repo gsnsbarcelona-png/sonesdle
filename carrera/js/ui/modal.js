@@ -11,6 +11,20 @@ export function setParticles(p) { _particles = p; }
 const ICON_WIN  = iconHtml('trophy', 56);
 const ICON_LOSE = iconHtml('defeat', 56);
 
+/**
+ * Años de la carrera ("2017–2026"): del primero de la primera etapa al último de la última.
+ * Las etapas traen "2017–21" (rango) o "2019" (un año), así que no se puede usar el texto tal cual.
+ * @param {{ year: string }[]} career
+ */
+export function careerSpan(career) {
+  const start = parseInt(career[0]?.year, 10);
+  const lastYear = career[career.length - 1]?.year ?? '';
+  const [from, to] = lastYear.split('–');
+  const end = to ? Math.floor(parseInt(from, 10) / 100) * 100 + parseInt(to, 10) : parseInt(from, 10);
+  if (isNaN(start) || isNaN(end)) return '';
+  return start === end ? String(start) : `${start}–${end}`;
+}
+
 const overlayEl = () => document.getElementById('modal-overlay');
 const modalEl   = () => document.getElementById('modal');
 
@@ -34,7 +48,7 @@ export function showModal(won, player, stats, attempts) {
 
   document.getElementById('modal-subtitle').textContent = won
     ? t('modalWinSub', player.position, attempts.length)
-    : t('modalLoseSub', player.position, player.career[0]?.year);
+    : t('modalLoseSub', player.position, careerSpan(player.career));
 
   document.getElementById('modal-wins').textContent   = stats.wins;
   document.getElementById('modal-played').textContent = stats.played;
