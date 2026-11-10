@@ -1,0 +1,60 @@
+/* Página 404 (404.html). Rutas absolutas: se sirve en cualquier URL que no existe. */
+* { box-sizing: border-box; margin: 0; }
+body {
+  min-height: 100vh; color: var(--text); background-color: var(--bg);
+  font-family: var(--font-body); line-height: 1.5;
+}
+.bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  max-width: 1120px; margin: 0 auto; padding: 18px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.brand {
+  font-family: var(--font-display); font-size: 1.25rem; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--text); text-decoration: none; white-space: nowrap;
+}
+.brand::before {
+  content: ''; display: inline-block; width: 9px; height: 9px; margin-right: 10px;
+  background: var(--gold); transform: rotate(45deg);
+}
+.brand:hover { color: var(--gold); }
+
+main {
+  max-width: 720px; margin: 0 auto; padding: 64px 20px 72px;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+}
+.nf-icon { color: var(--gold); margin-bottom: 8px; }
+.nf-code {
+  font-family: var(--font-display); font-weight: 700; line-height: 1;
+  font-size: clamp(5rem, 22vw, 9rem); letter-spacing: 0.04em; color: var(--gold);
+}
+h1 {
+  margin-top: 4px; font-family: var(--font-display); font-weight: 700; text-transform: uppercase;
+  font-size: clamp(1.8rem, 6vw, 2.6rem); line-height: 1.05; letter-spacing: 0.02em;
+}
+.nf-sub { margin-top: 12px; max-width: 46ch; color: var(--dim); }
+.nf-home {
+  margin-top: 28px; display: inline-flex; align-items: center; justify-content: center;
+  height: 48px; padding: 0 28px; border-radius: 6px; text-decoration: none;
+  background: var(--gold); color: var(--bg);
+  font-family: var(--font-display); font-weight: 700; font-size: 1rem;
+  letter-spacing: 0.12em; text-transform: uppercase; transition: background .15s;
+}
+.nf-home:hover { background: var(--text); }
+
+.nf-games {
+  margin-top: 48px; width: 100%;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+}
+.nf-games a {
+  display: flex; align-items: center; gap: 10px; padding: 12px 14px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+  color: var(--text); text-decoration: none; text-align: left;
+  font-family: var(--font-display); font-weight: 700; font-size: 1rem;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  transition: border-color .15s, color .15s;
+}
+.nf-games a .icon { color: var(--gold); }
+.nf-games a:hover { border-color: var(--gold); color: var(--gold); }
+@media (max-width: 480px) { .nf-games { grid-template-columns: 1fr 1fr; } }
