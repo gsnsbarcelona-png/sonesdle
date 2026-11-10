@@ -1531,7 +1531,7 @@ def career_from_history(history, team_majors=None):
     return career
 
 
-def build_carrera_js(curated, by_page, team_majors=None):
+def build_carrera_js(curated, by_page, team_majors=None, images=None):
     players, missing = [], []
     for c in curated:
         p = by_page.get(c["page"])
@@ -1542,13 +1542,15 @@ def build_carrera_js(curated, by_page, team_majors=None):
         position = {"ADC": "Bot"}.get(main_role, main_role)
         players.append({"name": p["id"], "position": position,
                         "career": career_from_history(p["history"], team_majors)})
+        if (images or {}).get(c["page"]):   # sin clave si no hay foto: el juego pone un marcador
+            players[-1]["image"] = images[c["page"]]
     J = lambda v: json.dumps(v, ensure_ascii=False)
     lines = ["// Generado por build.py (curated/carrera.json + Leaguepedia). No editar a mano.",
              "// Para añadir un jugador: añádelo a curated/carrera.json y ejecuta build.py.",
              "",
              "/**",
              " * @typedef {{ year: string, team: string, region: string }} CareerEntry",
-             " * @typedef {{ name: string, position: string, career: CareerEntry[] }} Player",
+             " * @typedef {{ name: string, position: string, career: CareerEntry[], image?: string }} Player",
              " * Regions: LCK | LPL | LEC | LCS (solo si el equipo jugó esa liga) | EMEA | NA | KR | CN | PAC | BR | LATAM | OTHER",
              " */",
              "",
@@ -2036,7 +2038,8 @@ def main():
     except Exception as e:
         print(f"::warning::Ligas de los equipos de carrera no actualizadas: {e}")
         team_majors = None
-    js, missing = build_carrera_js(curated_carrera, by_page, team_majors)
+    images.update(extra_images({c["page"] for c in curated_carrera}))   # la foto sale al terminar la ronda
+    js, missing = build_carrera_js(curated_carrera, by_page, team_majors, images)
     carrera_js = js
     carrera_names = re.findall(r'^  \{"name": "([^"]*)"', js, re.M)
     check_dataset("carrera", CARRERA_PATH, carrera_names, len(carrera_names),
