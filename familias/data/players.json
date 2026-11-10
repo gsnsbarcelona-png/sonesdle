@@ -675,10 +675,6 @@
     "n": "Doggo",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/7/79/CRIS_Doggo_2022.png/revision/latest/scale-to-width-down/160?cb=20230203130144"
   },
-  "doni": {
-    "n": "Doni",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/2/26/WAP_Doni_2022_Closing.png/revision/latest/scale-to-width-down/160?cb=20220603213150"
-  },
   "doran-choi-hyeon-jun": {
     "n": "Doran",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/d/de/T1_Doran_2026_LCK_Cup.png/revision/latest/scale-to-width-down/160?cb=20260122163256"
@@ -971,6 +967,10 @@
     "n": "Guti",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/e/ef/T1.EA_Guti_2026_Split_1.png/revision/latest/scale-to-width-down/160?cb=20260124040638"
   },
+  "h4cker": {
+    "n": "H4cker",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/8/84/UP_H4cker_2024_Split_1.png/revision/latest/scale-to-width-down/160?cb=20240121162350"
+  },
   "haetae": {
     "n": "Haetae",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/8/8d/T1.EA_Haetae_2026_Split_1.png/revision/latest/scale-to-width-down/160?cb=20260124040645"
@@ -1002,6 +1002,10 @@
   "hauz": {
     "n": "Hauz",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/3/3d/RNS_HAUZ_2021_Split_1.png/revision/latest/scale-to-width-down/160?cb=20210311182357"
+  },
+  "hazel-costin-pestritu": {
+    "n": "Hazel",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/a/ac/KCBS_Hazel_2025_Split_1.jpg/revision/latest/scale-to-width-down/160?cb=20250201065213"
   },
   "hena": {
     "n": "Hena",
@@ -1050,10 +1054,6 @@
   "hope-wang-jie": {
     "n": "Hope",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/1/12/WE_Hope_2023_Split_2.png/revision/latest/scale-to-width-down/160?cb=20230530061858"
-  },
-  "horus": {
-    "n": "Horus",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/4/49/XTN_Horus_2022_Opening.png/revision/latest/scale-to-width-down/160?cb=20220129011914"
   },
   "houndin": {
     "n": "Houndin",
@@ -1926,10 +1926,6 @@
   "pipibaat": {
     "n": "Pipibaat",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/9/9d/MCon_Pipibaat_2024_Split_2.png/revision/latest/scale-to-width-down/160?cb=20240604114054"
-  },
-  "piqueos": {
-    "n": "Piqueos",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/8/8b/MOX_Piqueos_2021_Closing.png/revision/latest/scale-to-width-down/160?cb=20210520205639"
   },
   "piwek": {
     "n": "Piwek",
