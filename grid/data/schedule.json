@@ -1150,5 +1150,17 @@
       "damwon",
       "msi"
     ]
+  },
+  "2027-01-10": {
+    "cols": [
+      "lec",
+      "fnatic",
+      "lcs"
+    ],
+    "rows": [
+      "adc",
+      "jungle",
+      "lck"
+    ]
   }
 }
