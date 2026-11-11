@@ -3602,5 +3602,58 @@
         ]
       }
     ]
+  },
+  "2027-01-10": {
+    "id": "2027-01-10",
+    "groups": [
+      {
+        "level": 1,
+        "id": "country:Turkey",
+        "es": "Son de Turquía",
+        "en": "Are from Turkey",
+        "players": [
+          "rhilech",
+          "lot",
+          "serin",
+          "naak-nako"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:Nongshim RedForce:2023",
+        "es": "Jugaron en Nongshim RedForce en 2023",
+        "en": "Played for Nongshim RedForce in 2023",
+        "players": [
+          "fiesta-an-hyeon-seo",
+          "jiwoo",
+          "quad",
+          "peter-jeong-yoon-su"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:CBLOL",
+        "es": "Campeones de la CBLOL",
+        "en": "CBLOL champions",
+        "players": [
+          "ackerman-gabriel-aparicio",
+          "hauz",
+          "xyno",
+          "frosty-jose-eduardo"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "twoteams:Weibo Gaming:iG",
+        "es": "Pasaron por Weibo Gaming y por iG",
+        "en": "Played for both Weibo Gaming and iG",
+        "players": [
+          "jwei",
+          "theshy",
+          "zika",
+          "jiejie"
+        ]
+      }
+    ]
   }
 }
