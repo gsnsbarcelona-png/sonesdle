@@ -1162,5 +1162,17 @@
       "jungle",
       "lck"
     ]
+  },
+  "2027-01-11": {
+    "cols": [
+      "lcs",
+      "mid",
+      "champ"
+    ],
+    "rows": [
+      "lck",
+      "korean",
+      "t1"
+    ]
   }
 }

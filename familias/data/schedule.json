@@ -3655,5 +3655,58 @@
         ]
       }
     ]
+  },
+  "2027-01-11": {
+    "id": "2027-01-11",
+    "groups": [
+      {
+        "level": 1,
+        "id": "country:Vietnam",
+        "es": "Son de Vietnam",
+        "en": "Are from Vietnam",
+        "players": [
+          "kiaya",
+          "sansan",
+          "eddie",
+          "siuloong"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:Team WE:2025",
+        "es": "Jugaron en Team WE en 2025",
+        "en": "Played for Team WE in 2025",
+        "players": [
+          "vampire",
+          "monki",
+          "karis",
+          "cube-dai-yi"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:LCS",
+        "es": "Campeones de la LCS",
+        "en": "LCS champions",
+        "players": [
+          "fudge",
+          "palafox",
+          "zven",
+          "gakgos"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "initial:W",
+        "es": "Su apodo empieza por W",
+        "en": "Nickname starts with W",
+        "players": [
+          "way-han-gil",
+          "wei-yan-yang-wei",
+          "willer",
+          "wunder"
+        ]
+      }
+    ]
   }
 }
