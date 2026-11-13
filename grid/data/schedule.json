@@ -1174,5 +1174,17 @@
       "korean",
       "t1"
     ]
+  },
+  "2027-01-12": {
+    "cols": [
+      "top",
+      "lck",
+      "support"
+    ],
+    "rows": [
+      "c9",
+      "champ",
+      "lec"
+    ]
   }
 }
