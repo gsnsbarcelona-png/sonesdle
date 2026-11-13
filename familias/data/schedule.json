@@ -3708,5 +3708,58 @@
         ]
       }
     ]
+  },
+  "2027-01-12": {
+    "id": "2027-01-12",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:Vitality",
+        "es": "Juegan en Vitality",
+        "en": "Play for Vitality",
+        "players": [
+          "fiesta-an-hyeon-seo",
+          "lyncas",
+          "carzzy",
+          "naak-nako"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:Team Liquid:2021",
+        "es": "Jugaron en Team Liquid en 2021",
+        "en": "Played for Team Liquid in 2021",
+        "players": [
+          "yeon-sean-sung",
+          "corejj",
+          "tactical",
+          "dhokla"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:PCS",
+        "es": "Campeones de la PCS",
+        "en": "PCS champions",
+        "players": [
+          "junjia",
+          "woody",
+          "flauren",
+          "pop9"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "twoteams:JD Gaming:Team WE",
+        "es": "Pasaron por JD Gaming y por Team WE",
+        "en": "Played for both JD Gaming and Team WE",
+        "players": [
+          "hope-wang-jie",
+          "zhuo",
+          "vampire",
+          "missing"
+        ]
+      }
+    ]
   }
 }
