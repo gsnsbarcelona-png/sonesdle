@@ -1186,5 +1186,17 @@
       "champ",
       "lec"
     ]
+  },
+  "2027-01-13": {
+    "cols": [
+      "fnatic",
+      "top",
+      "lpl"
+    ],
+    "rows": [
+      "lcs",
+      "geng",
+      "msi"
+    ]
   }
 }

@@ -3761,5 +3761,58 @@
         ]
       }
     ]
+  },
+  "2027-01-13": {
+    "id": "2027-01-13",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:Vivo Keyd Stars",
+        "es": "Juegan en Vivo Keyd Stars",
+        "en": "Play for Vivo Keyd Stars",
+        "players": [
+          "jeskla",
+          "mireu",
+          "disamis",
+          "zekas"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:EDG:2023",
+        "es": "Jugaron en EDG en 2023",
+        "en": "Played for EDG in 2023",
+        "players": [
+          "jiejie",
+          "meiko",
+          "fisher-lee-jeong-tae",
+          "about"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:LTA",
+        "es": "Campeones de la LTA",
+        "en": "LTA champions",
+        "players": [
+          "massu",
+          "apa-eain-stearns",
+          "impact",
+          "gakgos"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "digit",
+        "es": "Llevan un número en el apodo",
+        "en": "Have a number in their nickname",
+        "players": [
+          "369",
+          "5t5",
+          "van1",
+          "1jiang"
+        ]
+      }
+    ]
   }
 }
