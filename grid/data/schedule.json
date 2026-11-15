@@ -1198,5 +1198,17 @@
       "geng",
       "msi"
     ]
+  },
+  "2027-01-14": {
+    "cols": [
+      "lcs",
+      "mid",
+      "msi"
+    ],
+    "rows": [
+      "lck",
+      "european",
+      "worlds"
+    ]
   }
 }

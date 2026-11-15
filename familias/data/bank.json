@@ -2756,59 +2756,6 @@
     ]
   },
   {
-    "id": "b0060",
-    "groups": [
-      {
-        "level": 1,
-        "id": "country:Spain",
-        "es": "Son de España",
-        "en": "Are from Spain",
-        "players": [
-          "urgaleex",
-          "elyoya",
-          "th3antonio",
-          "alvaro-alvaro-fernandez"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:Supernova:2025",
-        "es": "Jugaron en Supernova en 2025",
-        "en": "Played for Supernova in 2025",
-        "players": [
-          "dardoch",
-          "breezy",
-          "scaryjerry",
-          "shogo"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "worlds",
-        "es": "Campeones del mundo",
-        "en": "World champions",
-        "players": [
-          "crisp",
-          "rookie",
-          "pyosik",
-          "scout"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "initial:Y",
-        "es": "Su apodo empieza por Y",
-        "en": "Nickname starts with Y",
-        "players": [
-          "yskm",
-          "yupps",
-          "yasek",
-          "yike"
-        ]
-      }
-    ]
-  },
-  {
     "id": "b0065",
     "groups": [
       {
@@ -7945,6 +7892,59 @@
           "wenbo-yang-wen-bo",
           "whiteknight",
           "wako"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "b0001",
+    "groups": [
+      {
+        "level": 1,
+        "id": "country:Tunisia",
+        "es": "Son de Tunisia",
+        "en": "Are from Tunisia",
+        "players": [
+          "ihebic",
+          "skream",
+          "chakroun",
+          "jalleba"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:iG:2023",
+        "es": "Jugaron en iG en 2023",
+        "en": "Played for iG in 2023",
+        "players": [
+          "ahn",
+          "xiaoyueji",
+          "gideon",
+          "tianzhen"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "msi",
+        "es": "Campeones del MSI",
+        "en": "MSI champions",
+        "players": [
+          "xiaohu",
+          "delight",
+          "369",
+          "peyz"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "twoteams:Estral Esports:Furious Gaming",
+        "es": "Pasaron por Estral Esports y por Furious Gaming",
+        "en": "Played for both Estral Esports and Furious Gaming",
+        "players": [
+          "bvoy",
+          "josedeodo",
+          "zelt",
+          "shadow-facundo-cuello"
         ]
       }
     ]
