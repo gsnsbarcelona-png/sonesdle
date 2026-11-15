@@ -83,6 +83,10 @@
     "n": "AKaJe",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/e/eb/DRX.C_AKaJe_2026_Split_1.png/revision/latest/scale-to-width-down/160?cb=20260122165609"
   },
+  "ale": {
+    "n": "Ale",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/7/75/SN_Ale_2018_Summer.png/revision/latest/scale-to-width-down/160?cb=20180904131904"
+  },
   "alluk": {
     "n": "AlluK",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/2/2d/Alluk.png/revision/latest/scale-to-width-down/160?cb=20250325042002"
@@ -402,6 +406,10 @@
   "ceskycechcz": {
     "n": "ceskycechcz",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/8/85/ESB_koubee_2023_Split_3.png/revision/latest/scale-to-width-down/160?cb=20231008145100"
+  },
+  "chakroun": {
+    "n": "Chakroun",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/5/5a/THB_Chakroun_2024_Split_1.png/revision/latest/scale-to-width-down/160?cb=20250830130207"
   },
   "challenq": {
     "n": "Challenq",
@@ -1102,6 +1110,10 @@
   "ignar": {
     "n": "Ignar",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/d/d7/S04_IgNar_2019_Split_2.png/revision/latest/scale-to-width-down/160?cb=20190702075629"
+  },
+  "ihebic": {
+    "n": "IHEBIC",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/4/41/GTZ_Ihebic_2025_Split_3.png/revision/latest/scale-to-width-down/160?cb=20250919153714"
   },
   "impact": {
     "n": "Impact",
@@ -2295,6 +2307,10 @@
     "n": "SkewMond",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/5/5b/ViV_SkewMond_2022.png/revision/latest/scale-to-width-down/160?cb=20220518183643"
   },
+  "skream": {
+    "n": "Skream",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/a/a9/VSlash_GnG_Skream_2022_Split_2.png/revision/latest/scale-to-width-down/160?cb=20260210195831"
+  },
   "skyk": {
     "n": "SkyK",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/e/eb/MVKA_SkyK_VCS_2025_Summer.png/revision/latest/scale-to-width-down/160?cb=20250525184511"
@@ -2587,10 +2603,6 @@
     "n": "Upset",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/5/59/VIT_Upset_2023_Split_3.png/revision/latest/scale-to-width-down/160?cb=20231123140148"
   },
-  "urgaleex": {
-    "n": "Urgaleex",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/4/49/ZEST_Urgaleex_2023_Split_1.png/revision/latest/scale-to-width-down/160?cb=20230227204340"
-  },
   "uzent": {
     "n": "uZent",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/c/cc/LOUD_uZent_2026_Split_1.png/revision/latest/scale-to-width-down/160?cb=20260426172159"
@@ -2802,10 +2814,6 @@
   "yalwaysme": {
     "n": "Yalwaysme",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/d/dc/PG_Yalwaysme.png/revision/latest/scale-to-width-down/160?cb=20250903114321"
-  },
-  "yasek": {
-    "n": "Yasek",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/9/9c/DOC_Yasek_2026.png/revision/latest/scale-to-width-down/160?cb=20260913184540"
   },
   "yashiro2": {
     "n": "Yashiro2",
