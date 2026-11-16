@@ -2601,50 +2601,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "country:France",
-        "es": "Son de Francia",
-        "en": "Are from France",
+        "id": "country:Sweden",
+        "es": "Son de Suecia",
+        "en": "Are from Sweden",
         "players": [
-          "isma",
-          "caliste",
-          "skeanz",
-          "skewmond"
+          "caltys",
+          "yike",
+          "larssen",
+          "jeskla"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Top Esports:2026",
-        "es": "Jugaron en Top Esports en 2026",
-        "en": "Played for Top Esports in 2026",
+        "id": "teamyear:Estral Esports:2024",
+        "es": "Jugaron en Estral Esports en 2024",
+        "en": "Played for Estral Esports in 2024",
         "players": [
-          "tian",
-          "fengyue",
-          "zuian",
-          "zhuo"
+          "ackerman-gabriel-aparicio",
+          "josedeodo",
+          "zothve",
+          "cody"
         ]
       },
       {
         "level": 3,
-        "id": "msi",
-        "es": "Campeones del MSI",
-        "en": "MSI champions",
+        "id": "title:LJL",
+        "es": "Campeones de la LJL",
+        "en": "LJL champions",
         "players": [
-          "canyon",
-          "peyz",
-          "zeus",
-          "wunder"
+          "aria-lee-ga-eul",
+          "vsta",
+          "van1",
+          "marble"
         ]
       },
       {
         "level": 4,
-        "id": "initial:E",
-        "es": "Su apodo empieza por E",
-        "en": "Nickname starts with E",
+        "id": "surname:Wang",
+        "es": "Se apellidan Wang",
+        "en": "Have the surname Wang",
         "players": [
-          "eddie",
-          "empyros",
-          "effort",
-          "elk"
+          "fengyue",
+          "feather",
+          "monki",
+          "hope-wang-jie"
         ]
       }
     ]
@@ -3864,6 +3864,59 @@
           "sheer",
           "stepz-eloy-rodriguez",
           "sinatra"
+        ]
+      }
+    ]
+  },
+  "2027-01-15": {
+    "id": "2027-01-15",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:G2",
+        "es": "Juegan en G2",
+        "en": "Play for G2",
+        "players": [
+          "hans-sama",
+          "caps",
+          "labrov",
+          "brokenblade"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:Anyone's Legend:2024",
+        "es": "Jugaron en Anyone's Legend en 2024",
+        "en": "Played for Anyone's Legend in 2024",
+        "players": [
+          "kael-kim-jin-hong",
+          "hery",
+          "shanks",
+          "ale"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:LLA",
+        "es": "Campeones de la LLA",
+        "en": "LLA champions",
+        "players": [
+          "mireu",
+          "cody",
+          "ceo",
+          "lyonz"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "initial:E",
+        "es": "Su apodo empieza por E",
+        "en": "Nickname starts with E",
+        "players": [
+          "eddie",
+          "effort",
+          "erha",
+          "elk"
         ]
       }
     ]
