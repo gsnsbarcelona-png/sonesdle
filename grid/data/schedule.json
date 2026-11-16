@@ -1210,5 +1210,17 @@
       "european",
       "worlds"
     ]
+  },
+  "2027-01-15": {
+    "cols": [
+      "mid",
+      "tsm",
+      "top"
+    ],
+    "rows": [
+      "korean",
+      "g2",
+      "tl"
+    ]
   }
 }
