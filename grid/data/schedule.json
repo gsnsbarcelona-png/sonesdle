@@ -1222,5 +1222,65 @@
       "g2",
       "tl"
     ]
+  },
+  "2027-01-16": {
+    "cols": [
+      "lpl",
+      "worlds",
+      "european"
+    ],
+    "rows": [
+      "jungle",
+      "mid",
+      "lcs"
+    ]
+  },
+  "2027-01-17": {
+    "cols": [
+      "adc",
+      "drx",
+      "worlds"
+    ],
+    "rows": [
+      "t1",
+      "damwon",
+      "lpl"
+    ]
+  },
+  "2027-01-18": {
+    "cols": [
+      "msi",
+      "kt",
+      "drx"
+    ],
+    "rows": [
+      "adc",
+      "lpl",
+      "mid"
+    ]
+  },
+  "2027-01-19": {
+    "cols": [
+      "lec",
+      "european",
+      "worlds"
+    ],
+    "rows": [
+      "support",
+      "tl",
+      "top"
+    ]
+  },
+  "2027-01-20": {
+    "cols": [
+      "top",
+      "lcs",
+      "mid"
+    ],
+    "rows": [
+      "champ",
+      "geng",
+      "fnatic"
+    ]
   }
 }
