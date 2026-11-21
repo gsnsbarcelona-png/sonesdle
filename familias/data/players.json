@@ -15,6 +15,10 @@
     "n": "1xn",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/63/TT_1xn_Demacia_Cup_2024.png/revision/latest/scale-to-width-down/160?cb=20241217163131"
   },
+  "2274": {
+    "n": "2274",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/3/35/CFO_2274_2026_Split_1.png/revision/latest/scale-to-width-down/160?cb=20260124181352"
+  },
   "369": {
     "n": "369",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/2/26/TOP_369_2019_Split_1.png/revision/latest/scale-to-width-down/160?cb=20190108164014"
@@ -63,6 +67,14 @@
     "n": "Aegis",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/e/e5/Aegis.png/revision/latest/scale-to-width-down/160?cb=20190219140712"
   },
+  "aeon-pedro-rego": {
+    "n": "Aeon",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/d/df/K1K_Gotzy_2019_Split_2.png/revision/latest/scale-to-width-down/129?cb=20190611160200"
+  },
+  "aeru": {
+    "n": "Aeru",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/6e/GnG_Aeru_2025_Split_2.png/revision/latest/scale-to-width-down/160?cb=20250428105011"
+  },
   "afriibi": {
     "n": "Afriibi",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/9/9b/ZTA_Afriibi_2025_Split_3.png/revision/latest/scale-to-width-down/160?cb=20250726152140"
@@ -87,6 +99,10 @@
     "n": "Ale",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/7/75/SN_Ale_2018_Summer.png/revision/latest/scale-to-width-down/160?cb=20180904131904"
   },
+  "alley": {
+    "n": "Alley",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/9/9c/LNG_Alley_2025_Split_1.png/revision/latest/scale-to-width-down/160?cb=20250109143753"
+  },
   "alluk": {
     "n": "AlluK",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/2/2d/Alluk.png/revision/latest/scale-to-width-down/160?cb=20250325042002"
@@ -98,6 +114,10 @@
   "alvaro-alvaro-fernandez": {
     "n": "Alvaro",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/2/21/MRS_Alvaro_2023_Split_2.png/revision/latest/scale-to-width-down/160?cb=20230529182720"
+  },
+  "andariel": {
+    "n": "ANDARIEL",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/d/d8/UCAM_ANDARIEL_2026_Split_2.webp/revision/latest/scale-to-width-down/160?cb=20260624043808"
   },
   "andil": {
     "n": "Andil",
@@ -143,10 +163,6 @@
     "n": "Array",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/1/10/UST_Array_2021_Gateway.png/revision/latest/scale-to-width-down/160?cb=20210720193323"
   },
-  "artemis-tran-quoc-hung": {
-    "n": "Artemis",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/3/31/CES_Artemis_2021_Split_2.png/revision/latest/scale-to-width-down/160?cb=20210614104517"
-  },
   "arutnevjr": {
     "n": "ArutnevJr",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/c/c1/LPS_ArutnevJr_2024_Split_2.jpg/revision/latest/scale-to-width-down/160?cb=20240529081422"
@@ -166,6 +182,10 @@
   "austerity": {
     "n": "Austerity",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/8/81/IE_Austerity_LCP_WC_2025.png/revision/latest/scale-to-width-down/160?cb=20250827133427"
+  },
+  "avarice": {
+    "n": "Avarice",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/d/d2/STR_Avarice_2022_Split_1.png/revision/latest/scale-to-width-down/160?cb=20220120161418"
   },
   "ayu-andrey-saraiva": {
     "n": "Ayu",
@@ -207,17 +227,13 @@
     "n": "Bdd",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/d/d5/NS_Bdd_2022_Split_2.png/revision/latest/scale-to-width-down/160?cb=20220619004015"
   },
-  "beishang": {
-    "n": "beishang",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/e/e2/GM_beishang_Legend_Cup_2024.png/revision/latest/scale-to-width-down/160?cb=20240520155329"
-  },
   "beni-gabriel-domingues": {
     "n": "Beni",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/d/d9/PRATT_Beni_2025.png/revision/latest/scale-to-width-down/160?cb=20250916133330"
   },
-  "berr": {
-    "n": "Berr",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/2/2c/DRX.C_BeRr_2024_Split_2.png/revision/latest/scale-to-width-down/160?cb=20240618151439"
+  "berik": {
+    "n": "Berik",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/4/49/UCI_Berik_2022.png/revision/latest/scale-to-width-down/160?cb=20220616234946"
   },
   "berserker-kim-min-cheol": {
     "n": "Berserker",
@@ -254,6 +270,14 @@
   "blacky": {
     "n": "Blacky",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/1/16/Black_INTZ_2018.png/revision/latest/scale-to-width-down/160?cb=20181209193050"
+  },
+  "blueboar": {
+    "n": "Blueboar",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/5/52/DIA_Blueboar_2024_Split_2.png/revision/latest/scale-to-width-down/160?cb=20240608063344"
+  },
+  "bluffing": {
+    "n": "Bluffing",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/b/ba/HLE.C_Bluffing_2025_Split_1_2.png/revision/latest/scale-to-width-down/160?cb=20250228175738"
   },
   "boal": {
     "n": "Boal",
@@ -323,10 +347,6 @@
     "n": "Busio",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/5/52/KC_Busio_2026_Split_2.png/revision/latest/scale-to-width-down/160?cb=20260721165931"
   },
-  "bvoy": {
-    "n": "Bvoy",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/7/7c/YM_Bvoy_2018_Spring.png/revision/latest/scale-to-width-down/160?cb=20180303174734"
-  },
   "caliste": {
     "n": "Caliste",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/7/73/ViV_Caliste_2023_Split_1.png/revision/latest/scale-to-width-down/160?cb=20230115165114"
@@ -342,10 +362,6 @@
   "callme": {
     "n": "Callme",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/67/NS.EA_Callme_2023_Split_2.png/revision/latest/scale-to-width-down/160?cb=20230614024547"
-  },
-  "caltys": {
-    "n": "Caltys",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/9/9d/G2H_Caltys_2026.jpg/revision/latest/scale-to-width-down/160?cb=20260916135150"
   },
   "calumnia": {
     "n": "Calumnia",
@@ -399,6 +415,10 @@
     "n": "Carzzy",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/5/53/VIT_Carzzy_2026_Split_3.png/revision/latest/scale-to-width-down/160?cb=20260724192352"
   },
+  "casting": {
+    "n": "Casting",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/d/df/KT.C_Casting_2025_Split_3.png/revision/latest/scale-to-width-down/160?cb=20251117134812"
+  },
   "castle-cho-hyeon-seong": {
     "n": "Castle",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/5/50/KT.C_Castle_2023_Split_2.png/revision/latest/scale-to-width-down/160?cb=20230614023441"
@@ -418,10 +438,6 @@
   "ceskycechcz": {
     "n": "ceskycechcz",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/8/85/ESB_koubee_2023_Split_3.png/revision/latest/scale-to-width-down/160?cb=20231008145100"
-  },
-  "chakroun": {
-    "n": "Chakroun",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/5/5a/THB_Chakroun_2024_Split_1.png/revision/latest/scale-to-width-down/160?cb=20250830130207"
   },
   "challenq": {
     "n": "Challenq",
@@ -475,6 +491,10 @@
     "n": "Click",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/7/78/SMS_Click_PG_Nationals_2020_Summer.jpg/revision/latest/scale-to-width-down/160?cb=20200914150836"
   },
+  "cloud-moon-hyeon-ho": {
+    "n": "Cloud",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/f/f3/T1.EA_Cloud_2026_Split_1.png/revision/latest/scale-to-width-down/160?cb=20260124040640"
+  },
   "cloudstrikee": {
     "n": "CloudStrikee",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/1/15/DZ_CloudStrikee.jpg/revision/latest/scale-to-width-down/160?cb=20190502210629"
@@ -486,10 +506,6 @@
   "cody": {
     "n": "cody",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/0/06/UCH_Cody_2020_Opening.png/revision/latest/scale-to-width-down/160?cb=20200225213247"
-  },
-  "cody-sun": {
-    "n": "Cody Sun",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/e/e2/ME_Cody_Sun_2022_Split_2.png/revision/latest/scale-to-width-down/160?cb=20220701161006"
   },
   "comp": {
     "n": "Comp",
@@ -563,10 +579,6 @@
     "n": "D0kai",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/d/de/D0kai.png/revision/latest/scale-to-width-down/160?cb=20230723172429"
   },
-  "daedra": {
-    "n": "Daedra",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/d/d6/UBK_Daedra_2023_Closing.png/revision/latest/scale-to-width-down/160?cb=20230619003507"
-  },
   "daglas": {
     "n": "Daglas",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/5/59/VITB_Daglas_2024_Split_2.png/revision/latest/scale-to-width-down/160?cb=20240916153149"
@@ -615,6 +627,10 @@
     "n": "Deepe",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/65/VIK_Deepe_2021_Split_1.png/revision/latest/scale-to-width-down/160?cb=20210130124547"
   },
+  "deft": {
+    "n": "Deft",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/5/51/SSB_Deft_2014_WCS.png/revision/latest/scale-to-width-down/160?cb=20250421135834"
+  },
   "dehaste": {
     "n": "Dehaste",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/0/01/UE_Dehaste_2020_Split_1.png/revision/latest/scale-to-width-down/160?cb=20200203204854"
@@ -623,13 +639,13 @@
     "n": "Delight",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/63/HLE_Delight_2025_Split_1_2.png/revision/latest/scale-to-width-down/160?cb=20250228175139"
   },
-  "denathor": {
-    "n": "Denathor",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/e/e3/WU_Denathor_2023.PNG/revision/latest/scale-to-width-down/160?cb=20231207010045"
-  },
   "denvoksne": {
     "n": "DenVoksne",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/0/05/USE_DenVoksne_2025_Split_1.png/revision/latest/scale-to-width-down/160?cb=20250216164015"
+  },
+  "denyk": {
+    "n": "denyk",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/e/e5/XL_Denyk_2021_Split_2.png/revision/latest/scale-to-width-down/160?cb=20210610182410"
   },
   "deokdam": {
     "n": "deokdam",
@@ -695,9 +711,13 @@
     "n": "Doggo",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/7/79/CRIS_Doggo_2022.png/revision/latest/scale-to-width-down/160?cb=20230203130144"
   },
-  "doran-choi-hyeon-jun": {
-    "n": "Doran",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/d/de/T1_Doran_2026_LCK_Cup.png/revision/latest/scale-to-width-down/160?cb=20260122163256"
+  "doni": {
+    "n": "Doni",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/2/26/WAP_Doni_2022_Closing.png/revision/latest/scale-to-width-down/160?cb=20220603213150"
+  },
+  "dorian": {
+    "n": "Dorian",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/c/cc/WE_Dorian_2026_Split_1.png/revision/latest/scale-to-width-down/160?cb=20260122143906"
   },
   "doss": {
     "n": "Doss",
@@ -719,10 +739,6 @@
     "n": "Duro",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/1/15/LSB.C_Duro_2022_Split_2.png/revision/latest/scale-to-width-down/160?cb=20221208160018"
   },
-  "dvlk": {
-    "n": "DVLK",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/6a/ESB.A_DVLK_2022_Split_2.png/revision/latest/scale-to-width-down/160?cb=20221030120149"
-  },
   "dyego": {
     "n": "Dyego",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/a/a9/SPXF_Dyego_2026_Split_1.png/revision/latest/scale-to-width-down/160?cb=20260413170033"
@@ -730,6 +746,10 @@
   "easylove": {
     "n": "Easylove",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/c/c5/GAM_Easylove_2018_Spring.png/revision/latest/scale-to-width-down/160?cb=20180126170310"
+  },
+  "ecstassy": {
+    "n": "ECSTASSY",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/3/35/XOL_Ecstassy_2024_Split_1.png/revision/latest/scale-to-width-down/160?cb=20240202212301"
   },
   "eddie": {
     "n": "Eddie",
@@ -763,6 +783,10 @@
     "n": "Emo",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/4/43/MBE_Emo_ASCI_2023.png/revision/latest/scale-to-width-down/160?cb=20230903153321"
   },
+  "en": {
+    "n": "En",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/4/4a/HG_EnHoa_2022_Split_1.png/revision/latest/scale-to-width-down/160?cb=20220212111936"
+  },
   "endless-bence-toth-szeles": {
     "n": "Endless",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/d/d6/CWE_Endless_2024_Split_1.png/revision/latest/scale-to-width-down/160?cb=20240313172952"
@@ -770,6 +794,10 @@
   "enga": {
     "n": "Enga",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/3/3b/UND_Enga_Opening_2020.png/revision/latest/scale-to-width-down/160?cb=20200213035114"
+  },
+  "enoch": {
+    "n": "Enoch",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/65/STR_Enoch_2022_Split_1.png/revision/latest/scale-to-width-down/160?cb=20220120161422"
   },
   "envy-bruno-farias": {
     "n": "Envy",
@@ -827,6 +855,10 @@
     "n": "fengyue",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/8/80/TESC_fengyue_2024_Placements.png/revision/latest/scale-to-width-down/160?cb=20240202065611"
   },
+  "fenix": {
+    "n": "Fenix",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/a/aa/Tl-fenix-2015spring.jpg/revision/latest/scale-to-width-down/160?cb=20170802154340"
+  },
   "feww": {
     "n": "Feww",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/9/98/FS_Feww.png/revision/latest/scale-to-width-down/160?cb=20250412175509"
@@ -859,6 +891,10 @@
     "n": "Fleshy",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/7/76/VITB_Fleshy_2025_Split_2.png/revision/latest/scale-to-width-down/160?cb=20250530144428"
   },
+  "flicker-rodrigo-de-oliveira": {
+    "n": "FlickeR",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/0/00/PAR_FlickeR_2024_Split_2.png/revision/latest/scale-to-width-down/160?cb=20240608063424"
+  },
   "fooneses": {
     "n": "Fooneses",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/5/5d/A41G_Fooneses_2025_Split_3.png/revision/latest/scale-to-width-down/160?cb=20251102140357"
@@ -866,6 +902,10 @@
   "fornoreason": {
     "n": "Fornoreason",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/0/0d/USE_Fornoreason_2025_Split_1.png/revision/latest/scale-to-width-down/160?cb=20250216164019"
+  },
+  "fortu": {
+    "n": "Fortu",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/5/5d/WAP_Fortu_2025_Split_1.JPG/revision/latest/scale-to-width-down/160?cb=20250328032234"
   },
   "frog-lee-min-hoi": {
     "n": "Frog",
@@ -903,6 +943,10 @@
     "n": "Galileo",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/8/8f/TPA_Galileo_2026_Split_1.png/revision/latest/scale-to-width-down/160?cb=20260324184625"
   },
+  "ganks": {
+    "n": "Ganks",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/7/7f/SAP_Ganks_2022_Opening.png/revision/latest/scale-to-width-down/160?cb=20220201182733"
+  },
   "genos-leonardo-macedo": {
     "n": "Genos",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/c/c1/BRA_Genos_LG_2026_Split_1.png/revision/latest/scale-to-width-down/160?cb=20260506180547"
@@ -923,9 +967,9 @@
     "n": "GIDEON",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/b/b4/NS_GIDEON_2025_Split_1.png/revision/latest/scale-to-width-down/160?cb=20250228181318"
   },
-  "gimi": {
-    "n": "Gimi",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/1/1d/UWS_Gimi_2026_Split_2.png/revision/latest/scale-to-width-down/160?cb=20260411140223"
+  "giyuu": {
+    "n": "Giyuu",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/7/79/RA%27AD_Giyuu_2022_Split_2.png/revision/latest/scale-to-width-down/160?cb=20221105211649"
   },
   "gjones": {
     "n": "Gjones",
@@ -934,10 +978,6 @@
   "gloryy": {
     "n": "Gloryy",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/3/3e/TW_Gloryy_2024_Split_1.png/revision/latest/scale-to-width-down/160?cb=20240403203836"
-  },
-  "good-boi": {
-    "n": "Good Boi",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/9/96/GoodBoi1.jpg/revision/latest/scale-to-width-down/160?cb=20201218031645"
   },
   "grave": {
     "n": "Grave",
@@ -995,10 +1035,6 @@
     "n": "HamBak",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/3/36/SEN_HamBak_2026_Split_1.png/revision/latest/scale-to-width-down/160?cb=20260131091812"
   },
-  "hamin": {
-    "n": "Hamin",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/d/dc/OG_Hamin_2024.png/revision/latest/scale-to-width-down/160?cb=20260201104218"
-  },
   "hammock": {
     "n": "HammocK",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/4/48/ULT_Hammock_2017_Spring.png/revision/latest/scale-to-width-down/160?cb=20201229194005"
@@ -1010,10 +1046,6 @@
   "harky": {
     "n": "Harky",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/f/f7/TW_Harky_2023_Split_1.png/revision/latest/scale-to-width-down/160?cb=20230307081100"
-  },
-  "harpoon": {
-    "n": "HARPOON",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/c/ce/Z10_HARPOON_2024_Split_1.png/revision/latest/scale-to-width-down/160?cb=20240116100742"
   },
   "hatred-veselin-popov": {
     "n": "Hatred",
@@ -1139,6 +1171,10 @@
     "n": "Inspired",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/8/8d/RGE_Inspired_Worlds_2021.png/revision/latest/scale-to-width-down/160?cb=20211014015124"
   },
+  "intio": {
+    "n": "Intio",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/3/35/SKC_Zyzz_%28Andres_Rodriguez%29_2022_Closing.png/revision/latest/scale-to-width-down/101?cb=20220518014959"
+  },
   "invincible": {
     "n": "Invincible",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/d/d3/V5_Invincible_2021_Split_1.png/revision/latest/scale-to-width-down/160?cb=20210204071047"
@@ -1170,6 +1206,10 @@
   "jackeylove": {
     "n": "JackeyLove",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/b/b6/JK_JackeyLove_LPL_AS_2024.png/revision/latest/scale-to-width-down/160?cb=20250215192649"
+  },
+  "jackies": {
+    "n": "Jackies",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/d/d3/GX_Jackies_2026_Split_3.png/revision/latest/scale-to-width-down/160?cb=20260724144115"
   },
   "jalleba": {
     "n": "Jalleba",
@@ -1279,6 +1319,10 @@
     "n": "Kaihua",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/e/e2/MAZE_Kaihua_2022_Opening.png/revision/latest/scale-to-width-down/160?cb=20220120210837"
   },
+  "kairi": {
+    "n": "kairi",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/4/49/VKE_Kairi_2024_Split_1.png/revision/latest/scale-to-width-down/160?cb=20240306185938"
+  },
   "kaiser": {
     "n": "Kaiser",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/9/9c/VIT_Kaiser_2023_Split_3.png/revision/latest/scale-to-width-down/160?cb=20231123140140"
@@ -1295,21 +1339,13 @@
     "n": "Kanavi",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/61/TES_Kanavi_2025_Worlds.png/revision/latest/scale-to-width-down/160?cb=20251013151906"
   },
-  "kangkuk": {
-    "n": "Kangkuk",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/f/f1/RCK_Kangkuk2026_Split_2.png/revision/latest/scale-to-width-down/160?cb=20260516141954"
-  },
-  "kania": {
-    "n": "Kania",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/1/16/DRX.C_Kania_2024_Split_1.png/revision/latest/scale-to-width-down/160?cb=20240306155842"
+  "kangin": {
+    "n": "Kangin",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/b/bf/NS.EA_Kangin_2025_Split_1.png/revision/latest/scale-to-width-down/160?cb=20250228181313"
   },
   "karis": {
     "n": "Karis",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/2/2f/WE_Karis_Demacia_Cup_2024.png/revision/latest/scale-to-width-down/160?cb=20241217163125"
-  },
-  "kasing": {
-    "n": "Kasing",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/c/ce/XL_kaSing_2019_Split_2.png/revision/latest/scale-to-width-down/160?cb=20190702100147"
   },
   "kaze-lucas-fe": {
     "n": "Kaze",
@@ -1334,10 +1370,6 @@
   "kellin": {
     "n": "Kellin",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/1/12/NS_Kellin_2021_Split_2.png/revision/latest/scale-to-width-down/160?cb=20210622020145"
-  },
-  "kemish": {
-    "n": "Kemish",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/5/55/GEN.GA_Kemish_2026_Split_1.png/revision/latest/scale-to-width-down/160?cb=20260122172018"
   },
   "kerfa": {
     "n": "Kerfa",
@@ -1387,6 +1419,14 @@
     "n": "Kisno",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/f/fa/SN_Kisno_2023.jpg/revision/latest/scale-to-width-down/160?cb=20231119172526"
   },
+  "kitano": {
+    "n": "Kitano",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/c/ce/Kitano_2024.jpg/revision/latest/scale-to-width-down/160?cb=20241218140644"
+  },
+  "kkero": {
+    "n": "kkero",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/8/81/Kkero.png/revision/latest/scale-to-width-down/160?cb=20250807124458"
+  },
   "kkkkkkkkk": {
     "n": "kkkkkkkkk",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/f/f3/FL_kkkkkkkkk_2026_Split_1.png/revision/latest/scale-to-width-down/160?cb=20260126162847"
@@ -1406,6 +1446,10 @@
   "konseki": {
     "n": "konseki",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/2/2a/LOS_Konseki.png/revision/latest/scale-to-width-down/160?cb=20240410000621"
+  },
+  "koussay": {
+    "n": "Koussay",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/f/f7/GnG_Koussay_2025_Split_2.png/revision/latest/scale-to-width-down/160?cb=20250428125403"
   },
   "kratos-ngo-uc-khanh": {
     "n": "Kratos (Ngô Đức Khánh)",
@@ -1475,6 +1519,10 @@
     "n": "Leleko",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/6c/VKS.A_Leleko_2023_Split_2.png/revision/latest/scale-to-width-down/160?cb=20230617100156"
   },
+  "lelouch-cristian-alexandrescu": {
+    "n": "Lelouch",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/8/80/SVJ_Lelouch_2022_Split_1.png/revision/latest/scale-to-width-down/160?cb=20220120161432"
+  },
   "leny": {
     "n": "Leny",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/d/d9/GL_Leny_2025_Split_2.png/revision/latest/scale-to-width-down/160?cb=20250530150823"
@@ -1511,10 +1559,6 @@
     "n": "Loki",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/5/50/HLE.C_Loki_2024_Split_1.png/revision/latest/scale-to-width-down/160?cb=20240212095143"
   },
-  "lolo": {
-    "n": "lolo",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/7/7d/FUR_lolo.png/revision/latest/scale-to-width-down/160?cb=20240723201510"
-  },
   "loopy": {
     "n": "Loopy",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/2/21/SK_Loopy_2025_Split_3.png/revision/latest/scale-to-width-down/160?cb=20250810162241"
@@ -1531,6 +1575,10 @@
     "n": "Lothen",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/b/b7/IHG_Lothen_2023_Split_2.png/revision/latest/scale-to-width-down/160?cb=20230609094840"
   },
+  "lotuss": {
+    "n": "Lotuss",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/d/d9/Lotus.jpg/revision/latest?cb=20181103155413"
+  },
   "lp": {
     "n": "LP",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/63/WE_LP_2024_Split_2.png/revision/latest/scale-to-width-down/160?cb=20240601023828"
@@ -1542,10 +1590,6 @@
   "lucid-choi-yong-hyeok": {
     "n": "Lucid",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/c/cc/DK.C_Lucid_ASCI_2023.png/revision/latest/scale-to-width-down/160?cb=20240816150742"
-  },
-  "lucy-hyun-soo-hoon": {
-    "n": "Lucy",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/b/b1/NS.EA_Lucy_2026_Split_1.png/revision/latest/scale-to-width-down/160?cb=20260124035649"
   },
   "luon": {
     "n": "Luon",
@@ -1611,10 +1655,6 @@
     "n": "Markoon",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/2/2c/XL_Markoon_2022_Split_2.png/revision/latest/scale-to-width-down/160?cb=20220616144810"
   },
-  "marlon-igor-tomczyk": {
-    "n": "marlon",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/2/2e/RS_marlon_2025_Split_2_2.png/revision/latest/scale-to-width-down/160?cb=20250529163646"
-  },
   "martote": {
     "n": "Martote",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/a/a7/VCT_martote_2026_Split_1.png/revision/latest/scale-to-width-down/160?cb=20260324184018"
@@ -1630,10 +1670,6 @@
   "mataz": {
     "n": "Mataz",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/4/4b/TK_Mataz_2023_Opening.png/revision/latest/scale-to-width-down/160?cb=20230126011923"
-  },
-  "maxi": {
-    "n": "MAXI",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/4/4f/RDL_Maxi_2020_Split_2.png/revision/latest/scale-to-width-down/160?cb=20200710131659"
   },
   "maynter": {
     "n": "Maynter",
@@ -1674,6 +1710,10 @@
   "minemaciek": {
     "n": "minemaciek",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/69/RBLS_minemaciek_2024_Split_2.png/revision/latest/scale-to-width-down/160?cb=20240816130540"
+  },
+  "minji": {
+    "n": "Minji",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/8/8c/JT_Minji_2024_Split_2.png/revision/latest/scale-to-width-down/160?cb=20241031150107"
   },
   "minous": {
     "n": "Minous",
@@ -1767,6 +1807,10 @@
     "n": "Neramin",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/5/50/OAE_Neramin_2023_Split_1.png/revision/latest/scale-to-width-down/160?cb=20230414162255"
   },
+  "nern": {
+    "n": "Nern",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/f/fa/SGW_Nern_VCS_26_Phai_N%E1%BB%93.png/revision/latest/scale-to-width-down/160?cb=20260914023531"
+  },
   "nia-zou-guang-lu": {
     "n": "Nia",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/62/TES.C_Nia_2025_Split_1.png/revision/latest/scale-to-width-down/160?cb=20250605164408"
@@ -1798,6 +1842,10 @@
   "nobody-nicolas-ale": {
     "n": "Nobody",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/3/31/ZLT_Nobody_2023_Opening.png/revision/latest/scale-to-width-down/160?cb=20230107034811"
+  },
+  "npc": {
+    "n": "NPC",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/f/f7/MVKA_NPC_VCS_Finals_26.png/revision/latest/scale-to-width-down/160?cb=20260914021359"
   },
   "nuc": {
     "n": "nuc",
@@ -1859,10 +1907,6 @@
     "n": "Palette",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/5/5f/FL_Palette_2021_Split_2.png/revision/latest/scale-to-width-down/160?cb=20210616195258"
   },
-  "pallet": {
-    "n": "Pallet",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/9/95/PM_Pallet_2022_Spring.png/revision/latest/scale-to-width-down/160?cb=20220427195228"
-  },
   "panj": {
     "n": "Panj",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/e/ed/X25_Panj.jpg/revision/latest/scale-to-width-down/160?cb=20181113184716"
@@ -1879,6 +1923,10 @@
     "n": "Parus",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/2/2a/NAVI_Parus_2026_Split_3.png/revision/latest/scale-to-width-down/160?cb=20260724154533"
   },
+  "pasu": {
+    "n": "Pasu",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/0/02/A41G_Pasu.png/revision/latest/scale-to-width-down/160?cb=20260914163006"
+  },
   "patch-han-seung-min": {
     "n": "Patch",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/6b/TT.Y_Patch_2021_Split_2.png/revision/latest/scale-to-width-down/160?cb=20210901013928"
@@ -1886,6 +1934,10 @@
   "patkicaa": {
     "n": "PatkicaA",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/63/X25_PatkicaA_2019_Split_2.png/revision/latest/scale-to-width-down/160?cb=20190621141416"
+  },
+  "patrik": {
+    "n": "Patrik",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/c/c3/XL_Patrik_2023_Split_3.png/revision/latest/scale-to-width-down/160?cb=20231123140203"
   },
   "peach": {
     "n": "Peach",
@@ -1935,10 +1987,6 @@
     "n": "Piwek",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/5/54/IZI_Piwek_2024_Split_1.png/revision/latest/scale-to-width-down/160?cb=20240126162227"
   },
-  "playcool": {
-    "n": "playcool",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/0/00/TF_Playcool_VCS_Summer_2025.png/revision/latest/scale-to-width-down/160?cb=20250525190757"
-  },
   "pleata": {
     "n": "Pleata",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/8/8c/NS.EA_Pleata_2026_Split_1.png/revision/latest/scale-to-width-down/160?cb=20260124035650"
@@ -1959,6 +2007,10 @@
     "n": "Pop9",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/2/21/DCG_Pop9_2026_Split_1.png/revision/latest/scale-to-width-down/160?cb=20260124180212"
   },
+  "potential": {
+    "n": "Potential",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/1/1c/DFMA_Potential_2026_Split_2.png/revision/latest/scale-to-width-down/160?cb=20260522053350"
+  },
   "pout": {
     "n": "Pout",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/8/89/SMB_Pout_2022_Split_2.png/revision/latest/scale-to-width-down/160?cb=20220619010954"
@@ -1966,6 +2018,10 @@
   "powerofevil": {
     "n": "PowerOfEvil",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/c/c8/UOL-PowerOfEvil-2015Summer.jpg/revision/latest/scale-to-width-down/160?cb=20170802162547"
+  },
+  "pr1me": {
+    "n": "pr1me",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/d/d8/GAL_pr1me_2021_Split_2.png/revision/latest/scale-to-width-down/160?cb=20210609182334"
   },
   "praedyth": {
     "n": "Praedyth",
@@ -1978,6 +2034,10 @@
   "prodelta": {
     "n": "ProDelta",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/f/fa/VKS_ProDelta_2024_Split_2.png/revision/latest/scale-to-width-down/160?cb=20240801181621"
+  },
+  "puddin": {
+    "n": "Puddin",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/9/93/TF_Puddin_VCS_Spring_Playoffs_2025.png/revision/latest/scale-to-width-down/160?cb=20250319181740"
   },
   "pun": {
     "n": "Pun",
@@ -2059,10 +2119,6 @@
     "n": "re0",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/9/9d/OMG.A_re0_2025_Split_2.png/revision/latest/scale-to-width-down/160?cb=20250622130938"
   },
-  "reaver-giannis-dimitrelis": {
-    "n": "REAVER",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/c/cb/Reaver.png/revision/latest/scale-to-width-down/160?cb=20250405130947"
-  },
   "reeker": {
     "n": "Reeker",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/c/c6/SKP_Reeker_2020_Split_1.png/revision/latest/scale-to-width-down/160?cb=20200503142639"
@@ -2123,6 +2179,14 @@
     "n": "Ruler",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/3/3d/SSG_Ruler_2017_Summer.png/revision/latest/scale-to-width-down/160?cb=20170828201838"
   },
+  "ryue": {
+    "n": "RYue",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/a/a6/Team_Deer_RYue_2021.png/revision/latest/scale-to-width-down/160?cb=20230114100904"
+  },
+  "ryuk-vo-hoang-le-khang": {
+    "n": "Ryuk",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/3/32/SCBC_Ryuk_VCS_2026_Summer.png/revision/latest/scale-to-width-down/160?cb=20260610150822"
+  },
   "saber-song-dai-lin": {
     "n": "Saber",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/5/53/UPA_Saber_2024_Placements.png/revision/latest/scale-to-width-down/160?cb=20240202065643"
@@ -2139,13 +2203,17 @@
     "n": "SAJATOR",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/2/22/HRTS_SAJATOR_2025_Split_1.png/revision/latest/scale-to-width-down/160?cb=20250121124036"
   },
-  "sajed": {
-    "n": "sajed",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/2/2e/DSG_sajed_2026_Split_1.png/revision/latest/scale-to-width-down/160?cb=20260124041852"
+  "saken": {
+    "n": "SAKEN",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/6f/VIT.B_Saken_2020_Split_2.png/revision/latest/scale-to-width-down/160?cb=20201119190711"
   },
   "samd": {
     "n": "SamD",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/5/56/V5_Samd_2020_Split_2.png/revision/latest/scale-to-width-down/160?cb=20200607065008"
+  },
+  "samkz": {
+    "n": "Samkz",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/1/12/FVN_Samkz.png/revision/latest/scale-to-width-down/160?cb=20250412181144"
   },
   "sankaizer": {
     "n": "Sankaizer",
@@ -2182,6 +2250,10 @@
   "seany": {
     "n": "Seany",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/c/cd/MVKA_Seany_VCS_Finals_26.png/revision/latest/scale-to-width-down/160?cb=20260914021355"
+  },
+  "sekkou": {
+    "n": "Sekkou",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/1/1a/DIA_Zeko_2024_Split_1.png/revision/latest/scale-to-width-down/160?cb=20240313173022"
   },
   "send0o": {
     "n": "Send0o",
@@ -2259,10 +2331,6 @@
     "n": "Shu Hari",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/f/fe/XTEN_Shu_Hari_2020_Closing.png/revision/latest/scale-to-width-down/160?cb=20200816175608"
   },
-  "shy-carry": {
-    "n": "Shy Carry",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/1/19/LUA_Shy_Carry_2025_Split_3.png/revision/latest/scale-to-width-down/160?cb=20250905145955"
-  },
   "simpli": {
     "n": "Simpli",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/9/96/Simpli.png/revision/latest/scale-to-width-down/160?cb=20190919083014"
@@ -2290,10 +2358,6 @@
   "skewmond": {
     "n": "SkewMond",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/5/5b/ViV_SkewMond_2022.png/revision/latest/scale-to-width-down/160?cb=20220518183643"
-  },
-  "skream": {
-    "n": "Skream",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/a/a9/VSlash_GnG_Skream_2022_Split_2.png/revision/latest/scale-to-width-down/160?cb=20260210195831"
   },
   "skyk": {
     "n": "SkyK",
@@ -2419,6 +2483,10 @@
     "n": "Stookbeer",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/b/bd/HEET_Stookbeer_2023_Split_1.png/revision/latest/scale-to-width-down/160?cb=20230127002453"
   },
+  "stray-roberto-guallichico": {
+    "n": "Stray",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/e/ee/PDS_Straight_2018_Spring.png/revision/latest/scale-to-width-down/160?cb=20180119162920"
+  },
   "strensh": {
     "n": "Strensh",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/69/WAP_Strensh_2023_Closing.png/revision/latest/scale-to-width-down/160?cb=20230827054831"
@@ -2426,10 +2494,6 @@
   "supa": {
     "n": "Supa",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/e/e9/MRS_Supa_2023_Split_2.png/revision/latest/scale-to-width-down/160?cb=20230529182731"
-  },
-  "supercleber": {
-    "n": "SuperCleber",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/66/VKS_SUPERCLEBER_2026_Split_2.png/revision/latest/scale-to-width-down/160?cb=20260724003757"
   },
   "sweeho": {
     "n": "Sweeho",
@@ -2543,10 +2607,6 @@
     "n": "Trymbi",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/4/42/VKS_Trymbi_LTA_2025_Split_1.png/revision/latest/scale-to-width-down/160?cb=20250125191229"
   },
-  "tsiper": {
-    "n": "Tsiper",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/5/5d/Tsiperakos.jpg/revision/latest/scale-to-width-down/160?cb=20200524155717"
-  },
   "tutsz": {
     "n": "Tutsz",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/b/b0/LLL.A_Tutsz_2023_Split_1.png/revision/latest/scale-to-width-down/160?cb=20230218085352"
@@ -2579,13 +2639,13 @@
     "n": "Uniboy",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/a/a3/V5_Uniboy_2021_Split_2.png/revision/latest/scale-to-width-down/160?cb=20210604172401"
   },
-  "unkn0wn": {
-    "n": "Unkn0wn",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/67/GTZ_Unkn0wn5_2024_Split_2.png/revision/latest/scale-to-width-down/160?cb=20250405144656"
-  },
   "upset": {
     "n": "Upset",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/5/59/VIT_Upset_2023_Split_3.png/revision/latest/scale-to-width-down/160?cb=20231123140148"
+  },
+  "ux": {
+    "n": "Ux",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/d/d9/UBK_Uxie_2023_Opening.png/revision/latest/scale-to-width-down/114?cb=20230120081148"
   },
   "uzent": {
     "n": "uZent",
@@ -2606,10 +2666,6 @@
   "velja": {
     "n": "Velja",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/0/08/STR_Velja_2021_Split_2.png/revision/latest/scale-to-width-down/160?cb=20210614204835"
-  },
-  "ventair": {
-    "n": "Ventair",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/2/2e/SKP_Ventair_2020_Split_1.png/revision/latest/scale-to-width-down/160?cb=20200503142647"
   },
   "vespa": {
     "n": "Vespa",
@@ -2650,6 +2706,10 @@
   "viper-park-do-hyeon": {
     "n": "Viper",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/8/8a/HLE_Viper_2025_Split_1_2.png/revision/latest/scale-to-width-down/160?cb=20250228175140"
+  },
+  "vizicsacsi": {
+    "n": "Vizicsacsi",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/e/ef/Vizicsacsi.png/revision/latest/scale-to-width-down/160?cb=20240523181344"
   },
   "vladi": {
     "n": "Vladi",
@@ -2723,10 +2783,6 @@
     "n": "Winder",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/61/Winder.png/revision/latest/scale-to-width-down/160?cb=20240523202541"
   },
-  "wiz": {
-    "n": "Wiz",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/f/f3/UND_Wiz_2021_Opening.jpeg/revision/latest/scale-to-width-down/160?cb=20210311114832"
-  },
   "woldjo": {
     "n": "Woldjo",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/2/2b/Woldjo_2024_Split_2.png/revision/latest/scale-to-width-down/160?cb=20240610211337"
@@ -2742,6 +2798,10 @@
   "wunder": {
     "n": "Wunder",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/e/e4/TH_Wunder_2024_Split_1.png/revision/latest/scale-to-width-down/160?cb=20240112205948"
+  },
+  "xagog": {
+    "n": "Xagog",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/6f/Xagog.jpg/revision/latest/scale-to-width-down/160?cb=20231231180301"
   },
   "xay": {
     "n": "Xay",
@@ -2778,10 +2838,6 @@
   "xiaoxu": {
     "n": "Xiaoxu",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/3/34/RYL_Xiaoxu_2022_Split_1.png/revision/latest/scale-to-width-down/160?cb=20220209225131"
-  },
-  "xiaoyueji": {
-    "n": "xiaoyueji",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/4/49/UP_xiaoyueji_2024_Split_2.png/revision/latest/scale-to-width-down/160?cb=20240601023802"
   },
   "xns": {
     "n": "XnS",
@@ -2843,17 +2899,9 @@
     "n": "Yuuji",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/9/9e/TL_Yuuji_2025_Split_3.png/revision/latest/scale-to-width-down/160?cb=20250810164024"
   },
-  "zamudo": {
-    "n": "Zamudo",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/c/c1/LYON_Zamudo_2025_Split_3.png/revision/latest/scale-to-width-down/160?cb=20250727040858"
-  },
   "zay": {
     "n": "zay",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/a/ac/VKS_zay_2026_Split_2.png/revision/latest/scale-to-width-down/160?cb=20260724003612"
-  },
-  "zazee": {
-    "n": "ZaZee",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/a/a0/SKP_ZaZee_2021_Split_1.png/revision/latest/scale-to-width-down/160?cb=20210125200603"
   },
   "zdz": {
     "n": "Zdz",
@@ -2919,10 +2967,6 @@
     "n": "ZiYe",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/b/b3/WBG.Y_ZiYe_2025_Split_3.png/revision/latest/scale-to-width-down/160?cb=20250726032050"
   },
-  "zkai": {
-    "n": "Zkai",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/a/ae/CFOA_Zkai_2026_Split_2.png/revision/latest/scale-to-width-down/160?cb=20260802143041"
-  },
   "zoen-enzo-ganino": {
     "n": "Zoen",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/b/b1/PAIN_Zoen_2026_Split_1.png/revision/latest/scale-to-width-down/160?cb=20260428023115"
@@ -2934,10 +2978,6 @@
   "zothve": {
     "n": "Zothve",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/8/80/LEV_Zothve_LTA_2025_Split_1.png/revision/latest/scale-to-width-down/160?cb=20250213184019"
-  },
-  "zs": {
-    "n": "zs",
-    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/2/2d/UP_zs_2024_Split_1.png/revision/latest/scale-to-width-down/160?cb=20240121162351"
   },
   "zuhy": {
     "n": "Zuhy",
