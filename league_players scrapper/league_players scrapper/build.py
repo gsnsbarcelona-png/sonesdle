@@ -75,6 +75,7 @@ TIER2_PLAYERS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_tier2_player
 BIRTH_YEARS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "birth_years.json")
 IMAGES_CACHE_PATH        = os.path.join(SCRIPT_DIR, "cache", "player_images_v2.json")
 TEAM_LOGOS_CACHE_PATH    = os.path.join(SCRIPT_DIR, "cache", "team_logos_v2.json")
+LEAVERS_CACHE_PATH        = os.path.join(SCRIPT_DIR, "cache", "cargo_leavers.json")
 TIER2_TEAMS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_tier2_teams.json")
 TIER1_PLAYERS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_tier1_players_v3.json")
 TIER1_TEAMS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_tier1_teams.json")
@@ -620,6 +621,31 @@ def fetch_team_players(teams):
                 players[row["Team"]].append(row)
     print()
     return players
+
+
+def fetch_recent_leavers(teams, days):
+    """[nombre del jugador] que han dejado alguno de `teams` en los últimos `days` días (solo los
+    que salieron como jugadores, no staff). Un agente libre ya no está en la plantilla de ningún
+    equipo, así que no se descubre por ellas: con esto el dle puede mantenerlo con su último
+    equipo, como dice RECENT_FREE_AGENT_DAYS. El nombre es el alias o, si hay varios, la página."""
+    session = new_session()
+    since = (datetime.date.today() - datetime.timedelta(days=days)).isoformat()
+    teams = sorted(set(teams))
+    players = set()
+    for i in range(0, len(teams), 30):
+        time.sleep(CARGO_DELAY)
+        r = session.get(CARGO_URL, headers=HEADERS, timeout=60, params={
+            "tables": "RosterChanges", "fields": "Player,Role",
+            "where": 'Direction = "Leave" AND Date_Sort >= "%s" AND Team IN (%s)'
+                     % (since, ",".join(cargo_quote(t) for t in teams[i:i + 30])),
+            "format": "json", "limit": 5000,
+        })
+        r.raise_for_status()
+        for row in r.json():
+            name = html.unescape(str(row.get("Player") or "")).strip()
+            if name and tenure_role(row.get("Role")):
+                players.add(name)
+    return sorted(players)
 
 
 def fetch_roster_changes():
@@ -1940,6 +1966,20 @@ def main():
     tier1 = {row["OverviewPage"]: row for rows in tier1_players.values() for row in rows}
     cargo_rows = {**tier1, **cargo_rows}
     extra_pages += [p for p in tier1 if p not in extra_pages]
+    # Quien ha dejado hace poco un equipo tier 1 o 2 y está sin equipo ya no sale en ninguna
+    # plantilla: se descubre por los fichajes. Es un extra; si falla, se pierden como antes.
+    try:
+        leavers = fetch_recent_leavers([*tier1_teams, *tier2_teams], RECENT_FREE_AGENT_DAYS)
+        leaver_entries = sorted((name, name, "") for name in leavers if name not in cargo_rows)
+        leaver_rows = cached_by_key(LEAVERS_CACHE_PATH, refresh, [e[0] for e in leaver_entries],
+                                    lambda ks: fetch_players([e for e in leaver_entries if e[0] in set(ks)]),
+                                    REFRESH_DAYS, changed_pages)
+        cargo_rows = {**leaver_rows, **cargo_rows}
+        extra_pages += [p for p in leaver_rows if p not in extra_pages]
+        print(f"  {len(leavers)} jugadores que dejaron un equipo tier 1-2 hace menos de "
+              f"{RECENT_FREE_AGENT_DAYS} días ({len(leaver_rows)} con ficha)")
+    except Exception as e:
+        print(f"::warning::Agentes libres recientes no descubiertos: {e}")
 
     # Página actual de cada jugador (la de main.py puede haberse renombrado)
     all_pages = sorted({current_page(p, cargo_rows) for p in pages + extra_pages if p})
