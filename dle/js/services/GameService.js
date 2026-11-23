@@ -61,11 +61,26 @@ export class GameService {
       age:      guessed.name === target.name
                   ? { status: 'correct', arrow: null }
                   : this.#compareNumeric(guessed.age, target.age),
-      team:     this.#exact(guessed.team,     target.team),
+      team:     this.#compareTeam(guessed, target),
     };
   }
 
   #exact(a, b) { return a === b ? 'correct' : 'wrong'; }
+
+  /**
+   * Un agente libre enseña su último equipo, pero ya no está en él: no es una coincidencia plena.
+   * - Mismo equipo y los dos en la misma situación (los dos con equipo, o los dos FA): correcto.
+   * - Mismo equipo pero uno es FA y el otro no: parcial.
+   * - Dos FA con distinto último equipo: parcial (los dos están sin equipo).
+   */
+  #compareTeam(guessed, target) {
+    const sameTeam = guessed.team === target.team;
+    if (guessed.freeAgent === target.freeAgent) {
+      if (sameTeam) return 'correct';
+      return guessed.freeAgent ? 'partial' : 'wrong';
+    }
+    return sameTeam ? 'partial' : 'wrong';
+  }
 
   /** Misma liga: correcto. Otra liga de la misma región (LEC vs LFL): parcial. */
   #compareLeague(guessed, target) {
