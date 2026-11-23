@@ -1162,5 +1162,65 @@
       "jungle",
       "lck"
     ]
+  },
+  "2027-01-11": {
+    "cols": [
+      "lcs",
+      "mid",
+      "champ"
+    ],
+    "rows": [
+      "lck",
+      "korean",
+      "t1"
+    ]
+  },
+  "2027-01-12": {
+    "cols": [
+      "top",
+      "lck",
+      "support"
+    ],
+    "rows": [
+      "c9",
+      "champ",
+      "lec"
+    ]
+  },
+  "2027-01-13": {
+    "cols": [
+      "fnatic",
+      "top",
+      "lpl"
+    ],
+    "rows": [
+      "lcs",
+      "geng",
+      "msi"
+    ]
+  },
+  "2027-01-14": {
+    "cols": [
+      "lcs",
+      "mid",
+      "msi"
+    ],
+    "rows": [
+      "lck",
+      "european",
+      "worlds"
+    ]
+  },
+  "2027-01-15": {
+    "cols": [
+      "mid",
+      "tsm",
+      "top"
+    ],
+    "rows": [
+      "korean",
+      "g2",
+      "tl"
+    ]
   }
 }
