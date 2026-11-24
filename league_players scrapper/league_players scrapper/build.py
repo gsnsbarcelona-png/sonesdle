@@ -1370,7 +1370,15 @@ def master_entry(page, cargo, scraped, ctx):
             current["region"] = HISTORY_LEAGUE_REGION.get(last_league)
     else:
         current = {"league": None, "tier": None, "region": None}
+    # Para el dle: de quien ya no juega (retirado), su último equipo con la liga y la región que
+    # tenía entonces (las de la etapa, no las de ahora: su equipo puede haber desaparecido)
+    last_stage = None
+    if not game_team and history:
+        last_stage = {"team": last["team"],
+                      "league": last["league"] or next((h["league"] for h in reversed(history) if h["league"]), None),
+                      "region": last["region"] or next((h["region"] for h in reversed(history) if h["region"]), None)}
     return {
+        "legend_stage": last_stage,
         "page":        page,
         "id":          (scraped or {}).get("id") or (cargo or {}).get("ID"),
         "scraped":     scraped is not None,   # viene de main.py (jugadores de ligas tier 1)
@@ -1449,37 +1457,60 @@ def display_names(master):
             for p in master]
 
 
-def dle_pages(master):
+TIER1_LEGEND_LEAGUES = {"LCK", "LPL", "LEC", "LCS"}
+
+
+def dle_legends(master, famous_pages):
+    """Retirados famosos para el dle: solo se pueden probar (nunca son el jugador secreto) y se
+    comparan con su último equipo. Famoso = de las listas de carrera o grid, campeón de Worlds o
+    MSI, o campeón de liga que además jugó en una liga mayor. Hace falta posición y último equipo."""
+    return [m for m in master
+            if m["status"] == "retired" and not m["game_team"] and m["page"] and m["id"]
+            and m["legend_stage"] and m["legend_stage"]["team"] and m["positions"]
+            and (m["page"] in famous_pages
+                 or m["achievements"]["worlds"] or m["achievements"]["msi"]
+                 or (m["titles"] and m["major_leagues"]))]
+
+
+def dle_pages(master, famous_pages=frozenset()):
     """Páginas de los jugadores que acabarán en dle (activos o agentes libres recientes)."""
-    return [m["page"] for m in master if m["game_team"] and m["page"]
-            and (m["scraped"] or m["tier"] in (1, 2))]
+    return ([m["page"] for m in master if m["game_team"] and m["page"]
+             and (m["scraped"] or m["tier"] in (1, 2))]
+            + [m["page"] for m in dle_legends(master, famous_pages)])
 
 
-def build_dle(master, birth_years, images=None):
+def build_dle(master, birth_years, images=None, famous_pages=frozenset()):
     """Jugadores de main.py en activo o agentes libres desde hace menos de
     RECENT_FREE_AGENT_DAYS (con su último equipo): todos tienen equipo que comparar.
     `tier` dice si su liga actual es tier 1 (reto diario) o inferior (modo libre).
     Los que no vienen de main.py entran si su equipo es tier 1 o 2 (los de tier 1 se
     descubren desde las plantillas de Cargo)."""
     active = [p for p in master if p["game_team"] and (p["scraped"] or p["tier"] in (1, 2))]
+    legends = dle_legends(master, famous_pages)
+    in_dle = {a["page"] for a in active}
+    active += [m for m in legends if m["page"] not in in_dle]
+    legend_pages = {m["page"] for m in legends}
     players = []
     for p, name in zip(active, display_names(active)):
+        legend = p["legend_stage"] if p["page"] in legend_pages and not p["game_team"] else None
         players.append({
             "name":      name,
             "real":      p["real"],
             "country":   p["country"],
             "flag":      to_flag(p["country"]),
-            "league":    p["league"],
-            "tier":      p["tier"],
-            "region":    p["region"],
+            "league":    legend["league"] if legend else p["league"],
+            "tier":      (1 if legend["league"] in TIER1_LEGEND_LEAGUES else 3) if legend else p["tier"],
+            "region":    legend["region"] if legend else p["region"],
             "position":  p["positions"],
             "titles":    bool(p["titles"]),   # ha ganado una liga regional (tier 1 o 2)
             "worlds":    bool(p["achievements"]["worlds"] or p["achievements"]["msi"]),
             # "YYYY-MM-DD", o solo "YYYY" si la ficha no tiene más (edad aproximada)
             "birthdate": p["birthdate"] or birth_years.get(p["page"]),
-            "team":      p["game_team"],
+            "team":      legend["team"] if legend else p["game_team"],
             "free_agent": p["status"] == "free_agent",   # sigue con su último equipo
         })
+        if legend:   # retirado famoso: solo se puede probar, nunca es el secreto
+            players[-1]["retired"] = True
         if (images or {}).get(p["page"]):   # sin clave si no hay foto: el juego la oculta
             players[-1]["image"] = images[p["page"]]
     return players
@@ -1941,6 +1972,7 @@ def main():
         curated_carrera = json.load(f)
     with open(CURATED_GRID_PATH, encoding="utf-8") as f:
         curated_grid = json.load(f)
+    famous_pages = {c["page"] for c in curated_carrera + curated_grid}   # retirados famosos del dle
 
     extra_entries = {(p["page"], p["name"], "", p.get("country", ""))
                      for r in rosters for p in r["players"] if p.get("page")}
@@ -2067,14 +2099,14 @@ def main():
                                 fetch_birth_years, STABLE_REFRESH_DAYS, changes["pages"])
     # La foto es un extra: si falla la descarga, el juego sigue sin ella (y sin cachear el fallo)
     try:
-        images = cached_by_key(IMAGES_CACHE_PATH, refresh, dle_pages(master),
+        images = cached_by_key(IMAGES_CACHE_PATH, refresh, dle_pages(master, famous_pages),
                                fetch_images, STABLE_REFRESH_DAYS, changes["pages"])
     except Exception as e:
         print(f"::warning::Fotos de jugadores no actualizadas: {e}")
         stored = read_cache(IMAGES_CACHE_PATH)
         images = stored.get("data", {}) if isinstance(stored, dict) else {}
     print(f"  {len(images)} jugadores con foto")
-    dle = build_dle(master, birth_years, images)
+    dle = build_dle(master, birth_years, images, famous_pages)
     check_dataset("dle", DLE_PATH, [p["name"] for p in dle], len(dle),
                   lambda t: len(json.loads(t)["players"]))
     # un jugador por línea: pesa menos
