@@ -1463,9 +1463,11 @@ TIER1_LEGEND_LEAGUES = {"LCK", "LPL", "LEC", "LCS"}
 def dle_legends(master, famous_pages):
     """Retirados famosos para el dle: solo se pueden probar (nunca son el jugador secreto) y se
     comparan con su último equipo. Famoso = de las listas de carrera o grid, campeón de Worlds o
-    MSI, o campeón de liga que además jugó en una liga mayor. Hace falta posición y último equipo."""
+    MSI, o campeón de liga que además jugó en una liga mayor. Hace falta posición y último equipo.
+    Cuentan los retirados y también los que, sin retirarse oficialmente, llevan más de
+    RECENT_FREE_AGENT_DAYS sin equipo (Rekkles y Doinb siguen como "agente libre" en Leaguepedia)."""
     return [m for m in master
-            if m["status"] == "retired" and not m["game_team"] and m["page"] and m["id"]
+            if m["status"] in ("retired", "free_agent") and not m["game_team"] and m["page"] and m["id"]
             and m["legend_stage"] and m["legend_stage"]["team"] and m["positions"]
             and (m["page"] in famous_pages
                  or m["achievements"]["worlds"] or m["achievements"]["msi"]
