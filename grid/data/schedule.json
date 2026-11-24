@@ -1306,5 +1306,17 @@
       "champ",
       "mid"
     ]
+  },
+  "2027-01-23": {
+    "cols": [
+      "lpl",
+      "geng",
+      "worlds"
+    ],
+    "rows": [
+      "support",
+      "msi",
+      "t1"
+    ]
   }
 }
