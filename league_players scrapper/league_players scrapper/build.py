@@ -66,6 +66,8 @@ TENURES_CACHE_PATH     = os.path.join(SCRIPT_DIR, "cache", "cargo_tenures.json")
 ALIASES_CACHE_PATH     = os.path.join(SCRIPT_DIR, "cache", "cargo_aliases.json")
 LEAGUE_TITLES_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_league_titles.json")
 LEAGUE_INFO_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_leagues.json")
+MAJOR_PLAYERS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_major_players.json")
+GRID_EXTRA_CACHE_PATH    = os.path.join(SCRIPT_DIR, "cache", "cargo_grid_extra_players.json")
 MAJOR_LEAGUES_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_major_leagues.json")
 TEAM_MAJORS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_team_majors.json")
 CHAMPIONS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_champions.json")
@@ -193,6 +195,11 @@ MAJOR_LEAGUES = {
             "League of Legends Championship of The Americas North"],
 }
 MIN_MAJOR_TOURNAMENTS = 3
+# Torneos mínimos para contar que "jugó en" cada liga mayor (pro grid, leyendas del dle). En LCK y
+# LPL los equipos de otras regiones juegan invitaciones sueltas (OGN, Demacia Cup...), así que
+# hace falta más de uno; en LEC y LCS no, y con 3 se perdían quienes pasaron un solo split
+# (Shenyi, Keaiduo).
+MIN_MAJOR_BY_LEAGUE = {"lck": 3, "lpl": 3, "lec": 1, "lcs": 1}
 
 # Wordle: todos los que han jugado cada liga tier 1 (con sus nombres antiguos).
 # "PCS" (PCS + LMS, antecesoras de la LCP) solo sale en el modo libre, con la LCP.
@@ -993,6 +1000,27 @@ def fetch_league_titles(aliases):
     return {link: [list(t) for t in sorted(ts)] for link, ts in titles.items()}
 
 
+def fetch_major_players():
+    """{liga: {página: nº de torneos}} de todos los jugadores que han estado en alguna liga mayor
+    (LCK, LPL, LEC o LCS, con sus nombres históricos). Así el pro grid conoce también a los
+    veteranos retirados que ya no salen en ninguna plantilla (TheOddOne, Reginald...)."""
+    session = new_session()
+    result = {}
+    for code, names in MAJOR_LEAGUES.items():
+        time.sleep(CARGO_DELAY)
+        r = session.get(CARGO_URL, headers=HEADERS, timeout=90, params={
+            "tables": "TournamentPlayers=TP,Tournaments=T",
+            "join_on": "TP.OverviewPage=T.OverviewPage",
+            "fields": "TP.Link=Link,COUNT(DISTINCT TP.OverviewPage)=N",
+            "where": "T.League IN (%s)" % ",".join(cargo_quote(n) for n in names),
+            "group by": "TP.Link", "having": "COUNT(DISTINCT TP.OverviewPage) >= 1",
+            "limit": 5000, "format": "json",
+        })
+        r.raise_for_status()
+        result[code] = {html.unescape(str(x["Link"])): int(x["N"]) for x in r.json() if x.get("Link")}
+    return result
+
+
 def fetch_major_leagues(aliases):
     """{alias en minúsculas: [[liga mayor, torneo]]}: torneos jugados en LCK, LPL,
     LEC o LCS (con sus nombres antiguos)."""
@@ -1403,7 +1431,7 @@ def master_entry(page, cargo, scraped, ctx):
         # Ligas mayores en las que ha jugado de verdad (lck, lpl, lec, lcs)
         "major_leagues": sorted(code for code, n in Counter(
             code for code, _ in ctx["major_leagues"].get((page or "").lower(), [])).items()
-            if n >= MIN_MAJOR_TOURNAMENTS),
+            if n >= MIN_MAJOR_BY_LEAGUE.get(code, MIN_MAJOR_TOURNAMENTS)),
         "history":     history,
     }
 
@@ -1450,11 +1478,17 @@ def build_master(scraped, pages, cargo_rows, extra_pages, ctx):
 
 # -------------------------------------------------------------- por juego
 
+# Apodos que en Leaguepedia llevan una letra parecida ("ReginaId", con una i mayúscula por la l) y
+# que nadie escribe así: se muestran como se escriben
+NAME_FIXES = {"ReginaId": "Reginald"}
+
+
 def display_names(master):
     """El ID si es único; si no, el título de la página ("Viper (Park Do-hyeon)")."""
     counts = Counter(p["id"].lower() for p in master)
-    return [p["page"] if counts[p["id"].lower()] > 1 and p["page"] else p["id"]
-            for p in master]
+    names = [p["page"] if counts[p["id"].lower()] > 1 and p["page"] else p["id"]
+             for p in master]
+    return [NAME_FIXES.get(n, n) for n in names]
 
 
 TIER1_LEGEND_LEAGUES = {"LCK", "LPL", "LEC", "LCS"}
@@ -2015,8 +2049,23 @@ def main():
     except Exception as e:
         print(f"::warning::Agentes libres recientes no descubiertos: {e}")
 
+    # Veteranos de las ligas mayores que ya no salen en ninguna plantilla (TheOddOne, Reginald...):
+    # solo para el pro grid, así que no entran en `extra_pages` (y por tanto no en el resto de juegos)
+    grid_extra_pages = []
+    try:
+        major_players = cached(MAJOR_PLAYERS_CACHE_PATH, refresh, fetch_major_players, REFRESH_DAYS)
+        wanted = sorted({pg for code, by_page_n in major_players.items() for pg, n in by_page_n.items()
+                         if n >= MIN_MAJOR_BY_LEAGUE.get(code, MIN_MAJOR_TOURNAMENTS)} - set(cargo_rows))
+        grid_rows = cached_by_key(GRID_EXTRA_CACHE_PATH, refresh, wanted,
+                                  lambda ks: fetch_players([(k, k, "") for k in ks]),
+                                  STABLE_REFRESH_DAYS, changed_pages)
+        cargo_rows = {**grid_rows, **cargo_rows}
+        grid_extra_pages = [pg for pg in grid_rows if pg not in extra_pages and pg not in pages]
+        print(f"  {len(wanted)} jugadores de ligas mayores sin plantilla ({len(grid_extra_pages)} con ficha)")
+    except Exception as e:
+        print(f"::warning::Veteranos de ligas mayores no descubiertos: {e}")
     # Página actual de cada jugador (la de main.py puede haberse renombrado)
-    all_pages = sorted({current_page(p, cargo_rows) for p in pages + extra_pages if p})
+    all_pages = sorted({current_page(p, cargo_rows) for p in pages + extra_pages + grid_extra_pages if p})
     aliases_by_page = cached_by_key(ALIASES_CACHE_PATH, refresh, all_pages, fetch_aliases,
                                     STABLE_REFRESH_DAYS, changed_pages)
     alias_page = alias_to_page(aliases_by_page)
@@ -2067,6 +2116,14 @@ def main():
            "league_titles": won_titles, "league_info": league_info,
            "major_leagues": major_leagues}
     master = build_master(scraped, pages, cargo_rows, extra_pages, ctx)
+    # El pro grid añade a los veteranos descubiertos por las ligas mayores (el resto de juegos no)
+    known_pages = {m["page"] for m in master if m["page"]}
+    grid_master = list(master)
+    for pg in sorted(grid_extra_pages):
+        cur = current_page(pg, cargo_rows)
+        if cur not in known_pages and pg in cargo_rows:
+            grid_master.append(master_entry(cur, cargo_rows[pg], None, ctx))
+            known_pages.add(cur)
     apply_player_fixes(master)
     missing = [m["id"] for m in master if m["status"] == "unknown"]
     print(f"{len(master) - len(missing)}/{len(master)} con datos de Cargo"
@@ -2160,7 +2217,7 @@ def main():
     print(f"carrera -> {CARRERA_PATH} ({len(curated_carrera) - len(missing)} jugadores"
           + (f", sin datos: {', '.join(missing)}" if missing else "") + ")")
 
-    grid, missing = build_grid(curated_grid, master)
+    grid, missing = build_grid(curated_grid, grid_master)
     check_dataset("grid", GRID_PATH, [p["key"] for p in grid], len(grid),
                   lambda t: len(json.loads(t)))
     atomic_write(GRID_PATH, "[\n" + ",\n".join("  " + json.dumps(p, ensure_ascii=False) for p in grid) + "\n]\n")
