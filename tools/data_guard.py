@@ -43,6 +43,7 @@ FILES = [
     "dle/data/players.json",
     "rostergues/js/data/rosters.js",
     "carrera/js/data/players.js",
+    "carrera/js/data/guesses.js",
     "grid/data/players.json",
     "grid/data/schedule.json",
     "wordle/data/words.json",

@@ -113,7 +113,7 @@ function bindEvents() {
       Autocomplete.navigate(-1, list);
     } else if (e.key === 'Enter') {
       e.preventDefault();
-      const active = Autocomplete.getActive();
+      const active = Autocomplete.getActive(list);
       if (active) {
         input.value = active;
         Autocomplete.close(list);

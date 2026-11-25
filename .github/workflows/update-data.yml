@@ -82,7 +82,7 @@ jobs:
           git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
           git switch -C "$BRANCH"
           git add dle/data/players.json rostergues/js/data/rosters.js \
-                  carrera/js/data/players.js grid/data/players.json grid/data/schedule.json \
+                  carrera/js/data/players.js carrera/js/data/guesses.js grid/data/players.json grid/data/schedule.json \
                   wordle/data/words.json wordle/data/schedule.json \
                   familias/data/players.json familias/data/schedule.json familias/data/bank.json \
                   shared/data/team-logos.json
