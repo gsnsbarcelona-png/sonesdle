@@ -138,6 +138,9 @@ NOT_A_LEAGUE_RE = re.compile(r"cup|showmatch|invitational|all-?star|nations|game
                              re.IGNORECASE)
 LOWER_DIVISION_RE = re.compile(r"2nd division|division 2|3rd division|academy|rising|"
                                r"college|university", re.IGNORECASE)
+# Ligas que Leaguepedia marca como oficiales pero son segunda división de otra (tier 3):
+# Hitpoint Challengers (HC) es la segunda de Hitpoint Masters (HM)
+LOWER_DIVISION_LEAGUES = {"HC"}
 # Región de Leaguepedia (de la liga o del equipo) -> región del dle
 REGION_CODES = {
     "Korea": "KR", "China": "CN", "Europe": "EMEA", "EMEA": "EMEA", "Turkey": "EMEA",
@@ -1274,7 +1277,8 @@ def classify_league(name, info):
     region = LEAGUE_REGION.get(short) or REGION_CODES.get((info or {}).get("Region"))
     if short in TIER1_LEAGUES:
         return TIER1_LEAGUES[short], 1, region
-    if (info or {}).get("IsOfficial") == "Yes" and not LOWER_DIVISION_RE.search(name):
+    if (info or {}).get("IsOfficial") == "Yes" and not LOWER_DIVISION_RE.search(name) \
+            and short not in LOWER_DIVISION_LEAGUES:
         return short, 2, region
     if LOWER_DIVISION_RE.search(name) and short == (info or {}).get("League Short"):
         short = name   # "Prime League 2nd Division" comparte "PRM" con la 1ª división
