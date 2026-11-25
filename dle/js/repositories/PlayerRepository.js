@@ -27,6 +27,7 @@ class Player {
     this.team     = data.team;
     this.freeAgent = data.free_agent ?? false;   // sin equipo hace poco: `team` es el último
     this.retired  = data.retired ?? false;       // leyenda retirada: solo se puede probar; `team` es el último
+    this.faLong   = data.fa_long ?? false;       // agente libre de hace más de 90 días: se puede probar, no es el secreto
     this.image    = data.image ?? null;
   }
 }
@@ -59,8 +60,8 @@ export class PlayerRepository {
   get dailyCount() { return this.#daily.length; }
 
   getRandom(filter) {
-    // Los retirados se pueden probar, pero nunca son el jugador secreto
-    const pool = this.#players.filter(p => !p.retired && matches(p, filter));
+    // Los retirados y los agentes libres de hace más de 90 días se pueden probar, pero nunca son el secreto
+    const pool = this.#players.filter(p => !p.retired && !p.faLong && matches(p, filter));
     const from = pool.length ? pool : this.#daily;
     return from[Math.floor(Math.random() * from.length)];
   }
@@ -88,7 +89,7 @@ export class PlayerRepository {
   #setPlayers(data) {
     this.#players   = data.map(p => new Player(p));
     // Orden por nombre: el índice del día no depende del orden del JSON
-    this.#daily     = this.#players.filter(p => !p.retired && matches(p, DAILY_FILTER))
+    this.#daily     = this.#players.filter(p => !p.retired && !p.faLong && matches(p, DAILY_FILTER))
       .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
     this.#playerMap = new Map(this.#players.map(p => [p.name.toLowerCase(), p]));
   }
