@@ -87,6 +87,7 @@ CURATED_CARRERA_PATH   = os.path.join(SCRIPT_DIR, "curated", "carrera.json")
 CURATED_GRID_PATH      = os.path.join(SCRIPT_DIR, "curated", "grid.json")
 ROSTERGUES_PATH  = os.path.join(ROOT, "rostergues", "js", "data", "rosters.js")
 CARRERA_PATH     = os.path.join(ROOT, "carrera", "js", "data", "players.js")
+CARRERA_GUESSES_PATH = os.path.join(ROOT, "carrera", "js", "data", "guesses.js")
 TEAM_LOGOS_PATH  = os.path.join(ROOT, "shared", "data", "team-logos.json")
 GRID_PATH        = os.path.join(ROOT, "grid", "data", "players.json")
 GRID_CATEGORIES_PATH = os.path.join(ROOT, "grid", "data", "categories.json")
@@ -1694,6 +1695,39 @@ def build_carrera_js(curated, by_page, team_majors=None, images=None):
     return "\n".join(lines), missing
 
 
+def build_carrera_guesses_js(master, secret_pages, secret_names):
+    """Jugadores del pro grid (de ligas mayores o campeones de Worlds y MSI) que no son secretos de
+    Career Guess: solo se pueden probar. Basta lo que usa la pista: nombre, rol, año de debut y
+    equipos (unos 200 bytes cada uno). Devuelve (texto, cuántos)."""
+    pool = [m for m in master if m["page"] and m["id"] and m["page"] not in secret_pages
+            and (m["major_leagues"] or m["achievements"]["worlds"] or m["achievements"]["msi"])
+            and (m["roles"] or m["positions"]) and m["history"]]
+    taken = {n.lower() for n in secret_names}
+    entries = []
+    for m, name in zip(pool, display_names(pool)):
+        if name.lower() in taken:   # mismo nombre que un secreto u otro jugador: se usa la página
+            name = m["page"]
+        if name.lower() in taken:
+            continue
+        career = career_from_history(m["history"])
+        if not career or not career[0]["year"][:4].isdigit():
+            continue
+        main_role = (m["roles"] or m["positions"] or [""])[0]
+        teams = list(dict.fromkeys(c["team"] for c in career if c["team"]))
+        entries.append({"name": name, "position": {"ADC": "Bot"}.get(main_role, main_role),
+                        "debut": int(career[0]["year"][:4]), "teams": teams})
+        taken.add(name.lower())
+    entries.sort(key=lambda e: e["name"].lower())
+    J = lambda v: json.dumps(v, ensure_ascii=False)
+    lines = ["// Generado por build.py (jugadores del pro grid que no son secretos de Career Guess). No editar a mano.",
+             "// Solo sirven para probar: el secreto siempre sale de PLAYERS (players.js).", "",
+             "/**", " * @typedef {{ name: string, position: string, debut: number, teams: string[] }} GuessOnly",
+             " */", "", "/** @type {GuessOnly[]} */", "export const GUESSES = ["]
+    lines += [f"  {J(e)}," for e in entries]
+    lines += ["];", ""]
+    return "\n".join(lines), len(entries)
+
+
 def grid_nat(country):
     return GRID_NAT.get(country) or ("european" if country in EUROPE else "other")
 
@@ -2224,6 +2258,15 @@ def main():
     check_dataset("carrera", CARRERA_PATH, carrera_names, len(carrera_names),
                   lambda t: len(re.findall(r'^  \{"name": ', t, re.M)))
     atomic_write(CARRERA_PATH, js)
+    # Quien se puede probar en Career Guess sin ser el secreto (extra: sin ellos, solo los curados)
+    try:
+        guesses_js, n_guesses = build_carrera_guesses_js(
+            grid_master, {c["page"] for c in curated_carrera}, carrera_names)
+        if n_guesses:
+            atomic_write(CARRERA_GUESSES_PATH, guesses_js)
+        print(f"carrera (para probar) -> {CARRERA_GUESSES_PATH} ({n_guesses} jugadores)")
+    except Exception as e:
+        print(f"::warning::Jugadores para probar de Career Guess no generados: {e}")
     print(f"carrera -> {CARRERA_PATH} ({len(curated_carrera) - len(missing)} jugadores"
           + (f", sin datos: {', '.join(missing)}" if missing else "") + ")")
 

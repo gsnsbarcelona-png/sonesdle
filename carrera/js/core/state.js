@@ -1,4 +1,5 @@
 import { PLAYERS }          from '../data/players.js';
+import { GUESSES }          from '../data/guesses.js';
 import { compareGuess }     from './hintEngine.js';
 import { recordResult }     from '../../../shared/auth.js';
 
@@ -145,6 +146,16 @@ function resetQueue() {
   }
 }
 
+/**
+ * Un jugador de GUESSES (solo para probar) con la forma de un Player, para compararlo con el secreto:
+ * hintEngine solo mira sus equipos, su rol y el año de debut (la primera etapa).
+ * @param {import('../data/guesses.js').GuessOnly | undefined} g
+ */
+function asPlayer(g) {
+  if (!g) return undefined;
+  return { name: g.name, position: g.position, career: g.teams.map((team, i) => ({ team, year: i === 0 ? String(g.debut) : '', region: '' })) };
+}
+
 // ─── Public API ───────────────────────────────────────────────────────────────
 
 /** Snapshot of the current state (immutable copy). */
@@ -191,7 +202,7 @@ export function guess(name) {
   if (roundOver) return null;
 
   const wanted = name.trim().toLowerCase();
-  const guessed = PLAYERS.find((p) => p.name.toLowerCase() === wanted);
+  const guessed = PLAYERS.find((p) => p.name.toLowerCase() === wanted) ?? asPlayer(GUESSES.find((g) => g.name.toLowerCase() === wanted));
   if (!guessed) return { invalid: true };
   if (getAttemptedNames().includes(wanted)) return { duplicate: true };
 
