@@ -3237,50 +3237,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:Cloud9",
-        "es": "Juegan en Cloud9",
-        "en": "Play for Cloud9",
+        "id": "team:Fnatic",
+        "es": "Juegan en Fnatic",
+        "en": "Play for Fnatic",
         "players": [
-          "zven",
-          "thanatos-park-seung-gyu",
-          "tactical",
-          "loki-lee-sang-min"
+          "vladi",
+          "lospa",
+          "upset",
+          "razork"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:LNG Esports:2025",
-        "es": "Jugaron en LNG Esports en 2025",
-        "en": "Played for LNG Esports in 2025",
+        "id": "teamyear:Nongshim RedForce:2026",
+        "es": "Jugaron en Nongshim RedForce en 2026",
+        "en": "Played for Nongshim RedForce in 2026",
         "players": [
-          "zika",
-          "photic",
-          "zhuo",
-          "xiaofang"
+          "taeyoon-kim-tae-yoon",
+          "scout",
+          "lehends",
+          "kingen"
         ]
       },
       {
         "level": 3,
-        "id": "worlds",
-        "es": "Campeones del mundo",
-        "en": "World champions",
+        "id": "title:LCS",
+        "es": "Campeones de la LCS",
+        "en": "LCS champions",
         "players": [
-          "rookie",
-          "viper-park-do-hyeon",
-          "tian",
-          "zeus"
+          "jojopyun",
+          "tactical",
+          "srtty",
+          "zven"
         ]
       },
       {
         "level": 4,
-        "id": "initial:N",
-        "es": "Su apodo empieza por N",
-        "en": "Nickname starts with N",
+        "id": "twoteams:EDG:Weibo Gaming",
+        "es": "Pasaron por EDG y por Weibo Gaming",
+        "en": "Played for both EDG and Weibo Gaming",
         "players": [
-          "noah-oh-hyeon-taek",
-          "naak-nako",
-          "nia-zou-guang-lu",
-          "namgung"
+          "xiaohao",
+          "ale",
+          "zdz",
+          "jiejie"
         ]
       }
     ]
@@ -4341,6 +4341,59 @@
           "junhao",
           "jackeylove",
           "jopa"
+        ]
+      }
+    ]
+  },
+  "2027-01-24": {
+    "id": "2027-01-24",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:LNG Esports",
+        "es": "Juegan en LNG Esports",
+        "en": "Play for LNG Esports",
+        "players": [
+          "sheer",
+          "missing",
+          "weiwei",
+          "5t5"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:BNK FEARX:2025",
+        "es": "Jugaron en BNK FEARX en 2025",
+        "en": "Played for BNK FEARX in 2025",
+        "players": [
+          "kellin",
+          "diable",
+          "vicla",
+          "raptor-jeon-eo-jin"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:LCS",
+        "es": "Campeones de la LCS",
+        "en": "LCS champions",
+        "players": [
+          "fudge",
+          "busio",
+          "yeon-sean-sung",
+          "hans-sama"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "initial:T",
+        "es": "Su apodo empieza por T",
+        "en": "Nickname starts with T",
+        "players": [
+          "tian",
+          "tactical",
+          "tatu-pedro-seixas",
+          "trymbi"
         ]
       }
     ]
