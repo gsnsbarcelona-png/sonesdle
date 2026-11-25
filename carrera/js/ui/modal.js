@@ -1,5 +1,5 @@
 import { iconHtml } from '../../../shared/js/icons.js';
-import { t } from '../i18n.js';
+import { t, posLabel } from '../i18n.js';
 import { playerPhotoHtml } from '../../../shared/js/media.js';
 
 /** @type {import('../../../shared/js/ParticlesComponent.js').ParticlesComponent | null} */
@@ -50,8 +50,8 @@ export function showModal(won, player, stats, attempts) {
   document.getElementById('modal-player').textContent = player.name;
 
   document.getElementById('modal-subtitle').textContent = won
-    ? t('modalWinSub', player.position, attempts.length)
-    : t('modalLoseSub', player.position, careerSpan(player.career));
+    ? t('modalWinSub', posLabel(player.position), attempts.length)
+    : t('modalLoseSub', posLabel(player.position), careerSpan(player.career));
 
   document.getElementById('modal-wins').textContent   = stats.wins;
   document.getElementById('modal-played').textContent = stats.played;

@@ -1,6 +1,10 @@
 import { flagImg, esc } from '../utils/helpers.js';
 import { t } from '../utils/i18n.js';
 
+/** Flechas de la edad: trazo grueso para que se vean bien en la celda (↑ mayor, ↓ menor). */
+const ARROW_UP   = '<svg class="cell-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20V5M5 12l7-7 7 7"/></svg>';
+const ARROW_DOWN = '<svg class="cell-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v15M5 12l7 7 7-7"/></svg>';
+
 /** Iconos de trazo de las cabeceras (sin emojis). */
 const ICONS = {
   globe: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>',
@@ -152,7 +156,7 @@ export class GridComponent {
 
   #makeAgeCell(p, ageResult) {
     const d = this.#baseCell(ageResult.status);
-    const arrow = ageResult.arrow === 'up' ? '↑' : ageResult.arrow === 'down' ? '↓' : '';
+    const arrow = ageResult.arrow === 'up' ? ARROW_UP : ageResult.arrow === 'down' ? ARROW_DOWN : '';
     // Flecha a la derecha del número, en la misma línea
     const age = p.age == null ? '?' : `${p.ageApprox ? '~' : ''}${p.age}`;
     // "?" (sin dato) y "~" (solo se sabe el año) se explican al pasar por encima
@@ -161,7 +165,7 @@ export class GridComponent {
       d.classList.add('col-tip');
       d.dataset.tip = tip;
     }
-    d.innerHTML = `<div class="cell-main">${esc(age)}${arrow ? `<span class="cell-arrow">${arrow}</span>` : ''}</div>`;
+    d.innerHTML = `<div class="cell-main">${esc(age)}${arrow}</div>`;
     return d;
   }
 
