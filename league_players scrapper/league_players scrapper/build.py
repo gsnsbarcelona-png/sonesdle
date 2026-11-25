@@ -1380,7 +1380,9 @@ def fa_window_days(country, last_tier, last_region):
     último equipo es de una liga tier 1; 3 años a los coreanos de un equipo de tier 1 o 2 (o de
     una región coreana si el equipo no tiene torneos recientes): el servicio militar los deja
     sin jugar hasta ~2 años. Pasado ese tiempo, los famosos siguen como leyendas (retirados)."""
-    if country == KOREA and (last_tier in (1, 2) or last_region == "KR"):
+    # La región solo vale si el equipo no tiene tier (sin torneos recientes): un equipo de tier 3, como
+    # los de la LCK Academy Series, no cuenta aunque sea coreano
+    if country == KOREA and (last_tier in (1, 2) or (last_tier is None and last_region == "KR")):
         return FA_DAYS_KOREA
     if last_tier == 1:
         return FA_DAYS_TIER1
