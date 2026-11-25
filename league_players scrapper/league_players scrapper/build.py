@@ -189,6 +189,15 @@ EUROPE = {"Austria", "Belgium", "Bulgaria", "Croatia", "Czech Republic", "Denmar
           "Spain", "Sweden", "Switzerland", "United Kingdom", "Belarus", "Ukraine",
           "North Macedonia", "Bosnia and Herzegovina", "Albania", "Montenegro"}
 CARRERA_REGIONS = {"LCK", "LPL", "LEC", "LCS"}
+# Career Guess: zonas para filtrar la pool (la región donde pasó más etapas de su carrera) y cuántos
+# secretos hay por zona. Los de curated/carrera.json cuentan; el resto se rellena solo (ver
+# carrera_candidates). Américas = NA + Brasil + Latam.
+CARRERA_ZONE_OF_REGION = {"KR": "KR", "CN": "CN", "EMEA": "EMEA", "NA": "AM", "BR": "AM",
+                          "LATAM": "AM", "PAC": "PAC"}
+CARRERA_ZONE_QUOTA = {"KR": 70, "CN": 55, "EMEA": 70, "AM": 70, "PAC": 20}
+# Reparto por año de debut dentro de cada zona: hasta 2015, 2016-2019 y desde 2020
+CARRERA_ERAS = (((0, 2015), 0.35), ((2016, 2019), 0.35), ((2020, 9999), 0.30))
+CARRERA_MIN_TEAMS = 3   # con menos equipos la carrera no da para adivinar
 # Las cuatro ligas mayores con sus nombres históricos en Leaguepedia. Un jugador
 # "jugó en" una si tiene al menos MIN_MAJOR_TOURNAMENTS torneos en ella (descarta
 # invitaciones puntuales, como CLG en OGN Champions 2012).
@@ -1697,7 +1706,69 @@ def career_from_history(history, team_majors=None):
     return career
 
 
-def build_carrera_js(curated, by_page, team_majors=None, images=None):
+def career_zone(history):
+    """Zona (KR, CN, EMEA, AM, PAC) donde jugó más etapas; en un empate, la de la etapa más reciente.
+    None si ninguna etapa tiene región."""
+    zones = []
+    for h in sorted(history, key=lambda h: h["from"] or ""):
+        region = h.get("region") or HISTORY_LEAGUE_REGION.get(h.get("league"))
+        zone = CARRERA_ZONE_OF_REGION.get(region)
+        if zone:
+            zones.append(zone)
+    if not zones:
+        return None
+    counts = Counter(zones)
+    top = max(counts.values())
+    return next(z for z in reversed(zones) if counts[z] == top)
+
+
+def fame_score(m):
+    """Qué tan conocido es un jugador, para elegir secretos de Career Guess."""
+    return (10 * len(m["achievements"]["worlds"]) + 5 * len(m["achievements"]["msi"])
+            + 2 * len(m["titles"]) + len(m["major_leagues"]))
+
+
+def carrera_candidates(master, curated_pages, excluded=()):
+    """Páginas de jugadores famosos que se añaden como secretos de Career Guess hasta completar
+    CARRERA_ZONE_QUOTA por zona, repartidos por era de debut (CARRERA_ERAS). Hace falta: ser
+    conocido (Worlds, MSI, títulos o ligas mayores), una posición, al menos CARRERA_MIN_TEAMS
+    equipos distintos y debut conocido. Sale el mismo resultado con los mismos datos."""
+    curated_pages, excluded = set(curated_pages), set(excluded)
+    by_page = {m["page"]: m for m in master if m["page"]}
+    pool = {zone: [] for zone in CARRERA_ZONE_QUOTA}
+    taken = Counter()
+    for page, m in by_page.items():
+        zone = career_zone(m["history"]) if m["history"] else None
+        if zone is None:
+            continue
+        career = career_from_history(m["history"])
+        debut = career[0]["year"][:4] if career else ""
+        if not debut.isdigit():
+            continue
+        if page in curated_pages:
+            taken[zone] += 1
+            continue
+        teams = {c["team"] for c in career if c["team"]}
+        if (page in excluded or fame_score(m) <= 0 or not (m["roles"] or m["positions"])
+                or len(teams) < CARRERA_MIN_TEAMS):
+            continue
+        pool[zone].append((int(debut), -fame_score(m), page))
+    chosen = []
+    for zone, candidates in pool.items():
+        need = max(CARRERA_ZONE_QUOTA[zone] - taken[zone], 0)
+        picked = []
+        for (low, high), share in CARRERA_ERAS:
+            era = sorted(c for c in candidates if low <= c[0] <= high and c not in picked)
+            era.sort(key=lambda c: (c[1], c[2]))
+            picked += era[:round(need * share)]
+        rest = sorted((c for c in candidates if c not in picked), key=lambda c: (c[1], c[2]))
+        picked += rest[:max(need - len(picked), 0)]
+        chosen += [c[2] for c in picked[:need]]
+    return sorted(chosen)
+
+
+def build_carrera_js(curated, by_page, team_majors=None, images=None, names=None):
+    """`names`: {página: nombre} si no vale el ID (homónimos); `zone`: ver career_zone."""
     players, missing = [], []
     for c in curated:
         p = by_page.get(c["page"])
@@ -1706,17 +1777,18 @@ def build_carrera_js(curated, by_page, team_majors=None, images=None):
             continue
         main_role = (p["roles"] or p["positions"] or [""])[0]
         position = {"ADC": "Bot"}.get(main_role, main_role)
-        players.append({"name": p["id"], "position": position,
+        players.append({"name": (names or {}).get(c["page"], p["id"]), "position": position,
+                        "zone": career_zone(p["history"]),
                         "career": career_from_history(p["history"], team_majors)})
         if (images or {}).get(c["page"]):   # sin clave si no hay foto: el juego pone un marcador
             players[-1]["image"] = images[c["page"]]
     J = lambda v: json.dumps(v, ensure_ascii=False)
     lines = ["// Generado por build.py (curated/carrera.json + Leaguepedia). No editar a mano.",
-             "// Para añadir un jugador: añádelo a curated/carrera.json y ejecuta build.py.",
+             "// Para fijar un jugador: añádelo a curated/carrera.json; el resto de secretos los elige build.py por fama.",
              "",
              "/**",
              " * @typedef {{ year: string, team: string, region: string }} CareerEntry",
-             " * @typedef {{ name: string, position: string, career: CareerEntry[], image?: string }} Player",
+             " * @typedef {{ name: string, position: string, zone: string, career: CareerEntry[], image?: string }} Player",
              " * Regions: LCK | LPL | LEC | LCS (solo si el equipo jugó esa liga) | EMEA | NA | KR | CN | PAC | BR | LATAM | OTHER",
              " */",
              "",
@@ -2297,11 +2369,24 @@ def main():
     print(f"rostergues -> {ROSTERGUES_PATH} ({len(rosters)} plantillas, "
           f"{len(roster_players)} jugadores, {no_real} sin nombre real)")
 
+    # Secretos de Career Guess: los fijos de curated/carrera.json y, hasta completar las cuotas por
+    # zona, los más famosos del pro grid ("exclude": true en el curado los saca del sorteo)
+    excluded = {c["page"] for c in curated_carrera if c.get("exclude")}
+    curated_carrera = [c for c in curated_carrera if not c.get("exclude")]
     by_page = {m["page"]: m for m in master if m["page"]}
+    for m in grid_master:
+        by_page.setdefault(m["page"], m)
+    auto_pages = carrera_candidates(grid_master, {c["page"] for c in curated_carrera}, excluded)
+    print(f"carrera: {len(auto_pages)} secretos automáticos además de {len(curated_carrera)} fijos")
+    images.update(extra_images(set(auto_pages)))
+    auto_pages = [pg for pg in auto_pages if images.get(pg)]   # sin foto, la ronda queda coja
+    carrera_secrets = curated_carrera + [{"page": pg} for pg in auto_pages]
+    secret_pages = [c["page"] for c in carrera_secrets if c["page"] in by_page]
+    carrera_names_by_page = dict(zip(secret_pages, display_names([by_page[pg] for pg in secret_pages])))
     # Ligas mayores que jugó cada equipo de los jugadores de carrera. Si no se pueden descargar, las
     # etiquetas vuelven a ser las de siempre (la liga de su región) en vez de quedarse sin liga
     try:
-        carrera_teams = {h["team"] for c in curated_carrera for h in by_page.get(c["page"], {}).get("history", [])
+        carrera_teams = {h["team"] for c in carrera_secrets for h in by_page.get(c["page"], {}).get("history", [])
                          if h["team"]}
         team_majors = cached_by_key(TEAM_MAJORS_CACHE_PATH, refresh, carrera_teams, fetch_team_majors,
                                     STABLE_REFRESH_DAYS)
@@ -2310,7 +2395,7 @@ def main():
         print(f"::warning::Ligas de los equipos de carrera no actualizadas: {e}")
         team_majors = None
     images.update(extra_images({c["page"] for c in curated_carrera}))   # la foto sale al terminar la ronda
-    js, missing = build_carrera_js(curated_carrera, by_page, team_majors, images)
+    js, missing = build_carrera_js(carrera_secrets, by_page, team_majors, images, carrera_names_by_page)
     carrera_js = js
     carrera_names = re.findall(r'^  \{"name": "([^"]*)"', js, re.M)
     check_dataset("carrera", CARRERA_PATH, carrera_names, len(carrera_names),
@@ -2319,13 +2404,13 @@ def main():
     # Quien se puede probar en Career Guess sin ser el secreto (extra: sin ellos, solo los curados)
     try:
         guesses_js, n_guesses = build_carrera_guesses_js(
-            grid_master, {c["page"] for c in curated_carrera}, carrera_names)
+            grid_master, {c["page"] for c in carrera_secrets}, carrera_names)
         if n_guesses:
             atomic_write(CARRERA_GUESSES_PATH, guesses_js)
         print(f"carrera (para probar) -> {CARRERA_GUESSES_PATH} ({n_guesses} jugadores)")
     except Exception as e:
         print(f"::warning::Jugadores para probar de Career Guess no generados: {e}")
-    print(f"carrera -> {CARRERA_PATH} ({len(curated_carrera) - len(missing)} jugadores"
+    print(f"carrera -> {CARRERA_PATH} ({len(carrera_secrets) - len(missing)} jugadores"
           + (f", sin datos: {', '.join(missing)}" if missing else "") + ")")
 
     grid, missing = build_grid(curated_grid, grid_master)
