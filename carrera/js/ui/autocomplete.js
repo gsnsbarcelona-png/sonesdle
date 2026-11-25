@@ -1,4 +1,5 @@
 import { PLAYERS }           from '../data/players.js';
+import { GUESSES }           from '../data/guesses.js';
 import { getAttemptedNames } from '../core/state.js';
 import * as Base             from '../../../shared/js/autocomplete.js';
 
@@ -8,7 +9,8 @@ export function filter(query) {
   const attempted = getAttemptedNames();
   const q         = query.toLowerCase().trim();
   if (!q) return [];
-  return PLAYERS
+  // Los jugadores que pueden ser el secreto primero; después los que solo se pueden probar
+  return [...PLAYERS, ...GUESSES]
     .filter(p => p.name.toLowerCase().includes(q) && !attempted.includes(p.name.toLowerCase()))
     .slice(0, 8);
 }

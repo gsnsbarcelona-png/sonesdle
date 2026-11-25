@@ -87,6 +87,7 @@ CURATED_CARRERA_PATH   = os.path.join(SCRIPT_DIR, "curated", "carrera.json")
 CURATED_GRID_PATH      = os.path.join(SCRIPT_DIR, "curated", "grid.json")
 ROSTERGUES_PATH  = os.path.join(ROOT, "rostergues", "js", "data", "rosters.js")
 CARRERA_PATH     = os.path.join(ROOT, "carrera", "js", "data", "players.js")
+CARRERA_GUESSES_PATH = os.path.join(ROOT, "carrera", "js", "data", "guesses.js")
 TEAM_LOGOS_PATH  = os.path.join(ROOT, "shared", "data", "team-logos.json")
 GRID_PATH        = os.path.join(ROOT, "grid", "data", "players.json")
 GRID_CATEGORIES_PATH = os.path.join(ROOT, "grid", "data", "categories.json")
@@ -1543,7 +1544,9 @@ def build_dle(master, birth_years, images=None, famous_pages=frozenset()):
             # "YYYY-MM-DD", o solo "YYYY" si la ficha no tiene más (edad aproximada)
             "birthdate": p["birthdate"] or birth_years.get(p["page"]),
             "team":      legend["team"] if legend else p["game_team"],
-            "free_agent": p["status"] == "free_agent",   # sigue con su último equipo
+            # FA = agente libre reciente que sigue con su último equipo; un retirado (o inactivo
+            # desde hace tiempo) lleva `retired`, nunca las dos cosas
+            "free_agent": p["status"] == "free_agent" and not legend,
         })
         if legend:   # retirado famoso: solo se puede probar, nunca es el secreto
             players[-1]["retired"] = True
@@ -1692,6 +1695,39 @@ def build_carrera_js(curated, by_page, team_majors=None, images=None):
     return "\n".join(lines), missing
 
 
+def build_carrera_guesses_js(master, secret_pages, secret_names):
+    """Jugadores del pro grid (de ligas mayores o campeones de Worlds y MSI) que no son secretos de
+    Career Guess: solo se pueden probar. Basta lo que usa la pista: nombre, rol, año de debut y
+    equipos (unos 200 bytes cada uno). Devuelve (texto, cuántos)."""
+    pool = [m for m in master if m["page"] and m["id"] and m["page"] not in secret_pages
+            and (m["major_leagues"] or m["achievements"]["worlds"] or m["achievements"]["msi"])
+            and (m["roles"] or m["positions"]) and m["history"]]
+    taken = {n.lower() for n in secret_names}
+    entries = []
+    for m, name in zip(pool, display_names(pool)):
+        if name.lower() in taken:   # mismo nombre que un secreto u otro jugador: se usa la página
+            name = m["page"]
+        if name.lower() in taken:
+            continue
+        career = career_from_history(m["history"])
+        if not career or not career[0]["year"][:4].isdigit():
+            continue
+        main_role = (m["roles"] or m["positions"] or [""])[0]
+        teams = list(dict.fromkeys(c["team"] for c in career if c["team"]))
+        entries.append({"name": name, "position": {"ADC": "Bot"}.get(main_role, main_role),
+                        "debut": int(career[0]["year"][:4]), "teams": teams})
+        taken.add(name.lower())
+    entries.sort(key=lambda e: e["name"].lower())
+    J = lambda v: json.dumps(v, ensure_ascii=False)
+    lines = ["// Generado por build.py (jugadores del pro grid que no son secretos de Career Guess). No editar a mano.",
+             "// Solo sirven para probar: el secreto siempre sale de PLAYERS (players.js).", "",
+             "/**", " * @typedef {{ name: string, position: string, debut: number, teams: string[] }} GuessOnly",
+             " */", "", "/** @type {GuessOnly[]} */", "export const GUESSES = ["]
+    lines += [f"  {J(e)}," for e in entries]
+    lines += ["];", ""]
+    return "\n".join(lines), len(entries)
+
+
 def grid_nat(country):
     return GRID_NAT.get(country) or ("european" if country in EUROPE else "other")
 
@@ -1709,11 +1745,12 @@ def grid_entry(p, name, emoji=None):
 
 def build_grid(curated, master):
     """Los jugadores de curated/grid.json (con su emoji) y, como respuestas
-    válidas, todos los que han jugado en LCK, LPL, LEC o LCS."""
+    válidas, todos los que han jugado en LCK, LPL, LEC o LCS y los campeones de Worlds o MSI."""
     by_page = {m["page"]: m for m in master if m["page"]}
     curated_pages = {c["page"] for c in curated}
     pool = [by_page[c["page"]] for c in curated if c["page"] in by_page]
-    pool += [m for m in master if m["page"] not in curated_pages and m["major_leagues"]
+    pool += [m for m in master if m["page"] not in curated_pages
+             and (m["major_leagues"] or m["achievements"]["worlds"] or m["achievements"]["msi"])
              and (m["roles"] or m["positions"])]
     names = {m["page"]: name for m, name in zip(pool, display_names(pool))}
     emojis = {c["page"]: c["em"] for c in curated}
@@ -2054,8 +2091,12 @@ def main():
     grid_extra_pages = []
     try:
         major_players = cached(MAJOR_PLAYERS_CACHE_PATH, refresh, fetch_major_players, REFRESH_DAYS)
-        wanted = sorted({pg for code, by_page_n in major_players.items() for pg, n in by_page_n.items()
-                         if n >= MIN_MAJOR_BY_LEAGUE.get(code, MIN_MAJOR_TOURNAMENTS)} - set(cargo_rows))
+        # También los campeones de Worlds y MSI, aunque no hayan jugado en una liga mayor (los de la
+        # Season 1 de 2011, como Mellisan: el EU LCS no existía)
+        champion_links = cached(CHAMPIONS_CACHE_PATH, refresh, fetch_champions, REFRESH_DAYS)
+        wanted = sorted(({pg for code, by_page_n in major_players.items() for pg, n in by_page_n.items()
+                          if n >= MIN_MAJOR_BY_LEAGUE.get(code, MIN_MAJOR_TOURNAMENTS)}
+                         | set(champion_links)) - set(cargo_rows))
         grid_rows = cached_by_key(GRID_EXTRA_CACHE_PATH, refresh, wanted,
                                   lambda ks: fetch_players([(k, k, "") for k in ks]),
                                   STABLE_REFRESH_DAYS, changed_pages)
@@ -2124,6 +2165,9 @@ def main():
         if cur not in known_pages and pg in cargo_rows:
             grid_master.append(master_entry(cur, cargo_rows[pg], None, ctx))
             known_pages.add(cur)
+    # Los campeones de Worlds y MSI descubiertos también pueden ser leyendas del dle
+    dle_master = master + [m for m in grid_master[len(master):]
+                           if m["achievements"]["worlds"] or m["achievements"]["msi"]]
     apply_player_fixes(master)
     missing = [m["id"] for m in master if m["status"] == "unknown"]
     print(f"{len(master) - len(missing)}/{len(master)} con datos de Cargo"
@@ -2158,14 +2202,14 @@ def main():
                                 fetch_birth_years, STABLE_REFRESH_DAYS, changes["pages"])
     # La foto es un extra: si falla la descarga, el juego sigue sin ella (y sin cachear el fallo)
     try:
-        images = cached_by_key(IMAGES_CACHE_PATH, refresh, dle_pages(master, famous_pages),
+        images = cached_by_key(IMAGES_CACHE_PATH, refresh, dle_pages(dle_master, famous_pages),
                                fetch_images, STABLE_REFRESH_DAYS, changes["pages"])
     except Exception as e:
         print(f"::warning::Fotos de jugadores no actualizadas: {e}")
         stored = read_cache(IMAGES_CACHE_PATH)
         images = stored.get("data", {}) if isinstance(stored, dict) else {}
     print(f"  {len(images)} jugadores con foto")
-    dle = build_dle(master, birth_years, images, famous_pages)
+    dle = build_dle(dle_master, birth_years, images, famous_pages)
     check_dataset("dle", DLE_PATH, [p["name"] for p in dle], len(dle),
                   lambda t: len(json.loads(t)["players"]))
     # un jugador por línea: pesa menos
@@ -2214,6 +2258,15 @@ def main():
     check_dataset("carrera", CARRERA_PATH, carrera_names, len(carrera_names),
                   lambda t: len(re.findall(r'^  \{"name": ', t, re.M)))
     atomic_write(CARRERA_PATH, js)
+    # Quien se puede probar en Career Guess sin ser el secreto (extra: sin ellos, solo los curados)
+    try:
+        guesses_js, n_guesses = build_carrera_guesses_js(
+            grid_master, {c["page"] for c in curated_carrera}, carrera_names)
+        if n_guesses:
+            atomic_write(CARRERA_GUESSES_PATH, guesses_js)
+        print(f"carrera (para probar) -> {CARRERA_GUESSES_PATH} ({n_guesses} jugadores)")
+    except Exception as e:
+        print(f"::warning::Jugadores para probar de Career Guess no generados: {e}")
     print(f"carrera -> {CARRERA_PATH} ({len(curated_carrera) - len(missing)} jugadores"
           + (f", sin datos: {', '.join(missing)}" if missing else "") + ")")
 

@@ -69,18 +69,18 @@ export class GameService {
 
   /**
    * Un agente libre o un retirado enseña su último equipo, pero ya no está en él: no es una
-   * coincidencia plena. Los dos cuentan como "sin equipo".
-   * - Mismo equipo y los dos en la misma situación (los dos con equipo, o los dos sin él): correcto.
-   * - Mismo equipo pero uno está sin equipo y el otro no: parcial.
-   * - Dos sin equipo con distinto último equipo: parcial (los dos están sin equipo).
+   * coincidencia plena. Tres situaciones: con equipo, agente libre (FA) y retirado (RET).
+   * - Mismo equipo y la misma situación: correcto.
+   * - Mismo equipo pero distinta situación (uno con equipo, FA o RET y el otro no): parcial.
+   * - Dos agentes libres con distinto último equipo: parcial (los dos pueden volver a jugar).
+   *   Un retirado no da parcial por serlo: solo si comparte el último equipo.
    */
   #compareTeam(guessed, target) {
+    const kind = (p) => (p.retired ? 'ret' : p.freeAgent ? 'fa' : 'active');
     const sameTeam = guessed.team === target.team;
-    const guessedOff = guessed.freeAgent || guessed.retired;
-    const targetOff  = target.freeAgent  || target.retired;
-    if (guessedOff === targetOff) {
+    if (kind(guessed) === kind(target)) {
       if (sameTeam) return 'correct';
-      return guessedOff ? 'partial' : 'wrong';
+      return kind(guessed) === 'fa' ? 'partial' : 'wrong';
     }
     return sameTeam ? 'partial' : 'wrong';
   }
