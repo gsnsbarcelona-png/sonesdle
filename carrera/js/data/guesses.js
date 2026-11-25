@@ -653,7 +653,7 @@ export const GUESSES = [
   {"name": "LeDuck", "position": "Support", "debut": 2014, "teams": ["Copenhagen Wolves"]},
   {"name": "Lele", "position": "Support", "debut": 2019, "teams": ["Royal Club", "Royal Never Give Up", "FunPlus Phoenix Blaze", "FunPlus Phoenix"]},
   {"name": "Lemongod", "position": "Top", "debut": 2011, "teams": ["APictureOfAGoose", "Meat Playground"]},
-  {"name": "Lenny", "position": "Top", "debut": 2014, "teams": ["LowLandLions.Black", "LowLandLions.White", "Caseking Gaming", "Copenhagen Wolves", "Freelo Baby", "Team GameGear", "Team MoonZone", "Bintang Warriors", "Defusekids"]},
+  {"name": "Lenny", "position": "Top", "debut": 2014, "teams": ["LowLandLions.White", "LowLandLions.Black", "Caseking Gaming", "Copenhagen Wolves", "Freelo Baby", "Team GameGear", "Team MoonZone", "Bintang Warriors", "Defusekids"]},
   {"name": "Leo", "position": "Bot", "debut": 2018, "teams": ["SK Telecom T1", "SANDBOX Gaming", "Liiv SANDBOX", "Afreeca Freecs", "Kwangdong Freecs", "FENNEL", "Geekay Esports", "OKSavingsBank BRION Challengers"]},
   {"name": "Leonard", "position": "Mid", "debut": 2014, "teams": ["Noble Truth"]},
   {"name": "Letme", "position": "Top", "debut": 2013, "teams": ["Zenith of Origin", "Gamtee Fenghui", "Gamtee", "Royal Never Give Up", "Star Horn Royal Club"]},
