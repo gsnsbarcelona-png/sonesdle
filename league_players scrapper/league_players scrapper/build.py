@@ -1709,11 +1709,12 @@ def grid_entry(p, name, emoji=None):
 
 def build_grid(curated, master):
     """Los jugadores de curated/grid.json (con su emoji) y, como respuestas
-    válidas, todos los que han jugado en LCK, LPL, LEC o LCS."""
+    válidas, todos los que han jugado en LCK, LPL, LEC o LCS y los campeones de Worlds o MSI."""
     by_page = {m["page"]: m for m in master if m["page"]}
     curated_pages = {c["page"] for c in curated}
     pool = [by_page[c["page"]] for c in curated if c["page"] in by_page]
-    pool += [m for m in master if m["page"] not in curated_pages and m["major_leagues"]
+    pool += [m for m in master if m["page"] not in curated_pages
+             and (m["major_leagues"] or m["achievements"]["worlds"] or m["achievements"]["msi"])
              and (m["roles"] or m["positions"])]
     names = {m["page"]: name for m, name in zip(pool, display_names(pool))}
     emojis = {c["page"]: c["em"] for c in curated}
@@ -2054,8 +2055,12 @@ def main():
     grid_extra_pages = []
     try:
         major_players = cached(MAJOR_PLAYERS_CACHE_PATH, refresh, fetch_major_players, REFRESH_DAYS)
-        wanted = sorted({pg for code, by_page_n in major_players.items() for pg, n in by_page_n.items()
-                         if n >= MIN_MAJOR_BY_LEAGUE.get(code, MIN_MAJOR_TOURNAMENTS)} - set(cargo_rows))
+        # También los campeones de Worlds y MSI, aunque no hayan jugado en una liga mayor (los de la
+        # Season 1 de 2011, como Mellisan: el EU LCS no existía)
+        champion_links = cached(CHAMPIONS_CACHE_PATH, refresh, fetch_champions, REFRESH_DAYS)
+        wanted = sorted(({pg for code, by_page_n in major_players.items() for pg, n in by_page_n.items()
+                          if n >= MIN_MAJOR_BY_LEAGUE.get(code, MIN_MAJOR_TOURNAMENTS)}
+                         | set(champion_links)) - set(cargo_rows))
         grid_rows = cached_by_key(GRID_EXTRA_CACHE_PATH, refresh, wanted,
                                   lambda ks: fetch_players([(k, k, "") for k in ks]),
                                   STABLE_REFRESH_DAYS, changed_pages)
@@ -2124,6 +2129,9 @@ def main():
         if cur not in known_pages and pg in cargo_rows:
             grid_master.append(master_entry(cur, cargo_rows[pg], None, ctx))
             known_pages.add(cur)
+    # Los campeones de Worlds y MSI descubiertos también pueden ser leyendas del dle
+    dle_master = master + [m for m in grid_master[len(master):]
+                           if m["achievements"]["worlds"] or m["achievements"]["msi"]]
     apply_player_fixes(master)
     missing = [m["id"] for m in master if m["status"] == "unknown"]
     print(f"{len(master) - len(missing)}/{len(master)} con datos de Cargo"
@@ -2158,14 +2166,14 @@ def main():
                                 fetch_birth_years, STABLE_REFRESH_DAYS, changes["pages"])
     # La foto es un extra: si falla la descarga, el juego sigue sin ella (y sin cachear el fallo)
     try:
-        images = cached_by_key(IMAGES_CACHE_PATH, refresh, dle_pages(master, famous_pages),
+        images = cached_by_key(IMAGES_CACHE_PATH, refresh, dle_pages(dle_master, famous_pages),
                                fetch_images, STABLE_REFRESH_DAYS, changes["pages"])
     except Exception as e:
         print(f"::warning::Fotos de jugadores no actualizadas: {e}")
         stored = read_cache(IMAGES_CACHE_PATH)
         images = stored.get("data", {}) if isinstance(stored, dict) else {}
     print(f"  {len(images)} jugadores con foto")
-    dle = build_dle(master, birth_years, images, famous_pages)
+    dle = build_dle(dle_master, birth_years, images, famous_pages)
     check_dataset("dle", DLE_PATH, [p["name"] for p in dle], len(dle),
                   lambda t: len(json.loads(t)["players"]))
     # un jugador por línea: pesa menos
