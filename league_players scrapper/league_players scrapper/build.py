@@ -78,6 +78,7 @@ BIRTH_YEARS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "birth_years.json")
 IMAGES_CACHE_PATH        = os.path.join(SCRIPT_DIR, "cache", "player_images_v2.json")
 TEAM_LOGOS_CACHE_PATH    = os.path.join(SCRIPT_DIR, "cache", "team_logos_v2.json")
 LEAVERS_CACHE_PATH        = os.path.join(SCRIPT_DIR, "cache", "cargo_leavers.json")
+LEAVERS_LONG_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_leavers_long.json")
 TIER2_TEAMS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_tier2_teams.json")
 TIER1_PLAYERS_CACHE_PATH = os.path.join(SCRIPT_DIR, "cache", "cargo_tier1_players_v3.json")
 TIER1_TEAMS_CACHE_PATH   = os.path.join(SCRIPT_DIR, "cache", "cargo_tier1_teams.json")
@@ -230,7 +231,10 @@ MIN_TENURE_DAYS = 60   # carrera ignora pruebas y cesiones muy cortas
 # Fases de un torneo de liga que no dan título (si no son playoffs)
 REGULAR_STAGE_RE = re.compile(r"season|preseason|group|stage|qualifier|regional|opening",
                               re.IGNORECASE)
-RECENT_FREE_AGENT_DAYS = 90   # el dle mantiene a los agentes libres de hace menos tiempo
+RECENT_FREE_AGENT_DAYS = 90   # el dle mantiene a los agentes libres de hace menos tiempo...
+FA_DAYS_TIER1 = 730           # ...2 años si su último equipo es de una liga tier 1...
+FA_DAYS_KOREA = 1095          # ...y 3 años a los coreanos (servicio militar: pueden volver tras ~2 años)
+KOREA = "South Korea"
 
 COUNTRY_ISO = {
     "Afghanistan": "AF", "Albania": "AL", "Algeria": "DZ", "Argentina": "AR",
@@ -601,7 +605,8 @@ def _teams_of_tier(tier):
     return sorted({str(row["Team"]) for row in _official_league_rows() if row.get("Team")
                    and (league := classify_league(
                        html.unescape(row["Name"]),
-                       {"League Short": row.get("League Short"), "Region": row.get("Region"),
+                       {"League Short": row.get("League_Short") or row.get("League Short"),
+                        "Region": row.get("Region"),
                         "IsOfficial": row.get("IsOfficial")}))
                    and league[1] == tier})
 
@@ -1370,6 +1375,18 @@ def league_titles(won, league_info):
     return titles
 
 
+def fa_window_days(country, last_tier, last_region):
+    """Cuánto tiempo sigue un agente libre en el dle con su último equipo: 90 días; 2 años si su
+    último equipo es de una liga tier 1; 3 años a los coreanos de un equipo de tier 1 o 2 (o de
+    una región coreana si el equipo no tiene torneos recientes): el servicio militar los deja
+    sin jugar hasta ~2 años. Pasado ese tiempo, los famosos siguen como leyendas (retirados)."""
+    if country == KOREA and (last_tier in (1, 2) or last_region == "KR"):
+        return FA_DAYS_KOREA
+    if last_tier == 1:
+        return FA_DAYS_TIER1
+    return RECENT_FREE_AGENT_DAYS
+
+
 def master_entry(page, cargo, scraped, ctx):
     """`ctx`: tenures, team_regions, team_tournaments, league_titles y achievements de Cargo."""
     status, team = status_and_team(cargo, scraped or {})
@@ -1388,8 +1405,14 @@ def master_entry(page, cargo, scraped, ctx):
     # Agente libre desde hace poco: el dle lo sigue usando con su último equipo
     last = max(history, key=lambda h: h["to"] or "9999") if history else None
     left = _date(last["to"]) if last else None
+    window = RECENT_FREE_AGENT_DAYS
+    if status == "free_agent" and last:
+        last_tier = team_league(ctx["team_tournaments"].get(last["team"], []),
+                                ctx["team_regions"].get(last["team"]))["tier"]
+        window = fa_window_days(nationality(cargo, scraped or {}), last_tier,
+                                last["region"] or next((h["region"] for h in reversed(history) if h["region"]), None))
     recent_fa = bool(status == "free_agent" and left
-                     and (datetime.date.today() - left).days <= RECENT_FREE_AGENT_DAYS)
+                     and (datetime.date.today() - left).days <= window)
     game_team = team if status in ("player", "sub") else last["team"] if recent_fa else None
     if game_team:
         current = team_league(ctx["team_tournaments"].get(game_team, []),
@@ -1550,6 +1573,9 @@ def build_dle(master, birth_years, images=None, famous_pages=frozenset()):
         })
         if legend:   # retirado famoso: solo se puede probar, nunca es el secreto
             players[-1]["retired"] = True
+        elif p["status"] == "free_agent" and p.get("left_team_on") and _date(p["left_team_on"]) and \
+                (datetime.date.today() - _date(p["left_team_on"])).days > RECENT_FREE_AGENT_DAYS:
+            players[-1]["fa_long"] = True   # sin equipo desde hace más de 90 días: se puede probar, no es el secreto
         if (images or {}).get(p["page"]):   # sin clave si no hay foto: el juego la oculta
             players[-1]["image"] = images[p["page"]]
     return players
@@ -2073,6 +2099,7 @@ def main():
     extra_pages += [p for p in tier1 if p not in extra_pages]
     # Quien ha dejado hace poco un equipo tier 1 o 2 y está sin equipo ya no sale en ninguna
     # plantilla: se descubre por los fichajes. Es un extra; si falla, se pierden como antes.
+    dle_extra_pages = []   # salidas de más de 90 días (equipos tier 1: 2 años; coreanos: 3): solo para el dle
     try:
         leavers = fetch_recent_leavers([*tier1_teams, *tier2_teams], RECENT_FREE_AGENT_DAYS)
         leaver_entries = sorted((name, name, "") for name in leavers if name not in cargo_rows)
@@ -2085,6 +2112,26 @@ def main():
               f"{RECENT_FREE_AGENT_DAYS} días ({len(leaver_rows)} con ficha)")
     except Exception as e:
         print(f"::warning::Agentes libres recientes no descubiertos: {e}")
+    # Ventanas largas: quien dejó un equipo de tier 1 en los últimos 2 años o uno coreano en los últimos
+    # 3 (servicio militar) puede seguir como agente libre. Van aparte, solo para el dle, para no
+    # cambiar las listas de los demás juegos.
+    try:
+        all_teams = sorted({*tier1_teams, *tier2_teams})
+        team_regions_now = cached_by_key(TEAMS_CACHE_PATH, refresh, all_teams, fetch_team_regions,
+                                         STABLE_REFRESH_DAYS, changes["pages"])
+        korean_teams = [t for t in all_teams if team_regions_now.get(t) == "Korea"]
+        long_names = (set(fetch_recent_leavers(tier1_teams, FA_DAYS_TIER1))
+                      | set(fetch_recent_leavers(korean_teams, FA_DAYS_KOREA))) - set(leavers)
+        long_entries = sorted((n, n, "") for n in long_names if n not in cargo_rows)
+        long_rows = cached_by_key(LEAVERS_LONG_CACHE_PATH, refresh, [e[0] for e in long_entries],
+                                  lambda ks: fetch_players([e for e in long_entries if e[0] in set(ks)]),
+                                  REFRESH_DAYS, changed_pages)
+        cargo_rows = {**long_rows, **cargo_rows}
+        dle_extra_pages = [pg for pg in long_rows if pg not in extra_pages and pg not in pages]
+        print(f"  {len(long_names)} salidas de equipos tier 1 (2 años) o coreanos (3 años) "
+              f"({len(dle_extra_pages)} con ficha)")
+    except Exception as e:
+        print(f"::warning::Agentes libres de ventana larga no descubiertos: {e}")
 
     # Veteranos de las ligas mayores que ya no salen en ninguna plantilla (TheOddOne, Reginald...):
     # solo para el pro grid, así que no entran en `extra_pages` (y por tanto no en el resto de juegos)
@@ -2106,7 +2153,7 @@ def main():
     except Exception as e:
         print(f"::warning::Veteranos de ligas mayores no descubiertos: {e}")
     # Página actual de cada jugador (la de main.py puede haberse renombrado)
-    all_pages = sorted({current_page(p, cargo_rows) for p in pages + extra_pages + grid_extra_pages if p})
+    all_pages = sorted({current_page(p, cargo_rows) for p in pages + extra_pages + grid_extra_pages + dle_extra_pages if p})
     aliases_by_page = cached_by_key(ALIASES_CACHE_PATH, refresh, all_pages, fetch_aliases,
                                     STABLE_REFRESH_DAYS, changed_pages)
     alias_page = alias_to_page(aliases_by_page)
@@ -2145,7 +2192,7 @@ def main():
             merged[kind] = sorted(set(merged[kind]) | set(won[kind]))
 
     # Equipos actuales y últimos equipos de quien lo ha dejado hace poco (agentes libres)
-    cutoff = (datetime.date.today() - datetime.timedelta(days=RECENT_FREE_AGENT_DAYS)).isoformat()
+    cutoff = (datetime.date.today() - datetime.timedelta(days=FA_DAYS_KOREA)).isoformat()
     teams_needed = {t for row in cargo_rows.values() for t in (row.get("Team"), playing_team(row)) if t}
     teams_needed |= {t["team"] for ts in tenures.values() for t in ts
                      if t["to"] and t["to"] >= cutoff and t["team"]}
@@ -2168,6 +2215,11 @@ def main():
     # Los campeones de Worlds y MSI descubiertos también pueden ser leyendas del dle
     dle_master = master + [m for m in grid_master[len(master):]
                            if m["achievements"]["worlds"] or m["achievements"]["msi"]]
+    for pg in sorted(dle_extra_pages):
+        cur = current_page(pg, cargo_rows)
+        if cur not in known_pages and pg in cargo_rows:
+            dle_master.append(master_entry(cur, cargo_rows[pg], None, ctx))
+            known_pages.add(cur)
     apply_player_fixes(master)
     missing = [m["id"] for m in master if m["status"] == "unknown"]
     print(f"{len(master) - len(missing)}/{len(master)} con datos de Cargo"
