@@ -71,3 +71,6 @@ export function t(key, ...args) {
   const val = T[getLang()]?.[key] ?? T.es[key] ?? key;
   return typeof val === 'function' ? val(...args) : val;
 }
+
+/** Posición tal como se enseña: los datos guardan "Bot", pero en pantalla es ADC. */
+export const posLabel = (pos) => (pos === 'Bot' ? 'ADC' : pos);

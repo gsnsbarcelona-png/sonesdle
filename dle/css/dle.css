@@ -144,7 +144,7 @@
   .cell-text { font-size: 0.56rem; letter-spacing: -0.01em; overflow-wrap: normal; }
 }
 .cell-main  { font-size: 0.75rem; font-weight: 700; }
-.cell-arrow { font-size: 0.85rem; margin-left: 2px; }
+.cell-arrow { width: 0.95rem; height: 0.95rem; margin-left: 2px; vertical-align: -0.12em; }
 .cell-tag   { font-size: 0.55rem; font-weight: 700; letter-spacing: 0.08em; opacity: 0.7; margin-top: 1px; }
 @media (min-width: 540px) {
   .cell-flag  { font-size: 1.1rem; }
@@ -155,7 +155,7 @@
   .cell-flag  { font-size: 1.2rem; margin-bottom: 2px; }
   .cell-text  { font-size: 0.68rem; line-height: 1.25; }
   .cell-main  { font-size: 0.86rem; }
-  .cell-arrow { font-size: 0.95rem; }
+  .cell-arrow { width: 1.1rem; height: 1.1rem; }
 }
 
 /* ── Dropdown ───────────────────────────────────────────── */

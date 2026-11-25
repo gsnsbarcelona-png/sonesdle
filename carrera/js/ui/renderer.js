@@ -4,7 +4,7 @@
  */
 
 import { MAX_ATTEMPTS } from '../core/state.js';
-import { t } from '../i18n.js';
+import { t, posLabel } from '../i18n.js';
 import { esc } from '../../../shared/js/escape.js';
 import { teamLogoHtml } from '../../../shared/js/media.js';
 
@@ -150,7 +150,7 @@ function renderControls(state) {
   const { input, btnSubmit, btnHint, btnSkip, btnNext, posBadge } = getDOM();
 
   // Position badge
-  posBadge.textContent   = hintUsed ? currentPlayer.position : '';
+  posBadge.textContent   = hintUsed ? posLabel(currentPlayer.position) : '';
   posBadge.classList.toggle('hidden', !hintUsed);
 
   const noMoreHints = hintUsed && revealedCount >= currentPlayer.career.length;
