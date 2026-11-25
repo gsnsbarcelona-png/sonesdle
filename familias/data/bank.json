@@ -7261,59 +7261,6 @@
     ]
   },
   {
-    "id": "b0022",
-    "groups": [
-      {
-        "level": 1,
-        "id": "team:Hanwha Life Esports",
-        "es": "Juegan en Hanwha Life Esports",
-        "en": "Play for Hanwha Life Esports",
-        "players": [
-          "gumayusi",
-          "zeka-kim-geon-woo",
-          "canyon",
-          "zeus"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:RED Canids:2026",
-        "es": "Jugaron en RED Canids en 2026",
-        "en": "Played for RED Canids in 2026",
-        "players": [
-          "rabelo",
-          "zynts",
-          "frosty-jose-eduardo",
-          "morttheus"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "title:LPL",
-        "es": "Campeones de la LPL",
-        "en": "LPL champions",
-        "players": [
-          "flandre",
-          "theshy",
-          "ruler",
-          "papiteero"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "twoteams:Berlin International Gaming:Vitality",
-        "es": "Pasaron por Berlin International Gaming y por Vitality",
-        "en": "Played for both Berlin International Gaming and Vitality",
-        "players": [
-          "slt",
-          "labrov",
-          "carzzy",
-          "kaiser"
-        ]
-      }
-    ]
-  },
-  {
     "id": "b0023",
     "groups": [
       {
@@ -7945,6 +7892,59 @@
           "care",
           "h4cker",
           "wenbo-yang-wen-bo"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "b0001",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:Weibo Gaming",
+        "es": "Juegan en Weibo Gaming",
+        "en": "Play for Weibo Gaming",
+        "players": [
+          "xiaohu",
+          "jwei",
+          "ke",
+          "zika"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:T1:2024",
+        "es": "Jugaron en T1 en 2024",
+        "en": "Played for T1 in 2024",
+        "players": [
+          "keria",
+          "gumayusi",
+          "faker",
+          "zeus"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:LCP",
+        "es": "Campeones de la LCP",
+        "en": "LCP champions",
+        "players": [
+          "rest",
+          "hongq",
+          "pun",
+          "doggo"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "initial:L",
+        "es": "Su apodo empieza por L",
+        "en": "Nickname starts with L",
+        "players": [
+          "luchiano",
+          "labrov",
+          "lehends",
+          "lot"
         ]
       }
     ]
