@@ -3710,59 +3710,6 @@
     ]
   },
   {
-    "id": "b0007",
-    "groups": [
-      {
-        "level": 1,
-        "id": "country:Brazil",
-        "es": "Son de Brasil",
-        "en": "Are from Brazil",
-        "players": [
-          "zekas",
-          "curse-rai-yamada",
-          "curty",
-          "houndin"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:Misfits:2022",
-        "es": "Jugaron en Misfits en 2022",
-        "en": "Played for Misfits in 2022",
-        "players": [
-          "vetheo",
-          "irrelevant",
-          "shlatan",
-          "mersa"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "roles:Mid:Support",
-        "es": "Han jugado de Mid y de Support",
-        "en": "Have played Mid and Support",
-        "players": [
-          "galileo",
-          "sony",
-          "huhi",
-          "sword-rico-chen"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "twoteams:Bilibili Gaming:LNG Esports",
-        "es": "Pasaron por Bilibili Gaming y por LNG Esports",
-        "en": "Played for both Bilibili Gaming and LNG Esports",
-        "players": [
-          "flandre",
-          "weiwei",
-          "shad0w",
-          "zika"
-        ]
-      }
-    ]
-  },
-  {
     "id": "b0001",
     "groups": [
       {
@@ -6890,59 +6837,6 @@
     ]
   },
   {
-    "id": "b0013",
-    "groups": [
-      {
-        "level": 1,
-        "id": "team:Cloud9",
-        "es": "Juegan en Cloud9",
-        "en": "Play for Cloud9",
-        "players": [
-          "tactical",
-          "thanatos-park-seung-gyu",
-          "zven",
-          "loki-lee-sang-min"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:Team Heretics:2026",
-        "es": "Jugaron en Team Heretics en 2026",
-        "en": "Played for Team Heretics in 2026",
-        "players": [
-          "sheo",
-          "hype-byeon-jeong-hyeon",
-          "daglas",
-          "tracyn"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "roles:ADC:Support",
-        "es": "Han jugado de ADC y de Support",
-        "en": "Have played ADC and Support",
-        "players": [
-          "ycx",
-          "corejj",
-          "ayu-andrey-saraiva",
-          "revanche"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "surname:Song",
-        "es": "Se apellidan Song",
-        "en": "Have the surname Song",
-        "players": [
-          "setab",
-          "saber-song-dai-lin",
-          "clear-song-hyeon-min",
-          "rookie"
-        ]
-      }
-    ]
-  },
-  {
     "id": "b0014",
     "groups": [
       {
@@ -7945,6 +7839,112 @@
           "ragner",
           "kireas",
           "farfetch"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "b0001",
+    "groups": [
+      {
+        "level": 1,
+        "id": "country:Canada",
+        "es": "Son de Canadá",
+        "en": "Are from Canada",
+        "players": [
+          "pockus",
+          "sniper",
+          "jojopyun",
+          "spawn-trevor-kerr-taylor"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:Hanwha Life Esports:2025",
+        "es": "Jugaron en Hanwha Life Esports en 2025",
+        "en": "Played for Hanwha Life Esports in 2025",
+        "players": [
+          "viper-park-do-hyeon",
+          "zeka-kim-geon-woo",
+          "delight",
+          "zeus"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:LFL",
+        "es": "Campeones de la LFL",
+        "en": "LFL champions",
+        "players": [
+          "omon",
+          "caliste",
+          "yike",
+          "jopa"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "twoteams:Ground Zero Gaming:PSG Talon",
+        "es": "Pasaron por Ground Zero Gaming y por PSG Talon",
+        "en": "Played for both Ground Zero Gaming and PSG Talon",
+        "players": [
+          "husha",
+          "uniboy",
+          "betty",
+          "kaiwing"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "b0002",
+    "groups": [
+      {
+        "level": 1,
+        "id": "country:Hong Kong",
+        "es": "Son de Hong Kong",
+        "en": "Are from Hong Kong",
+        "players": [
+          "pretender",
+          "kaiwing",
+          "1xn",
+          "chesterbb"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:Karmine Corp:2024",
+        "es": "Jugaron en Karmine Corp en 2024",
+        "en": "Played for Karmine Corp in 2024",
+        "players": [
+          "saken",
+          "upset",
+          "vladi",
+          "canna"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "worlds",
+        "es": "Campeones del mundo",
+        "en": "World champions",
+        "players": [
+          "on",
+          "xun",
+          "gumayusi",
+          "knight-zhuo-ding"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "surname:Yang",
+        "es": "Se apellidan Yang",
+        "en": "Have the surname Yang",
+        "players": [
+          "heng",
+          "care",
+          "h4cker",
+          "wenbo-yang-wen-bo"
         ]
       }
     ]
