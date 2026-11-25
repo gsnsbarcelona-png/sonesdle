@@ -1543,7 +1543,9 @@ def build_dle(master, birth_years, images=None, famous_pages=frozenset()):
             # "YYYY-MM-DD", o solo "YYYY" si la ficha no tiene más (edad aproximada)
             "birthdate": p["birthdate"] or birth_years.get(p["page"]),
             "team":      legend["team"] if legend else p["game_team"],
-            "free_agent": p["status"] == "free_agent",   # sigue con su último equipo
+            # FA = agente libre reciente que sigue con su último equipo; un retirado (o inactivo
+            # desde hace tiempo) lleva `retired`, nunca las dos cosas
+            "free_agent": p["status"] == "free_agent" and not legend,
         })
         if legend:   # retirado famoso: solo se puede probar, nunca es el secreto
             players[-1]["retired"] = True
