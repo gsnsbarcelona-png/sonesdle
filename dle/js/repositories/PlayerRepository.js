@@ -79,11 +79,16 @@ export class PlayerRepository {
     return [...counts.keys()].sort((a, b) => counts.get(b) - counts.get(a));
   }
 
+  /**
+   * Sugerencias del buscador. Se puede probar a cualquier jugador, también a los de fuera del
+   * filtro (alguien que jugó en EMEA y ahora está en otra región): los del filtro salen primero.
+   */
   search(query, exclude = new Set(), filter) {
     const q = query.toLowerCase();
-    return this.#players
-      .filter(p => !exclude.has(p.name) && p.name.toLowerCase().includes(q) && matches(p, filter))
-      .slice(0, 8);
+    const found = this.#players.filter(p => !exclude.has(p.name) && p.name.toLowerCase().includes(q));
+    const inside = found.filter(p => matches(p, filter));
+    const outside = found.filter(p => !matches(p, filter));
+    return [...inside, ...outside].slice(0, 8);
   }
 
   #setPlayers(data) {
