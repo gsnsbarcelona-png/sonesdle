@@ -194,7 +194,12 @@ CARRERA_REGIONS = {"LCK", "LPL", "LEC", "LCS"}
 # carrera_candidates). Américas = NA + Brasil + Latam.
 CARRERA_ZONE_OF_REGION = {"KR": "KR", "CN": "CN", "EMEA": "EMEA", "NA": "AM", "BR": "AM",
                           "LATAM": "AM", "PAC": "PAC"}
-CARRERA_ZONE_QUOTA = {"KR": 70, "CN": 55, "EMEA": 70, "AM": 70, "PAC": 20}
+CARRERA_ZONE_QUOTA = {"KR": 110, "CN": 95, "EMEA": 140, "AM": 150, "PAC": 65}
+# Fama mínima de un secreto automático y la que separa el modo Normal del Difícil: por debajo de
+# CARRERA_NORMAL_FAME un jugador solo sale en Difícil (`"hard": true`); los fijos de curated/carrera.json
+# salen siempre. Ver fame_score
+CARRERA_MIN_FAME = 3
+CARRERA_NORMAL_FAME = 6
 # Reparto por año de debut dentro de cada zona: hasta 2015, 2016-2019 y desde 2020
 CARRERA_ERAS = (((0, 2015), 0.35), ((2016, 2019), 0.35), ((2020, 9999), 0.30))
 CARRERA_MIN_TEAMS = 3   # con menos equipos la carrera no da para adivinar
@@ -1764,7 +1769,7 @@ def carrera_candidates(master, curated_pages, excluded=()):
             taken[zone] += 1
             continue
         teams = {c["team"] for c in career if c["team"]}
-        if (page in excluded or fame_score(m) <= 0 or not (m["roles"] or m["positions"])
+        if (page in excluded or fame_score(m) < CARRERA_MIN_FAME or not (m["roles"] or m["positions"])
                 or len(teams) < CARRERA_MIN_TEAMS):
             continue
         pool[zone].append((int(debut), -fame_score(m), page))
@@ -1795,7 +1800,7 @@ def carrera_fame_report(master, curated_pages, excluded, chosen):
         zone = career_zone(m["history"])
         career = career_from_history(m["history"])
         debut = career[0]["year"][:4] if career else ""
-        if (zone is None or not debut.isdigit() or fame_score(m) <= 0
+        if (zone is None or not debut.isdigit() or fame_score(m) < CARRERA_MIN_FAME
                 or not (m["roles"] or m["positions"])
                 or len({c["team"] for c in career if c["team"]}) < CARRERA_MIN_TEAMS):
             continue
@@ -1830,6 +1835,8 @@ def build_carrera_js(curated, by_page, team_majors=None, images=None, names=None
         players.append({"name": (names or {}).get(c["page"], p["id"]), "position": position,
                         "zone": career_zone(p["history"]),
                         "career": career_from_history(p["history"], team_majors)})
+        if c.get("auto") and fame_score(p) < CARRERA_NORMAL_FAME:   # sin clave si es de Normal
+            players[-1]["hard"] = True
         if (images or {}).get(c["page"]):   # sin clave si no hay foto: el juego pone un marcador
             players[-1]["image"] = images[c["page"]]
     J = lambda v: json.dumps(v, ensure_ascii=False)
@@ -1838,7 +1845,8 @@ def build_carrera_js(curated, by_page, team_majors=None, images=None, names=None
              "",
              "/**",
              " * @typedef {{ year: string, team: string, region: string }} CareerEntry",
-             " * @typedef {{ name: string, position: string, zone: string, career: CareerEntry[], image?: string }} Player",
+             " * @typedef {{ name: string, position: string, zone: string, hard?: boolean, career: CareerEntry[], image?: string }} Player",
+             " * zone: región donde pasó más etapas (AM = NA + BR + LATAM) · hard: solo sale en Difícil (poco conocido)",
              " * Regions: LCK | LPL | LEC | LCS (solo si el equipo jugó esa liga) | EMEA | NA | KR | CN | PAC | BR | LATAM | OTHER",
              " */",
              "",
@@ -2434,7 +2442,7 @@ def main():
         print(f"::warning::Informe de fama de Career Guess no generado: {e}")
     images.update(extra_images(set(auto_pages)))
     auto_pages = [pg for pg in auto_pages if images.get(pg)]   # sin foto, la ronda queda coja
-    carrera_secrets = curated_carrera + [{"page": pg} for pg in auto_pages]
+    carrera_secrets = curated_carrera + [{"page": pg, "auto": True} for pg in auto_pages]
     secret_pages = [c["page"] for c in carrera_secrets if c["page"] in by_page]
     carrera_names_by_page = dict(zip(secret_pages, display_names([by_page[pg] for pg in secret_pages])))
     # Ligas mayores que jugó cada equipo de los jugadores de carrera. Si no se pueden descargar, las
