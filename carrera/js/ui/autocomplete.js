@@ -2,6 +2,7 @@ import { PLAYERS }           from '../data/players.js';
 import { GUESSES }           from '../data/guesses.js';
 import { getAttemptedNames } from '../core/state.js';
 import * as Base             from '../../../shared/js/autocomplete.js';
+import { nameMatches }       from '../../../shared/js/names.js';
 
 // ─── Filtrado (lógica de datos, específica de Carrera) ────────────────────────
 
@@ -11,7 +12,7 @@ export function filter(query) {
   if (!q) return [];
   // Los jugadores que pueden ser el secreto primero; después los que solo se pueden probar
   return [...PLAYERS, ...GUESSES]
-    .filter(p => p.name.toLowerCase().includes(q) && !attempted.includes(p.name.toLowerCase()))
+    .filter(p => nameMatches(p.name, q) && !attempted.includes(p.name.toLowerCase()))
     .slice(0, 8);
 }
 

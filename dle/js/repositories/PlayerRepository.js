@@ -1,3 +1,4 @@
+import { nameMatches } from '../../../shared/js/names.js';
 /**
  * Edad actual a partir de "YYYY-MM-DD" (así no se queda desfasada en el JSON).
  * Con solo "YYYY" es aproximada: puede que aún no haya cumplido los de este año.
@@ -85,7 +86,7 @@ export class PlayerRepository {
    */
   search(query, exclude = new Set(), filter) {
     const q = query.toLowerCase();
-    const found = this.#players.filter(p => !exclude.has(p.name) && p.name.toLowerCase().includes(q));
+    const found = this.#players.filter(p => !exclude.has(p.name) && nameMatches(p.name, q));
     const inside = found.filter(p => matches(p, filter));
     const outside = found.filter(p => !matches(p, filter));
     return [...inside, ...outside].slice(0, 8);
