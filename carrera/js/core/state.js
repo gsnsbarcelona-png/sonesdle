@@ -2,6 +2,7 @@ import { PLAYERS }          from '../data/players.js';
 import { GUESSES }          from '../data/guesses.js';
 import { compareGuess }     from './hintEngine.js';
 import { recordResult }     from '../../../shared/auth.js';
+import { allFilters, cleanFilters, loadFilters, saveFilters, poolIndices } from './pool.js';
 
 /** Maximum guesses per round. */
 export const MAX_ATTEMPTS = 6;
@@ -67,6 +68,7 @@ let roundOver      = false;
 let won            = false;
 let queue          = [];   // shuffled indices into PLAYERS
 let stats          = { wins: 0, played: 0, streak: 0 };
+let filters        = allFilters();   // regiones y eras de los secretos (ver pool.js)
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -139,7 +141,11 @@ function endRound(didWin) {
 
 function resetQueue() {
   // Fisher-Yates: sort(() => Math.random() - 0.5) no baraja de forma uniforme
-  queue = [...Array(PLAYERS.length).keys()];
+  queue = poolIndices(PLAYERS, filters);
+  if (!queue.length) {   // ajuste guardado que ya no deja a nadie (datos nuevos): vuelve a toda la pool
+    filters = allFilters();
+    queue = poolIndices(PLAYERS, filters);
+  }
   for (let i = queue.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [queue[i], queue[j]] = [queue[j], queue[i]];
@@ -268,8 +274,38 @@ export function skip() {
   endRound(false);
 }
 
+// ─── Pool (regiones y eras) ───────────────────────────────────────────────────
+
+/** Filtros activos (copia). */
+export function getFilters() {
+  return { zones: [...filters.zones], eras: [...filters.eras] };
+}
+
+/** Cuántos secretos dejan unos filtros. */
+export function poolSize(f) {
+  return poolIndices(PLAYERS, cleanFilters(f)).length;
+}
+
+/**
+ * Cambia la pool. Con 0 jugadores no se aplica. Si no hay una ronda empezada (nueva o terminada)
+ * se saca ya un jugador de la nueva pool; si no, vale desde el siguiente.
+ * @returns {{ applied: boolean, size: number, newRound: boolean }}
+ */
+export function setFilters(next) {
+  const clean = cleanFilters(next);
+  const size = poolIndices(PLAYERS, clean).length;
+  if (!size) return { applied: false, size, newRound: false };
+  filters = clean;
+  saveFilters(filters);
+  resetQueue();
+  const newRound = roundOver || attempts.length === 0;
+  if (newRound) nextPlayer();
+  return { applied: true, size, newRound };
+}
+
 // ─── Boot ─────────────────────────────────────────────────────────────────────
 
 loadStats();
+filters = loadFilters();
 resetQueue();
 if (!restoreRound()) nextPlayer();
