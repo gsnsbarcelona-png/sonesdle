@@ -616,7 +616,9 @@ def _official_league_rows():
 def _teams_of_tier(tier):
     return sorted({str(row["Team"]) for row in _official_league_rows() if row.get("Team")
                    and (league := classify_league(
-                       html.unescape(row["Name"]),
+                       # El nombre de la LIGA, no el del torneo: "PRM 1st Division 2026 Spring" contiene
+                       # "division 2" y parecía una segunda división
+                       html.unescape(row.get("League") or row["Name"]),
                        {"League Short": row.get("League_Short") or row.get("League Short"),
                         "Region": row.get("Region"),
                         "IsOfficial": row.get("IsOfficial")}))
