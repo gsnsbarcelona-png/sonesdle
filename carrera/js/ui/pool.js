@@ -3,7 +3,7 @@
  * dice si se aplican (nunca se deja la pool vacía) y si ya sale un jugador nuevo.
  */
 import * as State from '../core/state.js';
-import { ZONES, ERAS } from '../core/pool.js';
+import { ZONES, ERAS, LEVELS } from '../core/pool.js';
 import { t } from '../i18n.js';
 import { esc } from '../../../shared/js/escape.js';
 
@@ -15,13 +15,17 @@ function chips(container, group, ids, labelKey, active) {
   ).join('');
 }
 
+/** Avisa de lo que implica el nivel Difícil. */
+const levelNote = (f) => (f.level === 'hard' ? t('poolHardNote') : '');
+
 /** Pinta los chips y el contador con los filtros actuales. */
 export function render(note = '') {
   const f = State.getFilters();
   chips(document.getElementById('pool-zones'), 'zones', ZONES, (id) => `zone${id}`, f.zones);
   chips(document.getElementById('pool-eras'), 'eras', ERAS.map((e) => e.id), (id) => `era${cap(id)}`, f.eras);
+  chips(document.getElementById('pool-level'), 'level', LEVELS, (id) => `level${cap(id)}`, [f.level]);
   document.getElementById('pool-count').textContent = t('poolCount', State.poolSize(f));
-  document.getElementById('pool-note').textContent = note;
+  document.getElementById('pool-note').textContent = note || levelNote(f);
 }
 
 /**
@@ -32,11 +36,16 @@ export function bind(onNewRound) {
     const chip = e.target.closest('.pool-chip');
     if (!chip) return;
     const f = State.getFilters();
-    const list = f[chip.dataset.group];
     const id = chip.dataset.id;
-    // Un grupo no se queda sin ninguna opción: el último chip no se apaga
-    const next = list.includes(id) ? list.filter((x) => x !== id) : [...list, id];
-    if (!next.length) return;
+    // La dificultad es una sola opción; en los otros grupos el último chip no se apaga
+    let next;
+    if (chip.dataset.group === 'level') {
+      next = id;
+    } else {
+      const list = f[chip.dataset.group];
+      next = list.includes(id) ? list.filter((x) => x !== id) : [...list, id];
+      if (!next.length) return;
+    }
     const result = State.setFilters({ ...f, [chip.dataset.group]: next });
     if (!result.applied) { render(t('poolEmpty')); return; }
     render(result.newRound ? '' : t('poolLater'));

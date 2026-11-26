@@ -278,7 +278,7 @@ export function skip() {
 
 /** Filtros activos (copia). */
 export function getFilters() {
-  return { zones: [...filters.zones], eras: [...filters.eras] };
+  return { zones: [...filters.zones], eras: [...filters.eras], level: filters.level };
 }
 
 /** Cuántos secretos dejan unos filtros. */
