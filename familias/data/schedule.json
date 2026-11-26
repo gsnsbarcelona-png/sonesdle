@@ -4397,5 +4397,58 @@
         ]
       }
     ]
+  },
+  "2027-01-25": {
+    "id": "2027-01-25",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:KT Rolster",
+        "es": "Juegan en KT Rolster",
+        "en": "Play for KT Rolster",
+        "players": [
+          "raptor-jeon-eo-jin",
+          "bdd",
+          "kellin",
+          "jiwoo"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:Cloud9:2021",
+        "es": "Jugaron en Cloud9 en 2021",
+        "en": "Played for Cloud9 in 2021",
+        "players": [
+          "isles",
+          "fudge",
+          "zven",
+          "blaber"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:LCO",
+        "es": "Campeones de la LCO",
+        "en": "LCO champions",
+        "players": [
+          "scxtt",
+          "daystar",
+          "biopanther",
+          "whynot"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "twoteams:FPX:Top Esports",
+        "es": "Pasaron por FPX y por Top Esports",
+        "en": "Played for both FPX and Top Esports",
+        "players": [
+          "hang",
+          "jiaqi",
+          "qiuqiu-zhang-ming",
+          "crisp"
+        ]
+      }
+    ]
   }
 }

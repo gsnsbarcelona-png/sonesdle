@@ -1330,5 +1330,17 @@
       "worlds",
       "mid"
     ]
+  },
+  "2027-01-25": {
+    "cols": [
+      "adc",
+      "support",
+      "champ"
+    ],
+    "rows": [
+      "g2",
+      "fnatic",
+      "worlds"
+    ]
   }
 }
