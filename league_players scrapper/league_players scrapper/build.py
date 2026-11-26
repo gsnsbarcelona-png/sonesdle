@@ -1724,10 +1724,23 @@ def career_zone(history):
     return next(z for z in reversed(zones) if counts[z] == top)
 
 
+# Puntos de fama (secretos de Career Guess): un título pesa según el nivel de la competición
+FAME_WORLDS = 20          # cada Worlds ganado
+FAME_MSI = 10             # cada MSI ganado
+FAME_TITLE_TIER1 = 6      # cada título de una liga tier 1 (LCK, LPL, LEC, LCS, CBLOL, LCP y sus nombres antiguos)
+FAME_TITLE_TIER2 = 1      # cada título de una liga de segunda (LFL, NLC...), hasta FAME_TITLE_TIER2_MAX
+FAME_TITLE_TIER2_MAX = 3
+FAME_MAJOR_LEAGUE = 1     # cada liga mayor (LCK, LPL, LEC, LCS) en la que ha jugado de verdad
+
+
 def fame_score(m):
-    """Qué tan conocido es un jugador, para elegir secretos de Career Guess."""
-    return (10 * len(m["achievements"]["worlds"]) + 5 * len(m["achievements"]["msi"])
-            + 2 * len(m["titles"]) + len(m["major_leagues"]))
+    """Qué tan conocido es un jugador, para elegir secretos de Career Guess. Ganar una liga tier 1
+    vale mucho más que una de segunda (LEC no es lo mismo que LFL); un Worlds o un MSI, aún más."""
+    tier1 = sum(1 for t in m["titles"] if t["league"] in TIER1_TITLE_LEAGUES)
+    tier2 = min(len(m["titles"]) - tier1, FAME_TITLE_TIER2_MAX)
+    return (FAME_WORLDS * len(m["achievements"]["worlds"]) + FAME_MSI * len(m["achievements"]["msi"])
+            + FAME_TITLE_TIER1 * tier1 + FAME_TITLE_TIER2 * tier2
+            + FAME_MAJOR_LEAGUE * len(m["major_leagues"]))
 
 
 def carrera_candidates(master, curated_pages, excluded=()):
@@ -1789,19 +1802,19 @@ def carrera_fame_report(master, curated_pages, excluded, chosen):
         rows.append((zone, int(debut), fame_score(m), page, m["id"], page in chosen))
     era_of = lambda y: next(i for i, ((lo, hi), _) in enumerate(CARRERA_ERAS) if lo <= y <= hi)
     era_names = ("hasta 2015", "2016-19", "desde 2020")
-    print("Informe de fama de Career Guess (candidatos no fijos): puntos mínimos 1 / 2 / 3 / 5 / 8")
+    print("Informe de fama de Career Guess (candidatos no fijos): puntos mínimos 1 / 3 / 6 / 10 / 20")
     for zone in CARRERA_ZONE_QUOTA:
         zr = [r for r in rows if r[0] == zone]
         print(f"  {zone}: {len(zr)} candidatos, {sum(r[5] for r in zr)} elegidos, "
               f"el elegido con menos fama tiene {min((r[2] for r in zr if r[5]), default='-')} puntos")
         for i, name in enumerate(era_names):
             er = [r for r in zr if era_of(r[1]) == i]
-            counts = " / ".join(str(sum(1 for r in er if r[2] >= n)) for n in (1, 2, 3, 5, 8))
+            counts = " / ".join(str(sum(1 for r in er if r[2] >= n)) for n in (1, 3, 6, 10, 20))
             print(f"    {name}: {counts}  (elegidos {sum(r[5] for r in er)})")
         left = sorted((r for r in zr if not r[5]), key=lambda r: (-r[2], r[4]))[:12]
         print("    fuera con más fama: " + ", ".join(f"{r[4]} ({r[2]})" for r in left))
-    weak = sorted((r for r in rows if r[5] and r[2] <= 2), key=lambda r: (r[0], r[4]))
-    print(f"  elegidos con 2 puntos o menos ({len(weak)}): " + ", ".join(f"{r[4]} ({r[0]} {r[2]})" for r in weak))
+    weak = sorted((r for r in rows if r[5] and r[2] <= 3), key=lambda r: (r[0], r[4]))
+    print(f"  elegidos con 3 puntos o menos ({len(weak)}): " + ", ".join(f"{r[4]} ({r[0]} {r[2]})" for r in weak))
 
 
 def build_carrera_js(curated, by_page, team_majors=None, images=None, names=None):
