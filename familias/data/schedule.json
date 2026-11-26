@@ -2495,50 +2495,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:Team Liquid",
-        "es": "Juegan en Team Liquid",
-        "en": "Play for Team Liquid",
+        "id": "country:France",
+        "es": "Son de Francia",
+        "en": "Are from France",
         "players": [
-          "morgan",
-          "yeon-sean-sung",
-          "quid",
-          "josedeodo"
+          "caliste",
+          "isma",
+          "nuc",
+          "sheo"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Top Esports:2020",
-        "es": "Jugaron en Top Esports en 2020",
-        "en": "Played for Top Esports in 2020",
+        "id": "teamyear:paiN Gaming:2026",
+        "es": "Jugaron en paiN Gaming en 2026",
+        "en": "Played for paiN Gaming in 2026",
         "players": [
-          "knight-zhuo-ding",
-          "369",
-          "photic",
-          "jackeylove"
+          "robo",
+          "tinowns",
+          "titan",
+          "boal"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCK:LEC",
-        "es": "Han jugado en la LCK y en la LEC",
-        "en": "Have played in the LCK and the LEC",
+        "id": "roles:ADC:Support",
+        "es": "Han jugado de ADC y de Support",
+        "en": "Have played ADC and Support",
         "players": [
-          "kyeahoo",
-          "jun-yoon-se-jun",
-          "canna",
-          "noah-oh-hyeon-taek"
+          "corejj",
+          "ayu-andrey-saraiva",
+          "wink",
+          "ycx"
         ]
       },
       {
         "level": 4,
-        "id": "initial:Z",
-        "es": "Su apodo empieza por Z",
-        "en": "Nickname starts with Z",
+        "id": "twoteams:Oh My God:Team WE",
+        "es": "Pasaron por Oh My God y por Team WE",
+        "en": "Played for both Oh My God and Team WE",
         "players": [
-          "zekas",
-          "zhuo",
-          "zeka-kim-geon-woo",
-          "zest-kim-dong-min"
+          "cube-dai-yi",
+          "heng",
+          "breathe",
+          "able"
         ]
       }
     ]
@@ -3608,50 +3608,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:Oh My God",
-        "es": "Juegan en Oh My God",
-        "en": "Play for Oh My God",
+        "id": "team:Ground Zero Gaming",
+        "es": "Juegan en Ground Zero Gaming",
+        "en": "Play for Ground Zero Gaming",
         "players": [
-          "banye",
-          "linfeng",
-          "alley",
-          "re0"
+          "uniboy",
+          "mission",
+          "lilv",
+          "dooly"
         ]
       },
       {
         "level": 2,
-        "id": "league:CBLOL",
-        "es": "Han jugado en la CBLOL",
-        "en": "Have played in the CBLOL",
+        "id": "teamyear:GIANTX:2025",
+        "es": "Jugaron en GIANTX en 2025",
+        "en": "Played for GIANTX in 2025",
         "players": [
-          "rabelo",
-          "hauz",
-          "trymbi",
-          "mireu"
+          "lot",
+          "isma",
+          "noah-oh-hyeon-taek",
+          "jun-yoon-se-jun"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCK:LEC",
-        "es": "Han jugado en la LCK y en la LEC",
-        "en": "Have played in the LCK and the LEC",
+        "id": "title:CBLOL",
+        "es": "Campeones de la CBLOL",
+        "en": "CBLOL champions",
         "players": [
-          "jun-yoon-se-jun",
-          "kyeahoo",
-          "canna",
-          "noah-oh-hyeon-taek"
+          "ayu-andrey-saraiva",
+          "ceos",
+          "uzent",
+          "roamer"
         ]
       },
       {
         "level": 4,
-        "id": "initial:W",
-        "es": "Su apodo empieza por W",
-        "en": "Nickname starts with W",
+        "id": "initial:P",
+        "es": "Su apodo empieza por P",
+        "en": "Nickname starts with P",
         "players": [
-          "woody",
-          "willer",
-          "wenbo-yang-wen-bo",
-          "way-han-gil"
+          "photic",
+          "palafox",
+          "pun",
+          "parus"
         ]
       }
     ]
