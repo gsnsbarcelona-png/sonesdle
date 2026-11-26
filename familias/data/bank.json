@@ -3074,59 +3074,6 @@
     ]
   },
   {
-    "id": "b0007",
-    "groups": [
-      {
-        "level": 1,
-        "id": "team:LGD Gaming",
-        "es": "Juegan en LGD Gaming",
-        "en": "Play for LGD Gaming",
-        "players": [
-          "crisp",
-          "tangyuan",
-          "shaoye",
-          "heng"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:Hanwha Life Esports:2024",
-        "es": "Jugaron en Hanwha Life Esports en 2024",
-        "en": "Played for Hanwha Life Esports in 2024",
-        "players": [
-          "zeka-kim-geon-woo",
-          "viper-park-do-hyeon",
-          "delight",
-          "doran-choi-hyeon-jun"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "title:PCS",
-        "es": "Campeones de la PCS",
-        "en": "PCS champions",
-        "players": [
-          "rest",
-          "uniboy",
-          "hongsuo",
-          "pop9"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "twoteams:Berlin International Gaming:SK Gaming",
-        "es": "Pasaron por Berlin International Gaming y por SK Gaming",
-        "en": "Played for both Berlin International Gaming and SK Gaming",
-        "players": [
-          "zazee",
-          "irrelevant",
-          "keduii",
-          "jnx"
-        ]
-      }
-    ]
-  },
-  {
     "id": "b0002",
     "groups": [
       {
@@ -5883,59 +5830,6 @@
     ]
   },
   {
-    "id": "b0004",
-    "groups": [
-      {
-        "level": 1,
-        "id": "team:Dignitas",
-        "es": "Juegan en Dignitas",
-        "en": "Play for Dignitas",
-        "players": [
-          "dardoch",
-          "palafox",
-          "ignar",
-          "denathor"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:ThunderTalk Gaming:2026",
-        "es": "Jugaron en ThunderTalk Gaming en 2026",
-        "en": "Played for ThunderTalk Gaming in 2026",
-        "players": [
-          "ahn",
-          "keshi-li-qing-hua",
-          "feather",
-          "junhao"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "roles:Jungle:Support",
-        "es": "Han jugado de Jungla y de Support",
-        "en": "Have played Jungle and Support",
-        "players": [
-          "kirbotanque",
-          "kocourek",
-          "vlaren",
-          "dorian"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "twoteams:DRX:Hanwha Life Esports",
-        "es": "Pasaron por DRX y por Hanwha Life Esports",
-        "en": "Played for both DRX and Hanwha Life Esports",
-        "players": [
-          "chovy",
-          "deft",
-          "willer",
-          "zeka-kim-geon-woo"
-        ]
-      }
-    ]
-  },
-  {
     "id": "b0005",
     "groups": [
       {
@@ -7208,59 +7102,6 @@
     ]
   },
   {
-    "id": "b0001",
-    "groups": [
-      {
-        "level": 1,
-        "id": "country:Canada",
-        "es": "Son de Canadá",
-        "en": "Are from Canada",
-        "players": [
-          "pockus",
-          "sniper",
-          "jojopyun",
-          "spawn-trevor-kerr-taylor"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:Hanwha Life Esports:2025",
-        "es": "Jugaron en Hanwha Life Esports en 2025",
-        "en": "Played for Hanwha Life Esports in 2025",
-        "players": [
-          "viper-park-do-hyeon",
-          "zeka-kim-geon-woo",
-          "delight",
-          "zeus"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "title:LFL",
-        "es": "Campeones de la LFL",
-        "en": "LFL champions",
-        "players": [
-          "omon",
-          "caliste",
-          "yike",
-          "jopa"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "twoteams:Ground Zero Gaming:PSG Talon",
-        "es": "Pasaron por Ground Zero Gaming y por PSG Talon",
-        "en": "Played for both Ground Zero Gaming and PSG Talon",
-        "players": [
-          "husha",
-          "uniboy",
-          "betty",
-          "kaiwing"
-        ]
-      }
-    ]
-  },
-  {
     "id": "b0002",
     "groups": [
       {
@@ -7632,59 +7473,6 @@
     ]
   },
   {
-    "id": "b0006",
-    "groups": [
-      {
-        "level": 1,
-        "id": "team:RED Canids",
-        "es": "Juegan en RED Canids",
-        "en": "Play for RED Canids",
-        "players": [
-          "zynts",
-          "fuuu",
-          "stepz-eloy-rodriguez",
-          "frosty-jose-eduardo"
-        ]
-      },
-      {
-        "level": 2,
-        "id": "teamyear:Karmine Corp:2024",
-        "es": "Jugaron en Karmine Corp en 2024",
-        "en": "Played for Karmine Corp in 2024",
-        "players": [
-          "upset",
-          "vladi",
-          "canna",
-          "saken"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "msi",
-        "es": "Campeones del MSI",
-        "en": "MSI champions",
-        "players": [
-          "canyon",
-          "zeus",
-          "zeka-kim-geon-woo",
-          "knight-zhuo-ding"
-        ]
-      },
-      {
-        "level": 4,
-        "id": "twoteams:Cloud9:Dignitas",
-        "es": "Pasaron por Cloud9 y por Dignitas",
-        "en": "Played for both Cloud9 and Dignitas",
-        "players": [
-          "isles",
-          "sheiden",
-          "licorice",
-          "palafox"
-        ]
-      }
-    ]
-  },
-  {
     "id": "b0007",
     "groups": [
       {
@@ -7945,6 +7733,218 @@
           "ceskycechcz",
           "bobista",
           "smarty"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "b0001",
+    "groups": [
+      {
+        "level": 1,
+        "id": "country:Japan",
+        "es": "Son de Japón",
+        "en": "Are from Japan",
+        "players": [
+          "pinnnk",
+          "milan",
+          "tent-tento-yamazaki",
+          "washidai"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:Bilibili Gaming:2021",
+        "es": "Jugaron en Bilibili Gaming en 2021",
+        "en": "Played for Bilibili Gaming in 2021",
+        "players": [
+          "jwei",
+          "aiming",
+          "mark-ling-xu",
+          "meteor"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "roles:ADC:Jungle",
+        "es": "Han jugado de ADC y de Jungla",
+        "en": "Have played ADC and Jungle",
+        "players": [
+          "apoka",
+          "pillow-nutthanon-bumrungchawkasem",
+          "rwei",
+          "starry"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "initial:N",
+        "es": "Su apodo empieza por N",
+        "en": "Nickname starts with N",
+        "players": [
+          "neo-mario-fernandez",
+          "naak-nako",
+          "nuc",
+          "nuna"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "b0002",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:Leviatan",
+        "es": "Juegan en Leviatan",
+        "en": "Play for Leviatan",
+        "players": [
+          "booki",
+          "toplop",
+          "devost",
+          "enga"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "league:LCK",
+        "es": "Han jugado en la LCK",
+        "en": "Have played in the LCK",
+        "players": [
+          "raptor-jeon-eo-jin",
+          "duro",
+          "hoya",
+          "quid"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:VCS",
+        "es": "Campeones de la VCS",
+        "en": "VCS champions",
+        "players": [
+          "artemis-tran-quoc-hung",
+          "pout",
+          "emo",
+          "gury"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "initial:G",
+        "es": "Su apodo empieza por G",
+        "en": "Nickname starts with G",
+        "players": [
+          "garden-seol-jeong-won",
+          "gumayusi",
+          "garaxy",
+          "gryffinn"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "b0003",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:Ninjas in Pyjamas.CN",
+        "es": "Juegan en Ninjas in Pyjamas.CN",
+        "en": "Play for Ninjas in Pyjamas.CN",
+        "players": [
+          "photic",
+          "doinb",
+          "leyan",
+          "niket"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:Disguised:2025",
+        "es": "Jugaron en Disguised en 2025",
+        "en": "Played for Disguised in 2025",
+        "players": [
+          "rahel",
+          "huhi",
+          "abbedagge",
+          "darkwings"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "roles:ADC:Jungle",
+        "es": "Han jugado de ADC y de Jungla",
+        "en": "Have played ADC and Jungle",
+        "players": [
+          "starry",
+          "rwei",
+          "apoka",
+          "pillow-nutthanon-bumrungchawkasem"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "twoteams:Dark Passage:NASR eSports Turkey",
+        "es": "Pasaron por Dark Passage y por NASR eSports Turkey",
+        "en": "Played for both Dark Passage and NASR eSports Turkey",
+        "players": [
+          "patch-han-seung-min",
+          "grave",
+          "typhoon-tayfun-gumus",
+          "fabfabulous"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "b0004",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:G2",
+        "es": "Juegan en G2",
+        "en": "Play for G2",
+        "players": [
+          "brokenblade",
+          "hans-sama",
+          "labrov",
+          "send0o"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:ThunderTalk Gaming:2025",
+        "es": "Jugaron en ThunderTalk Gaming en 2025",
+        "en": "Played for ThunderTalk Gaming in 2025",
+        "players": [
+          "aki-mao-an",
+          "feather",
+          "1xn",
+          "setab"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:LCP",
+        "es": "Campeones de la LCP",
+        "en": "LCP champions",
+        "players": [
+          "dire",
+          "doggo",
+          "hizto",
+          "rest"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "twoteams:Leviatan:Undead Gaming",
+        "es": "Pasaron por Leviatan y por Undead Gaming",
+        "en": "Played for both Leviatan and Undead Gaming",
+        "players": [
+          "toplop",
+          "lyonz",
+          "enga",
+          "strensh"
         ]
       }
     ]

@@ -1223,50 +1223,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:CTBC Flying Oyster",
-        "es": "Juegan en CTBC Flying Oyster",
-        "en": "Play for CTBC Flying Oyster",
+        "id": "team:GIANTX",
+        "es": "Juegan en GIANTX",
+        "en": "Play for GIANTX",
         "players": [
-          "rest",
-          "shad0w",
-          "doggo",
-          "kino"
+          "jun-yoon-se-jun",
+          "lot",
+          "oscarinin",
+          "jackies"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:RED Canids:2025",
-        "es": "Jugaron en RED Canids en 2025",
-        "en": "Played for RED Canids in 2025",
+        "id": "teamyear:DRX:2020",
+        "es": "Jugaron en DRX en 2020",
+        "en": "Played for DRX in 2020",
         "players": [
-          "kaze-lucas-fe",
-          "frosty-jose-eduardo",
-          "curse-rai-yamada",
-          "rabelo"
+          "quad",
+          "deft",
+          "doran-choi-hyeon-jun",
+          "pyosik"
         ]
       },
       {
         "level": 3,
-        "id": "majors:LCK:LPL",
-        "es": "Han jugado en la LCK y en la LPL",
-        "en": "Have played in the LCK and the LPL",
+        "id": "roles:ADC:Support",
+        "es": "Han jugado de ADC y de Support",
+        "en": "Have played ADC and Support",
         "players": [
-          "burdol",
-          "deft",
-          "zeka-kim-geon-woo",
-          "ruler"
+          "ycx",
+          "ayu-andrey-saraiva",
+          "corejj",
+          "qiuqiu-zhang-ming"
         ]
       },
       {
         "level": 4,
-        "id": "initial:U",
-        "es": "Su apodo empieza por U",
-        "en": "Nickname starts with U",
+        "id": "initial:N",
+        "es": "Su apodo empieza por N",
+        "en": "Nickname starts with N",
         "players": [
-          "uniboy",
-          "ucal",
-          "upset",
-          "uzent"
+          "nuc",
+          "noah-oh-hyeon-taek",
+          "nia-zou-guang-lu",
+          "neny"
         ]
       }
     ]
@@ -2177,50 +2177,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "country:Brazil",
-        "es": "Son de Brasil",
-        "en": "Are from Brazil",
+        "id": "country:South Korea",
+        "es": "Son de Corea del Sur",
+        "en": "Are from South Korea",
         "players": [
-          "tatu-pedro-seixas",
-          "xyno",
-          "ceos",
-          "boal"
+          "deokdam",
+          "viper-park-do-hyeon",
+          "juhan",
+          "peter-jeong-yoon-su"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:G2:2024",
-        "es": "Jugaron en G2 en 2024",
-        "en": "Played for G2 in 2024",
+        "id": "teamyear:Cloud9:2021",
+        "es": "Jugaron en Cloud9 en 2021",
+        "en": "Played for Cloud9 in 2021",
         "players": [
-          "yike",
-          "hans-sama",
-          "mikyx",
-          "brokenblade"
+          "isles",
+          "blaber",
+          "fudge",
+          "vulcan-philippe-laflamme"
         ]
       },
       {
         "level": 3,
-        "id": "title:LJL",
-        "es": "Campeones de la LJL",
-        "en": "LJL champions",
+        "id": "roles:ADC:Support",
+        "es": "Han jugado de ADC y de Support",
+        "en": "Have played ADC and Support",
         "players": [
-          "van1",
-          "marble",
-          "aria-lee-ga-eul",
-          "vsta"
+          "corejj",
+          "ycx",
+          "qiuqiu-zhang-ming",
+          "ayu-andrey-saraiva"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:DRX:Hanwha Life Esports",
-        "es": "Pasaron por DRX y por Hanwha Life Esports",
-        "en": "Played for both DRX and Hanwha Life Esports",
+        "id": "initial:G",
+        "es": "Su apodo empieza por G",
+        "en": "Nickname starts with G",
         "players": [
-          "deft",
-          "doran-choi-hyeon-jun",
-          "zeka-kim-geon-woo",
-          "chovy"
+          "guwon",
+          "gloryy",
+          "guigo",
+          "gryffinn"
         ]
       }
     ]
@@ -2548,50 +2548,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "country:Spain",
-        "es": "Son de España",
-        "en": "Are from Spain",
+        "id": "country:Hong Kong",
+        "es": "Son de Hong Kong",
+        "en": "Are from Hong Kong",
         "players": [
-          "myrwn",
-          "oscarinin",
-          "elyoya",
-          "flakked"
+          "kaiwing",
+          "flauren",
+          "1xn",
+          "solokill"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Hanwha Life Esports:2024",
-        "es": "Jugaron en Hanwha Life Esports en 2024",
-        "en": "Played for Hanwha Life Esports in 2024",
+        "id": "teamyear:Nongshim RedForce:2022",
+        "es": "Jugaron en Nongshim RedForce en 2022",
+        "en": "Played for Nongshim RedForce in 2022",
         "players": [
-          "doran-choi-hyeon-jun",
-          "zeka-kim-geon-woo",
-          "delight",
-          "viper-park-do-hyeon"
+          "effort",
+          "canna",
+          "peter-jeong-yoon-su",
+          "bdd"
         ]
       },
       {
         "level": 3,
-        "id": "title:LTA",
-        "es": "Campeones de la LTA",
-        "en": "LTA champions",
+        "id": "title:LJL",
+        "es": "Campeones de la LJL",
+        "en": "LJL champions",
         "players": [
-          "gakgos",
-          "inspired",
-          "impact",
-          "corejj"
+          "aria-lee-ga-eul",
+          "marble",
+          "washidai",
+          "vsta"
         ]
       },
       {
         "level": 4,
-        "id": "surname:Zhao",
-        "es": "Se apellidan Zhao",
-        "en": "Have the surname Zhao",
+        "id": "initial:F",
+        "es": "Su apodo empieza por F",
+        "en": "Nickname starts with F",
         "players": [
-          "vampire",
-          "jiejie",
-          "elk",
-          "ycx"
+          "fofo",
+          "fleshy",
+          "foreigner",
+          "fbi"
         ]
       }
     ]
