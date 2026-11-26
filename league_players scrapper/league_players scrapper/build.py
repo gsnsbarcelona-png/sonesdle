@@ -1767,6 +1767,41 @@ def carrera_candidates(master, curated_pages, excluded=()):
     return sorted(chosen)
 
 
+def carrera_fame_report(master, curated_pages, excluded, chosen):
+    """Informe en el log (no cambia nada): cuántos candidatos a secreto de Career Guess hay por
+    zona y era según su puntuación de fama, qué puntuación tienen los elegidos y quiénes se han
+    quedado fuera con más puntos. Sirve para decidir un mínimo de fama (ver fame_score)."""
+    curated_pages, excluded, chosen = set(curated_pages), set(excluded), set(chosen)
+    rows = []   # (zona, debut, puntos, página, nombre, elegido)
+    for m in master:
+        page = m["page"]
+        if not page or page in curated_pages or page in excluded or not m["history"]:
+            continue
+        zone = career_zone(m["history"])
+        career = career_from_history(m["history"])
+        debut = career[0]["year"][:4] if career else ""
+        if (zone is None or not debut.isdigit() or fame_score(m) <= 0
+                or not (m["roles"] or m["positions"])
+                or len({c["team"] for c in career if c["team"]}) < CARRERA_MIN_TEAMS):
+            continue
+        rows.append((zone, int(debut), fame_score(m), page, m["id"], page in chosen))
+    era_of = lambda y: next(i for i, ((lo, hi), _) in enumerate(CARRERA_ERAS) if lo <= y <= hi)
+    era_names = ("hasta 2015", "2016-19", "desde 2020")
+    print("Informe de fama de Career Guess (candidatos no fijos): puntos mínimos 1 / 2 / 3 / 5 / 8")
+    for zone in CARRERA_ZONE_QUOTA:
+        zr = [r for r in rows if r[0] == zone]
+        print(f"  {zone}: {len(zr)} candidatos, {sum(r[5] for r in zr)} elegidos, "
+              f"el elegido con menos fama tiene {min((r[2] for r in zr if r[5]), default='-')} puntos")
+        for i, name in enumerate(era_names):
+            er = [r for r in zr if era_of(r[1]) == i]
+            counts = " / ".join(str(sum(1 for r in er if r[2] >= n)) for n in (1, 2, 3, 5, 8))
+            print(f"    {name}: {counts}  (elegidos {sum(r[5] for r in er)})")
+        left = sorted((r for r in zr if not r[5]), key=lambda r: (-r[2], r[4]))[:12]
+        print("    fuera con más fama: " + ", ".join(f"{r[4]} ({r[2]})" for r in left))
+    weak = sorted((r for r in rows if r[5] and r[2] <= 2), key=lambda r: (r[0], r[4]))
+    print(f"  elegidos con 2 puntos o menos ({len(weak)}): " + ", ".join(f"{r[4]} ({r[0]} {r[2]})" for r in weak))
+
+
 def build_carrera_js(curated, by_page, team_majors=None, images=None, names=None):
     """`names`: {página: nombre} si no vale el ID (homónimos); `zone`: ver career_zone."""
     players, missing = [], []
@@ -2378,6 +2413,10 @@ def main():
         by_page.setdefault(m["page"], m)
     auto_pages = carrera_candidates(grid_master, {c["page"] for c in curated_carrera}, excluded)
     print(f"carrera: {len(auto_pages)} secretos automáticos además de {len(curated_carrera)} fijos")
+    try:
+        carrera_fame_report(grid_master, {c["page"] for c in curated_carrera}, excluded, auto_pages)
+    except Exception as e:   # informe extra: no debe parar la generación
+        print(f"::warning::Informe de fama de Career Guess no generado: {e}")
     images.update(extra_images(set(auto_pages)))
     auto_pages = [pg for pg in auto_pages if images.get(pg)]   # sin foto, la ronda queda coja
     carrera_secrets = curated_carrera + [{"page": pg} for pg in auto_pages]
