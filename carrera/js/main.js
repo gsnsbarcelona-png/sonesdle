@@ -9,6 +9,7 @@ import * as State        from './core/state.js';
 import * as Autocomplete from './ui/autocomplete.js';
 import * as Renderer     from './ui/renderer.js';
 import * as Modal        from './ui/modal.js';
+import * as Pool         from './ui/pool.js';
 import { T, t }          from './i18n.js';
 import { ParticlesComponent }              from '../../shared/js/ParticlesComponent.js';
 import { mountSwitcher, applyStaticTranslations } from '../../shared/lang.js';
@@ -159,6 +160,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.addEventListener('langchange', () => {
     applyStaticTranslations(T);
     Renderer.update(State.getState()); // re-render timeline con nuevo idioma
+    Pool.render();
   });
 
   // Solo confeti (sin partículas de fondo)
@@ -175,6 +177,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   setupDialog(document.getElementById('instructions-modal'), { closeSelector: '#instructions-close' });
 
   bindEvents();
+  Pool.bind(() => {   // la pool cambió y no había ronda empezada: jugador nuevo
+    Modal.hideModal();
+    Renderer.update(State.getState());
+    document.getElementById('hints-log').innerHTML = '';
+  });
+  Pool.render();
   await loadTeamLogos();   // extra: sin el fichero de logos el juego arranca igual
   Renderer.update(State.getState());
 });
