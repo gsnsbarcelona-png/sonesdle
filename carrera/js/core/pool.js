@@ -13,6 +13,9 @@ export const ERAS = [
   { id: 'new', from: 2020, to: 9999 },
 ];
 
+/** Dificultad: Normal solo con jugadores conocidos; Difícil, con todos (los marcados `hard` por el generador). */
+export const LEVELS = ['normal', 'hard'];
+
 const FILTER_KEY = 'lolguess_filters';
 
 /** Etiqueta de una etapa (liga mayor o región, ver build.py) -> zona. */
@@ -47,8 +50,8 @@ export function eraOf(player) {
   return Number.isNaN(year) ? null : ERAS.find((e) => year >= e.from && year <= e.to).id;
 }
 
-/** Todo activado: la pool completa. */
-export const allFilters = () => ({ zones: [...ZONES], eras: ERAS.map((e) => e.id) });
+/** Todo activado en Normal. */
+export const allFilters = () => ({ zones: [...ZONES], eras: ERAS.map((e) => e.id), level: 'normal' });
 
 /** Filtros válidos a partir de lo guardado (o de lo que llegue): cada grupo con al menos una opción. */
 export function cleanFilters(raw) {
@@ -57,7 +60,7 @@ export function cleanFilters(raw) {
     const chosen = Array.isArray(list) ? valid.filter((v) => list.includes(v)) : [];
     return chosen.length ? chosen : valid;
   };
-  return { zones: pick(raw?.zones, all.zones), eras: pick(raw?.eras, all.eras) };
+  return { zones: pick(raw?.zones, all.zones), eras: pick(raw?.eras, all.eras), level: LEVELS.includes(raw?.level) ? raw.level : 'normal' };
 }
 
 export function loadFilters() {
@@ -74,7 +77,7 @@ export function saveFilters(filters) {
 export function poolIndices(players, filters) {
   const out = [];
   players.forEach((p, i) => {
-    if (filters.zones.includes(zoneOf(p)) && filters.eras.includes(eraOf(p))) out.push(i);
+    if (filters.zones.includes(zoneOf(p)) && filters.eras.includes(eraOf(p)) && (filters.level === 'hard' || !p.hard)) out.push(i);
   });
   return out;
 }
