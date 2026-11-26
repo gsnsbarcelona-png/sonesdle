@@ -2277,9 +2277,14 @@ def main():
         # También los campeones de Worlds y MSI, aunque no hayan jugado en una liga mayor (los de la
         # Season 1 de 2011, como Mellisan: el EU LCS no existía)
         champion_links = cached(CHAMPIONS_CACHE_PATH, refresh, fetch_champions, REFRESH_DAYS)
-        wanted = sorted(({pg for code, by_page_n in major_players.items() for pg, n in by_page_n.items()
-                          if n >= MIN_MAJOR_BY_LEAGUE.get(code, MIN_MAJOR_TOURNAMENTS)}
-                         | set(champion_links)) - set(cargo_rows))
+        wanted_links = ({pg for code, by_page_n in major_players.items() for pg, n in by_page_n.items()
+                         if n >= MIN_MAJOR_BY_LEAGUE.get(code, MIN_MAJOR_TOURNAMENTS)}
+                        | set(champion_links))
+        # Los torneos enlazan con el nombre antiguo o un alias ("Aïrwaks", "KkinSh"): la ficha está en
+        # la página a la que redirige ("Airwaks", "Kish"), si no el jugador se perdía
+        renamed = cached_by_key(REDIRECTS_CACHE_PATH, refresh, wanted_links, resolve_redirects,
+                                STABLE_REFRESH_DAYS, changes["pages"])
+        wanted = sorted({renamed.get(pg, pg) for pg in wanted_links} - set(cargo_rows))
         grid_rows = cached_by_key(GRID_EXTRA_CACHE_PATH, refresh, wanted,
                                   lambda ks: fetch_players([(k, k, "") for k in ks]),
                                   STABLE_REFRESH_DAYS, changed_pages)
