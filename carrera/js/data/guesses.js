@@ -150,7 +150,7 @@ export const GUESSES = [
   {"name": "Chunkyfresh", "position": "Top", "debut": 2014, "teams": ["Team Fusion", "Odyssey Gaming", "Team Imagine"]},
   {"name": "Chuuper", "position": "Bot", "debut": 2012, "teams": ["Chuuper's Troopers", "compLexity Gaming"]},
   {"name": "CitizenWayne", "position": "Mid", "debut": 2011, "teams": ["Team Acer", "Natus Vincere"]},
-  {"name": "ckg", "position": "Mid", "debut": 2014, "teams": ["Area of Effect eSports", "Enemy", "Team Liquid", "Team Liquid Academy", "Maryville University"]},
+  {"name": "ckg", "position": "Mid", "debut": 2014, "teams": ["Area of Effect eSports", "Enemy", "Team Liquid Academy", "Team Liquid", "Maryville University"]},
   {"name": "CL0UD", "position": "Support", "debut": 2014, "teams": ["HDYS", "Oh My God", "QG Reapers", "JD Gaming", "Kaisa Gaming"]},
   {"name": "ClakeyD", "position": "Jungle", "debut": 2012, "teams": ["Team MRN"]},
   {"name": "Clarence", "position": "Jungle", "debut": 2017, "teams": ["War Legend", "Team Vitality", "Team Vitality Academy", "Diabolus Esports", "ROG Esport", "Fnatic Rising", "Vitality.Bee", "UCAM Tokiers", "BK ROG Esports"]},

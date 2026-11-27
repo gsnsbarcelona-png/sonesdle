@@ -4450,5 +4450,58 @@
         ]
       }
     ]
+  },
+  "2027-01-26": {
+    "id": "2027-01-26",
+    "groups": [
+      {
+        "level": 1,
+        "id": "team:DetonatioN FocusMe",
+        "es": "Juegan en DetonatioN FocusMe",
+        "en": "Play for DetonatioN FocusMe",
+        "players": [
+          "citrus",
+          "woody",
+          "harp",
+          "rayfarky"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:LOUD:2025",
+        "es": "Jugaron en LOUD en 2025",
+        "en": "Played for LOUD in 2025",
+        "players": [
+          "curty",
+          "route",
+          "tinowns",
+          "gryffinn"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "roles:Mid:Support",
+        "es": "Han jugado de Mid y de Support",
+        "en": "Have played Mid and Support",
+        "players": [
+          "nestea",
+          "toplop",
+          "huhi",
+          "erha"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "initial:D",
+        "es": "Su apodo empieza por D",
+        "en": "Nickname starts with D",
+        "players": [
+          "decade",
+          "deft",
+          "denathor",
+          "diable"
+        ]
+      }
+    ]
   }
 }

@@ -1342,5 +1342,17 @@
       "fnatic",
       "worlds"
     ]
+  },
+  "2027-01-26": {
+    "cols": [
+      "mid",
+      "champ",
+      "top"
+    ],
+    "rows": [
+      "t1",
+      "european",
+      "edg"
+    ]
   }
 }
