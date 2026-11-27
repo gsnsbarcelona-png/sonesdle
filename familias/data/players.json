@@ -627,6 +627,10 @@
     "n": "Dean",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/3/39/VSlash_GnG_Dean_2022_Split_2.png/revision/latest/scale-to-width-down/160?cb=20220911201232"
   },
+  "decade": {
+    "n": "Decade",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/d/dd/LNGA_Decade_2019_Split_2.png/revision/latest/scale-to-width-down/160?cb=20190619153749"
+  },
   "decay": {
     "n": "Decay",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/c/c3/USE_Decay_2021_Split_2.png/revision/latest/scale-to-width-down/160?cb=20210607194008"
@@ -1927,6 +1931,10 @@
     "n": "Nern",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/f/fa/SGW_Nern_VCS_26_Phai_N%E1%BB%93.png/revision/latest/scale-to-width-down/160?cb=20260914023531"
   },
+  "nestea": {
+    "n": "Nestea",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/e/e7/JT_Nestea_2021_Split_1.png/revision/latest/scale-to-width-down/160?cb=20210208143246"
+  },
   "nevid": {
     "n": "Nevid",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/61/DK.C_Nevid_2026_Split_1.png/revision/latest/scale-to-width-down/160?cb=20260122151751"
@@ -2215,6 +2223,10 @@
     "n": "Raxxo",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/4/4c/REC_Raxxo_2019_Split_2.png/revision/latest/scale-to-width-down/160?cb=20190614231249"
   },
+  "rayfarky": {
+    "n": "RayFarky",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/b/bd/V3_RayFarky_2019_Split_1.png/revision/latest/scale-to-width-down/160?cb=20190124171326"
+  },
   "razer-koji-kuwajima": {
     "n": "Razer",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/1/16/RCK_Razer_2026_Split_2.png/revision/latest/scale-to-width-down/160?cb=20260522050154"
@@ -2290,6 +2302,10 @@
   "rosa-davi-luiz": {
     "n": "Rosa",
     "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/69/RRK_Rosa_2026_Split_1.png/revision/latest/scale-to-width-down/160?cb=20260411050604"
+  },
+  "route": {
+    "n": "Route",
+    "i": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/3/37/GAL_Route_2018_Split_2.png/revision/latest/scale-to-width-down/160?cb=20180811181006"
   },
   "royalkanin": {
     "n": "RoyalKanin",
