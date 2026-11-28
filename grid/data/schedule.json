@@ -1354,5 +1354,17 @@
       "european",
       "edg"
     ]
+  },
+  "2027-01-27": {
+    "cols": [
+      "kt",
+      "geng",
+      "korean"
+    ],
+    "rows": [
+      "worlds",
+      "jungle",
+      "champ"
+    ]
   }
 }
