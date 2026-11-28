@@ -1329,50 +1329,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:Vitality",
-        "es": "Juegan en Vitality",
-        "en": "Play for Vitality",
+        "id": "country:Philippines",
+        "es": "Son de Filipinas",
+        "en": "Are from Philippines",
         "players": [
-          "fiesta-an-hyeon-seo",
-          "carzzy",
-          "naak-nako",
-          "fleshy"
+          "krimson-karl-justin-guevarra",
+          "moopz-marc-jazztine-barrion",
+          "sheiden",
+          "celest"
         ]
       },
       {
         "level": 2,
-        "id": "league:LPL",
-        "es": "Han jugado en la LPL",
-        "en": "Have played in the LPL",
+        "id": "teamyear:Vivo Keyd Stars:2025",
+        "es": "Jugaron en Vivo Keyd Stars en 2025",
+        "en": "Played for Vivo Keyd Stars in 2025",
         "players": [
-          "zhuo",
-          "feather",
-          "jwei",
-          "hery"
-        ]
-      },
-      {
-        "level": 3,
-        "id": "title:LLA",
-        "es": "Campeones de la LLA",
-        "en": "LLA champions",
-        "players": [
-          "lyonz",
-          "ceo",
-          "keine",
+          "morttheus",
+          "boal",
+          "trymbi",
           "mireu"
         ]
       },
       {
-        "level": 4,
-        "id": "surname:Lee",
-        "es": "Se apellidan Lee",
-        "en": "Have the surname Lee",
+        "level": 3,
+        "id": "roles:Mid:Support",
+        "es": "Han jugado de Mid y de Support",
+        "en": "Have played Mid and Support",
         "players": [
-          "vicla",
-          "gumayusi",
-          "bulldog-lee-tae-young",
-          "effort"
+          "erha",
+          "huhi",
+          "nestea",
+          "toplop"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "initial:Z",
+        "es": "Su apodo empieza por Z",
+        "en": "Nickname starts with Z",
+        "players": [
+          "zothve",
+          "zynts",
+          "zhuo",
+          "zuian"
         ]
       }
     ]
@@ -1806,50 +1806,50 @@
     "groups": [
       {
         "level": 1,
-        "id": "country:Australia",
-        "es": "Son de Australia",
-        "en": "Are from Australia",
+        "id": "team:LOUD",
+        "es": "Juegan en LOUD",
+        "en": "Play for LOUD",
         "players": [
-          "fbi",
-          "isles",
-          "srtty",
-          "fudge"
+          "rabelo",
+          "redbert",
+          "xyno",
+          "bull"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:Oh My God:2026",
-        "es": "Jugaron en Oh My God en 2026",
-        "en": "Played for Oh My God in 2026",
+        "id": "teamyear:LNG Esports:2023",
+        "es": "Jugaron en LNG Esports en 2023",
+        "en": "Played for LNG Esports in 2023",
         "players": [
-          "re0",
-          "moham",
-          "starry",
-          "hery"
+          "scout",
+          "gala",
+          "tarzan-lee-seung-yong",
+          "zika"
         ]
       },
       {
         "level": 3,
-        "id": "title:PCS",
-        "es": "Campeones de la PCS",
-        "en": "PCS champions",
+        "id": "title:LFL",
+        "es": "Campeones de la LFL",
+        "en": "LFL champions",
         "players": [
-          "husha",
-          "woody",
-          "feng-chen-chun-feng",
-          "betty"
+          "caliste",
+          "fleshy",
+          "lyncas",
+          "serin"
         ]
       },
       {
         "level": 4,
-        "id": "initial:U",
-        "es": "Su apodo empieza por U",
-        "en": "Nickname starts with U",
+        "id": "initial:W",
+        "es": "Su apodo empieza por W",
+        "en": "Nickname starts with W",
         "players": [
-          "uniboy",
-          "upset",
-          "uzent",
-          "ucal"
+          "whynot",
+          "wink",
+          "wayward",
+          "wenbo-yang-wen-bo"
         ]
       }
     ]
@@ -2499,46 +2499,46 @@
         "es": "Son de Francia",
         "en": "Are from France",
         "players": [
-          "caliste",
           "isma",
           "nuc",
-          "sheo"
+          "caliste",
+          "skeanz"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:paiN Gaming:2026",
-        "es": "Jugaron en paiN Gaming en 2026",
-        "en": "Played for paiN Gaming in 2026",
+        "id": "teamyear:Rare Atom:2021",
+        "es": "Jugaron en Rare Atom en 2021",
+        "en": "Played for Rare Atom in 2021",
         "players": [
-          "robo",
-          "tinowns",
-          "titan",
-          "boal"
+          "leyan",
+          "cube-dai-yi",
+          "fofo",
+          "hang"
         ]
       },
       {
         "level": 3,
-        "id": "roles:ADC:Support",
-        "es": "Han jugado de ADC y de Support",
-        "en": "Have played ADC and Support",
+        "id": "roles:Mid:Support",
+        "es": "Han jugado de Mid y de Support",
+        "en": "Have played Mid and Support",
         "players": [
-          "corejj",
-          "ayu-andrey-saraiva",
-          "wink",
-          "ycx"
+          "nestea",
+          "erha",
+          "huhi",
+          "toplop"
         ]
       },
       {
         "level": 4,
-        "id": "twoteams:Oh My God:Team WE",
-        "es": "Pasaron por Oh My God y por Team WE",
-        "en": "Played for both Oh My God and Team WE",
+        "id": "surname:Kim",
+        "es": "Se apellidan Kim",
+        "en": "Have the surname Kim",
         "players": [
-          "cube-dai-yi",
-          "heng",
-          "breathe",
-          "able"
+          "canyon",
+          "aiming",
+          "croco",
+          "heru"
         ]
       }
     ]
@@ -4456,26 +4456,79 @@
     "groups": [
       {
         "level": 1,
-        "id": "team:DetonatioN FocusMe",
-        "es": "Juegan en DetonatioN FocusMe",
-        "en": "Play for DetonatioN FocusMe",
+        "id": "team:Leviatan",
+        "es": "Juegan en Leviatan",
+        "en": "Play for Leviatan",
         "players": [
-          "citrus",
-          "woody",
-          "harp",
-          "rayfarky"
+          "devost",
+          "enga",
+          "toplop",
+          "booki"
         ]
       },
       {
         "level": 2,
-        "id": "teamyear:LOUD:2025",
-        "es": "Jugaron en LOUD en 2025",
-        "en": "Played for LOUD in 2025",
+        "id": "teamyear:RNG:2022",
+        "es": "Jugaron en RNG en 2022",
+        "en": "Played for RNG in 2022",
         "players": [
-          "curty",
-          "route",
-          "tinowns",
-          "gryffinn"
+          "bin-chen-ze-bin",
+          "breathe",
+          "gala",
+          "xiaohu"
+        ]
+      },
+      {
+        "level": 3,
+        "id": "title:LCK",
+        "es": "Campeones de la LCK",
+        "en": "LCK champions",
+        "players": [
+          "siwoo",
+          "gideon",
+          "casting",
+          "ucal"
+        ]
+      },
+      {
+        "level": 4,
+        "id": "initial:J",
+        "es": "Su apodo empieza por J",
+        "en": "Nickname starts with J",
+        "players": [
+          "jwei",
+          "juhan",
+          "jopa",
+          "jackies"
+        ]
+      }
+    ]
+  },
+  "2027-01-27": {
+    "id": "2027-01-27",
+    "groups": [
+      {
+        "level": 1,
+        "id": "country:Poland",
+        "es": "Son de Polonia",
+        "en": "Are from Poland",
+        "players": [
+          "daglas",
+          "trymbi",
+          "tracyn",
+          "inspired"
+        ]
+      },
+      {
+        "level": 2,
+        "id": "teamyear:DRX:2024",
+        "es": "Jugaron en DRX en 2024",
+        "en": "Played for DRX in 2024",
+        "players": [
+          "kyeahoo",
+          "frog-lee-min-hoi",
+          "teddy",
+          "sponge"
         ]
       },
       {
@@ -4485,21 +4538,21 @@
         "en": "Have played Mid and Support",
         "players": [
           "nestea",
-          "toplop",
+          "erha",
           "huhi",
-          "erha"
+          "toplop"
         ]
       },
       {
         "level": 4,
-        "id": "initial:D",
-        "es": "Su apodo empieza por D",
-        "en": "Nickname starts with D",
+        "id": "initial:G",
+        "es": "Su apodo empieza por G",
+        "en": "Nickname starts with G",
         "players": [
-          "decade",
-          "deft",
-          "denathor",
-          "diable"
+          "gideon",
+          "gala",
+          "gakgos",
+          "gumayusi"
         ]
       }
     ]
