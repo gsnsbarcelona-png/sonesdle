@@ -1,0 +1,35 @@
+# Mantiene activo el proyecto de Supabase. El plan gratuito lo pausa tras 7 días sin actividad y,
+# con él pausado, dejan de funcionar las cuentas y el historial. Una consulta al día basta.
+# Usa la clave pública de shared/auth.js (la seguridad la dan las reglas RLS): no hay secretos.
+name: Mantener Supabase activo
+
+on:
+  schedule:
+    - cron: "17 6 * * *"   # una vez al día, fuera de las horas punta
+  workflow_dispatch:       # se puede lanzar a mano desde la pestaña Actions para probarlo
+
+permissions:
+  contents: read
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Consultar la base de datos
+        env:
+          SUPABASE_URL: https://pvztcqmmobmuymopyfej.supabase.co
+          SUPABASE_KEY: sb_publishable_zXMAkTT5AM9PeC8l68OWlA_h8c3Kvup
+        run: |
+          # Lee una fila de results. Con RLS no devuelve datos de nadie ([]), pero es una
+          # consulta real a la base de datos. 200 = activo; otra cosa = fallo del workflow.
+          code=$(curl -sS --retry 3 --retry-delay 10 --retry-all-errors -m 30 \
+            -o /tmp/ping.json -w "%{http_code}" \
+            -H "apikey: $SUPABASE_KEY" \
+            "$SUPABASE_URL/rest/v1/results?select=id&limit=1")
+          echo "Respuesta HTTP $code"
+          if [ "$code" != "200" ]; then
+            echo "::error::Supabase no ha respondido 200 (¿proyecto pausado? Restáuralo desde el panel de Supabase)"
+            head -c 300 /tmp/ping.json || true
+            exit 1
+          fi
